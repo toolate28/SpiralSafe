@@ -1,6 +1,6 @@
 The Safe Spiral: Collaborative Frameworks That Teams Actually Want
 
-> **You truly understand something when you can teach it to someone else.** This is our first chance to show the world who we are. They'll love you like we do.
+> **You truly understand something when you can teach it to someone else.**
 
 ---
 
@@ -17,15 +17,15 @@ Most collaboration fails because people hide uncertainty. We built frameworks th
 
 ## What You Get
 
-| What | Format | For Whom | Time |
-|------|--------|----------|------|
-| **Interactive Guide** | `interactive_hub.html` | Everyone (4 pathways) | 5-60 min |
-| **Quick Reference** | `safe_spiral_infographic.png` | Visual learners | 2 min |
-| **Deep Dives** | 6 markdown documents | Specific interests | 30 min each |
-| **Implementation Path** | In HTML hub | Ready to build | 4 weeks |
-| **Teaching Curriculum** | In HTML hub | Ready to teach | 5 weeks |
-| **Research Guide** | In HTML hub | Ready to research | Ongoing |
-| **This Guide** | `PACKAGE_GUIDE.md` | Understanding structure | 15 min |
+|What                     | Format                          | For Whom | Time |
+|-------------------------|---------------------------------|-------------------------|-------------|
+| **Interactive Guide**   | `interactive_hub.html`          | Everyone (4 pathways)   | 5-60 min    |
+| **Quick Reference**     | `safe_spiral_infographic.png`   | Visual learners         | 2 min       |
+| **Deep Dives**          | 6 markdown documents            | Specific interests      | 30 min each |
+| **Implementation Path** | In HTML hub | Ready to build    | 4 weeks                 |             |
+| **Teaching Curriculum** | In HTML hub | Ready to teach    | 5 weeks                 |             |
+| **Research Guide**      | In HTML hub | Ready to research | Ongoing                 |             |
+| **This Guide**          | `PACKAGE_GUIDE.md`              | Understanding structure | 15 min      |
 
 ---
 
@@ -142,12 +142,12 @@ This isn't just process. It's a stance toward collaboration:
 
 ## Who This Is For
 
-| Role | Learns | Builds | Teaches |
-|------|--------|--------|---------|
-| **Explorer** | How collaboration works | Understanding | Intuition |
-| **Builder** | How to implement | Actual systems | Discipline |
-| **Teacher** | How to transmit knowledge | Teams that think | Culture |
-| **Researcher** | What remains unsolved | Frontier solutions | Breakthroughs |
+| Role    m      | Learns                    | Builds             | Teaches       |
+|----------------|---------------------------|--------------------|---------------|
+| **Explorer**   | How collaboration works   | Understanding      | Intuition     |
+| **Builder**    | How to implement          | Actual systems     | Discipline    |
+| **Teacher**    | How to transmit knowledge | Teams that think   | Culture       |
+| **Researcher** | What remains unsolved     | Frontier solutions | Breakthroughs |
 
 **You can be multiple roles.** All are valuable.
 
@@ -301,15 +301,15 @@ You'll also find it has limits. That's not a flaw. That's a feature. The limits 
 
 ## Quick Links
 
-| I Want To... | Go Here |
-|---|---|
-| Understand the concepts | Open `interactive_hub.html`, choose "Explorer" |
-| Implement immediately | Open `interactive_hub.html`, choose "Builder" |
-| Teach others | Open `interactive_hub.html`, choose "Teacher" |
-| Extend the research | Open `interactive_hub.html`, choose "Researcher" |
-| See it visually | View `safe_spiral_infographic.png` |
-| Understand the structure | Read `PACKAGE_GUIDE.md` |
-| Go deep on a topic | Read the markdown documents |
+| I Want To...             | Go Here                                            |
+|--------------------------|----------------------------------------------------|
+| Understand the concepts  | Open `interactive_hub.html`, choose "Explorer"     |
+| Implement immediately    | Open `interactive_hub.html`, choose "Builder"      |
+| Teach others             | Open `interactive_hub.html`, choose "Teacher"      |
+| Extend the research      | Open `interactive_hub.html`, choose "Researcher"   |
+| See it visually          | View `safe_spiral_infographic.png`                 |
+| Understand the structure | Read `PACKAGE_GUIDE.md`                            |
+| Go deep on a topic       | Read the markdown documents                        |
 
 ---
 
