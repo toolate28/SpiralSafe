@@ -50,7 +50,8 @@ for pattern_name in "${!PATTERNS[@]}"; do
   
   echo "Checking for: $pattern_name"
   
-  # Scan files
+  # Scan files - shellcheck: EXCLUDE_ARGS is intentionally unquoted for expansion
+  # shellcheck disable=SC2086
   if grep -rniE $EXCLUDE_ARGS "$pattern" . 2>/dev/null | grep -v "# nosecret" | grep -v "example" | grep -v "REDACTED" | grep -v "placeholder" | grep -v "your_.*_here" | grep -v "\${.*}"; then
     echo "  ⚠️  FOUND: Potential $pattern_name detected"
     FOUND_ISSUES=$((FOUND_ISSUES + 1))
