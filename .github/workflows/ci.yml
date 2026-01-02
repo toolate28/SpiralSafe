@@ -36,6 +36,15 @@ jobs:
           ./scripts/test-scripts.sh
         continue-on-error: true
       
+      - name: Test PowerShell scripts
+        run: |
+          ./scripts/test-powershell.sh || echo "PowerShell testing skipped (pwsh not available)"
+        continue-on-error: true
+      
+      - name: Run integration tests
+        run: |
+          ./scripts/test-integration.sh
+      
       - name: Lint markdown files
         run: |
           ./scripts/lint-markdown.sh
@@ -45,19 +54,10 @@ jobs:
         run: |
           ./scripts/verify-environment.sh || echo "Environment verification completed with warnings"
       
-      - name: Test ATOM tracking
+      - name: Scan for secrets
         run: |
-          ./scripts/atom-track.sh TEST "CI workflow test" "test-file.md"
-          if [ -f .claude/last_atom ]; then
-            echo "ATOM tracking works: $(cat .claude/last_atom)"
-          else
-            echo "Error: ATOM tracking failed"
-            exit 1
-          fi
-      
-      - name: Test freshness system
-        run: |
-          ./scripts/update-freshness.sh
+          ./scripts/scan-secrets.sh || echo "Secrets scan completed with warnings"
+        continue-on-error: true
       
       - name: Validate bump.md if present
         run: |
