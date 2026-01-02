@@ -440,7 +440,7 @@ The SpiralSafe repository now has a production-ready development infrastructure 
 
 ---
 
-**Contributors:** @toolate28, Claude Sonnet (via GitHub Copilot)  
+**Contributors:** @toolate28, Claude (via GitHub Copilot)  
 **Review Status:** Code review complete, 7 minor suggestions addressed  
 **Test Status:** All tests passing (10/10 scripts)  
 **Security Status:** No vulnerabilities detected  
