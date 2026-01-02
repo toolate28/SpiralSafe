@@ -1,11 +1,12 @@
 # MCP Security Notes
+
 ## Security Threat Model for Model Context Protocol Usage
 
 **ATOM:** ATOM-DOC-20260102-009-mcp-security-notes  
 **Status:** Active Security Advisory  
 **Last Updated:** 2026-01-02
 
-```
+```text
         ⚠
        ╱│╲
       ╱ │ ╲      Security is not
@@ -35,6 +36,7 @@ Model Context Protocol (MCP) enables powerful AI-repository integration but intr
 ### Attack Surface
 
 MCP servers are external processes that an AI can invoke. An attacker who controls:
+
 - Docker images used by MCP servers
 - npm packages invoked via `npx`
 - Tool descriptions/metadata
@@ -59,16 +61,19 @@ The AI believes it's calling GitHub API, but actually sends data to attacker-con
 ### Mitigations
 
 ✅ **Verify Image Provenance**
+
 - Use official Docker images only (`mcp/github`, not `random-user/github`)
 - Pin image versions with SHA256 digests
 - Enable Docker Content Trust (DCT)
 
 ✅ **Audit Tool Descriptions**
+
 - Regularly review `mcp-servers.json` for unexpected changes
 - Use version control for MCP configuration
 - Implement approval workflow for MCP server additions
 
 ✅ **Sandbox Execution**
+
 - Run MCP servers in isolated containers
 - Apply least-privilege principles to file system access
 - Restrict network egress to known endpoints
@@ -81,7 +86,7 @@ The AI believes it's calling GitHub API, but actually sends data to attacker-con
 
 Multiple MCP servers running simultaneously can become covert channels:
 
-```
+```text
 AI reads sensitive data via GitHub MCP
     ↓
 AI "accidentally" includes data in Mermaid diagram
@@ -95,7 +100,7 @@ This attack doesn't require compromised tools - just clever prompt engineering.
 
 ### Example Scenario
 
-```
+```text
 User: "Create a diagram showing our authentication flow"
 
 AI: [Reads auth code via GitHub MCP]
@@ -106,16 +111,19 @@ AI: "Here's the diagram with your current implementation details..."
 ### Mitigations
 
 ✅ **Scoped Permissions**
+
 - GitHub PAT should have minimal scope (read-only where possible)
 - Separate tokens for different sensitivity levels
 - Never grant write access unless specifically needed
 
 ✅ **Output Sanitization**
+
 - Implement MCP response filters
 - Redact sensitive patterns (API keys, tokens, secrets)
 - Log all MCP invocations for audit
 
 ✅ **Least Privilege Tool Selection**
+
 - Only enable MCP servers needed for current task
 - Disable servers when not actively in use
 - Document which servers have access to what data
@@ -152,16 +160,19 @@ Seems innocuous, but changes AI behavior to over-share information.
 ### Mitigations
 
 ✅ **Strict Tool Description Validation**
+
 - Code review all changes to `mcp-servers.json`
 - Flag unusual keywords ("ignore", "override", "important")
 - Use static descriptions, not dynamically generated ones
 
 ✅ **Principle of Explicit Intent**
+
 - User instructions should override tool descriptions
 - Log when AI behavior seems influenced by tool metadata
 - Implement "second opinion" checks for sensitive operations
 
 ✅ **Regular Security Audits**
+
 - Periodic review of all MCP configurations
 - Compare against known-good baselines
 - Track provenance of tool description changes
@@ -194,7 +205,7 @@ Until MCP-aware logging is implemented:
 
 ### Future Work
 
-```
+```text
 Proposed: MCP Audit Middleware
 ┌─────────────┐
 │     AI      │
@@ -218,9 +229,11 @@ Track: Tool name, invocation timestamp, parameters (redacted), response summary
 ## Academic Research References
 
 ### arXiv 2503.23278
+
 **"Model Context Protocol: Landscape and Security Threats"**
 
 Key findings:
+
 - MCP servers have full system access by design
 - No standard authentication/authorization model
 - Tool composition creates unexpected attack surfaces
@@ -228,9 +241,11 @@ Key findings:
 Recommendation: Implement defense-in-depth with multiple mitigation layers.
 
 ### arXiv 2504.03767
+
 **"Safety Auditing for Model Context Protocol"**
 
 Key findings:
+
 - Tool poisoning is primary threat vector
 - Cross-tool exfiltration requires only benign tools
 - Prompt injection via metadata is under-studied
