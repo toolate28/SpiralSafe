@@ -1,6 +1,5 @@
 # Troubleshooting Guide
 
-```
 ═══════════════════════════════════════════════════════════════════════════
 ║                                                                         ║
 ║          🐎 THE COUNSEL OF THE WISE - TROUBLESHOOTING 🐎                ║
@@ -12,7 +11,6 @@
 ║    ✦ Even the darkest night yields to the Evenstar                     ║
 ║                                                                         ║
 ═══════════════════════════════════════════════════════════════════════════
-```
 
 **ATOM:** ATOM-DOC-20260102-008-troubleshooting-guide  
 **Quick Reference:** Common issues and solutions
@@ -545,7 +543,6 @@ git commit -m "ATOM-TYPE-YYYYMMDD-NNN: description"
 - Review ATOM trail metrics
 - Update dependencies
 
-```
 ══════════════════════════════════════════════════════════════
    🐎 Swift diagnosis, like the riders of Rohan
    🌳 Patient care, like the gardeners of Gondor
@@ -555,7 +552,6 @@ git commit -m "ATOM-TYPE-YYYYMMDD-NNN: description"
    May your code run true
    May your path be clear
 ══════════════════════════════════════════════════════════════
-```
 
 **Quarterly:**
 - Backup ATOM trail

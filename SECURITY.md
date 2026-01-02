@@ -1,6 +1,5 @@
 # Security Policy
 
-```
 ═══════════════════════════════════════════════════════════════════════════
 ║                                                                         ║
 ║         🛡️ THE SHIELDS OF THE CITADEL - SECURITY POLICY 🛡️             ║
@@ -13,12 +12,11 @@
 ║    ✦ Clear guidance lights the way to safety                           ║
 ║                                                                         ║
 ═══════════════════════════════════════════════════════════════════════════
-```
 
 ## Supported Versions
 
 | Version | Supported          | Status                          |
-|---------|--------------------|---------------------------------|
+| ------- | ------------------ | ------------------------------- |
 | 1.0.x   | :white_check_mark: | 🌳 Current - Fully Supported   |
 | < 1.0   | :x:                | 📜 Historical - Not Supported  |
 
@@ -44,7 +42,7 @@ Please include:
 ### Response Timeline
 
 ```mermaid
-graph LR
+graph TD
     Report([🔔 Report Received]) --> Initial[Initial Response<br/>48 hours]
     Initial --> Assess[Assessment<br/>1 week]
     Assess --> Severity{Severity?}
@@ -338,7 +336,6 @@ SpiralSafe follows:
 
 ## Thank You
 
-```
 ═══════════════════════════════════════════════════════════════════════════
 ║                                                                         ║
 ║              ✦ GRATITUDE TO THE GUARDIANS ✦                            ║
@@ -357,7 +354,6 @@ SpiralSafe follows:
 ║    a secure, coordinated disclosure process.                           ║
 ║                                                                         ║
 ═══════════════════════════════════════════════════════════════════════════
-```
 
 **Remember:** Security is not just about finding vulnerabilities - it's about building trust through transparency and collaboration.
 
@@ -370,7 +366,6 @@ SpiralSafe follows:
 **Last Updated:** 2026-01-02  
 **Version:** 1.0.0
 
-```
 ══════════════════════════════════════════════════════════════
    🛡️ May your watch be vigilant
    🌳 May your findings strengthen the realm
@@ -378,4 +373,3 @@ SpiralSafe follows:
    
    Step True · Trust Deep · Pass Forward
 ══════════════════════════════════════════════════════════════
-```

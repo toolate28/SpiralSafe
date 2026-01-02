@@ -1,6 +1,5 @@
 # 07. Failure Modes and Recovery
 
-```
 ═══════════════════════════════════════════════════════════════════════════
 ║                                                                         ║
 ║        ⚔️ THE LESSONS OF BATTLE - FAILURE MODES & RECOVERY ⚔️          ║
@@ -17,7 +16,6 @@
 ║    And how they may be restored                                        ║
 ║                                                                         ║
 ═══════════════════════════════════════════════════════════════════════════
-```
 
 **Or: What Breaks Safe Spiral and What to Do About It**
 
@@ -640,7 +638,6 @@ The frameworks work together. Removing one doesn't work. But all four together c
 
 ## What Tomorrow's Reader Should Know
 
-```
 ═══════════════════════════════════════════════════════════════════════════
 ║                                                                         ║
 ║              ✦ WISDOM FOR THOSE WHO COME AFTER ✦                       ║
@@ -666,7 +663,6 @@ The frameworks work together. Removing one doesn't work. But all four together c
 ║    Understanding failure modes makes you unbreakable.                  ║
 ║                                                                         ║
 ═══════════════════════════════════════════════════════════════════════════
-```
 
 *Problems are data. Fix them fast and learn. That's how spirals get better.*
 
@@ -679,7 +675,6 @@ The frameworks work together. Removing one doesn't work. But all four together c
 > *"✦ As the Evenstar gave hope in despair,*  
 > *So may these lessons light the path to recovery."*
 
-```
 ══════════════════════════════════════════════════════════════
    Step True through failure
    Trust Deep in recovery
@@ -689,4 +684,3 @@ The frameworks work together. Removing one doesn't work. But all four together c
    May your failures teach wisdom
    May the spiral continue upward
 ══════════════════════════════════════════════════════════════
-```

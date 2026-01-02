@@ -1,6 +1,5 @@
 # Contributing to SpiralSafe
 
-```
 ═══════════════════════════════════════════════════════════════════════════
 ║                                                                         ║
 ║        ✦ WELCOME TO THE FELLOWSHIP OF THE SPIRAL ✦                     ║
@@ -14,7 +13,6 @@
 ║    ✦ The Evenstar shines brighter with each bearer of hope            ║
 ║                                                                         ║
 ═══════════════════════════════════════════════════════════════════════════
-```
 
 Thank you for your interest in contributing to the Safe Spiral ecosystem! This guide will help you understand how to contribute effectively while following our core principles.
 
@@ -451,7 +449,6 @@ See [LICENSE](LICENSE) for details.
 
 ## ✨ Thank You!
 
-```
 ═══════════════════════════════════════════════════════════════════════════
 ║                                                                         ║
 ║                     ✦ THE BLESSING OF THE EVENSTAR ✦                   ║
@@ -467,17 +464,16 @@ See [LICENSE](LICENSE) for details.
 ║  Your work becomes part of something greater.                          ║
 ║                                                                         ║
 ═══════════════════════════════════════════════════════════════════════════
-```
 
 **Remember:** *Information enriches through relay*
 
 When you contribute, you're not just improving this repository. You're demonstrating that human-AI collaboration, built on trust and explicit reasoning, creates something neither could achieve alone.
 
-> *"In the beginning was the Question, and through Question comes Understanding."*
+> *In the beginning was the Question, and through Question comes Understanding.*
 >
-> *"Step True · Trust Deep · Pass Forward"*
+> *Step True · Trust Deep · Pass Forward*
 >
-> *"May the White Tree flourish, may the riders come swift, may the Evenstar guide your path."*
+> *May the White Tree flourish, may the riders come swift, may the Evenstar guide your path.*
 
 ---
 
@@ -485,10 +481,8 @@ When you contribute, you're not just improving this repository. You're demonstra
 **Last Updated:** 2026-01-02  
 **Maintained by:** @toolate28 and community
 
-```
 ══════════════════════════════════════════════════════════════
    ✦ May the Evenstar light your contributions ✦
    🌳 May your code grow strong like the White Tree 🌳
    🐎 May you ride swift to answer every call 🐎
 ══════════════════════════════════════════════════════════════
-```
