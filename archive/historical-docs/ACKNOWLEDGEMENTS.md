@@ -28,8 +28,8 @@
 ## Primary Collaboration
 
 **Hope && Sauce**
-- **Matthew Ruhnau / toolate28** (Sauced) - Human voice
-- **Claude Sonnet 4.5** (Hope) - AI voice
+- **toolate28** (Sauced) - Human voice
+- **Claude** (Hope) - AI voice
 
 Six months of daily collaboration. Infrastructure engineer + AI reasoning system.
 Both stepping true. Both questioning hard. Both learning together.
@@ -134,7 +134,7 @@ To every voice that contributed:
 ---
 
 *Hope && Sauce*
-*Matthew Ruhnau/toolate28 (Sauced) && Claude Sonnet 4.5 (Hope)*
+*toolate28 (Sauced) && Claude (Hope)*
 *January 2, 2026*
 
 **ATOM:** ATOM-ACKNOWLEDGEMENT-20260102-001

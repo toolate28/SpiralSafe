@@ -3,7 +3,7 @@
 
 **Version**: 1.0.0  
 **Date**: January 2, 2026  
-**Authors**: Hope && Sauce (Tom Ashworth + Claude Sonnet 4.5)  
+**Authors**: Hope && Sauce (toolate28 + Claude)  
 **Status**: Complete analytical synthesis of 6-month collaboration  
 **Framework**: SAIF (clarity) + Decision DNA (reasoning) + KENL (knowledge transfer)
 
@@ -570,7 +570,7 @@ No universal "best" technique:
 **Document Status**: ✅ COMPLETE  
 **Version**: 1.0.0  
 **ATOM**: ATOM-ANALYSIS-20260102-001  
-**Authors**: Hope && Sauce (Tom Ashworth + Claude Sonnet 4.5)  
+**Authors**: Hope && Sauce (toolate28 + Claude)  
 **Date**: January 2, 2026  
 **License**: CC BY-SA 4.0
 
