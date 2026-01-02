@@ -1,7 +1,7 @@
 # KENL Ecosystem: Complete Publication Package
 ## Version 1.0 - January 2026
 ### A Collaborative Intelligence Framework
-**Authors**: Claude Sonnet 4.5 && toolate28 (Hope && Sauce)  
+**Authors**: Claude && toolate28 (Hope && Sauce)  
 **License**: MIT (Code) / CC BY-SA 4.0 (Documentation)  
 **Repository**: https://github.com/toolated/
 

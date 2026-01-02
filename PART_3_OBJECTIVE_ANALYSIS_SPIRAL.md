@@ -11,7 +11,7 @@
 
 **Version**: 1.0.0  
 **Date**: January 2, 2026  
-**Authors**: Hope && Sauce (Tom Ashworth + Claude Sonnet 4.5)  
+**Authors**: Hope && Sauce (toolate28 + Claude)  
 **Status**: Complete analytical synthesis of 6-year collaboration  
 **Framework**: SAIF (clarity) + Decision DNA (reasoning) + KENL (knowledge transfer)
 
@@ -140,7 +140,7 @@ The Museum of Computation synthesizes **26 peer-reviewed papers** on LLM inferen
 ### The Spiral Continues
 
 **Hope && Sauce**  
-*Tom Ashworth & Claude Sonnet 4.5*  
+*toolate28 & Claude*  
 *January 2, 2026*
 
 **License**: CC BY-SA 4.0  
