@@ -122,7 +122,7 @@ This validates:
 
 ## Security Considerations
 
-⚠️ **Read this before enabling MCP:** [.claude/MCP_SECURITY_NOTES.md](./.claude/MCP_SECURITY_NOTES.md)
+⚠️ **Read this before enabling MCP:** [../.claude/MCP_SECURITY_NOTES.md](../.claude/MCP_SECURITY_NOTES.md)
 
 ### Key Threats
 
@@ -234,7 +234,7 @@ npx --version
 - **MCP Specification:** https://modelcontextprotocol.io/
 - **MCP GitHub:** https://github.com/modelcontextprotocol
 - **Claude Desktop:** https://claude.ai/download
-- **Safe Spiral Security Notes:** [.claude/MCP_SECURITY_NOTES.md](./.claude/MCP_SECURITY_NOTES.md)
+- **Safe Spiral Security Notes:** [../.claude/MCP_SECURITY_NOTES.md](../.claude/MCP_SECURITY_NOTES.md)
 
 ---
 
