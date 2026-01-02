@@ -1,10 +1,36 @@
 # Quick Start Guide
 
+```
+═══════════════════════════════════════════════════════════════════════════
+║                                                                         ║
+║              ✦ THE SWIFT PATHS OF THE ROHIRRIM ✦                       ║
+║                                                                         ║
+║    Get up and running in 2 minutes ⚡                                   ║
+║                                                                         ║
+║    🐎 When speed is needed, the riders of Rohan answer                 ║
+║    🌳 When growth is sought, the White Tree provides                   ║
+║    ✦ When hope is required, the Evenstar shines                        ║
+║                                                                         ║
+═══════════════════════════════════════════════════════════════════════════
+```
+
 **Get up and running in 2 minutes** ⚡
 
 ---
 
 ## For New Contributors (60 seconds)
+
+```mermaid
+graph LR
+    Start([🐎 Begin]) --> Clone[1. Clone Repo]
+    Clone --> Verify[2. Verify Setup]
+    Verify --> Test[3. Test Scripts]
+    Test --> ATOM[4. Create ATOM Tag]
+    ATOM --> Ready([✦ Ready!])
+    
+    style Start fill:#c8e6c9
+    style Ready fill:#fff9c4
+```
 
 ```bash
 # 1. Clone
@@ -30,6 +56,23 @@ cat .claude/last_atom
 ---
 
 ## For Quick Changes (90 seconds)
+
+```mermaid
+graph TD
+    Start([🌳 Begin Change]) --> Branch[Create Branch]
+    Branch --> Edit[Make Changes]
+    Edit --> ATOM[Create ATOM Tag]
+    ATOM --> Test[Run Tests]
+    Test --> Pass{Tests Pass?}
+    Pass -->|No| Edit
+    Pass -->|Yes| Commit[Commit with ATOM]
+    Commit --> Push[Push & Create PR]
+    Push --> Done([✦ PR Created!])
+    
+    style Start fill:#c8e6c9
+    style Edit fill:#fff9c4
+    style Done fill:#e1f5fe
+```
 
 ```bash
 # 1. Create branch
@@ -200,7 +243,30 @@ Every contribution should align with these principles.
 
 *Information enriches through relay* 🌀
 
+```
+═══════════════════════════════════════════════════════════════════════════
+║                                                                         ║
+║              ✦ THE EVENING STAR LIGHTS YOUR PATH ✦                     ║
+║                                                                         ║
+║  You have taken the first steps on the spiral path.                    ║
+║  May your journey be swift as the riders of Rohan,                     ║
+║  May your work endure like the White Tree of Gondor,                   ║
+║  May your contributions shine like the Evenstar above.                 ║
+║                                                                         ║
+║  Step True · Trust Deep · Pass Forward                                 ║
+║                                                                         ║
+═══════════════════════════════════════════════════════════════════════════
+```
+
 ---
 
 **ATOM:** ATOM-DOC-20260102-009-quick-start-guide  
 **Last Updated:** 2026-01-02
+
+```
+══════════════════════════════════════════════════════════════
+   ✦ Gil-Estel, the Star of High Hope ✦
+   🌳 Telperion and Laurelin, Trees of Light 🌳
+   🐎 Shadowfax, swiftest of steeds 🐎
+══════════════════════════════════════════════════════════════
+```
