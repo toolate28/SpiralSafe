@@ -160,8 +160,10 @@ echo ""
 echo -e "${BLUE}[7/7]${NC} Testing MCP server connectivity..."
 if command -v docker >/dev/null 2>&1 && docker ps >/dev/null 2>&1 && [ -n "${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ]; then
   echo "  Testing GitHub MCP server..."
-  # Note: Skipping actual token test to avoid exposing credentials to potentially untrusted images
-  # Users should verify manually: docker run --rm -i -e GITHUB_PERSONAL_ACCESS_TOKEN mcp/github
+  # Security Note: We avoid running the container with actual credentials because:
+  # 1. The Docker image could be compromised and log/exfiltrate the token
+  # 2. We cannot verify image integrity without secure provenance checking
+  # 3. Better to check if the image exists locally and let users test manually
   if docker image inspect mcp/github:latest >/dev/null 2>&1; then
     echo -e "${GREEN}✓${NC} GitHub MCP image is available locally"
   else
