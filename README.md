@@ -188,15 +188,6 @@ frameworks/
 └── AI-AGENT-SYSTEM.md (agent framework)
 ```
 
-### 🌐 Website
-
-```
-SpiralSafe/
-├── index.html (landing page)
-├── workshop.html (workshop space)
-└── global.css (mithril thread aesthetic)
-```
-
 ### 🛠️ Infrastructure
 
 ```
