@@ -29,6 +29,3 @@ logs/
 !.atom-trail/decisions/
 !.atom-trail/counters/
 !.atom-trail/bedrock/
-
-# Markdownlint config (generated)
-.markdownlint.json
