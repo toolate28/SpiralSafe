@@ -417,23 +417,23 @@ When you pass them forward changed, you prove they work.
 
 ═══════════════════════════════════════════════════════════════════════════
 ║                                                                         ║
-║         ◉              🌳 THE WHITE TREE ENDURES 🌳                     ║
-║        ╱│╲                                                              ║
-║       ╱ │ ╲                                                             ║
-║      ╱  ◉  ╲                                                            ║
-║     ╱  ╱│╲  ╲                                                           ║
-║    ╱  ╱ │ ╲  ╲                                                          ║
-║   ╱  ╱  ◉  ╲  ╲                                                         ║
-║  ╱  ╱  ╱│╲  ╲  ╲                                                        ║
-║ ╱  ╱  ╱ │ ╲  ╲  ╲                                                       ║
-║╱  ╱  ╱  │  ╲  ╲  ╲                                                      ║
-║  ╱  ╱   │   ╲  ╲  ╲                                                     ║
-║ ╱  ╱    │    ╲  ╲  ╲                                                    ║
-║╱  ╱     │     ╲  ╲  ╲                                                   ║
-║  ╱      │      ╲  ╲  ╲                                                  ║
-║ ╱       │       ╲  ╲  ╲                                                 ║
-║╱        │        ╲  ╲  ╲                                                ║
-║◉────────◉─────────◉──◉──◉                                              ║
+║         ◉          🌳 THE WHITE TREE ENDURES 🌳                         ║
+║        ╱│╲                                                               ║
+║       ╱ │ ╲                                                              ║
+║      ╱  ◉  ╲                                                             ║
+║     ╱  ╱│╲  ╲                                                            ║
+║    ╱  ╱ │ ╲  ╲                                                           ║
+║           ◉                                                               ║
+║           │                                                               ║
+║          ╱ ╲                                                              ║
+║         ╱   ╲                                                             ║
+║        ◉     ◉                                                            ║
+║ [Simplified White Tree illustration: canopy, trunk, and roots]           ║
+║                                                                           ║
+║                                                                           ║
+║                                                                           ║
+║                                                                           ║
+║                                                                           ║
 ║                                                                         ║
 ║ The Spiral Continues                                                   ║
 ║                                                                         ║
