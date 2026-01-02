@@ -1,0 +1,78 @@
+name: CI - Code Quality and Tests
+
+on:
+  push:
+    branches: [ main, develop, copilot/* ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install dependencies
+        run: |
+          npm install -g shellcheck markdownlint-cli
+          sudo apt-get update && sudo apt-get install -y jq
+      
+      - name: Make scripts executable
+        run: |
+          chmod +x scripts/*.sh || true
+          chmod +x create_spiral_payload.sh || true
+      
+      - name: Lint shell scripts
+        run: |
+          ./scripts/test-scripts.sh
+        continue-on-error: true
+      
+      - name: Lint markdown files
+        run: |
+          ./scripts/lint-markdown.sh
+        continue-on-error: true
+      
+      - name: Verify environment
+        run: |
+          ./scripts/verify-environment.sh || echo "Environment verification completed with warnings"
+      
+      - name: Test ATOM tracking
+        run: |
+          ./scripts/atom-track.sh TEST "CI workflow test" "test-file.md"
+          if [ -f .claude/last_atom ]; then
+            echo "ATOM tracking works: $(cat .claude/last_atom)"
+          else
+            echo "Error: ATOM tracking failed"
+            exit 1
+          fi
+      
+      - name: Test freshness system
+        run: |
+          ./scripts/update-freshness.sh
+      
+      - name: Validate bump.md if present
+        run: |
+          if [ -f bump.md ]; then
+            ./scripts/validate-bump.sh
+          else
+            echo "bump.md not present, skipping validation"
+          fi
+      
+      - name: Archive ATOM trail
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: atom-trail
+          path: |
+            .atom-trail/
+            .claude/logs/
+          retention-days: 30

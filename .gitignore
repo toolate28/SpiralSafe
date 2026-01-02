@@ -5,6 +5,7 @@ node_modules/
 *.log
 .obsidian/workspace.json
 .claude/settings.local.json
+.claude/logs/*.jsonl
 dist/
 build/
 *.class
@@ -17,3 +18,17 @@ logs/
 *.zip
 *.tar.gz
 !releases/*.zip
+!spiral_safe_bump_ci_payload.zip
+
+# ATOM trail - keep structure but ignore temp files
+.atom-trail/**/*.tmp
+.atom-trail/**/*.backup
+
+# Keep ATOM trail structure
+!.atom-trail/
+!.atom-trail/decisions/
+!.atom-trail/counters/
+!.atom-trail/bedrock/
+
+# Markdownlint config (generated)
+.markdownlint.json

@@ -1,0 +1,10 @@
+{
+  "atom_tag": "ATOM-INIT-20260102-001-repository-setup-with-ci-and-atom-tracking",
+  "type": "INIT",
+  "description": "Repository setup with CI and ATOM tracking",
+  "timestamp": "2026-01-02T10:34:35Z",
+  "file": ".github/workflows/ci.yml",
+  "freshness_level": "fresh",
+  "bedrock_eligible": false,
+  "created_epoch": 1767350075
+}

@@ -1,0 +1,6 @@
+# Ensure consistent handling for bump.md and markdown
+bump.md text=auto eol=lf
+*.md text=auto eol=lf
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf

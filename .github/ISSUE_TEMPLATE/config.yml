@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🤖 Claude Assistant
+    url: https://github.com/toolate28/SpiralSafe/issues/new?labels=claude:help
+    about: Get help from Claude AI assistant
+  - name: 📚 Documentation
+    url: https://github.com/toolate28/SpiralSafe/blob/main/README.md
+    about: Read the Safe Spiral documentation
+  - name: 🔒 Security Issue
+    url: https://github.com/toolate28/SpiralSafe/security/advisories/new
+    about: Report a security vulnerability privately
+  - name: 💬 Discussions
+    url: https://github.com/toolate28/SpiralSafe/discussions
+    about: Ask questions or discuss ideas with the community

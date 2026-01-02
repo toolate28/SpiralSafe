@@ -1,0 +1,92 @@
+name: Release Management
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., v1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup environment
+        run: |
+          chmod +x scripts/*.sh || true
+          chmod +x create_spiral_payload.sh || true
+      
+      - name: Get version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION="${GITHUB_REF#refs/tags/}"
+          fi
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "Releasing version: ${VERSION}"
+      
+      - name: Create ATOM tag for release
+        run: |
+          ATOM_TAG=$(./scripts/atom-track.sh RELEASE "Release ${{ steps.version.outputs.version }}" "RELEASE.md")
+          echo "ATOM_TAG=${ATOM_TAG}" >> $GITHUB_ENV
+      
+      - name: Update freshness tracking
+        run: |
+          ./scripts/update-freshness.sh
+      
+      - name: Create release payload
+        run: |
+          if [ -f create_spiral_payload.sh ]; then
+            ./create_spiral_payload.sh
+          fi
+      
+      - name: Generate changelog
+        id: changelog
+        run: |
+          echo "## Release ${{ steps.version.outputs.version }}" > CHANGELOG.tmp
+          echo "" >> CHANGELOG.tmp
+          echo "### ATOM Tag: ${ATOM_TAG}" >> CHANGELOG.tmp
+          echo "" >> CHANGELOG.tmp
+          echo "### Changes" >> CHANGELOG.tmp
+          git log --oneline --no-merges $(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")..HEAD >> CHANGELOG.tmp || echo "Initial release" >> CHANGELOG.tmp
+          echo "" >> CHANGELOG.tmp
+          echo "### Freshness Summary" >> CHANGELOG.tmp
+          ./scripts/update-freshness.sh | tail -5 >> CHANGELOG.tmp
+      
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: Release ${{ steps.version.outputs.version }}
+          body_path: CHANGELOG.tmp
+          draft: false
+          prerelease: false
+          files: |
+            spiral_safe_bump_ci_payload.zip
+            .atom-trail/decisions/*.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Archive release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ steps.version.outputs.version }}
+          path: |
+            spiral_safe_bump_ci_payload.zip
+            .atom-trail/
+            .claude/logs/
+          retention-days: 90
