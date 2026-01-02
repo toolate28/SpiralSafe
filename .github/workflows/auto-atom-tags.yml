@@ -165,9 +165,11 @@ jobs:
           else
             git commit -m "ATOM: ${{ steps.atom.outputs.atom_tag }} - Auto-generated trail"
             
-            # Note: This requires a PAT with write permissions
-            # For now, just report the tag without pushing
-            echo "ATOM trail would be committed (requires write permissions)"
+            # Note: Auto-commit disabled - requires write permissions via PAT
+            # The ATOM trail is available as an artifact for manual integration
+            echo "✓ ATOM trail committed locally"
+            echo "⚠️ Auto-push disabled (requires PAT with write permissions)"
+            echo "📦 ATOM trail available as artifact for manual integration"
           fi
       
       - name: Archive ATOM trail

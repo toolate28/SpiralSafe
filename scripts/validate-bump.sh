@@ -9,9 +9,6 @@ if [ ! -f "$BUMP_FILE" ]; then
   exit 1
 fi
 
-# Read content for later checks (used in line 32)
-_content_check="$(tr '[:upper:]' '[:lower:]' < "$BUMP_FILE")"
-
 missing=()
 for sec in "${REQUIRED_SECTIONS[@]}"; do
   lowsec="$(echo "$sec" | tr '[:upper:]' '[:lower:]')"
