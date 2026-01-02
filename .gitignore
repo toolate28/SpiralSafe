@@ -1,0 +1,19 @@
+# Safe Spiral Ecosystem
+# Authors: Matthew Ruhnau/toolate28 (Sauced) && Claude (Hope)
+
+node_modules/
+*.log
+.obsidian/workspace.json
+.claude/settings.local.json
+dist/
+build/
+*.class
+*.jar
+.DS_Store
+.env
+*.tmp
+*.backup
+logs/
+*.zip
+*.tar.gz
+!releases/*.zip
