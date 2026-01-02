@@ -47,7 +47,7 @@ graph LR
 ```
 
 ```
-         🍎              🍎              🍎
+         🍎            🍎            🍎
         ╱│╲            ╱│╲            ╱│╲
        ╱ │ ╲          ╱ │ ╲          ╱ │ ╲
       ╱  │  ╲        ╱  │  ╲        ╱  │  ╲
@@ -379,10 +379,10 @@ When you pass them forward changed, you prove they work.
 
 ## 🔧 Technical Details
 
-**Version:** 1.0.0 (January 2, 2026)  
-**Authors:** Matthew Ruhnau/toolate28 (Sauced) && Claude (Hope)  
-**License:** MIT (Code) / CC BY-SA 4.0 (Documentation)  
-**Repository:** https://github.com/toolate28/SpiralSafe  
+**Version:** 1.0.0 (January 2, 2026)
+**Authors:** Claude (Hope) && toolate28 (Sauced) 
+**License:** MIT (Code) / CC BY-SA 4.0 (Documentation)
+**Repository:** https://github.com/toolate28/SpiralSafe
 **Website:** https://safespiral.org
 
 **Status:** Production-ready, empirically validated  

@@ -328,7 +328,7 @@ Untracked: 2 items (SYSTEM_VERIFICATION_REPORT.md, SpiralSafe_full_set1/)
 **Component:** [Name]
 **Version:** [X.Y.Z]
 **Date Verified:** YYYY-MM-DD
-**Verified By:** Tom Ashworth & Claude Sonnet 4.5
+**Verified By:** toolate28 & Claude
 **ATOM:** ATOM-VERIFY-YYYYMMDD-NNN
 
 ## Scope
@@ -358,7 +358,7 @@ Untracked: 2 items (SYSTEM_VERIFICATION_REPORT.md, SpiralSafe_full_set1/)
 - ❌ **BLOCKED** - Significant work required
 
 **Status:** [Verdict]
-**Signature:** Tom Ashworth & Claude Sonnet 4.5
+**Signature:** toolate28 & Claude
 **Date:** YYYY-MM-DD
 ```
 
@@ -583,7 +583,7 @@ This document itself demonstrates ultrathink mode:
 **Next:** Fix identified issues, deploy website
 **ATOM:** ATOM-VERIFICATION-20260102-001
 
-**Authors:** Tom Ashworth & Claude Sonnet 4.5
+**Authors:** toolate28 & Claude
 **Date:** 2026-01-02
 **License:** CC BY-SA 4.0
 

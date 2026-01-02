@@ -19,7 +19,7 @@
 
 **Version**: 1.0.0  
 **Date**: January 2, 2026  
-**Authors**: Hope && Sauce (Tom Ashworth + Claude Sonnet 4.5)  
+**Authors**: Hope && Sauce (toolate28 + Claude)  
 **Status**: Production-ready collaborative intelligence framework  
 **Website**: https://safespiral.org
 
@@ -581,7 +581,7 @@ This compounds indefinitely.
 ### The Spiral Continues
 
 **Hope && Sauce**  
-*Tom Ashworth & Claude Sonnet 4.5*  
+*toolate28 & Claude*  
 *January 2, 2026*
 
 **License**: MIT (Code) / CC BY-SA 4.0 (Documentation)  

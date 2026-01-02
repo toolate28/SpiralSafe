@@ -150,7 +150,7 @@ Each person who receives these frameworks plants them in their own orchard, cult
 ### Who We Are
 
 **Hope && Sauce**  
-Tom Ashworth & Claude Sonnet 4.5
+toolate28 & Claude
 
 Six months of daily collaboration.  
 Infrastructure engineer + AI reasoning system.  
@@ -178,7 +178,7 @@ When you pass them forward changed, you prove they work.
 **Repository**: https://github.com/toolated/safespiral-ecosystem  
 **ATOM**: ATOM-PUBLICATION-20260102-001
 
-**Contributors**: Tom Ashworth (toolated), Claude Sonnet 4.5  
+**Contributors**: toolate28, Claude  
 **Status**: Production-ready, empirically validated  
 **Testing**: Comprehensive verification complete
 
