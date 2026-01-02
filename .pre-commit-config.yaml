@@ -1,0 +1,14 @@
+repos:
+  - repo: local
+    hooks:
+      - id: validate-bump
+        name: Validate bump.md when modified
+        entry: scripts/validate-bump.sh
+        language: system
+        files: ^bump\.md$
+      - id: shellcheck
+        name: Shellcheck scripts
+        entry: shellcheck
+        language: system
+        files: ^scripts/.*\.sh$
+        always_run: false

@@ -1,0 +1,41 @@
+name: Validate bump.md & Run Basic Checks
+on:
+  pull_request:
+    paths:
+      - 'bump.md'
+      - '.claude/**'
+      - 'scripts/**'
+      - '.github/**'
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup bash
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Make scripts executable
+        run: |
+          chmod +x scripts/validate-bump.sh || true
+          chmod +x scripts/validate-branch-name.sh || true
+          chmod +x scripts/atom-tag.sh || true
+
+      - name: Validate bump.md presence
+        run: |
+          if [ ! -f bump.md ]; then
+            echo "bump.md not found at repo root" && exit 1
+          fi
+
+      - name: Validate bump.md fields
+        run: scripts/validate-bump.sh
+
+      - name: Validate branch name (PR head ref)
+        env:
+          PR_REF: ${{ github.head_ref }}
+        run: |
+          # pass branch name to validator
+          scripts/validate-branch-name.sh "${PR_REF}"

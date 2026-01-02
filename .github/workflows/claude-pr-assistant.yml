@@ -1,0 +1,207 @@
+name: Claude PR Assistant
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+
+jobs:
+  claude-interaction:
+    runs-on: ubuntu-latest
+    if: |
+      (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'claude:review')) ||
+      (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'claude:help')) ||
+      (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'claude:analyze')) ||
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude'))
+    
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup environment
+        run: |
+          chmod +x scripts/*.sh || true
+          mkdir -p .claude/logs
+      
+      - name: Extract PR context
+        id: pr_context
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            PR_NUMBER="${{ github.event.pull_request.number }}"
+            PR_TITLE="${{ github.event.pull_request.title }}"
+            PR_BODY="${{ github.event.pull_request.body }}"
+          elif [ "${{ github.event_name }}" = "issue_comment" ]; then
+            PR_NUMBER="${{ github.event.issue.number }}"
+            PR_TITLE="${{ github.event.issue.title }}"
+            PR_BODY="${{ github.event.comment.body }}"
+          fi
+          
+          echo "pr_number=${PR_NUMBER}" >> $GITHUB_OUTPUT
+          echo "pr_title=${PR_TITLE}" >> $GITHUB_OUTPUT
+      
+      - name: Analyze changes for ATOM compliance
+        id: atom_check
+        run: |
+          echo "## Claude Analysis - ATOM Compliance" > claude-response.md
+          echo "" >> claude-response.md
+          
+          # Check for ATOM tags in PR title or body
+          if git log --oneline -10 | grep -q "ATOM-"; then
+            echo "✅ **ATOM tags found in commits**" >> claude-response.md
+            git log --oneline -10 | grep "ATOM-" | head -5 >> claude-response.md
+          else
+            echo "⚠️ **No ATOM tags found in recent commits**" >> claude-response.md
+            echo "Consider creating an ATOM tag with: \`./scripts/atom-track.sh TYPE \"description\" \"file\"\`" >> claude-response.md
+          fi
+          echo "" >> claude-response.md
+      
+      - name: Check for secrets
+        id: secrets_check
+        run: |
+          echo "## Claude Analysis - Secrets Check" >> claude-response.md
+          echo "" >> claude-response.md
+          
+          # Check for potential secrets
+          if git diff origin/${{ github.base_ref }}..HEAD | grep -iE "(password|secret|token|api[_-]?key|private[_-]?key)[\s]*[=:]" | grep -v ".github/copilot"; then
+            echo "🔒 **Potential secrets detected - REVIEW REQUIRED**" >> claude-response.md
+            echo "\`\`\`" >> claude-response.md
+            git diff origin/${{ github.base_ref }}..HEAD | grep -iE "(password|secret|token|api[_-]?key|private[_-]?key)[\s]*[=:]" | head -10 >> claude-response.md
+            echo "\`\`\`" >> claude-response.md
+            echo "Please ensure these are not actual secrets. Use environment variables or GitHub Secrets instead." >> claude-response.md
+          else
+            echo "✅ **No obvious secrets detected**" >> claude-response.md
+          fi
+          echo "" >> claude-response.md
+      
+      - name: Validate scripts
+        id: script_check
+        run: |
+          echo "## Claude Analysis - Script Validation" >> claude-response.md
+          echo "" >> claude-response.md
+          
+          # Run script tests if scripts changed
+          if git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -q "scripts/.*\.sh"; then
+            if ./scripts/test-scripts.sh > script-test.log 2>&1; then
+              echo "✅ **All script tests passed**" >> claude-response.md
+            else
+              echo "⚠️ **Some script tests failed**" >> claude-response.md
+              echo "\`\`\`" >> claude-response.md
+              tail -20 script-test.log >> claude-response.md
+              echo "\`\`\`" >> claude-response.md
+            fi
+          else
+            echo "ℹ️ **No script changes detected**" >> claude-response.md
+          fi
+          echo "" >> claude-response.md
+      
+      - name: Framework compliance check
+        id: framework_check
+        run: |
+          echo "## Claude Analysis - Framework Compliance" >> claude-response.md
+          echo "" >> claude-response.md
+          echo "### Five Core Principles Check:" >> claude-response.md
+          echo "" >> claude-response.md
+          
+          # Check for visible state
+          if git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -q "\.atom-trail\|\.claude/logs"; then
+            echo "✅ **Visible State**: Changes include ATOM trail or logs" >> claude-response.md
+          else
+            echo "ℹ️ **Visible State**: No ATOM trail changes (may not be needed)" >> claude-response.md
+          fi
+          
+          # Check for clear intent (documentation)
+          if git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -q "\.md\|README"; then
+            echo "✅ **Clear Intent**: Documentation updated" >> claude-response.md
+          else
+            echo "⚠️ **Clear Intent**: Consider adding/updating documentation" >> claude-response.md
+          fi
+          
+          # Check for tests
+          if git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -q "test\|spec"; then
+            echo "✅ **Measurable Delivery**: Tests included" >> claude-response.md
+          else
+            echo "ℹ️ **Measurable Delivery**: No test changes (may not be needed)" >> claude-response.md
+          fi
+          echo "" >> claude-response.md
+      
+      - name: Provide suggestions
+        id: suggestions
+        run: |
+          echo "## Claude Suggestions" >> claude-response.md
+          echo "" >> claude-response.md
+          
+          # Analyze changed files
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}..HEAD || echo "")
+          
+          if echo "$CHANGED_FILES" | grep -q "\.sh$"; then
+            echo "### Shell Scripts" >> claude-response.md
+            echo "- Ensure all scripts have \`set -euo pipefail\`" >> claude-response.md
+            echo "- Add usage examples in comments" >> claude-response.md
+            echo "- Include graceful error handling" >> claude-response.md
+            echo "" >> claude-response.md
+          fi
+          
+          if echo "$CHANGED_FILES" | grep -q "\.md$"; then
+            echo "### Documentation" >> claude-response.md
+            echo "- Include ATOM tags in headers where appropriate" >> claude-response.md
+            echo "- Add concrete examples" >> claude-response.md
+            echo "- Link to related documents" >> claude-response.md
+            echo "" >> claude-response.md
+          fi
+          
+          if echo "$CHANGED_FILES" | grep -q "workflows/.*\.yml"; then
+            echo "### GitHub Actions" >> claude-response.md
+            echo "- Ensure proper permissions are set" >> claude-response.md
+            echo "- Add status checks and artifacts" >> claude-response.md
+            echo "- Include error handling" >> claude-response.md
+            echo "" >> claude-response.md
+          fi
+          
+          echo "---" >> claude-response.md
+          echo "" >> claude-response.md
+          echo "*This analysis was generated by Claude based on the Safe Spiral framework principles.*" >> claude-response.md
+          echo "" >> claude-response.md
+          echo "**Need help?** Add a comment mentioning \`@claude\` with your question!" >> claude-response.md
+      
+      - name: Post Claude comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const comment = fs.readFileSync('claude-response.md', 'utf8');
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ steps.pr_context.outputs.pr_number }},
+              body: comment
+            });
+      
+      - name: Create ATOM tag for review
+        if: contains(github.event.pull_request.labels.*.name, 'claude:review')
+        run: |
+          ATOM_TAG=$(./scripts/atom-track.sh REVIEW "Claude PR review for #${{ steps.pr_context.outputs.pr_number }}" "PR")
+          echo "Created ATOM tag: ${ATOM_TAG}"
+      
+      - name: Archive analysis
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: claude-pr-analysis
+          path: |
+            claude-response.md
+            script-test.log
+            .claude/logs/
+          retention-days: 30

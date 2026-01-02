@@ -1,0 +1,17 @@
+# CODEOWNERS — change to your team or individuals
+# Lines are matched from top to bottom, later entries take precedence.
+# Use GitHub handles or teams.
+
+# Core documentation and bump files
+/docs/ @toolate28
+bump.md @toolate28
+
+# Scripts and CI
+/scripts/ @toolate28
+.github/workflows/ @toolate28
+
+# CLAUDE context files
+.claude/ @toolate28
+
+# Fallback
+* @toolate28

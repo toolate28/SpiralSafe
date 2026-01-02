@@ -1,0 +1,15 @@
+name: Validate branch name on PR
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  branch-name-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run branch name validation
+        run: |
+          chmod +x scripts/validate-branch-name.sh || true
+          echo "Validating branch: ${{ github.head_ref }}"
+          scripts/validate-branch-name.sh "${{ github.head_ref }}"
