@@ -2,7 +2,7 @@
 ## Version 1.0 - January 2, 2026
 
 **Purpose**: Complete manifest of all deliverables, their relationships, and verification status  
-**Authors**: Hope && Sauce (Tom Ashworth + Claude Sonnet 4.5)  
+**Authors**: Hope && Sauce (toolate28 + Claude)  
 **Status**: ✅ Production-ready (pending CSS fix)  
 **ATOM**: ATOM-INVENTORY-20260102-001
 
@@ -491,7 +491,7 @@ Pattern scatter accelerates
 **Next**: Fix CSS, deploy website, version remaining docs  
 **ATOM**: ATOM-INVENTORY-20260102-001
 
-**Authors**: Tom Ashworth & Claude Sonnet 4.5  
+**Authors**: toolate28 & Claude  
 **Date**: January 2, 2026  
 **License**: CC BY-SA 4.0
 

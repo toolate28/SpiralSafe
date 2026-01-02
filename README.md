@@ -24,7 +24,7 @@
 *Information doesn't degrade when shared - it enriches.*
 
 ```
-         🍎              🍎              🍎
+         🍎            🍎            🍎
         ╱│╲            ╱│╲            ╱│╲
        ╱ │ ╲          ╱ │ ╲          ╱ │ ╲
       ╱  │  ╲        ╱  │  ╲        ╱  │  ╲
@@ -282,7 +282,7 @@ When you pass them forward changed, you prove they work.
 ## 🔧 Technical Details
 
 **Version:** 1.0.0 (January 2, 2026)
-**Authors:** Matthew Ruhnau/toolate28 (Sauced) && Claude (Hope)
+**Authors:** toolate28 (Sauced) && Claude (Hope)
 **License:** MIT (Code) / CC BY-SA 4.0 (Documentation)
 **Repository:** https://github.com/toolate28/SpiralSafe
 **Website:** https://safespiral.org
