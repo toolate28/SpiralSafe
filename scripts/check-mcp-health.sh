@@ -89,8 +89,13 @@ echo ""
 # Check 5: Environment variables
 echo -e "${BLUE}[5/7]${NC} Checking environment variables..."
 if [ -n "${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ]; then
-  # Mask token for security
-  MASKED_TOKEN=$(echo "$GITHUB_PERSONAL_ACCESS_TOKEN" | head -c 8)...
+  # Mask token for security - use bash substring for portability
+  TOKEN_LENGTH=${#GITHUB_PERSONAL_ACCESS_TOKEN}
+  if [ "$TOKEN_LENGTH" -gt 8 ]; then
+    MASKED_TOKEN="${GITHUB_PERSONAL_ACCESS_TOKEN:0:8}..."
+  else
+    MASKED_TOKEN="***"
+  fi
   echo -e "${GREEN}✓${NC} GITHUB_PERSONAL_ACCESS_TOKEN is set: $MASKED_TOKEN"
   
   # Test token validity
@@ -155,11 +160,14 @@ echo ""
 echo -e "${BLUE}[7/7]${NC} Testing MCP server connectivity..."
 if command -v docker >/dev/null 2>&1 && docker ps >/dev/null 2>&1 && [ -n "${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ]; then
   echo "  Testing GitHub MCP server..."
-  if timeout 10s docker run --rm -i -e GITHUB_PERSONAL_ACCESS_TOKEN mcp/github </dev/null >/dev/null 2>&1; then
-    echo -e "${GREEN}✓${NC} GitHub MCP server is accessible"
+  # Note: Skipping actual token test to avoid exposing credentials to potentially untrusted images
+  # Users should verify manually: docker run --rm -i -e GITHUB_PERSONAL_ACCESS_TOKEN mcp/github
+  if docker image inspect mcp/github:latest >/dev/null 2>&1; then
+    echo -e "${GREEN}✓${NC} GitHub MCP image is available locally"
   else
-    echo -e "${YELLOW}⚠${NC} GitHub MCP server test failed"
-    echo "  → May be a transient issue - try manually"
+    echo -e "${YELLOW}⚠${NC} GitHub MCP image not found locally"
+    echo "  → Pull manually: docker pull mcp/github:latest"
+    echo "  → Test manually: docker run --rm -i -e GITHUB_PERSONAL_ACCESS_TOKEN mcp/github"
   fi
 else
   echo -e "${YELLOW}⚠${NC} Skipping connectivity test (prerequisites not met)"

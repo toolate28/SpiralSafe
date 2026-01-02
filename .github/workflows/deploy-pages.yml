@@ -392,7 +392,13 @@ jobs:
         with:
           script: |
             const prNumber = context.payload.pull_request.number;
-            const previewUrl = `https://${context.payload.pull_request.head.ref}.spiralsafe.pages.dev`;
+            // Sanitize branch name for subdomain: lowercase, replace special chars with hyphens
+            const branchName = context.payload.pull_request.head.ref
+              .toLowerCase()
+              .replace(/[^a-z0-9-]/g, '-')
+              .replace(/^-+|-+$/g, '')  // Remove leading/trailing hyphens
+              .substring(0, 63);  // DNS subdomain max length
+            const previewUrl = `https://${branchName}.spiralsafe.pages.dev`;
             
             github.rest.issues.createComment({
               issue_number: prNumber,
