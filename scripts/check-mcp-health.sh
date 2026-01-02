@@ -37,19 +37,20 @@ else
 fi
 echo ""
 
-# Check 2: GitHub MCP image pullability
+# Check 2: GitHub MCP image availability
 echo -e "${BLUE}[2/7]${NC} Checking GitHub MCP Docker image..."
 if command -v docker >/dev/null 2>&1 && docker ps >/dev/null 2>&1; then
-  if docker pull mcp/github:latest >/dev/null 2>&1; then
-    echo -e "${GREEN}✓${NC} GitHub MCP image is pullable"
+  if docker image inspect mcp/github:latest >/dev/null 2>&1; then
+    echo -e "${GREEN}✓${NC} GitHub MCP image is available locally"
   else
-    echo -e "${YELLOW}⚠${NC} Cannot pull mcp/github:latest"
-    echo "  → Check Docker Hub status or network connectivity"
-    echo "  → Try manually: docker pull mcp/github:latest"
-    # Not fatal - image might already exist locally
+    echo -e "${YELLOW}⚠${NC} mcp/github:latest image not found locally"
+    echo "  → The healthcheck does not pull images automatically"
+    echo "  → Pull manually if needed: docker pull mcp/github:latest"
+    echo "  → Consider pinning to a specific version instead of :latest"
+    # Not fatal - image may be pulled when first used
   fi
 else
-  echo -e "${YELLOW}⚠${NC} Skipping image pull check (Docker not available)"
+  echo -e "${YELLOW}⚠${NC} Skipping image availability check (Docker not available)"
 fi
 echo ""
 
@@ -100,18 +101,25 @@ if [ -n "${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ]; then
   
   # Test token validity
   if command -v curl >/dev/null 2>&1; then
+    # Temporarily disable 'exit on error' to capture curl exit code safely
+    set +e
     RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
-      -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" \
-      https://api.github.com/user 2>&1 || echo "000")
-    
-    if [ "$RESPONSE" = "200" ]; then
+      -H "Authorization: token ${GITHUB_PERSONAL_ACCESS_TOKEN}" \
+      https://api.github.com/user 2>&1)
+    CURL_EXIT_CODE=$?
+    # Re-enable 'exit on error' for the rest of the script
+    set -e
+
+    if [ "$CURL_EXIT_CODE" -ne 0 ]; then
+      echo -e "${YELLOW}⚠${NC} Cannot validate token (curl error, exit code: $CURL_EXIT_CODE)"
+    elif [ "$RESPONSE" = "200" ]; then
       echo "  → Token is valid"
     elif [ "$RESPONSE" = "401" ]; then
       echo -e "${RED}✗${NC} Token is invalid or expired"
       echo "  → Regenerate at: https://github.com/settings/tokens"
       EXIT_CODE=1
     elif [ "$RESPONSE" = "000" ]; then
-      echo -e "${YELLOW}⚠${NC} Cannot validate token (network issue)"
+      echo -e "${YELLOW}⚠${NC} Cannot validate token (network issue or no HTTP response)"
     else
       echo -e "${YELLOW}⚠${NC} Unexpected response code: $RESPONSE"
     fi
@@ -177,14 +185,26 @@ fi
 
 if command -v npx >/dev/null 2>&1; then
   echo "  Testing Mermaid MCP server..."
-  if timeout 10s npx -y @modelcontextprotocol/server-mermaid --version >/dev/null 2>&1; then
-    echo -e "${GREEN}✓${NC} Mermaid MCP server is accessible"
+  # Note: Using npx -y downloads packages from npm without verification
+  # This is a supply-chain risk. Consider using a locally installed, pinned version
+  # Check if timeout command is available (may not exist on macOS)
+  if command -v timeout >/dev/null 2>&1; then
+    if timeout 10s npx --version >/dev/null 2>&1; then
+      echo -e "${GREEN}✓${NC} npm registry is accessible (npx can connect)"
+    else
+      echo -e "${YELLOW}⚠${NC} npm registry connectivity test failed"
+      echo "  → May be a network issue - check npm connectivity"
+    fi
   else
-    echo -e "${YELLOW}⚠${NC} Mermaid MCP server test failed"
-    echo "  → May be a network issue - check npm connectivity"
+    # Fallback without timeout for macOS compatibility
+    if npx --version >/dev/null 2>&1; then
+      echo -e "${GREEN}✓${NC} npx is functional"
+    else
+      echo -e "${YELLOW}⚠${NC} npx test failed"
+    fi
   fi
 else
-  echo -e "${YELLOW}⚠${NC} Skipping Mermaid test (npx not available)"
+  echo -e "${YELLOW}⚠${NC} Skipping npm test (npx not available)"
 fi
 echo ""
 

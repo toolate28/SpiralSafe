@@ -34,7 +34,7 @@ jobs:
       
       - name: Install dependencies
         run: |
-          npm install -g markdown-it markdown-it-anchor markdown-it-toc-done-right
+          npm install markdown-it markdown-it-anchor markdown-it-toc-done-right
       
       - name: Build static site
         run: |
@@ -239,7 +239,7 @@ jobs:
           node <<'EOF'
           const fs = require('fs');
           const path = require('path');
-          const MarkdownIt = require('markdown-it');
+          const MarkdownIt = require('./node_modules/markdown-it');
           const md = new MarkdownIt({
             html: true,
             linkify: true,
@@ -402,6 +402,11 @@ jobs:
             // Fallback if branch name becomes empty after sanitization
             if (!branchName) {
               branchName = `pr-${prNumber}`;
+            }
+            
+            // Ensure DNS label does not start with a digit (RFC 1123)
+            if (/^[0-9]/.test(branchName)) {
+              branchName = `b-${branchName}`;
             }
             
             const previewUrl = `https://${branchName}.spiralsafe.pages.dev`;

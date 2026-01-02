@@ -1,5 +1,5 @@
 {
-  "$schema": "https://modelcontextprotocol.io/schemas/mcp-config-schema.json",
+  "$schema": "https://github.com/modelcontextprotocol/specification/blob/main/schema/mcp-config.schema.json",
   "mcpServers": {
     "github": {
       "command": "docker",
@@ -9,7 +9,7 @@
         "-i",
         "-e",
         "GITHUB_PERSONAL_ACCESS_TOKEN",
-        "mcp/github"
+        "mcp/github:latest"
       ],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
@@ -21,7 +21,9 @@
           "Token should have minimal necessary permissions",
           "Risk: Tool poisoning via malicious repository content",
           "Risk: Cross-tool exfiltration if combined with other MCPs",
-          "Mitigation: Use scoped tokens, enable audit logging"
+          "Mitigation: Use scoped tokens, enable audit logging",
+          "WARNING: Using :latest tag - consider pinning to specific version or SHA256 digest",
+          "WARNING: Supply chain risk - verify image provenance before first use"
         ],
         "requirements": [
           "Docker daemon must be running",
@@ -42,7 +44,9 @@
           "No authentication required",
           "Low risk: Generates diagrams from text input",
           "Risk: Prompt injection via tool descriptions",
-          "Mitigation: Validate generated output, sandbox execution"
+          "Mitigation: Validate generated output, sandbox execution",
+          "WARNING: Supply chain risk - npx downloads and executes packages without verification",
+          "RECOMMENDATION: Install locally and pin version instead of using npx -y"
         ],
         "requirements": [
           "Node.js and npx installed",
