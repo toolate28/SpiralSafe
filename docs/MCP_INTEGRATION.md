@@ -231,7 +231,7 @@ npx --version
 
 ## Official Documentation
 
-- **MCP Specification:** https://modelcontextprotocol.io/
+- **MCP Specification:** https://spec.modelcontextprotocol.io/
 - **MCP GitHub:** https://github.com/modelcontextprotocol
 - **Claude Desktop:** https://claude.ai/download
 - **Safe Spiral Security Notes:** [../.claude/MCP_SECURITY_NOTES.md](../.claude/MCP_SECURITY_NOTES.md)
