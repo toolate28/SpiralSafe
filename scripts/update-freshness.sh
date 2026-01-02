@@ -48,7 +48,8 @@ for decision_file in "$DECISION_DIR"/*.json; do
     BEDROCK_ELIGIBLE="false"
   fi
   
-  # Update the file
+  # Update the file - Note: Using sed for portability. If jq is available, it would be preferred:
+  # jq ".freshness_level = \"$NEW_FRESHNESS\" | .bedrock_eligible = $BEDROCK_ELIGIBLE" "$decision_file" > "$decision_file.tmp" && mv "$decision_file.tmp" "$decision_file"
   sed -i "s/\"freshness_level\":[[:space:]]*\"[^\"]*\"/\"freshness_level\": \"$NEW_FRESHNESS\"/" "$decision_file"
   sed -i "s/\"bedrock_eligible\":[[:space:]]*[^,}]*/\"bedrock_eligible\": $BEDROCK_ELIGIBLE/" "$decision_file"
   
