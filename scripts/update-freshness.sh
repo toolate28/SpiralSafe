@@ -55,11 +55,19 @@ for decision_file in "$DECISION_DIR"/*.json; do
   
   echo "  $ATOM_TAG: $NEW_FRESHNESS (age: $((AGE / 86400)) days)"
   
-  # Migrate to bedrock if eligible
+  # Migrate to bedrock if eligible (requires verification)
   if [ "$BEDROCK_ELIGIBLE" = "true" ]; then
-    if [ ! -f "$BEDROCK_DIR/$ATOM_TAG.json" ]; then
-      cp "$decision_file" "$BEDROCK_DIR/"
-      echo "    → Migrated to bedrock"
+    # Require verification before bedrock migration
+    VERIFIED=$(grep -o '"verified":[[:space:]]*true' "$decision_file" 2>/dev/null || echo "")
+    if [ -z "$VERIFIED" ]; then
+      echo "    ⚠ Bedrock-eligible but not verified: $ATOM_TAG"
+      echo "    → Run: ./scripts/verify-decision.sh $ATOM_TAG"
+      BEDROCK_ELIGIBLE="false"  # Don't migrate unverified decisions
+    else
+      if [ ! -f "$BEDROCK_DIR/$ATOM_TAG.json" ]; then
+        cp "$decision_file" "$BEDROCK_DIR/"
+        echo "    → Migrated to bedrock (verified)"
+      fi
     fi
   fi
 done

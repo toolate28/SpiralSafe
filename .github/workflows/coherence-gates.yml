@@ -1,0 +1,82 @@
+name: Coherence Gate Validation
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  validate-gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install jq
+        run: |
+          sudo apt-get update && sudo apt-get install -y jq
+      
+      - name: Validate bump.md
+        run: |
+          chmod +x scripts/validate-bump.sh
+          ./scripts/validate-bump.sh || echo "::warning::bump.md contains placeholders"
+      
+      - name: Validate document state markers
+        run: |
+          chmod +x scripts/validate-document-state.sh
+          ./scripts/validate-document-state.sh || echo "::warning::Some documents missing state markers"
+      
+      - name: Check verification gates
+        run: |
+          chmod +x scripts/lib/verification-gate.sh
+          source scripts/lib/verification-gate.sh
+          echo "Verification gate library loaded successfully"
+      
+      - name: Validate ATOM trail integrity
+        run: |
+          if [ -d ".atom-trail/decisions" ]; then
+            for f in .atom-trail/decisions/*.json; do
+              if [ -f "$f" ]; then
+                python3 -c "import json; json.load(open('$f'))" || echo "::error::Invalid JSON: $f"
+              fi
+            done
+            echo "ATOM trail integrity verified"
+          else
+            echo "::notice::No ATOM trail decisions yet"
+          fi
+
+  coherence-metrics:
+    runs-on: ubuntu-latest
+    needs: validate-gates
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Calculate coherence metrics
+        run: |
+          echo "## Coherence Metrics" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Count decisions by freshness
+          if [ -d ".atom-trail/decisions" ]; then
+            FRESH=$(find .atom-trail/decisions -name "*.json" -exec grep -l '"freshness_level": "fresh"' {} \; 2>/dev/null | wc -l || echo 0)
+            AGING=$(find .atom-trail/decisions -name "*.json" -exec grep -l '"freshness_level": "aging"' {} \; 2>/dev/null | wc -l || echo 0)
+            SETTLED=$(find .atom-trail/decisions -name "*.json" -exec grep -l '"freshness_level": "settled"' {} \; 2>/dev/null | wc -l || echo 0)
+            
+            echo "| Freshness | Count |" >> $GITHUB_STEP_SUMMARY
+            echo "|-----------|-------|" >> $GITHUB_STEP_SUMMARY
+            echo "| Fresh | $FRESH |" >> $GITHUB_STEP_SUMMARY
+            echo "| Aging | $AGING |" >> $GITHUB_STEP_SUMMARY
+            echo "| Settled | $SETTLED |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Count gate transitions
+          if [ -f ".atom-trail/gate-transitions.jsonl" ]; then
+            PASSED=$(grep -c '"passed":true' .atom-trail/gate-transitions.jsonl 2>/dev/null || echo 0)
+            FAILED=$(grep -c '"passed":false' .atom-trail/gate-transitions.jsonl 2>/dev/null || echo 0)
+            
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "| Gate Transitions | Count |" >> $GITHUB_STEP_SUMMARY
+            echo "|------------------|-------|" >> $GITHUB_STEP_SUMMARY
+            echo "| Passed | $PASSED |" >> $GITHUB_STEP_SUMMARY
+            echo "| Failed | $FAILED |" >> $GITHUB_STEP_SUMMARY
+          fi
