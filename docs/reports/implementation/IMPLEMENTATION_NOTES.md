@@ -6,13 +6,13 @@ This implementation creates a comprehensive cascading issues analysis for the Cl
 
 ### Files Created
 
-1. **`wave.md`** - The Cascading Issues Analysis Protocol
+1. **`../../../wave.md`** - The Cascading Issues Analysis Protocol
    - Primary Excavation Layer (architectural violations, cascading consequences)
    - Pattern Recognition Layer (domain bridging, leverage points)
    - Synthesis Layer (collective intelligence, regenerative design)
    - Implementation guidance and output framework
 
-2. **`claude-code-issues-analysis.md`** - Comprehensive Analysis Document
+2. **`../analysis/claude-code-issues-analysis.md`** - Comprehensive Analysis Document
    - 100 open issues analyzed from anthropics/claude-code repository
    - Applied wave.md protocol methodology
    - Identified systemic patterns and architectural issues
@@ -93,8 +93,8 @@ The analysis followed the wave.md protocol's three-layer approach:
 ## How to Use These Files
 
 ### For Developers
-1. Read `wave.md` to understand the analytical framework
-2. Review `claude-code-issues-analysis.md` for specific issues and patterns
+1. Read `../../../wave.md` to understand the analytical framework
+2. Review `../analysis/claude-code-issues-analysis.md` for specific issues and patterns
 3. Use the leverage points section to prioritize fixes
 4. Reference the cascade diagrams to understand issue relationships
 

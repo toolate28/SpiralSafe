@@ -1,11 +1,11 @@
 # Claude Code Issues Analysis Project
 
-This project applies the **Cascading Issues Analysis Protocol** (wave.md) to analyze open issues from the anthropics/claude-code repository, revealing systemic patterns and architectural insights.
+This project applies the **Cascading Issues Analysis Protocol** (../../../wave.md) to analyze open issues from the anthropics/claude-code repository, revealing systemic patterns and architectural insights.
 
 ## 📁 Files in This Analysis
 
 ### Core Protocol
-- **`wave.md`** - The analysis methodology framework
+- **`../../../wave.md`** - The analysis methodology framework
   - Excavation, recognition, and synthesis layers
   - Questions for uncovering architectural patterns
   - Framework for identifying leverage points
@@ -19,7 +19,7 @@ This project applies the **Cascading Issues Analysis Protocol** (wave.md) to ana
   - Ethical metadata documentation
 
 ### Documentation
-- **`IMPLEMENTATION_NOTES.md`** - How to use these files
+- **`../implementation/IMPLEMENTATION_NOTES.md`** - How to use these files
   - Implementation summary
   - Usage guides for different audiences
   - Ethical considerations
@@ -27,9 +27,9 @@ This project applies the **Cascading Issues Analysis Protocol** (wave.md) to ana
 
 ## 🎯 Quick Start
 
-1. **For Understanding the Methodology:** Start with `wave.md`
+1. **For Understanding the Methodology:** Start with `../../../wave.md`
 2. **For Actionable Insights:** Jump to `claude-code-issues-analysis.md` Executive Summary
-3. **For Implementation Details:** See `IMPLEMENTATION_NOTES.md`
+3. **For Implementation Details:** See `../implementation/IMPLEMENTATION_NOTES.md`
 
 ## 🔍 What Was Discovered
 

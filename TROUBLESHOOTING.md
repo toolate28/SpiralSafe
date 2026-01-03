@@ -431,7 +431,7 @@ markdownlint docs/*.md
    - `CONTRIBUTING.md` - Contribution workflow
    - `SECURITY.md` - Security issues
    - `.github/SECRETS.md` - Secrets management
-   - `IMPLEMENTATION_SUMMARY.md` - System overview
+   - `docs/reports/implementation/IMPLEMENTATION_SUMMARY.md` - System overview
 
 2. **Search issues:**
    ```bash
