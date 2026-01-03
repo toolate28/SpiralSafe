@@ -23,7 +23,28 @@ validate_document() {
         # Validate status value
         if grep -q '^status:' "$doc"; then
             local status
-            status=$(grep '^status:' "$doc" | head -1 | sed 's/status:[[:space:]]*//' | tr -d '"' | tr -d "'")
+            status=$(
+                awk -F':' '
+                    /^status:[[:space:]]*/ {
+                        # Take the part after the first colon as the value
+                        val = $2
+                        # Trim leading whitespace
+                        sub(/^[[:space:]]+/, "", val)
+                        # Trim trailing whitespace
+                        sub(/[[:space:]]+$/, "", val)
+                        print val
+                        exit
+                    }
+                ' "$doc"
+            )
+            # Strip only surrounding quotes, if present, without removing inner quotes
+            if [ "${status#\"}" != "$status" ] && [ "${status%\"}" != "$status" ]; then
+                status="${status#\"}"
+                status="${status%\"}"
+            elif [ "${status#\'}" != "$status" ] && [ "${status%\'}" != "$status" ]; then
+                status="${status#\'}"
+                status="${status%\'}"
+            fi
             local valid=false
             for vs in "${VALID_STATUSES[@]}"; do
                 if [ "$status" = "$vs" ]; then
