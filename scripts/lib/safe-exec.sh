@@ -7,11 +7,11 @@
 # These patterns are checked in is_dangerous_command() function
 # Pattern format: regex patterns for matching dangerous commands
 declare -A DANGEROUS_COMMAND_CHECKS=(
-    ["rm_root"]='rm[[:space:]]+((-[rRfF][^[:space:]]*|--recursive|--force)[[:space:]]+)+/([[:space:]]|$)'
-    ["rm_home"]='rm[[:space:]]+((-[rRfF][^[:space:]]*|--recursive|--force)[[:space:]]+)+~([[:space:]]|$)'
+    ["rm_root"]='rm[[:space:]]+(((-[rRfF][^[:space:]]*|--recursive|--force)[[:space:]]+)+/([[:space:]]|$)|/([[:space:]]+(-[rRfF][^[:space:]]*|--recursive|--force))+([[:space:]]|$))'
+    ["rm_home"]='rm[[:space:]]+(((-[rRfF][^[:space:]]*|--recursive|--force)[[:space:]]+)+~([[:space:]]|$)|~([[:space:]]+(-[rRfF][^[:space:]]*|--recursive|--force))+([[:space:]]|$))'
     ["dd_zero"]='dd[[:space:]]+if=/dev/zero'
     ["mkfs"]='mkfs\.'
-    ["fork_bomb"]='[[:alnum:]_]+\(\)[[:space:]]*\{[[:space:]]*[[:alnum:]_]+[[:space:]]*\|[[:space:]]*[[:alnum:]_]+[[:space:]]*&[[:space:]]*\}[[:space:]]*;[[:space:]]*[[:alnum:]_]+'
+    ["fork_bomb"]='([[:alnum:]_:.]+)[[:space:]]*\(\)[[:space:]]*\{[^}]*\1[[:space:]]*\|[[:space:]]*\1[[:space:]]*&[^}]*\}[[:space:]]*;?'
     ["chmod_root"]='chmod[[:space:]]+-R[[:space:]]+777[[:space:]]+/'
 )
 
@@ -54,8 +54,21 @@ is_path_allowed() {
         elif command -v readlink >/dev/null 2>&1; then
             canonical_path=$(readlink -f "$path" 2>/dev/null) || canonical_path="$path"
         else
-            # Fallback: at least resolve relative paths
-            canonical_path=$(cd "$(dirname "$path")" 2>/dev/null && pwd)/$(basename "$path") || canonical_path="$path"
+            # Fallback: resolve relative paths and handle non-existent targets safely
+            local dir base
+            dir=$(dirname -- "$path")
+            base=$(basename -- "$path")
+            if [ -d "$dir" ]; then
+                # Parent exists: resolve against its absolute path
+                canonical_path="$(cd "$dir" 2>/dev/null && pwd)/$base"
+            else
+                # Parent does not exist: anchor relative paths to CWD, keep absolute as-is
+                if [[ "$path" == /* ]]; then
+                    canonical_path="$path"
+                else
+                    canonical_path="$(pwd)/$path"
+                fi
+            fi
         fi
         
         # Check against allow-list with canonicalized path
@@ -73,8 +86,9 @@ is_path_allowed() {
                 canonical_safe_tmp=$(realpath -m "$canonical_safe" 2>/dev/null) && canonical_safe="$canonical_safe_tmp"
             fi
             
-            # Check if canonical path is under canonical safe directory
-            if [[ "$canonical_path" == "$canonical_safe"* ]] || [[ "$canonical_path" == "$canonical_safe" ]]; then
+            # Normalize safe directory (strip trailing slash) to avoid false matches like /tmp_backup for /tmp
+            local safe_root="${canonical_safe%/}"
+            if [[ "$canonical_path" == "$safe_root" ]] || [[ "$canonical_path" == "$safe_root/"* ]]; then
                 return 0
             fi
         done
@@ -86,6 +100,8 @@ is_path_allowed() {
 }
 
 # Safe execution wrapper with permission validation
+# NOTE: This wrapper does not support quoted paths with spaces (e.g., '/path/my file')
+# Use paths without spaces or handle quoting at the caller level
 safe_exec() {
     local cmd="$*"
     
@@ -97,6 +113,10 @@ safe_exec() {
     
     # Step 2: Extract paths and validate for destructive operations
     # Validate ALL non-flag paths, not just the last one
+    # WARNING: Quoted arguments with spaces are not properly handled by read -ra
+    # Callers should avoid passing paths with spaces to safe_exec
+    # NOTE: Currently only 'rm' commands have path validation implemented.
+    # Other destructive operations (chmod, chown, truncate, etc.) rely on pattern matching only.
     if [[ "$cmd" =~ rm[[:space:]] ]]; then
         # Parse arguments and validate all non-flag paths
         local -a args

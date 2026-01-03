@@ -31,7 +31,7 @@ issues in collaborative AI-human systems.
 
 ### 1. UTF-8 Safe String Operations ✅
 - **File:** `scripts/lib/utf8-safe.sh`
-- **Lines:** 43 total (15 core logic)
+- **Lines:** 63 total (core functions + validation + fallbacks)
 - **Functions:**
   - `utf8_length()` - Character count with multi-byte support
   - `utf8_substring()` - Safe substring extraction
@@ -42,7 +42,7 @@ issues in collaborative AI-human systems.
 
 ### 2. Plugin Initialization Ordering ✅
 - **File:** `scripts/lib/plugin-init.sh`
-- **Lines:** 58 total (45 core logic)
+- **Lines:** 73 total (dependency enforcement + state tracking)
 - **Features:**
   - Strict dependency order enforcement
   - Duplicate initialization prevention
@@ -53,7 +53,7 @@ issues in collaborative AI-human systems.
 
 ### 3. Permission Execution-Layer Validation ✅
 - **File:** `scripts/lib/safe-exec.sh`
-- **Lines:** 112 total (80 core logic)
+- **Lines:** 179 total (validation + path checks + audit logging)
 - **Layers:**
   - Pattern matching for dangerous commands
   - Path allow-listing for destructive operations
@@ -135,17 +135,17 @@ All tests passed!
 
 ## Files Added
 
-1. **scripts/lib/utf8-safe.sh** (43 lines)
+1. **scripts/lib/utf8-safe.sh** (63 lines)
    - UTF-8 safe string operations
    - Multi-byte character handling
    - Encoding validation
 
-2. **scripts/lib/plugin-init.sh** (58 lines)
+2. **scripts/lib/plugin-init.sh** (73 lines)
    - Plugin initialization sequencer
    - Dependency order enforcement
    - State tracking
 
-3. **scripts/lib/safe-exec.sh** (112 lines)
+3. **scripts/lib/safe-exec.sh** (179 lines)
    - Permission validation wrapper
    - Dangerous pattern detection
    - Audit logging
