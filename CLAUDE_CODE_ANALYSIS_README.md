@@ -115,7 +115,8 @@ This analysis demonstrates the application of systematic, architectural thinking
 ---
 
 **Created:** 2026-01-03  
-**Authors:** Analysis generated using Claude Code with wave.md protocol  
+**Authors:** Analysis generated with AI assistance using wave.md protocol  
 **License:** Same as parent SpiralSafe repository  
-**Purpose:** Demonstrate cascading analysis methodology on real-world open source project
+**Purpose:** Demonstrate cascading analysis methodology on real-world open source project  
+**Note:** This is an analytical study, not affiliated with the anthropics/claude-code project
 

@@ -35,7 +35,7 @@ This implementation creates a comprehensive cascading issues analysis for the Cl
 
 ### Leverage Points for Maximum Impact
 
-1. **UTF-8 Safe String Operations** - Fixes entire class of fatal crashes (~10-15 LOC)
+1. **UTF-8 Safe String Operations** - Fixes entire class of fatal crashes (~10-15 Lines of Code)
 2. **Plugin Initialization Pipeline** - Makes plugin ecosystem reliable
 3. **Permission Model Redesign** - Actual security guarantees at execution layer
 
