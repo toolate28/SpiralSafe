@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Universal verification gate protocol for SpiralSafe coherence engine
-# Every phase transition passes through explicit, auditable gates
+# Universal verification gate protocol for the SpiralSafe coherence engine.
+# Provides the core `verify_gate` primitive and named gate helpers, ensuring
+# every coherence phase transition passes through explicit, auditable checks.
 set -euo pipefail
 
 GATE_LOG=".atom-trail/gate-transitions.jsonl"
