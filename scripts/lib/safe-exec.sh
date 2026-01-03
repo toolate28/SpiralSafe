@@ -9,6 +9,8 @@
 declare -A DANGEROUS_COMMAND_CHECKS=(
     ["rm_root"]='rm[[:space:]]+(((-[rRfF][^[:space:]]*|--recursive|--force)[[:space:]]+)+/([[:space:]]|$)|/([[:space:]]+(-[rRfF][^[:space:]]*|--recursive|--force))+([[:space:]]|$))'
     ["rm_home"]='rm[[:space:]]+(((-[rRfF][^[:space:]]*|--recursive|--force)[[:space:]]+)+~([[:space:]]|$)|~([[:space:]]+(-[rRfF][^[:space:]]*|--recursive|--force))+([[:space:]]|$))'
+    ["rm_root_any"]='rm[^;|&]*[[:space:]]+/([[:space:]]|$)'
+    ["rm_home_any"]='rm[^;|&]*[[:space:]]+~([[:space:]]|$)'
     ["dd_zero"]='dd[[:space:]]+if=/dev/zero'
     ["mkfs"]='mkfs\.'
     ["fork_bomb"]='([[:alnum:]_:.]+)[[:space:]]*\(\)[[:space:]]*\{[^}]{0,512}\1[[:space:]]*\|[[:space:]]*\1[[:space:]]*&[^}]{0,512}\}[[:space:]]*;?'
