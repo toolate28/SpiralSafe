@@ -70,9 +70,9 @@ jobs:
           
           # Count decisions by freshness
           if [ -d ".atom-trail/decisions" ]; then
-            FRESH=$(find .atom-trail/decisions -name "*.json" -exec grep -l '"freshness_level": "fresh"' {} \; 2>/dev/null | wc -l || echo 0)
-            AGING=$(find .atom-trail/decisions -name "*.json" -exec grep -l '"freshness_level": "aging"' {} \; 2>/dev/null | wc -l || echo 0)
-            SETTLED=$(find .atom-trail/decisions -name "*.json" -exec grep -l '"freshness_level": "settled"' {} \; 2>/dev/null | wc -l || echo 0)
+            FRESH=$(find .atom-trail/decisions -name "*.json" -exec grep -l '"freshness_level": "fresh"' {} + 2>/dev/null | wc -l)
+            AGING=$(find .atom-trail/decisions -name "*.json" -exec grep -l '"freshness_level": "aging"' {} + 2>/dev/null | wc -l)
+            SETTLED=$(find .atom-trail/decisions -name "*.json" -exec grep -l '"freshness_level": "settled"' {} + 2>/dev/null | wc -l)
             
             echo "| Freshness | Count |" >> $GITHUB_STEP_SUMMARY
             echo "|-----------|-------|" >> $GITHUB_STEP_SUMMARY
