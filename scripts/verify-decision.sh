@@ -70,13 +70,14 @@ echo ""
 echo "Marking decision as verified..."
 
 # Add verified field to JSON
+CURRENT_TIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 if command -v jq >/dev/null 2>&1; then
     # Use jq if available
-    jq '. + {verified: true, verified_at: "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'", verified_by: "manual"}' "$DECISION_FILE" > "$DECISION_FILE.tmp"
+    jq '. + {verified: true, verified_at: "'"$CURRENT_TIME"'", verified_by: "manual"}' "$DECISION_FILE" > "$DECISION_FILE.tmp"
     mv "$DECISION_FILE.tmp" "$DECISION_FILE"
 else
     # Fallback to sed
-    sed -i 's/}$/,"verified":true,"verified_at":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","verified_by":"manual"}/' "$DECISION_FILE"
+    sed -i 's/}$/,"verified":true,"verified_at":"'"$CURRENT_TIME"'","verified_by":"manual"}/' "$DECISION_FILE"
 fi
 
 echo "✓ Decision verified successfully"

@@ -1,0 +1,10 @@
+{
+  "atom_tag": "ATOM-VIOLATION-20260103-001-boundary-violated-test-gate",
+  "type": "VIOLATION",
+  "description": "Boundary violated: test-gate",
+  "timestamp": "2026-01-03T20:43:27Z",
+  "file": "none",
+  "freshness_level": "fresh",
+  "bedrock_eligible": false,
+  "created_epoch": 1767473007
+}
