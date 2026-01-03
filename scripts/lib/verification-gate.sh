@@ -29,9 +29,15 @@ verify_gate() {
         fi
     done
     
-    # Log transition
+    # Log transition - build JSON safely
     mkdir -p "$(dirname "$GATE_LOG")"
-    echo "{\"gate\":\"$gate_name\",\"from\":\"$phase_from\",\"to\":\"$phase_to\",\"timestamp\":\"$timestamp\",\"passed\":$all_passed,\"failed\":$(printf '%s\n' "${failed_requirements[@]:-[]}" | jq -R -s -c 'split("\n") | map(select(length > 0))')}" >> "$GATE_LOG"
+    local failed_json
+    if [ ${#failed_requirements[@]} -eq 0 ]; then
+        failed_json="[]"
+    else
+        failed_json=$(printf '%s\n' "${failed_requirements[@]}" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+    fi
+    echo "{\"gate\":\"$gate_name\",\"from\":\"$phase_from\",\"to\":\"$phase_to\",\"timestamp\":\"$timestamp\",\"passed\":$all_passed,\"failed\":$failed_json}" >> "$GATE_LOG"
     
     if [ "$all_passed" = true ]; then
         echo "[GATE] ✓ $gate_name PASSED"
@@ -58,18 +64,21 @@ escalate_gate_failure() {
         echo "    - $f"
     done
     
-    # Log escalation
+    # Log escalation - build JSON safely
     local timestamp
     timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
     mkdir -p .claude/logs
-    echo "{\"type\":\"escalation\",\"gate\":\"$gate_name\",\"timestamp\":\"$timestamp\",\"failed\":$(printf '%s\n' "${failed[@]}" | jq -R -s -c 'split("\n") | map(select(length > 0))')}" >> ".claude/logs/escalations.jsonl"
+    local failed_json
+    failed_json=$(printf '%s\n' "${failed[@]}" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+    echo "{\"type\":\"escalation\",\"gate\":\"$gate_name\",\"timestamp\":\"$timestamp\",\"failed\":$failed_json}" >> ".claude/logs/escalations.jsonl"
 }
 
 # Pre-defined gates for SpiralSafe coherence cycle
 gate_understanding_to_knowledge() {
+    # Note: Second requirement is lenient - it checks if leverage_point exists IF excavation-complete.json exists
     verify_gate "understanding-to-knowledge" "wave.md" "KENL" \
         "[ -f 'docs/cascade-diagram.md' ] || [ -f '.atom-trail/excavation-complete.json' ]" \
-        "grep -q 'leverage_point' .atom-trail/excavation-complete.json 2>/dev/null || true"
+        "[ ! -f '.atom-trail/excavation-complete.json' ] || grep -q 'leverage_point' .atom-trail/excavation-complete.json"
 }
 
 gate_knowledge_to_intention() {
@@ -84,9 +93,10 @@ gate_intention_to_execution() {
 }
 
 gate_execution_to_learning() {
+    # Note: Second requirement is lenient - checks if at least one decision file exists IF directory exists
     verify_gate "execution-to-learning" "ATOM" "SAIF" \
         "[ -d '.atom-trail/decisions' ]" \
-        "find .atom-trail/decisions -name '*.json' | head -1 | xargs test -f 2>/dev/null || true"
+        "[ ! -d '.atom-trail/decisions' ] || [ -n \"\$(find .atom-trail/decisions -name '*.json' -print -quit)\" ]"
 }
 
 gate_learning_to_regeneration() {

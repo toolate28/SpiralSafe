@@ -14,8 +14,8 @@ main() {
     
     echo "[HOOK] on-knowledge-relay: $kenl_artifact"
     
-    # Record in ATOM trail
-    ./scripts/atom-track.sh KENL "Knowledge relay: $kenl_artifact" "$kenl_artifact"
+    # Record in ATOM trail (use absolute path)
+    "$(dirname "$0")/../atom-track.sh" KENL "Knowledge relay: $kenl_artifact" "$kenl_artifact"
     
     # Verify knowledge → intention gate
     gate_knowledge_to_intention

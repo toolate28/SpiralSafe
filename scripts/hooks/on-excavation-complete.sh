@@ -9,8 +9,8 @@ main() {
     
     echo "[HOOK] on-excavation-complete triggered"
     
-    # Record in ATOM trail
-    ./scripts/atom-track.sh EXCAVATION "Wave.md excavation complete" "$excavation_file"
+    # Record in ATOM trail (use absolute path)
+    "$(dirname "$0")/../atom-track.sh" EXCAVATION "Wave.md excavation complete" "$excavation_file"
     
     # Verify gate to knowledge phase
     gate_understanding_to_knowledge
