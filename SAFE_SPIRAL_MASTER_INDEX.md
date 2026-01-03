@@ -492,7 +492,7 @@ That's how information enriches through relay.
 - ORCHARD_SCATTER.md (pattern model)
 
 **Verification** (2 documents)
-- SYSTEM_VERIFICATION_REPORT.md
+- docs/reports/verification/SYSTEM_VERIFICATION_REPORT.md
 - PUBLICATION_MANIFEST_v1.0.md
 
 **Meta** (2 documents)

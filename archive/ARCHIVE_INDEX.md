@@ -26,9 +26,9 @@ Per README.md, these documents are actively maintained:
 - `THE_AINULINDALE_OF_HOPE_AND_SAUCE.md` - Creation story
 - `SAFE_SPIRAL_MASTER_INDEX.md` - Complete navigation
 - `KENL_ECOSYSTEM_TITLE_PAGE.md` - Title page
-- `SYSTEM_VERIFICATION_REPORT.md` - Production testing
+- `docs/reports/verification/SYSTEM_VERIFICATION_REPORT.md` - Production testing
 - `PUBLICATION_MANIFEST_v1.0.md` - Complete catalog
-- `PART_3_OBJECTIVE_ANALYSIS_SPIRAL.md` - Analysis
+- `docs/reports/analysis/PART_3_OBJECTIVE_ANALYSIS_SPIRAL.md` - Analysis
 
 ## Archived Documents
 
@@ -41,7 +41,7 @@ Per README.md, these documents are actively maintained:
 | `01_THE_BRIDGE.md` | 2026-01-02 | Historical context | Bridge document, valuable context |
 | `02_SAFE_SPIRAL_CONSOLIDATED.md` | 2026-01-02 | Consolidated elsewhere | Merged into master docs |
 | `KENL_ECOSYSTEM_MASTER_INDEX.md` | 2026-01-02 | Alternative index | Similar to SAFE_SPIRAL_MASTER_INDEX.md |
-| `PART_3_OBJECTIVE_ANALYSIS.md` | 2026-01-02 | Has spiral-specific version | Use PART_3_OBJECTIVE_ANALYSIS_SPIRAL.md |
+| `PART_3_OBJECTIVE_ANALYSIS.md` | 2026-01-02 | Has spiral-specific version | Use docs/reports/analysis/PART_3_OBJECTIVE_ANALYSIS_SPIRAL.md |
 | `PACKAGE_INVENTORY_COMPLETE.md` | 2026-01-02 | Superseded by PUBLICATION_MANIFEST | Package inventory |
 | `ACKNOWLEDGEMENTS.md` | 2026-01-02 | Can be integrated elsewhere | Credits and acknowledgements |
 
