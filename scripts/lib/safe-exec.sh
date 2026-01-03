@@ -42,6 +42,52 @@ is_dangerous_command() {
     return 1
 }
 
+# Normalize path by resolving . and .. components
+# This is a fallback when realpath/readlink are not available
+normalize_path() {
+    local path="$1"
+    local normalized=""
+    local IFS='/'
+    local -a parts
+    
+    # Split path into components
+    read -ra parts <<< "$path"
+    
+    local -a result=()
+    for part in "${parts[@]}"; do
+        if [[ "$part" == ".." ]]; then
+            # Remove last component if it exists (go up one directory)
+            if [ ${#result[@]} -gt 0 ]; then
+                unset 'result[${#result[@]}-1]'
+            fi
+        elif [[ "$part" != "." && -n "$part" ]]; then
+            # Add non-empty, non-current-dir components
+            result+=("$part")
+        fi
+    done
+    
+    # Reconstruct path
+    if [[ "$path" == /* ]]; then
+        # Absolute path: start with /
+        normalized="/"
+    fi
+    
+    for ((i=0; i<${#result[@]}; i++)); do
+        if [ $i -eq 0 ] && [[ "$path" == /* ]]; then
+            normalized+="${result[$i]}"
+        else
+            normalized+="/${result[$i]}"
+        fi
+    done
+    
+    # Handle edge case of root
+    if [[ -z "$normalized" ]]; then
+        normalized="/"
+    fi
+    
+    echo "$normalized"
+}
+
 # Check if path is in allow-list for destructive operations
 is_path_allowed() {
     local path="$1"
@@ -70,6 +116,8 @@ is_path_allowed() {
                 else
                     canonical_path="$(pwd)/$path"
                 fi
+                # Normalize .. and . components to prevent bypass
+                canonical_path=$(normalize_path "$canonical_path")
             fi
         fi
         
