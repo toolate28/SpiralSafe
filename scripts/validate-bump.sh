@@ -41,17 +41,17 @@ PLACEHOLDERS=(
     "<explicit question"
 )
 
-errors=()
+ERRORS=()
 
 for placeholder in "${PLACEHOLDERS[@]}"; do
     if grep -q "$placeholder" "$BUMP_FILE"; then
-        errors+=("Contains unfilled placeholder: $placeholder")
+        ERRORS+=("Contains unfilled placeholder: $placeholder")
     fi
 done
 
-if [ ${#errors[@]} -gt 0 ]; then
+if [ ${#ERRORS[@]} -gt 0 ]; then
     echo "✗ bump.md contains template placeholders:"
-    for err in "${errors[@]}"; do
+    for err in "${ERRORS[@]}"; do
         echo "    - $err"
     done
     echo ""
