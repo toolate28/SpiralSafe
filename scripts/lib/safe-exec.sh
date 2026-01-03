@@ -11,7 +11,7 @@ declare -A DANGEROUS_COMMAND_CHECKS=(
     ["rm_home"]='rm[[:space:]]+.*[[:space:]]*~([[:space:]]|$)|rm[[:space:]]+~([[:space:]]|$)'
     ["dd_zero"]='dd[[:space:]]+if=/dev/zero'
     ["mkfs"]='mkfs\.'
-    ["fork_bomb"]='[[:alnum:]_:.]+[[:space:]]*\(\)[[:space:]]*\{[^}]*(\||&)[^}]*\}|:[[:space:]]*\(\)[[:space:]]*\{[^}]*:[[:space:]]*\|[[:space:]]*:[[:space:]]*&[[:space:]]*[^}]*\}'
+    ["fork_bomb"]='([[:alnum:]_:.]+)[[:space:]]*\(\)[[:space:]]*\{[^}]*\1[[:space:]]*\|[[:space:]]*\1[[:space:]]*&[^}]*\}[[:space:]]*;?'
     ["chmod_root"]='chmod[[:space:]]+-R[[:space:]]+777[[:space:]]+/'
 )
 
