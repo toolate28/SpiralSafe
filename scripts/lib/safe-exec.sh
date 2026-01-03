@@ -87,7 +87,9 @@ is_path_allowed() {
             fi
             
             # Check if canonical path is under canonical safe directory
-            if [[ "$canonical_path" == "$canonical_safe"* ]] || [[ "$canonical_path" == "$canonical_safe" ]]; then
+            # Normalize safe directory (strip trailing slash) to avoid false matches like /tmp_backup for /tmp
+            local safe_root="${canonical_safe%/}"
+            if [[ "$canonical_path" == "$safe_root" ]] || [[ "$canonical_path" == "$safe_root/"* ]]; then
                 return 0
             fi
         done
