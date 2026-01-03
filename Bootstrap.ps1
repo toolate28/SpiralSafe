@@ -390,7 +390,7 @@ Write-Host ""
 if (-not $Quick) {
     Write-Host "[*] Optional:" -ForegroundColor Cyan
     Write-Host ""
-    Write-Host "  - Review SYSTEM_VERIFICATION_REPORT.md for deployment status" -ForegroundColor Gray
+    Write-Host "  - Review docs/reports/verification/SYSTEM_VERIFICATION_REPORT.md for deployment status" -ForegroundColor Gray
     Write-Host "  - Deploy SpiralSafe website: cd SpiralSafe && wrangler pages deploy ." -ForegroundColor Gray
     Write-Host "  - Explore ClaudeNPC: cd claudenpc-server-suite" -ForegroundColor Gray
     Write-Host ""

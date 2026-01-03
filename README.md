@@ -219,6 +219,145 @@ Frameworks not invented, but **discovered**:
 
 ---
 
+## 🔐 The Coherence Engine (NEW)
+
+**Universal verification gates for trustworthy AI-human collaboration**
+
+The Coherence Engine is SpiralSafe's breakthrough in making AI collaboration self-verifying, observable, and measurably coherent. Instead of hoping systems stay aligned, we enforce coherence at every phase transition.
+
+### The Problem It Solves
+
+```mermaid
+graph LR
+    subgraph "Before: Hope-Based Coherence"
+        A[Understanding] -.-> B[Knowledge]
+        B -.-> C[Intention]
+        C -.-> D[Execution]
+        D -.-> E[Learning]
+        
+        style A fill:#ff6b6b
+        style B fill:#ff6b6b
+        style C fill:#ff6b6b
+        style D fill:#ff6b6b
+        style E fill:#ff6b6b
+    end
+    
+    subgraph "After: Gate-Enforced Coherence"
+        F[Understanding] -->|Gate ✓| G[Knowledge]
+        G -->|Gate ✓| H[Intention]
+        H -->|Gate ✓| I[Execution]
+        I -->|Gate ✓| J[Learning]
+        
+        style F fill:#51cf66
+        style G fill:#51cf66
+        style H fill:#51cf66
+        style I fill:#51cf66
+        style J fill:#51cf66
+    end
+```
+
+**Dotted lines** (before): Transitions happen on faith  
+**Solid arrows** (after): Transitions verified with gates
+
+### The Five Coherence Gates
+
+```
+    ◉ Understanding → Knowledge
+    │ Wave.md excavation verified
+    │
+    ◉ Knowledge → Intention  
+    │ KENL patterns validated
+    │
+    ◉ Intention → Execution
+    │ bump.md enforced (no placeholders!)
+    │
+    ◉ Execution → Learning
+    │ ATOM decisions recorded
+    │
+    ◉ Learning → Regeneration
+    │ SAIF analysis extracted
+```
+
+### Quick Start with Coherence Gates
+
+```bash
+# Load the gate library
+source scripts/lib/verification-gate.sh
+
+# Test if you're ready to execute (bump.md filled?)
+gate_intention_to_execution
+# [GATE] intention-to-execution: AWI → ATOM
+#   ✓ [ -f 'bump.md' ]
+#   ✗ ! grep -q 'YYYYMMDD' bump.md
+# [GATE] ✗ FAILED (fix bump.md first!)
+
+# Verify ATOM decision before it becomes bedrock
+./scripts/verify-decision.sh ATOM-INIT-20260102-001
+# ✓ Decision verified successfully
+
+# Check document state markers
+./scripts/validate-document-state.sh
+# ✓ docs/VERIFICATION_GATES.md
+# ✗ README.md (Missing YAML frontmatter)
+```
+
+### What Makes It Different
+
+| Traditional Approach | Coherence Engine |
+|---------------------|------------------|
+| Hope systems stay aligned | **Enforce alignment** at every transition |
+| Debug by guessing | **Observable logging** of all gates |
+| Implicit assumptions | **Explicit verification** requirements |
+| Age = trust | **Verification = trust** (bedrock requires proof) |
+| Doc state unclear | **State markers** (active vs aspirational) |
+
+### The Anti-Wave Patterns We Solved
+
+Through self-excavation with wave.md, we discovered five coherence violations:
+
+1. **Bedrock Illusion** - Decisions became "trusted" based on age alone
+   - **Fixed:** `scripts/verify-decision.sh` requires explicit verification
+   
+2. **Context Orphaning** - bump.md was a template, not enforced
+   - **Fixed:** `scripts/validate-bump.sh` detects 8 types of placeholders
+   
+3. **Scatter Without Verification** - KENL relay unmeasured
+   - **Fixed:** Lifecycle hooks measure all knowledge transitions
+   
+4. **CI/Workflow Islands** - Automation disconnected from ATOM trail
+   - **Fixed:** `.github/workflows/coherence-gates.yml` validates everything
+   
+5. **Documentation Archaeology** - Couldn't tell active from aspirational
+   - **Fixed:** `scripts/validate-document-state.sh` enforces state markers
+
+### Observability: See What's Happening
+
+Every gate transition is logged:
+
+```bash
+# View gate transition history
+cat .atom-trail/gate-transitions.jsonl
+
+# {"gate":"intention-to-execution","from":"AWI","to":"ATOM",
+#  "timestamp":"2026-01-03T20:00:00Z","passed":false,
+#  "failed":["! grep -q 'YYYYMMDD' bump.md"]}
+
+# Check coherence metrics in CI
+# Automatically reported in every PR!
+```
+
+### Learn More
+
+- **Architecture:** [docs/VERIFICATION_GATES.md](docs/VERIFICATION_GATES.md)
+- **Lifecycle Hooks:** [docs/ATOM_LIFECYCLE_HOOKS.md](docs/ATOM_LIFECYCLE_HOOKS.md)
+- **Document States:** [docs/DOCUMENT_STATE_MARKERS.md](docs/DOCUMENT_STATE_MARKERS.md)
+- **Wave Event Case Study:** [docs/WAVE_CASE_STUDY_COHERENCE.md](docs/WAVE_CASE_STUDY_COHERENCE.md)
+
+**Status:** Production-ready, tested, observable  
+**ATOM:** ATOM-COHERENCE-20260103-001-unified-deployment
+
+---
+
 ## 📂 The Repository
 
 ### 🎯 Start Here
@@ -248,9 +387,22 @@ env-config/
 └── *.json (terminal profiles)
 ```
 
-### 📊 Verification
+### 📊 Reports
 
-- `SYSTEM_VERIFICATION_REPORT.md` - Production testing (555 lines)
+```
+docs/reports/
+├── verification/
+│   └── SYSTEM_VERIFICATION_REPORT.md (Production testing - 555 lines)
+├── analysis/
+│   ├── PART_3_OBJECTIVE_ANALYSIS_SPIRAL.md (Objective analysis)
+│   ├── claude-code-issues-analysis.md (Cascading issues analysis)
+│   └── CLAUDE_CODE_ANALYSIS_README.md (Analysis documentation)
+└── implementation/
+    ├── IMPLEMENTATION_SUMMARY.md (Summary of implementation)
+    ├── IMPLEMENTATION_NOTES.md (Implementation notes)
+    └── IMPLEMENTATION_COMPLETE.md (Completion record)
+```
+
 - `PUBLICATION_MANIFEST_v1.0.md` - Complete catalog
 - `.atom-trail` - Decision history
 
@@ -322,7 +474,7 @@ graph LR
 
 1. Read: `SAFE_SPIRAL_MASTER_INDEX.md`
 2. Review: Pattern convergence proof
-3. Study: `PART_3_OBJECTIVE_ANALYSIS_SPIRAL.md`
+3. Study: `docs/reports/analysis/PART_3_OBJECTIVE_ANALYSIS_SPIRAL.md`
 
 **Key Question:** *Do you see these patterns in your systems?*
 
@@ -333,7 +485,7 @@ graph LR
 
 1. Run: `.\Bootstrap.ps1`
 2. Study: `frameworks/SPIRALSAFE_FRAMEWORK.md`
-3. Review: `SYSTEM_VERIFICATION_REPORT.md`
+3. Review: `docs/reports/verification/SYSTEM_VERIFICATION_REPORT.md`
 4. Test: Verification certificate template
 
 **Key Question:** *Can you run the "tomorrow test"?*

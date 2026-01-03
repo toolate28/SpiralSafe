@@ -1,0 +1,12 @@
+{"gate":"execution-to-learning","from":"ATOM","to":"SAIF","timestamp":"2026-01-03T20:42:24Z","passed":true,"failed":["[]"]}
+{"gate":"intention-to-execution","from":"AWI","to":"ATOM","timestamp":"2026-01-03T20:42:32Z","passed":false,"failed":["! grep -q 'YYYYMMDD' bump.md"]}
+{"gate":"execution-to-learning","from":"ATOM","to":"SAIF","timestamp":"2026-01-03T20:43:20Z","passed":true,"failed":["[]"]}
+{"gate":"learning-to-regeneration","from":"SAIF","to":"Safe Spiral","timestamp":"2026-01-03T20:43:42Z","passed":false,"failed":["[ -f 'docs/COHERENCE_REPORT.md' ] || [ -f '.atom-trail/learning-extracted.json' ]"]}
+{"gate":"execution-to-learning","from":"ATOM","to":"SAIF","timestamp":"2026-01-03T20:46:16Z","passed":true,"failed":["[]"]}
+{"gate":"intention-to-execution","from":"AWI","to":"ATOM","timestamp":"2026-01-03T20:46:16Z","passed":false,"failed":["! grep -q 'YYYYMMDD' bump.md"]}
+{"gate":"execution-to-learning","from":"ATOM","to":"SAIF","timestamp":"2026-01-03T20:46:16Z","passed":true,"failed":["[]"]}
+{"gate":"execution-to-learning","from":"ATOM","to":"SAIF","timestamp":"2026-01-03T20:49:19Z","passed":true,"failed":[]}
+{"gate":"knowledge-to-intention","from":"KENL","to":"AWI","timestamp":"2026-01-03T20:49:26Z","passed":false,"failed":["[ -d '.atom-trail/patterns' ] || [ -f 'docs/KENL_PATTERNS.md' ]"]}
+{"gate":"execution-to-learning","from":"ATOM","to":"SAIF","timestamp":"2026-01-03T20:49:34Z","passed":true,"failed":[]}
+{"gate":"intention-to-execution","from":"AWI","to":"ATOM","timestamp":"2026-01-03T20:49:34Z","passed":false,"failed":["! grep -q 'YYYYMMDD' bump.md"]}
+{"gate":"execution-to-learning","from":"ATOM","to":"SAIF","timestamp":"2026-01-03T20:49:34Z","passed":true,"failed":[]}
