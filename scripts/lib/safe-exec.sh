@@ -3,21 +3,16 @@
 # Prevents allow-list bypasses by validating at execution layer
 # ATOM: ATOM-LIB-20260103-003-safe-exec-wrapper
 
-# Dangerous command patterns that should be blocked  
-# Note: Patterns are defined for documentation, actual checks use regex in is_dangerous_command()
-# shellcheck disable=SC2034
-readonly DANGEROUS_PATTERNS=(
-    "rm -rf / "
-    "rm -rf /"$
-    " rm -rf ~"
-    "rm -rf ~ "
-    "rm -rf ~"$
-    "rm[[:space:]]+-rf[[:space:]]+/[[:space:]]"
-    "dd if=/dev/zero"
-    "mkfs\."
-    ":(){ :|:& };:"  # fork bomb
-    "chmod -R 777 /"
-    "chown -R"
+# Dangerous command patterns that should be blocked
+# These patterns are checked in is_dangerous_command() function
+# Pattern format: regex patterns for matching dangerous commands
+declare -A DANGEROUS_COMMAND_CHECKS=(
+    ["rm_root"]='rm[[:space:]]+-+[rf]+[[:space:]]+/[[:space:]]|rm[[:space:]]+-+[rf]+[[:space:]]+/$'
+    ["rm_home"]='rm[[:space:]]+-+[rf]+[[:space:]]+~[[:space:]]|rm[[:space:]]+-+[rf]+[[:space:]]+~$'
+    ["dd_zero"]='dd[[:space:]]+if=/dev/zero'
+    ["mkfs"]='mkfs\.'
+    ["fork_bomb"]=':\(\)\{[[:space:]]*:|:\|:[[:space:]]*&[[:space:]]*\};:'
+    ["chmod_root"]='chmod[[:space:]]+-R[[:space:]]+777[[:space:]]+/'
 )
 
 # Allow-list of safe directories for destructive operations
@@ -33,18 +28,14 @@ SAFE_DIRECTORIES=(
 is_dangerous_command() {
     local cmd="$1"
     
-    # Check for exact dangerous patterns
-    if [[ "$cmd" =~ rm[[:space:]]+-rf[[:space:]]+/[[:space:]] ]] || \
-       [[ "$cmd" =~ rm[[:space:]]+-rf[[:space:]]+/$ ]] || \
-       [[ "$cmd" =~ rm[[:space:]]+-rf[[:space:]]+~[[:space:]] ]] || \
-       [[ "$cmd" =~ rm[[:space:]]+-rf[[:space:]]+~$ ]] || \
-       [[ "$cmd" == *"dd if=/dev/zero"* ]] || \
-       [[ "$cmd" == *"mkfs."* ]] || \
-       [[ "$cmd" == *":(){ :|:& };:"* ]] || \
-       [[ "$cmd" == *"chmod -R 777 /"* ]]; then
-        echo "[SECURITY] Dangerous pattern detected in: $cmd"
-        return 0
-    fi
+    # Check against all defined dangerous command patterns
+    for pattern_name in "${!DANGEROUS_COMMAND_CHECKS[@]}"; do
+        local pattern="${DANGEROUS_COMMAND_CHECKS[$pattern_name]}"
+        if [[ "$cmd" =~ $pattern ]]; then
+            echo "[SECURITY] Dangerous pattern detected ($pattern_name): $cmd"
+            return 0
+        fi
+    done
     
     return 1
 }
@@ -91,11 +82,16 @@ safe_exec() {
     fi
     
     # Step 2: Extract paths and validate for destructive operations
-    if [[ "$cmd" == *"rm "* ]] || [[ "$cmd" == *"dd "* ]]; then
-        # Extract target path (simplified - real implementation would be more robust)
-        local target_path
-        if [[ "$cmd" =~ rm[[:space:]]+(-[a-zA-Z]+[[:space:]]+)*(.+) ]]; then
-            target_path="${BASH_REMATCH[2]}"
+    # More robust parsing that handles various rm flag combinations
+    if [[ "$cmd" =~ rm[[:space:]] ]]; then
+        # Extract the last argument which is typically the target path
+        # This handles: rm -rf path, rm --recursive --force path, rm -r -f path
+        local -a args
+        read -ra args <<< "$cmd"
+        local target_path="${args[-1]}"
+        
+        # Skip if target looks like a flag
+        if [[ ! "$target_path" =~ ^- ]]; then
             if ! is_path_allowed "$target_path" "destructive"; then
                 echo "[SECURITY] Command blocked by path validation"
                 return 1

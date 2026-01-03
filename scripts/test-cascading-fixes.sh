@@ -123,7 +123,8 @@ plugin_init "mcp_server" "init_mcp_server" 2>&1
 EOF
 # Capture output to file to avoid pipefail issues
 bash "$TEMP_SCRIPT" "${SCRIPT_DIR}" > /tmp/test-output-$$.txt 2>&1
-if grep -q "requires" /tmp/test-output-$$.txt; then
+# Check for specific error message pattern indicating dependency enforcement
+if grep -q "\[ERROR\].*requires.*to be initialized first" /tmp/test-output-$$.txt; then
     # Expected to fail with dependency error
     test_result 0 "Dependency validation enforced"
 else

@@ -39,16 +39,22 @@ systematic analysis of cascading issues in collaborative AI-human systems:
 ```bash
 # Use wc -m for character count, not byte count
 utf8_length() {
+    local str="$1"
     echo -n "$str" | wc -m | tr -d ' '
 }
 
-# Use Python for proper UTF-8 substring extraction
+# Use Python for proper UTF-8 substring extraction  
 utf8_substring() {
-    python3 -c "import sys; s=sys.argv[1]; print(s[start:end])" "$str"
+    local str="$1"
+    local start="$2"
+    local length="${3:-}"
+    # Python handles UTF-8 correctly with string slicing
+    python3 -c "s='$str'; print(s[$((start-1)):$((start-1+length))])"
 }
 
 # Validate encoding before operations
 utf8_validate() {
+    local str="$1"
     echo -n "$str" | iconv -f UTF-8 -t UTF-8 >/dev/null 2>&1
 }
 ```
