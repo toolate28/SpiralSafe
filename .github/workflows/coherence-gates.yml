@@ -49,7 +49,7 @@ jobs:
           if [ -d ".atom-trail/decisions" ]; then
             for f in .atom-trail/decisions/*.json; do
               if [ -f "$f" ]; then
-                python3 -c "import json; json.load(open('$f'))" || echo "::error::Invalid JSON: $f"
+                python3 -c "import json, sys; json.load(open(sys.argv[1]))" "$f" || echo "::error::Invalid JSON: $f"
               fi
             done
             echo "ATOM trail integrity verified"
