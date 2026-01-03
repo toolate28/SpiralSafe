@@ -1,0 +1,4 @@
+{"gate":"execution-to-learning","from":"ATOM","to":"SAIF","timestamp":"2026-01-03T20:42:24Z","passed":true,"failed":["[]"]}
+{"gate":"intention-to-execution","from":"AWI","to":"ATOM","timestamp":"2026-01-03T20:42:32Z","passed":false,"failed":["! grep -q 'YYYYMMDD' bump.md"]}
+{"gate":"execution-to-learning","from":"ATOM","to":"SAIF","timestamp":"2026-01-03T20:43:20Z","passed":true,"failed":["[]"]}
+{"gate":"learning-to-regeneration","from":"SAIF","to":"Safe Spiral","timestamp":"2026-01-03T20:43:42Z","passed":false,"failed":["[ -f 'docs/COHERENCE_REPORT.md' ] || [ -f '.atom-trail/learning-extracted.json' ]"]}
