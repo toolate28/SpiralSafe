@@ -2,7 +2,7 @@
 # Test suite for cascading issues fixes
 # ATOM: ATOM-TEST-20260103-001-cascading-fixes
 
-set -uo pipefail
+set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/lib/utf8-safe.sh"
@@ -23,10 +23,10 @@ test_result() {
     local message="$2"
     if [ "$exit_code" -eq 0 ]; then
         echo -e "${GREEN}✓${NC} $message"
-        ((TESTS_PASSED++))
+        TESTS_PASSED=$((TESTS_PASSED + 1))
     else
         echo -e "${RED}✗${NC} $message"
-        ((TESTS_FAILED++))
+        TESTS_FAILED=$((TESTS_FAILED + 1))
     fi
 }
 
@@ -115,23 +115,24 @@ fi
 # Test 2.3: Dependency validation (reset state first)
 echo -n "Test 2.3: Dependency validation enforced... "
 # Run in fresh bash process to completely isolate state  
-TEMP_SCRIPT="/tmp/test-plugin-$$.sh"
+TEMP_SCRIPT=$(mktemp)
 cat > "$TEMP_SCRIPT" << 'EOF'
 source "$1/lib/plugin-init.sh"
 init_mcp_server() { return 0; }
 plugin_init "mcp_server" "init_mcp_server" 2>&1
 EOF
 # Capture output to file to avoid pipefail issues
-bash "$TEMP_SCRIPT" "${SCRIPT_DIR}" > /tmp/test-output-$$.txt 2>&1
+TEMP_OUTPUT=$(mktemp)
+bash "$TEMP_SCRIPT" "${SCRIPT_DIR}" > "$TEMP_OUTPUT" 2>&1 || true
 # Check for specific error message pattern indicating dependency enforcement
-if grep -q "\[ERROR\].*requires.*to be initialized first" /tmp/test-output-$$.txt; then
+if grep -q "\[ERROR\].*requires.*to be initialized first" "$TEMP_OUTPUT"; then
     # Expected to fail with dependency error
     test_result 0 "Dependency validation enforced"
 else
     # Should not succeed without dependencies
     test_result 1 "Dependency validation enforced"
 fi
-rm -f "$TEMP_SCRIPT" /tmp/test-output-$$.txt
+rm -f "$TEMP_SCRIPT" "$TEMP_OUTPUT"
 
 echo ""
 
@@ -165,11 +166,18 @@ fi
 
 # Test 3.4: Path validation for destructive operations
 echo -n "Test 3.4: Path validation for destructive ops... "
-mkdir -p /tmp/test-safe-exec-$$
-if safe_exec "rm -rf /tmp/test-safe-exec-$$" >/dev/null 2>&1; then
-    test_result 0 "Safe path allowed for destructive operation"
+TEST_DIR=$(mktemp -d)
+if safe_exec "rm -rf $TEST_DIR" >/dev/null 2>&1; then
+    # Verify the directory was actually removed
+    if [ ! -d "$TEST_DIR" ]; then
+        test_result 0 "Safe path allowed for destructive operation"
+    else
+        test_result 1 "Safe path allowed but directory not deleted"
+        rm -rf "$TEST_DIR"
+    fi
 else
     test_result 1 "Safe path allowed for destructive operation"
+    rm -rf "$TEST_DIR" 2>/dev/null
 fi
 
 echo ""

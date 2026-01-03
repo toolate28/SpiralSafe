@@ -48,8 +48,12 @@ utf8_substring() {
     local str="$1"
     local start="$2"
     local length="${3:-}"
-    # Python handles UTF-8 correctly with string slicing
-    python3 -c "s='$str'; print(s[$((start-1)):$((start-1+length))])"
+    # Python handles UTF-8 correctly with string slicing; pass arguments safely via sys.argv
+    if [ -z "$length" ]; then
+        python3 -c "import sys; s=sys.argv[1]; start=int(sys.argv[2])-1; print(s[start:])" "$str" "$start"
+    else
+        python3 -c "import sys; s=sys.argv[1]; start=int(sys.argv[2])-1; length=int(sys.argv[3]); print(s[start:start+length])" "$str" "$start" "$length"
+    fi
 }
 
 # Validate encoding before operations
@@ -115,7 +119,7 @@ plugin_init() {
 # Three-layer validation:
 # 1. Pattern matching for dangerous commands
 is_dangerous_command() {
-    if [[ "$cmd" =~ rm[[:space:]]+-rf[[:space:]]+/[[:space:]] ]]; then
+    if [[ "$cmd" =~ rm[[:space:]]+((-[rRfF][^[:space:]]*|--recursive|--force)[[:space:]]+)+/([[:space:]]|$) ]]; then
         return 0  # Dangerous
     fi
 }

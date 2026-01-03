@@ -20,12 +20,18 @@ utf8_substring() {
     local start="$2"
     local length="${3:-}"
     
+    # Validate that start is at least 1 (1-based indexing)
+    if [ "$start" -lt 1 ]; then
+        echo "[ERROR] utf8_substring: start position must be >= 1, got: $start" >&2
+        return 1
+    fi
+    
     # Use Python for proper UTF-8 substring handling
     if command -v python3 >/dev/null 2>&1; then
         if [ -z "$length" ]; then
-            python3 -c "import sys; s=sys.argv[1]; print(s[int(sys.argv[2])-1:])" "$str" "$start"
+            python3 -c "import sys; s=sys.argv[1]; start=max(int(sys.argv[2])-1, 0); print(s[start:])" "$str" "$start"
         else
-            python3 -c "import sys; s=sys.argv[1]; start=int(sys.argv[2])-1; length=int(sys.argv[3]); print(s[start:start+length])" "$str" "$start" "$length"
+            python3 -c "import sys; s=sys.argv[1]; start=max(int(sys.argv[2])-1, 0); length=int(sys.argv[3]); print(s[start:start+length])" "$str" "$start" "$length"
         fi
     else
         # Fallback to cut (may not handle UTF-8 properly)

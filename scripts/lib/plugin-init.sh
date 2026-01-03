@@ -6,6 +6,12 @@
 # Plugin initialization state tracker
 declare -A PLUGIN_INITIALIZED
 
+# Reset plugin initialization state
+plugin_init_reset() {
+    # Clear the initialization tracking array while preserving its associative type
+    PLUGIN_INITIALIZED=()
+}
+
 # Define plugin dependency order (LSP must come before MCP)
 PLUGIN_ORDER=(
     "environment"
@@ -39,7 +45,14 @@ plugin_init() {
     
     # Run initialization function
     echo "[PLUGIN] Initializing $plugin_name..."
-    if $plugin_init_func; then
+    
+    # Validate that the initialization function exists
+    if ! declare -f "$plugin_init_func" >/dev/null; then
+        echo "[ERROR] Initialization function '$plugin_init_func' for plugin '$plugin_name' is not defined"
+        return 1
+    fi
+    
+    if "$plugin_init_func"; then
         PLUGIN_INITIALIZED[$plugin_name]=1
         echo "[PLUGIN] $plugin_name initialized successfully"
         return 0
