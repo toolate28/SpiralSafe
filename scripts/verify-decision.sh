@@ -11,6 +11,13 @@ if [ -z "$ATOM_TAG" ]; then
     exit 1
 fi
 
+# Validate ATOM_TAG format to prevent directory traversal or unexpected characters
+# Expected pattern: ATOM-*-YYYYMMDD-NNN-description
+if ! [[ "$ATOM_TAG" =~ ^ATOM-[A-Za-z0-9-]+-[0-9]{8}-[0-9]{3}-[A-Za-z0-9-]+$ ]]; then
+    echo "✗ Invalid ATOM_TAG format: '$ATOM_TAG'"
+    echo "Expected format: ATOM-<TYPE>-YYYYMMDD-NNN-<description-with-hyphens>"
+    exit 1
+fi
 DECISION_DIR=".atom-trail/decisions"
 DECISION_FILE="$DECISION_DIR/$ATOM_TAG.json"
 
