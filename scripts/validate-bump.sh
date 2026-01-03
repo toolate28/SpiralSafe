@@ -32,7 +32,7 @@ fi
 # Check for template placeholders
 PLACEHOLDERS=(
     "YYYYMMDD"
-    "<short:"
+    "<short:[^>]*>"
     "<architect name"
     "<owner/repo"
     "<branch name>"
