@@ -150,8 +150,8 @@ is_path_allowed() {
 }
 
 # Safe execution wrapper with permission validation
-# NOTE: This wrapper does not support quoted paths with spaces (e.g., '/path/my file')
-# Use paths without spaces or handle quoting at the caller level
+# NOTE: Quoted paths with spaces in destructive commands are not supported
+# and will be rejected to prevent security issues from incorrect parsing
 safe_exec() {
     local cmd="$*"
     
@@ -163,11 +163,18 @@ safe_exec() {
     
     # Step 2: Extract paths and validate for destructive operations
     # Validate ALL non-flag paths, not just the last one
-    # WARNING: Quoted arguments with spaces are not properly handled by read -ra
-    # Callers should avoid passing paths with spaces to safe_exec
     # NOTE: Currently only 'rm' commands have path validation implemented.
     # Other destructive operations (chmod, chown, truncate, etc.) rely on pattern matching only.
     if [[ "$cmd" =~ rm[[:space:]] ]]; then
+        # Detect and reject rm commands with quoted arguments
+        # Quoted paths with spaces are not properly handled and could lead to security bypass
+        if [[ "$cmd" =~ [\'\"] ]]; then
+            echo "[SECURITY] rm command contains quotes - not supported by safe_exec" >&2
+            echo "[SECURITY] Quoted paths with spaces cannot be safely parsed" >&2
+            echo "[SECURITY] Use paths without spaces or handle quoting at the caller level" >&2
+            return 1
+        fi
+        
         # Parse arguments and validate all non-flag paths
         local -a args
         read -ra args <<< "$cmd"
