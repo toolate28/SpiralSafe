@@ -16,7 +16,53 @@
 
 ---
 
+## For Coherence Engine Users (NEW) ⚡
+
+**Want verification gates for your AI work?** Fastest path:
+
+```bash
+# 1. Load verification gates
+source scripts/lib/verification-gate.sh
+
+# 2. Check if you can work (is bump.md ready?)
+gate_intention_to_execution
+# ✓ Pass: Start coding
+# ✗ Fail: Fill bump.md first (no placeholders!)
+
+# 3. Do your work
+vim my_file.txt
+
+# 4. Log your decision
+./scripts/atom-track.sh FEATURE "added cool thing" "my_file.txt"
+
+# 5. Verify it logged
+gate_execution_to_learning && echo "✓ Logged!"
+
+# 6. Ship it
+git commit -am "$(cat .claude/last_atom): My change"
+```
+
+**Now:** Your work is verifiable, observable, auditable. Like engineering should be.
+
+### Check System Health
+
+```bash
+# Gate pass rate
+cat .atom-trail/gate-transitions.jsonl | \
+  jq -r '.passed' | \
+  awk '{t++; if($1=="true")p++} END {print "Pass rate:", p/t*100"%"}'
+
+# Decision freshness
+./scripts/update-freshness.sh
+
+# Doc state markers
+./scripts/validate-document-state.sh | grep "✓"
+```
+
+---
+
 ## For New Contributors (60 seconds)
+
 
 ```mermaid
 graph LR
