@@ -6,14 +6,16 @@
 **Last Updated:** 2026-01-02
 
 ```
-        🔧
-       ╱│╲
-      ╱ │ ╲      When tools fail
-     ╱  ◉  ╲     the spiral pauses
-    ╱  ╱│╲  ╲    
-   ╱  ╱ │ ╲  ╲   But failure modes
-  ╱  ╱  ◉  ╲  ╲  teach us too
- ◉──◉───◉───◉──◉
+════════════════════════════════════════════════════════════════════════════════
+         🔧
+        ╱│╲
+       ╱ │ ╲      When tools fail, the spiral pauses
+      ╱  ◉  ╲     
+     ╱  ╱│╲  ╲    But failure modes teach us too
+    ╱  ╱ │ ╲  ╲   
+   ╱  ╱  ◉  ╲  ╲  Debug · Fix · Learn · Improve
+  ◉──◉───◉───◉──◉
+════════════════════════════════════════════════════════════════════════════════
 ```
 
 ---
@@ -31,6 +33,42 @@ This validates:
 - Node.js/npx setup
 - Environment variables
 - MCP configuration validity
+
+### Troubleshooting Flowchart
+
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#4a9eff','primaryTextColor':'#000','primaryBorderColor':'#2563eb','lineColor':'#3b82f6','secondaryColor':'#34d399','tertiaryColor':'#f87171'}}}%%
+flowchart TD
+    Start([🔍 MCP Issue?]) --> Health{Run health<br/>check script}
+    
+    Health -->|Docker Fails| Docker[🐳 Start Docker<br/>Desktop/Service]
+    Health -->|npx Fails| Node[📦 Install Node.js<br/>or fix PATH]
+    Health -->|Token Missing| Token[🔑 Set GITHUB<br/>TOKEN env var]
+    Health -->|Config Invalid| Config[⚙️ Fix JSON<br/>syntax errors]
+    Health -->|All Pass| Working([✅ System OK])
+    
+    Docker --> Retry{Test Again}
+    Node --> Retry
+    Token --> Retry
+    Config --> Retry
+    
+    Retry -->|Still Fails| Logs[📋 Check Claude<br/>Desktop logs]
+    Retry -->|Works| Fixed([✅ Fixed!])
+    
+    Logs --> Support[💬 Get Support:<br/>GitHub Issues]
+    
+    style Start fill:#dbeafe,stroke:#2563eb,stroke-width:3px,color:#000
+    style Health fill:#fed7aa,stroke:#f97316,stroke-width:3px,color:#000
+    style Docker fill:#fecaca,stroke:#dc2626,stroke-width:2px,color:#000
+    style Node fill:#fecaca,stroke:#dc2626,stroke-width:2px,color:#000
+    style Token fill:#fecaca,stroke:#dc2626,stroke-width:2px,color:#000
+    style Config fill:#fecaca,stroke:#dc2626,stroke-width:2px,color:#000
+    style Working fill:#86efac,stroke:#059669,stroke-width:3px,color:#000
+    style Fixed fill:#86efac,stroke:#059669,stroke-width:3px,color:#000
+    style Retry fill:#fef3c7,stroke:#eab308,stroke-width:2px,color:#000
+    style Logs fill:#e0e7ff,stroke:#6366f1,stroke-width:2px,color:#000
+    style Support fill:#e0e7ff,stroke:#6366f1,stroke-width:2px,color:#000
+```
 
 ---
 

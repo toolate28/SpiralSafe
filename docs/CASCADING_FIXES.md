@@ -4,19 +4,21 @@
 **Purpose:** Documentation for architectural boundary fracture fixes  
 **Status:** Implemented and Tested
 
-═══════════════════════════════════════════════════════════════════════════
-║                                                                         ║
-║        ⚔️ BOUNDARY FRACTURES RESOLVED - THREE LEVERAGE POINTS ⚔️       ║
-║                                                                         ║
-║    "The wise speak only of what they know. And these three fixes       ║
-║     cascade-resolve 15-20 downstream issues by addressing the          ║
-║     structural patterns at coordination boundaries."                   ║
-║                                                                         ║
-║    🌳 UTF-8 Safe String Operations (~15 LOC)                          ║
-║    🐎 Plugin Initialization Ordering (~50 LOC)                        ║
-║    ✦ Permission Execution-Layer Validation (~80 LOC)                  ║
-║                                                                         ║
-═══════════════════════════════════════════════════════════════════════════
+```
+════════════════════════════════════════════════════════════════════════════════
+                                                                         
+         ⚔️  BOUNDARY FRACTURES RESOLVED - THREE LEVERAGE POINTS ⚔️       
+                                                                         
+     "The wise speak only of what they know. And these three fixes       
+      cascade-resolve 15-20 downstream issues by addressing the          
+      structural patterns at coordination boundaries."                   
+                                                                         
+     🌳 UTF-8 Safe String Operations (~15 LOC)                          
+     🐎 Plugin Initialization Ordering (~50 LOC)                        
+     ✦ Permission Execution-Layer Validation (~80 LOC)                  
+                                                                         
+════════════════════════════════════════════════════════════════════════════════
+```
 
 ## Overview
 
@@ -270,10 +272,12 @@ However, the three implemented fixes should cascade-resolve 15-20 issues immedia
 **Status:** Production-ready  
 **See Also:** scripts/test-cascading-fixes.sh
 
-══════════════════════════════════════════════════════════════
-   ⚔️ May these fixes strengthen the boundaries
-   🌳 May coordination flow without fracture
-   ✦ May trust flourish through reliability
-   
-   Step True · Trust Deep · Pass Forward
-══════════════════════════════════════════════════════════════
+```
+════════════════════════════════════════════════════════════════════════════════
+    ⚔️  May these fixes strengthen the boundaries
+    🌳 May coordination flow without fracture
+    ✦  May trust flourish through reliability
+    
+    Step True · Trust Deep · Pass Forward
+════════════════════════════════════════════════════════════════════════════════
+```

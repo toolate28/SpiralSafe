@@ -6,14 +6,16 @@
 **Last Updated:** 2026-01-02
 
 ```
-        🔌
-       ╱│╲
-      ╱ │ ╲      MCP: Model Context
-     ╱  ◉  ╲     Protocol
-    ╱  ╱│╲  ╲    
-   ╱  ╱ │ ╲  ╲   Connect AI agents
-  ╱  ╱  ◉  ╲  ╲  to infrastructure
- ◉──◉───◉───◉──◉
+════════════════════════════════════════════════════════════════════════════════
+         🔌
+        ╱│╲
+       ╱ │ ╲      MCP: Model Context Protocol
+      ╱  ◉  ╲     
+     ╱  ╱│╲  ╲    Connect AI agents to infrastructure
+    ╱  ╱ │ ╲  ╲   
+   ╱  ╱  ◉  ╲  ╲  Live data · Tools · Services · Integration
+  ◉──◉───◉───◉──◉
+════════════════════════════════════════════════════════════════════════════════
 ```
 
 ---
@@ -29,6 +31,35 @@
 - APIs and web services
 
 For Safe Spiral, MCP enables Claude Desktop and GitHub Copilot to interact directly with repository infrastructure.
+
+### MCP Architecture Overview
+
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#4a9eff','primaryTextColor':'#000','primaryBorderColor':'#2563eb','lineColor':'#3b82f6','secondaryColor':'#34d399','tertiaryColor':'#fbbf24'}}}%%
+graph LR
+    AI[🤖 AI Assistant<br/>Claude/Copilot] --> MCP[🔌 MCP Protocol]
+    
+    MCP --> GitHub[📦 GitHub MCP<br/>Issues, PRs, Code]
+    MCP --> Mermaid[📊 Mermaid MCP<br/>Diagrams]
+    MCP --> FS[📁 Filesystem MCP<br/>Local Files]
+    MCP --> Mem[💾 Memory MCP<br/>Key-Value Store]
+    
+    GitHub --> Repo[(🗄️ Repository<br/>Data)]
+    Mermaid --> Diagrams[📈 Generated<br/>Diagrams]
+    FS --> Files[📄 Project<br/>Files]
+    Mem --> Storage[🗃️ Persistent<br/>Storage]
+    
+    style AI fill:#dbeafe,stroke:#2563eb,stroke-width:3px,color:#000
+    style MCP fill:#bfdbfe,stroke:#3b82f6,stroke-width:4px,color:#000
+    style GitHub fill:#d1fae5,stroke:#10b981,stroke-width:2px,color:#000
+    style Mermaid fill:#d1fae5,stroke:#10b981,stroke-width:2px,color:#000
+    style FS fill:#d1fae5,stroke:#10b981,stroke-width:2px,color:#000
+    style Mem fill:#d1fae5,stroke:#10b981,stroke-width:2px,color:#000
+    style Repo fill:#fef3c7,stroke:#eab308,stroke-width:2px,color:#000
+    style Diagrams fill:#fef3c7,stroke:#eab308,stroke-width:2px,color:#000
+    style Files fill:#fef3c7,stroke:#eab308,stroke-width:2px,color:#000
+    style Storage fill:#fef3c7,stroke:#eab308,stroke-width:2px,color:#000
+```
 
 ---
 
