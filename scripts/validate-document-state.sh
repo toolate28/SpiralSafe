@@ -34,26 +34,31 @@ validate_document() {
                         sub(/[[:space:]]+$/, "", val)
                         print val
                         exit
-                    }
-                ' "$doc"
-            )
-            # Strip only surrounding quotes, if present, without removing inner quotes
-            if [ "${status#\"}" != "$status" ] && [ "${status%\"}" != "$status" ]; then
-                status="${status#\"}"
-                status="${status%\"}"
-            elif [ "${status#\'}" != "$status" ] && [ "${status%\'}" != "$status" ]; then
-                status="${status#\'}"
-                status="${status%\'}"
-            fi
-            local valid=false
-            for vs in "${VALID_STATUSES[@]}"; do
-                if [ "$status" = "$vs" ]; then
-                    valid=true
-                    break
+        # Ensure there is a closing YAML frontmatter delimiter
+        if ! tail -n +2 "$doc" | grep -q '^---$'; then
+            errors+=("Missing closing YAML frontmatter delimiter")
+        else
+            # Check required fields
+            for field in "${REQUIRED_FIELDS[@]}"; do
+                if ! grep -q "^${field}:" "$doc"; then
+                    errors+=("Missing required field: $field")
                 fi
             done
-            if [ "$valid" = false ]; then
-                errors+=("Invalid status: $status (must be one of: ${VALID_STATUSES[*]})")
+            
+            # Validate status value
+            if grep -q '^status:' "$doc"; then
+                local status
+                status=$(grep '^status:' "$doc" | head -1 | sed 's/status:[[:space:]]*//' | tr -d '"' | tr -d "'")
+                local valid=false
+                for vs in "${VALID_STATUSES[@]}"; do
+                    if [ "$status" = "$vs" ]; then
+                        valid=true
+                        break
+                    fi
+                done
+                if [ "$valid" = false ]; then
+                    errors+=("Invalid status: $status (must be one of: ${VALID_STATUSES[*]})")
+                fi
             fi
         fi
     fi
