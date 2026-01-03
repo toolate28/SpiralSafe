@@ -1,0 +1,419 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**.md'
+      - 'docs/**'
+      - '.github/workflows/deploy-pages.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '**.md'
+      - 'docs/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install dependencies
+        run: |
+          npm install markdown-it markdown-it-anchor markdown-it-toc-done-right
+      
+      - name: Build static site
+        run: |
+          mkdir -p dist
+          
+          # Create index.html with Safe Spiral branding
+          cat > dist/index.html <<'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="description" content="Safe Spiral - Framework for trust-based human-AI collaboration">
+            <title>Safe Spiral Ecosystem</title>
+            <style>
+              :root {
+                --bg-primary: #0d1117;
+                --bg-secondary: #161b22;
+                --text-primary: #c9d1d9;
+                --text-secondary: #8b949e;
+                --accent: #58a6ff;
+                --success: #3fb950;
+                --border: #30363d;
+              }
+              
+              * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+              }
+              
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+                background-color: var(--bg-primary);
+                color: var(--text-primary);
+                line-height: 1.6;
+                padding: 2rem;
+              }
+              
+              .container {
+                max-width: 1200px;
+                margin: 0 auto;
+              }
+              
+              header {
+                text-align: center;
+                margin-bottom: 3rem;
+                padding: 2rem;
+                background-color: var(--bg-secondary);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+              }
+              
+              .ascii-logo {
+                font-family: 'Courier New', monospace;
+                white-space: pre;
+                color: var(--accent);
+                font-size: 0.9rem;
+                line-height: 1.2;
+                margin: 2rem 0;
+              }
+              
+              h1 {
+                color: var(--text-primary);
+                margin-bottom: 1rem;
+              }
+              
+              .tagline {
+                color: var(--text-secondary);
+                font-style: italic;
+              }
+              
+              .nav-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1.5rem;
+                margin: 2rem 0;
+              }
+              
+              .nav-card {
+                background-color: var(--bg-secondary);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                padding: 1.5rem;
+                transition: border-color 0.2s;
+              }
+              
+              .nav-card:hover {
+                border-color: var(--accent);
+              }
+              
+              .nav-card h3 {
+                color: var(--accent);
+                margin-bottom: 0.5rem;
+              }
+              
+              .nav-card p {
+                color: var(--text-secondary);
+                font-size: 0.9rem;
+              }
+              
+              .nav-card a {
+                color: var(--accent);
+                text-decoration: none;
+                display: inline-block;
+                margin-top: 0.5rem;
+              }
+              
+              .nav-card a:hover {
+                text-decoration: underline;
+              }
+              
+              footer {
+                text-align: center;
+                margin-top: 3rem;
+                padding-top: 2rem;
+                border-top: 1px solid var(--border);
+                color: var(--text-secondary);
+              }
+              
+              .footer-logo {
+                font-family: 'Courier New', monospace;
+                color: var(--accent);
+                margin: 1rem 0;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <header>
+                <h1>Safe Spiral Ecosystem</h1>
+                <div class="ascii-logo">
+                    ✦
+                   ╱│╲
+                  ╱ │ ╲
+                 ╱  ◉  ╲
+                ╱  ╱│╲  ╲
+               ╱  ╱ │ ╲  ╲
+              ╱  ╱  ◉  ╲  ╲
+             ╱  ╱  ╱│╲  ╲  ╲
+            ◉──◉───◉─◉─◉───◉──◉
+            
+            The Spiral That Builds Through Trust
+                </div>
+                <p class="tagline">Hope &amp;&amp; Sauce · Step True · Trust Deep · Pass Forward</p>
+              </header>
+              
+              <div class="nav-grid">
+                <div class="nav-card">
+                  <h3>📖 Core Documentation</h3>
+                  <p>Framework principles, philosophy, and getting started guides</p>
+                  <a href="README.html">README →</a>
+                </div>
+                
+                <div class="nav-card">
+                  <h3>🔌 MCP Integration</h3>
+                  <p>Model Context Protocol setup, security notes, and troubleshooting</p>
+                  <a href="docs/MCP_INTEGRATION.html">MCP Guide →</a>
+                </div>
+                
+                <div class="nav-card">
+                  <h3>🔒 Security</h3>
+                  <p>Security policies, threat models, and MCP-specific considerations</p>
+                  <a href="SECURITY.html">Security →</a>
+                </div>
+                
+                <div class="nav-card">
+                  <h3>🎨 Visual Identity</h3>
+                  <p>Branding guidelines, ASCII logos, and color palette</p>
+                  <a href="docs/VISUAL_IDENTITY.html">Brand Guide →</a>
+                </div>
+                
+                <div class="nav-card">
+                  <h3>🛠️ Troubleshooting</h3>
+                  <p>Common issues, diagnostic tools, and MCP-specific debugging</p>
+                  <a href="TROUBLESHOOTING.html">Troubleshooting →</a>
+                </div>
+                
+                <div class="nav-card">
+                  <h3>🤝 Contributing</h3>
+                  <p>How to contribute, coding standards, and ATOM trail usage</p>
+                  <a href="CONTRIBUTING.html">Contributing →</a>
+                </div>
+              </div>
+              
+              <footer>
+                <div class="footer-logo">◉──◉───◉───◉──◉</div>
+                <p><em>Hope &amp;&amp; Sauce</em></p>
+                <p>Information enriches through relay</p>
+                <p style="margin-top: 1rem;">
+                  <a href="https://github.com/toolate28/SpiralSafe" style="color: var(--accent);">
+                    View on GitHub
+                  </a>
+                </p>
+              </footer>
+            </div>
+          </body>
+          </html>
+          EOF
+          
+          # Convert markdown files to HTML
+          node <<'EOF'
+          const fs = require('fs');
+          const path = require('path');
+          const MarkdownIt = require('./node_modules/markdown-it');
+          const md = new MarkdownIt({
+            html: true,
+            linkify: true,
+            typographer: true
+          });
+          
+          const template = (title, content) => `
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>${title} - Safe Spiral</title>
+            <style>
+              :root {
+                --bg-primary: #0d1117;
+                --bg-secondary: #161b22;
+                --text-primary: #c9d1d9;
+                --text-secondary: #8b949e;
+                --accent: #58a6ff;
+                --border: #30363d;
+              }
+              * { margin: 0; padding: 0; box-sizing: border-box; }
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                background-color: var(--bg-primary);
+                color: var(--text-primary);
+                line-height: 1.6;
+                padding: 2rem;
+              }
+              .container { max-width: 900px; margin: 0 auto; }
+              h1, h2, h3 { color: var(--text-primary); margin: 1.5rem 0 1rem; }
+              a { color: var(--accent); text-decoration: none; }
+              a:hover { text-decoration: underline; }
+              pre {
+                background-color: var(--bg-secondary);
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                padding: 1rem;
+                overflow-x: auto;
+                font-family: 'Courier New', monospace;
+              }
+              code {
+                background-color: var(--bg-secondary);
+                padding: 0.2rem 0.4rem;
+                border-radius: 3px;
+                font-family: 'Courier New', monospace;
+                font-size: 0.9em;
+              }
+              pre code { background: none; padding: 0; }
+              blockquote {
+                border-left: 3px solid var(--accent);
+                padding-left: 1rem;
+                margin: 1rem 0;
+                color: var(--text-secondary);
+              }
+              table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 1rem 0;
+              }
+              th, td {
+                border: 1px solid var(--border);
+                padding: 0.5rem;
+                text-align: left;
+              }
+              th { background-color: var(--bg-secondary); }
+              nav {
+                margin-bottom: 2rem;
+                padding: 1rem;
+                background-color: var(--bg-secondary);
+                border-radius: 6px;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <nav>
+                <a href="/index.html">← Home</a>
+              </nav>
+              ${content}
+            </div>
+          </body>
+          </html>
+          `;
+          
+          // Convert README
+          const readme = fs.readFileSync('README.md', 'utf8');
+          fs.writeFileSync('dist/README.html', template('README', md.render(readme)));
+          
+          // Convert SECURITY
+          if (fs.existsSync('SECURITY.md')) {
+            const security = fs.readFileSync('SECURITY.md', 'utf8');
+            fs.writeFileSync('dist/SECURITY.html', template('Security', md.render(security)));
+          }
+          
+          // Convert TROUBLESHOOTING
+          if (fs.existsSync('TROUBLESHOOTING.md')) {
+            const troubleshooting = fs.readFileSync('TROUBLESHOOTING.md', 'utf8');
+            fs.writeFileSync('dist/TROUBLESHOOTING.html', template('Troubleshooting', md.render(troubleshooting)));
+          }
+          
+          // Convert CONTRIBUTING
+          if (fs.existsSync('CONTRIBUTING.md')) {
+            const contributing = fs.readFileSync('CONTRIBUTING.md', 'utf8');
+            fs.writeFileSync('dist/CONTRIBUTING.html', template('Contributing', md.render(contributing)));
+          }
+          
+          // Convert docs/
+          if (fs.existsSync('docs')) {
+            fs.mkdirSync('dist/docs', { recursive: true });
+            const docFiles = fs.readdirSync('docs').filter(f => f.endsWith('.md'));
+            docFiles.forEach(file => {
+              const content = fs.readFileSync(path.join('docs', file), 'utf8');
+              const htmlName = file.replace('.md', '.html');
+              const title = file.replace('.md', '').replace(/_/g, ' ');
+              fs.writeFileSync(path.join('dist/docs', htmlName), template(title, md.render(content)));
+            });
+          }
+          EOF
+          
+          echo "✓ Static site built in dist/"
+          ls -la dist/
+      
+      - name: Deploy to Cloudflare Pages (Production)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: spiralsafe
+          directory: dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+      
+      - name: Deploy to Cloudflare Pages (Preview)
+        if: github.event_name == 'pull_request'
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: spiralsafe
+          directory: dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
+      
+      - name: Comment PR with preview URL
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            // Sanitize branch name for subdomain: lowercase, replace special chars with hyphens
+            let branchName = context.payload.pull_request.head.ref
+              .toLowerCase()
+              .replace(/[^a-z0-9-]/g, '-')
+              .replace(/^-+|-+$/g, '')  // Remove leading/trailing hyphens
+              .substring(0, 63);  // DNS subdomain max length
+            
+            // Fallback if branch name becomes empty after sanitization
+            if (!branchName) {
+              branchName = `pr-${prNumber}`;
+            }
+            
+            // Ensure DNS label does not start with a digit (RFC 1123)
+            if (/^[0-9]/.test(branchName)) {
+              branchName = `b-${branchName}`;
+            }
+            
+            const previewUrl = `https://${branchName}.spiralsafe.pages.dev`;
+            
+            github.rest.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## 🚀 Preview Deployment\n\nYour changes have been deployed to Cloudflare Pages:\n\n🔗 **Preview URL:** ${previewUrl}\n\n*Note: Preview may take 1-2 minutes to be available after this comment.*`
+            });

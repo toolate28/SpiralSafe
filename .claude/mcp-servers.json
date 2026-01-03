@@ -1,0 +1,77 @@
+{
+  "$schema": "https://github.com/modelcontextprotocol/specification/blob/main/schema/mcp-config.schema.json",
+  "mcpServers": {
+    "github": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "mcp/github:latest"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      },
+      "metadata": {
+        "description": "GitHub Official MCP Server - Repository management and code search",
+        "security_notes": [
+          "Requires GitHub PAT with repo scope",
+          "Token should have minimal necessary permissions",
+          "Risk: Tool poisoning via malicious repository content",
+          "Risk: Cross-tool exfiltration if combined with other MCPs",
+          "Mitigation: Use scoped tokens, enable audit logging",
+          "WARNING: Using :latest tag - consider pinning to specific version or SHA256 digest",
+          "WARNING: Supply chain risk - verify image provenance before first use"
+        ],
+        "requirements": [
+          "Docker daemon must be running",
+          "GITHUB_PERSONAL_ACCESS_TOKEN environment variable",
+          "Network access to Docker Hub and GitHub API"
+        ]
+      }
+    },
+    "mermaid": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-mermaid"
+      ],
+      "metadata": {
+        "description": "Mermaid MCP Server - Diagram generation from text descriptions",
+        "security_notes": [
+          "No authentication required",
+          "Low risk: Generates diagrams from text input",
+          "Risk: Prompt injection via tool descriptions",
+          "Mitigation: Validate generated output, sandbox execution",
+          "WARNING: Supply chain risk - npx downloads and executes packages without verification",
+          "RECOMMENDATION: Install locally and pin version instead of using npx -y"
+        ],
+        "requirements": [
+          "Node.js and npx installed",
+          "Network access to npm registry"
+        ]
+      }
+    }
+  },
+  "globalSettings": {
+    "logLevel": "info",
+    "timeout": 30000
+  },
+  "security": {
+    "notes": [
+      "MCP invocations are not currently captured in ATOM trail",
+      "This represents a visibility gap in the audit system",
+      "Consider implementing MCP-aware logging middleware",
+      "Review MCP security research: arXiv 2503.23278, 2504.03767"
+    ],
+    "best_practices": [
+      "Use environment variables for all secrets (never hardcode)",
+      "Apply principle of least privilege to API tokens",
+      "Regularly rotate credentials",
+      "Monitor for unusual MCP invocation patterns",
+      "Implement rate limiting where possible"
+    ]
+  }
+}
