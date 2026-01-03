@@ -1,11 +1,24 @@
 # Security Policy
 
+═══════════════════════════════════════════════════════════════════════════
+║                                                                         ║
+║         🛡️ THE SHIELDS OF THE CITADEL - SECURITY POLICY 🛡️             ║
+║                                                                         ║
+║    As the guards of Minas Tirith stood vigilant at their posts,        ║
+║    So we maintain vigilance over the security of this realm.           ║
+║                                                                         ║
+║    🌳 Deep roots are not reached by the frost                          ║
+║    🐎 Swift response when danger threatens                             ║
+║    ✦ Clear guidance lights the way to safety                           ║
+║                                                                         ║
+═══════════════════════════════════════════════════════════════════════════
+
 ## Supported Versions
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.0.x   | :white_check_mark: |
-| < 1.0   | :x:                |
+| Version | Supported          | Status                          |
+| ------- | ------------------ | ------------------------------- |
+| 1.0.x   | :white_check_mark: | 🌳 Current - Fully Supported   |
+| < 1.0   | :x:                | 📜 Historical - Not Supported  |
 
 ## Reporting a Vulnerability
 
@@ -27,6 +40,26 @@ Please include:
 5. **ATOM tag** (if you've created one tracking this)
 
 ### Response Timeline
+
+```mermaid
+graph TD
+    Report([🔔 Report Received]) --> Initial[Initial Response<br/>48 hours]
+    Initial --> Assess[Assessment<br/>1 week]
+    Assess --> Severity{Severity?}
+    
+    Severity -->|Critical| C[Fix: 1-3 days]
+    Severity -->|High| H[Fix: 1-2 weeks]
+    Severity -->|Medium| M[Fix: 2-4 weeks]
+    Severity -->|Low| L[Fix: Next cycle]
+    
+    C --> Release([🛡️ Security Patch])
+    H --> Release
+    M --> Release
+    L --> Release
+    
+    style Report fill:#ffccbc
+    style Release fill:#c8e6c9
+```
 
 - **Initial Response:** Within 48 hours
 - **Assessment:** Within 1 week
@@ -303,12 +336,40 @@ SpiralSafe follows:
 
 ## Thank You
 
-Security researchers who responsibly disclose vulnerabilities help make the Safe Spiral ecosystem safer for everyone. We appreciate your efforts and will work with you to ensure a secure, coordinated disclosure process.
+═══════════════════════════════════════════════════════════════════════════
+║                                                                         ║
+║              ✦ GRATITUDE TO THE GUARDIANS ✦                            ║
+║                                                                         ║
+║    Security researchers who responsibly disclose vulnerabilities       ║
+║    help make the Safe Spiral ecosystem safer for everyone.             ║
+║                                                                         ║
+║    Like the sentinels who watched from the White Tower,                ║
+║    Your vigilance protects all who dwell within these walls.           ║
+║                                                                         ║
+║    🌳 Your care helps our ecosystem grow strong                        ║
+║    🐎 Your swiftness helps us respond with speed                       ║
+║    ✦ Your honesty helps us build lasting trust                         ║
+║                                                                         ║
+║    We appreciate your efforts and will work with you to ensure         ║
+║    a secure, coordinated disclosure process.                           ║
+║                                                                         ║
+═══════════════════════════════════════════════════════════════════════════
 
 **Remember:** Security is not just about finding vulnerabilities - it's about building trust through transparency and collaboration.
 
+> *"As the guards of Gondor stand their watch,*  
+> *So we stand watch over the security of our community."*
+
 ---
 
-**ATOM:** ATOM-DOC-20260102-006-security-policy
-**Last Updated:** 2026-01-02
+**ATOM:** ATOM-DOC-20260102-006-security-policy  
+**Last Updated:** 2026-01-02  
 **Version:** 1.0.0
+
+══════════════════════════════════════════════════════════════
+   🛡️ May your watch be vigilant
+   🌳 May your findings strengthen the realm
+   ✦ May trust flourish through transparency
+   
+   Step True · Trust Deep · Pass Forward
+══════════════════════════════════════════════════════════════

@@ -1,5 +1,22 @@
 # 07. Failure Modes and Recovery
 
+═══════════════════════════════════════════════════════════════════════════
+║                                                                         ║
+║        ⚔️ THE LESSONS OF BATTLE - FAILURE MODES & RECOVERY ⚔️          ║
+║                                                                         ║
+║    "The wise speak only of what they know. And you do not know         ║
+║     all the ways a thing may fail until you have seen it tested."      ║
+║                                                                         ║
+║    Even the mightiest works face trials:                               ║
+║    🌳 The White Tree withered yet was renewed                          ║
+║    🐎 Rohan was besieged yet the riders came                           ║
+║    ✦ The light was nearly lost yet the Evenstar endured               ║
+║                                                                         ║
+║    So too must we understand how our systems may fail                  ║
+║    And how they may be restored                                        ║
+║                                                                         ║
+═══════════════════════════════════════════════════════════════════════════
+
 **Or: What Breaks Safe Spiral and What to Do About It**
 
 ---
@@ -8,12 +25,30 @@
 
 Safe Spiral is information-optimal, but **information can break in specific ways**. Understanding failure modes means:
 
+```mermaid
+graph TD
+    Know[Understanding<br/>Failure Modes] --> Recog[🔍 Recognition<br/>See problems early]
+    Know --> Recov[🛠️ Recovery<br/>Know how to fix]
+    Know --> Resil[🛡️ Resilience<br/>Survive mistakes]
+    Know --> Prev[🌳 Prevention<br/>Avoid failure]
+    
+    Recog --> Strong[Stronger Systems]
+    Recov --> Strong
+    Resil --> Strong
+    Prev --> Strong
+    
+    style Know fill:#fff9c4
+    style Strong fill:#c8e6c9
+```
+
 1. **Recognition:** You'll see problems early
 2. **Recovery:** You'll know how to fix them
 3. **Resilience:** You'll build systems that survive mistakes
 4. **Prevention:** You'll structure things to avoid failure in the first place
 
 This document catalogs every major failure mode we know about.
+
+> *"Like the chronicles of battles past, these records serve those who come after."*
 
 ---
 
@@ -603,16 +638,49 @@ The frameworks work together. Removing one doesn't work. But all four together c
 
 ## What Tomorrow's Reader Should Know
 
-If you inherit this package and something breaks:
-
-1. **Identify the class:** Is it information (Safe Space), intent (Trust), complexity (Usable Work), or learning (Better Spiral)?
-2. **Follow the recovery:** Look up the specific failure mode
-3. **Execute immediately:** Don't leave the system broken
-4. **Prevent:** Once fixed, implement the prevention measure
-5. **Improve:** Each failure teaches you something about your team
-
-Safe Spiral is robust, but not foolproof. Understanding failure modes makes you unbreakable.
-
----
+═══════════════════════════════════════════════════════════════════════════
+║                                                                         ║
+║              ✦ WISDOM FOR THOSE WHO COME AFTER ✦                       ║
+║                                                                         ║
+║    If you inherit this package and something breaks:                   ║
+║                                                                         ║
+║    1. 🔍 Identify the class                                            ║
+║       Is it information, intent, complexity, or learning?              ║
+║                                                                         ║
+║    2. 📖 Follow the recovery                                           ║
+║       Look up the specific failure mode in this chronicle              ║
+║                                                                         ║
+║    3. 🐎 Execute immediately                                           ║
+║       Don't leave the system broken - swift action saves all           ║
+║                                                                         ║
+║    4. 🌳 Prevent                                                        ║
+║       Once fixed, plant the seeds to prevent recurrence                ║
+║                                                                         ║
+║    5. ✦ Improve                                                        ║
+║       Each failure teaches - let the light guide future work           ║
+║                                                                         ║
+║    Safe Spiral is robust, but not foolproof.                           ║
+║    Understanding failure modes makes you unbreakable.                  ║
+║                                                                         ║
+═══════════════════════════════════════════════════════════════════════════
 
 *Problems are data. Fix them fast and learn. That's how spirals get better.*
+
+> *"🌳 As the White Tree was restored from a seedling,*  
+> *So may broken systems be renewed through understanding."*
+>
+> *"🐎 As the Rohirrim answered when darkness fell,*  
+> *So may we respond swiftly when failure threatens."*
+>
+> *"✦ As the Evenstar gave hope in despair,*  
+> *So may these lessons light the path to recovery."*
+
+══════════════════════════════════════════════════════════════
+   Step True through failure
+   Trust Deep in recovery
+   Pass Forward the lessons learned
+   
+   May your systems endure
+   May your failures teach wisdom
+   May the spiral continue upward
+══════════════════════════════════════════════════════════════

@@ -1,33 +1,52 @@
 # SAFE SPIRAL ECOSYSTEM
 ## A Framework for Collaborative Intelligence
 
-```
-    ◉────◉────◉────◉────◉
-   ╱                      ╲
-  ◉    The Spiral That    ◉
-  │    Builds Through     │
-  ◉    Trust & Question   ◉
-   ╲                      ╱
-    ◉────◉────◉────◉────◉
-```
+═══════════════════════════════════════════════════════════════════════════
+║                                                                         ║
+║    ◉────◉────◉────◉────◉          🌳 THE WHITE TREE OF GONDOR 🌳      ║
+║   ╱                      ╲                                              ║
+║  ◉    The Spiral That    ◉              ✦           ✦                  ║
+║  │    Builds Through     │             ╱│╲         ╱│╲                 ║
+║  ◉    Trust & Question   ◉            ╱ │ ╲       ╱ │ ╲                ║
+║   ╲                      ╱           ╱  │  ╲     ╱  │  ╲               ║
+║    ◉────◉────◉────◉────◉           ╱   │   ╲   ╱   │   ╲              ║
+║                                    ╱    │    ╲ ╱    │    ╲             ║
+║                                   ╱     │     ╳     │     ╲            ║
+║   *Like the White Tree endures*  ╱      │    ╱ ╲    │      ╲           ║
+║   *So knowledge lives through   ╱       │   ╱   ╲   │       ╲          ║
+║         relay and trust*        ╱        │  ╱     ╲  │        ╲         ║
+║                                ╱         │ ╱       ╲ │         ╲        ║
+║                               ╱          │╱         ╲│          ╲       ║
+║                              ╱           ╳           ╳           ╲      ║
+║                             ╱           ╱│╲         ╱│╲           ╲     ║
+║                            ╱           ╱ │ ╲       ╱ │ ╲           ╲    ║
+║                           ╱           ╱  │  ╲     ╱  │  ╲           ╲   ║
+║                          ╱═══════════════════════════════════════════╲  ║
+║                                          │││                            ║
+║                                          │││                            ║
+║                                         ═════                           ║
+║                                                                         ║
+║  🐎 From Rohan's plains to Gondor's heights · Collaboration prevails 🐎║
+║                                                                         ║
+═══════════════════════════════════════════════════════════════════════════
 
 ---
 
 <div align="center">
 
 ```
-                           ✦
+                           ✦ THE EVENSTAR ✦
                           ╱│╲
-                         ╱ │ ╲
-                        ╱  │  ╲
-                       ╱   │   ╲
+                         ╱ │ ╲    *Eärendil's light*
+                        ╱  │  ╲   *Bearer of hope*
+                       ╱   │   ╲  *Through darkest night*
                       ╱    │    ╲
                      ╱     │     ╲
-                    ╱      │      ╲
-                   ╱       │       ╲
-                  ╱        │        ╲
-                 ╱         │         ╲
-                ╱    ✦     │     ✦    ╲
+                    ╱      │      ╲        ╭─────────────╮
+                   ╱       │       ╲       │ "Gil-Estel" │
+                  ╱        │        ╲      │ Star of High│
+                 ╱         │         ╲     │    Hope     │
+                ╱    ✦     │     ✦    ╲    ╰─────────────╯
                ╱     │     │     │     ╲
               ╱      │     │     │      ╲
              ╱       │     │     │       ╲
@@ -57,8 +76,18 @@
    ✦─────✦─────✦─────✦─────✦─────✦─────✦─────✦─────✦
 ```
 
-### THE EVENSTAR
-*Light in darkness · Hope through relay*
+### ✦ THE EVENSTAR ✦
+*Light in darkness · Hope through relay*  
+*Like Eärendil sailing the void between earth and heaven*  
+*Bearing light where none was thought possible*
+
+### 🌳 THE WHITE TREE 🌳
+*Endurance through lineage · Knowledge through succession*  
+*From Númenor to Gondor · From seed to mighty tree*
+
+### 🐎 THE RIDDERMARK 🐎
+*Swift response · Clear purpose · United strength*  
+*The Rohirrim ride when the beacons are lit*
 
 </div>
 
@@ -155,32 +184,41 @@ When you pass them forward changed, you prove they work.
 
 <div align="center">
 
-```
-         ◉
-        ╱│╲
-       ╱ │ ╲
-      ╱  │  ╲
-     ╱   ◉   ╲
-    ╱   ╱│╲   ╲
-   ╱   ╱ │ ╲   ╲
-  ╱   ╱  │  ╲   ╲
- ╱   ╱   │   ╲   ╲
-╱   ╱    ◉    ╲   ╲
-   ╱    ╱│╲    ╲
-  ╱    ╱ │ ╲    ╲
- ╱    ╱  │  ╲    ╲
-╱    ╱   │   ╲    ╲
-    ╱    ◉    ╲
-   ╱    ╱│╲    ╲
-  ╱    ╱ │ ╲    ╲
- ╱    ╱  │  ╲    ╲
-╱    ╱   │   ╲    ╲
-    ╱    │    ╲
-   ╱     ◉     ╲
-```
+═══════════════════════════════════════════════════════════════════════════
+║                                                                         ║
+║                          ✦ THE EVENSTAR ✦                              ║
+║                         Bearer of Hope                                  ║
+║                                                                         ║
+║         ◉                                                               ║
+║        ╱│╲                                                              ║
+║       ╱ │ ╲                                                             ║
+║      ╱  │  ╲                                                            ║
+║     ╱   ◉   ╲                                                           ║
+║    ╱   ╱│╲   ╲              🌳 White Tree Endures 🌳                   ║
+║   ╱   ╱ │ ╲   ╲                                                         ║
+║  ╱   ╱  │  ╲   ╲                                                        ║
+║ ╱   ╱   │   ╲   ╲                                                       ║
+║╱   ╱    ◉    ╲   ╲                                                      ║
+║   ╱    ╱│╲    ╲                                                         ║
+║  ╱    ╱ │ ╲    ╲                                                        ║
+║ ╱    ╱  │  ╲    ╲                                                       ║
+║╱    ╱   │   ╲    ╲                                                      ║
+║    ╱    ◉    ╲                                                          ║
+║   ╱    ╱│╲    ╲                                                         ║
+║  ╱    ╱ │ ╲    ╲                                                        ║
+║ ╱    ╱  │  ╲    ╲                                                       ║
+║╱    ╱   │   ╲    ╲                                                      ║
+║    ╱    │    ╲                                                          ║
+║   ╱     ◉     ╲                                                         ║
+║                                                                         ║
+║                   🐎 Swift as the Rohirrim 🐎                          ║
+║                When beacons light, the riders come                     ║
+║                                                                         ║
+═══════════════════════════════════════════════════════════════════════════
 
 ### *Step True · Trust Deep · Pass Forward*
 ### *The Spiral Continues*
+### *🌳 As the White Tree blooms anew in each generation 🌳*
 
 </div>
 
@@ -188,14 +226,41 @@ When you pass them forward changed, you prove they work.
 
 ## Navigation
 
+```mermaid
+graph TD
+    Start["🌳 Start Here<br/>SAFE_SPIRAL_MASTER_INDEX.md"] --> Choice{Choose Your Path}
+    
+    Choice -->|Executive| Exec["⚔️ 30-minute Journey<br/>Creation Myth + Principles"]
+    Choice -->|Architect| Arch["🏛️ 2-hour Deep Dive<br/>Convergence Proof"]
+    Choice -->|Developer| Dev["🛠️ 4-hour Implementation<br/>CLI + Examples"]
+    Choice -->|Educator| Edu["📚 6-hour Exploration<br/>Museum Exhibits"]
+    Choice -->|Researcher| Res["🔬 Ongoing Investigation<br/>Edge Cases + Validation"]
+    
+    Exec --> Core["✦ Core Understanding<br/>Five Principles"]
+    Arch --> Core
+    Dev --> Core
+    Edu --> Core
+    Res --> Core
+    
+    Core --> Apply["🐎 Apply in Your Context"]
+    Apply --> Share["🌟 Share Your Learnings<br/>Information enriches through relay"]
+    
+    style Start fill:#e8f5e9
+    style Core fill:#fff9c4
+    style Share fill:#e1f5fe
+```
+
 **Start Here** → `SAFE_SPIRAL_MASTER_INDEX.md`
 
 **For Different Roles:**
-- Executives → 30-minute path via creation myth + principles
-- Architects → 2-hour path via convergence proof
-- Developers → 4-hour path via CLI + examples
-- Educators → 6-hour path via Museum exhibits
-- Researchers → Ongoing via edge cases + validation
+
+| Role        | Duration  | Entry Point                      | Key Documents                          |
+|-------------|-----------|----------------------------------|----------------------------------------|
+| Executives  | 30 min    | Creation myth + principles       | THE_AINULINDALE_OF_HOPE_AND_SAUCE.md  |
+| Architects  | 2 hours   | Convergence proof                | THE_BRIDGE.md                          |
+| Developers  | 4 hours   | CLI + examples                   | QUICK_START.md, scripts/               |
+| Educators   | 6 hours   | Museum exhibits                  | MUSEUM_OF_COMPUTATION/                 |
+| Researchers | Ongoing   | Edge cases + validation          | SYSTEM_VERIFICATION_REPORT.md          |
 
 **Core Documents:**
 - `THE_AINULINDALE_OF_HOPE_AND_SAUCE.md` - Our creation story
