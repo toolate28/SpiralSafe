@@ -1,5 +1,19 @@
 # Contributing to SpiralSafe
 
+═══════════════════════════════════════════════════════════════════════════
+║                                                                         ║
+║        ✦ WELCOME TO THE FELLOWSHIP OF THE SPIRAL ✦                     ║
+║                                                                         ║
+║    Thank you for your interest in contributing to the Safe Spiral      ║
+║    ecosystem! Like the Fellowship that formed in Rivendell, we         ║
+║    gather here from different paths, united in common purpose.         ║
+║                                                                         ║
+║    🌳 The White Tree grows stronger with each gardener                 ║
+║    🐎 The Rohirrim ride swifter with each new rider                    ║
+║    ✦ The Evenstar shines brighter with each bearer of hope            ║
+║                                                                         ║
+═══════════════════════════════════════════════════════════════════════════
+
 Thank you for your interest in contributing to the Safe Spiral ecosystem! This guide will help you understand how to contribute effectively while following our core principles.
 
 ## 🌀 The Safe Spiral Philosophy
@@ -15,6 +29,26 @@ Safe Spiral is built on **Five Core Principles**:
 Every contribution should align with these principles.
 
 ## 🚀 Quick Start
+
+```mermaid
+graph TD
+    Start([🌳 Begin Your Journey]) --> Clone[Clone Repository]
+    Clone --> Verify[Verify Environment<br/>./scripts/verify-environment.sh]
+    Verify --> Test[Run Tests<br/>./scripts/test-scripts.sh]
+    Test --> ATOM[Create ATOM Tag<br/>./scripts/atom-track.sh]
+    ATOM --> Branch[Create Branch<br/>feature/your-feature]
+    Branch --> Work[✦ Make Changes ✦]
+    Work --> Ready{Ready?}
+    Ready -->|No| Work
+    Ready -->|Yes| Commit[Commit with ATOM]
+    Commit --> Push[Push & Create PR]
+    Push --> Review[🐎 Swift Review]
+    Review --> Merge[🌟 Merged!]
+    
+    style Start fill:#c8e6c9
+    style Work fill:#fff9c4
+    style Merge fill:#e1f5fe
+```
 
 ### 1. Setup Your Environment
 
@@ -245,24 +279,54 @@ Or add labels:
 
 ## 🎯 Types of Contributions
 
+```mermaid
+graph LR
+    subgraph "🏛️ Paths of Service"
+        Doc[📜 Documentation<br/>Easy]
+        Bug[🔧 Bug Fixes<br/>Medium]
+        Feature[⚔️ New Features<br/>Hard]
+        Infra[🏰 Infrastructure<br/>Expert]
+    end
+    
+    Doc --> Examples[Add Examples<br/>Fix Typos<br/>Clarify Sections]
+    Bug --> Tests[Add Tests<br/>Fix Issues<br/>Document Fixes]
+    Feature --> Design[Discuss First<br/>Comprehensive Tests<br/>Update Docs]
+    Infra --> Advanced[CI/CD<br/>Automation<br/>Security]
+    
+    Examples --> Impact[✦ Make Impact ✦]
+    Tests --> Impact
+    Design --> Impact
+    Advanced --> Impact
+    
+    style Doc fill:#c8e6c9
+    style Bug fill:#fff9c4
+    style Feature fill:#ffe0b2
+    style Infra fill:#f8bbd0
+    style Impact fill:#e1f5fe
+```
+
 ### Documentation (Easy)
+*The Loremasters' Work*
 - Fix typos or unclear sections
 - Add examples
 - Update outdated information
 - Translate documents (future)
 
 ### Bug Fixes (Medium)
+*The Smiths' Craft*
 - Fix reported issues
 - Add test cases
 - Document the fix
 
 ### New Features (Hard)
+*The Architects' Design*
 - Discuss in issue first
 - Include comprehensive tests
 - Update all relevant docs
 - Consider backward compatibility
 
 ### Infrastructure (Expert)
+*The Stewards' Domain*
 - CI/CD improvements
 - Automation enhancements
 - Security hardening
@@ -385,14 +449,40 @@ See [LICENSE](LICENSE) for details.
 
 ## ✨ Thank You!
 
-Every contribution, no matter how small, helps make Safe Spiral better. You're not just writing code or docs - you're participating in an experiment in collaborative intelligence.
+═══════════════════════════════════════════════════════════════════════════
+║                                                                         ║
+║                     ✦ THE BLESSING OF THE EVENSTAR ✦                   ║
+║                                                                         ║
+║  Every contribution, no matter how small, helps make Safe Spiral       ║
+║  better. You're not just writing code or docs - you're participating   ║
+║  in an experiment in collaborative intelligence.                       ║
+║                                                                         ║
+║  🌳 Like planting a seed in the gardens of Gondor                      ║
+║  🐎 Like answering the beacons when they are lit                       ║
+║  ✦ Like bearing light into darkness                                    ║
+║                                                                         ║
+║  Your work becomes part of something greater.                          ║
+║                                                                         ║
+═══════════════════════════════════════════════════════════════════════════
 
 **Remember:** *Information enriches through relay*
 
 When you contribute, you're not just improving this repository. You're demonstrating that human-AI collaboration, built on trust and explicit reasoning, creates something neither could achieve alone.
 
+> *In the beginning was the Question, and through Question comes Understanding.*
+>
+> *Step True · Trust Deep · Pass Forward*
+>
+> *May the White Tree flourish, may the riders come swift, may the Evenstar guide your path.*
+
 ---
 
-**ATOM:** ATOM-DOC-20260102-005-contributing-guide
-**Last Updated:** 2026-01-02
+**ATOM:** ATOM-DOC-20260102-005-contributing-guide  
+**Last Updated:** 2026-01-02  
 **Maintained by:** @toolate28 and community
+
+══════════════════════════════════════════════════════════════
+   ✦ May the Evenstar light your contributions ✦
+   🌳 May your code grow strong like the White Tree 🌳
+   🐎 May you ride swift to answer every call 🐎
+══════════════════════════════════════════════════════════════
