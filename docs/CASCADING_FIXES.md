@@ -139,7 +139,7 @@ safe_exec() {
     is_dangerous_command "$cmd" && return 1
     is_path_allowed "$path" "destructive" || return 1
     echo "[EXEC] $(date -u +%Y-%m-%dT%H:%M:%SZ) - $cmd"  # Audit trail
-    timeout 600 bash -c "$cmd"  # Execute with timeout
+    timeout "$timeout_seconds" bash -c "$cmd"  # Execute with timeout
 }
 ```
 
