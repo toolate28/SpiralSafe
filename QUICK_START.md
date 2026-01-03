@@ -166,7 +166,7 @@ ls .atom-trail/decisions/                 # View decision history
 ./scripts/scan-secrets.sh                 # Security scan
 ```
 
-**Next:** Explore [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)
+**Next:** Explore [IMPLEMENTATION_SUMMARY.md](docs/reports/implementation/IMPLEMENTATION_SUMMARY.md)
 
 ---
 

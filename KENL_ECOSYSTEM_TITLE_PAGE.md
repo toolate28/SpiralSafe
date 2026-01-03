@@ -260,12 +260,12 @@ graph TD
 | Architects  | 2 hours   | Convergence proof                | THE_BRIDGE.md                          |
 | Developers  | 4 hours   | CLI + examples                   | QUICK_START.md, scripts/               |
 | Educators   | 6 hours   | Museum exhibits                  | MUSEUM_OF_COMPUTATION/                 |
-| Researchers | Ongoing   | Edge cases + validation          | SYSTEM_VERIFICATION_REPORT.md          |
+| Researchers | Ongoing   | Edge cases + validation          | docs/reports/verification/             |
 
 **Core Documents:**
 - `THE_AINULINDALE_OF_HOPE_AND_SAUCE.md` - Our creation story
 - `THE_BRIDGE.md` - Framework convergence across domains
-- `PART_3_OBJECTIVE_ANALYSIS.md` - Research validation
+- `docs/reports/analysis/PART_3_OBJECTIVE_ANALYSIS_SPIRAL.md` - Research validation
 - `COLLABORATION_CONSTELLATION.pdf` - Visual framework map
 
 **Frameworks:**
@@ -277,7 +277,7 @@ graph TD
 **Evidence:**
 - `CASE_STUDIES/` - Real applications
 - `EDGE_CASES/` - Where frameworks break
-- `SYSTEM_VERIFICATION_REPORT.md` - Production testing
+- `docs/reports/verification/SYSTEM_VERIFICATION_REPORT.md` - Production testing
 - `RESEARCH_SYNTHESIS/` - Academic grounding
 
 ---

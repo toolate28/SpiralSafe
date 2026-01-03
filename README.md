@@ -387,9 +387,22 @@ env-config/
 └── *.json (terminal profiles)
 ```
 
-### 📊 Verification
+### 📊 Reports
 
-- `SYSTEM_VERIFICATION_REPORT.md` - Production testing (555 lines)
+```
+docs/reports/
+├── verification/
+│   └── SYSTEM_VERIFICATION_REPORT.md (Production testing - 555 lines)
+├── analysis/
+│   ├── PART_3_OBJECTIVE_ANALYSIS_SPIRAL.md (Objective analysis)
+│   ├── claude-code-issues-analysis.md (Cascading issues analysis)
+│   └── CLAUDE_CODE_ANALYSIS_README.md (Analysis documentation)
+└── implementation/
+    ├── IMPLEMENTATION_SUMMARY.md (Summary of implementation)
+    ├── IMPLEMENTATION_NOTES.md (Implementation notes)
+    └── IMPLEMENTATION_COMPLETE.md (Completion record)
+```
+
 - `PUBLICATION_MANIFEST_v1.0.md` - Complete catalog
 - `.atom-trail` - Decision history
 
@@ -461,7 +474,7 @@ graph LR
 
 1. Read: `SAFE_SPIRAL_MASTER_INDEX.md`
 2. Review: Pattern convergence proof
-3. Study: `PART_3_OBJECTIVE_ANALYSIS_SPIRAL.md`
+3. Study: `docs/reports/analysis/PART_3_OBJECTIVE_ANALYSIS_SPIRAL.md`
 
 **Key Question:** *Do you see these patterns in your systems?*
 
@@ -472,7 +485,7 @@ graph LR
 
 1. Run: `.\Bootstrap.ps1`
 2. Study: `frameworks/SPIRALSAFE_FRAMEWORK.md`
-3. Review: `SYSTEM_VERIFICATION_REPORT.md`
+3. Review: `docs/reports/verification/SYSTEM_VERIFICATION_REPORT.md`
 4. Test: Verification certificate template
 
 **Key Question:** *Can you run the "tomorrow test"?*
