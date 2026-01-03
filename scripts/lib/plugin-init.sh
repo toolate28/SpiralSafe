@@ -26,10 +26,8 @@ plugin_init() {
     fi
     
     # Check dependencies based on ordering
-    local found_plugin=false
     for ordered_plugin in "${PLUGIN_ORDER[@]}"; do
         if [ "$ordered_plugin" = "$plugin_name" ]; then
-            found_plugin=true
             break
         fi
         # All plugins before this one in order must be initialized

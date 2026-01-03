@@ -3,8 +3,10 @@
 # Prevents allow-list bypasses by validating at execution layer
 # ATOM: ATOM-LIB-20260103-003-safe-exec-wrapper
 
-# Dangerous command patterns that should be blocked
-DANGEROUS_PATTERNS=(
+# Dangerous command patterns that should be blocked  
+# Note: Patterns are defined for documentation, actual checks use regex in is_dangerous_command()
+# shellcheck disable=SC2034
+readonly DANGEROUS_PATTERNS=(
     "rm -rf / "
     "rm -rf /"$
     " rm -rf ~"
@@ -62,7 +64,8 @@ is_path_allowed() {
         for safe_dir in "${SAFE_DIRECTORIES[@]}"; do
             # Handle relative paths in current directory
             if [[ "$safe_dir" == ./* ]]; then
-                local abs_safe="$(pwd)/${safe_dir#./}"
+                local abs_safe
+                abs_safe="$(pwd)/${safe_dir#./}"
                 if [[ "$path" == "$abs_safe"* ]]; then
                     return 0
                 fi

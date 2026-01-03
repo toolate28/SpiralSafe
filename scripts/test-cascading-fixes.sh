@@ -21,7 +21,7 @@ TESTS_FAILED=0
 test_result() {
     local exit_code=$1
     local message="$2"
-    if [ $exit_code -eq 0 ]; then
+    if [ "$exit_code" -eq 0 ]; then
         echo -e "${GREEN}✓${NC} $message"
         ((TESTS_PASSED++))
     else
