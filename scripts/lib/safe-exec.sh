@@ -54,8 +54,21 @@ is_path_allowed() {
         elif command -v readlink >/dev/null 2>&1; then
             canonical_path=$(readlink -f "$path" 2>/dev/null) || canonical_path="$path"
         else
-            # Fallback: at least resolve relative paths
-            canonical_path=$(cd "$(dirname "$path")" 2>/dev/null && pwd)/$(basename "$path") || canonical_path="$path"
+            # Fallback: resolve relative paths and handle non-existent targets safely
+            local dir base
+            dir=$(dirname -- "$path")
+            base=$(basename -- "$path")
+            if [ -d "$dir" ]; then
+                # Parent exists: resolve against its absolute path
+                canonical_path="$(cd "$dir" 2>/dev/null && pwd)/$base"
+            else
+                # Parent does not exist: anchor relative paths to CWD, keep absolute as-is
+                if [[ "$path" == /* ]]; then
+                    canonical_path="$path"
+                else
+                    canonical_path="$(pwd)/$path"
+                fi
+            fi
         fi
         
         # Check against allow-list with canonicalized path
