@@ -29,9 +29,9 @@ utf8_substring() {
     # Use Python for proper UTF-8 substring handling
     if command -v python3 >/dev/null 2>&1; then
         if [ -z "$length" ]; then
-            python3 -c "import sys; s=sys.argv[1]; start=int(sys.argv[2])-1; print(s[start:])" "$str" "$start"
+            python3 -c "import sys; s=sys.argv[1]; start=max(int(sys.argv[2])-1, 0); print(s[start:])" "$str" "$start"
         else
-            python3 -c "import sys; s=sys.argv[1]; start=int(sys.argv[2])-1; length=int(sys.argv[3]); print(s[start:start+length])" "$str" "$start" "$length"
+            python3 -c "import sys; s=sys.argv[1]; start=max(int(sys.argv[2])-1, 0); length=max(int(sys.argv[3]), 0); print(s[start:start+length])" "$str" "$start" "$length"
         fi
     else
         # Fallback to cut (may not handle UTF-8 properly)

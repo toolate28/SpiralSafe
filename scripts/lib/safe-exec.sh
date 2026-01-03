@@ -11,7 +11,7 @@ declare -A DANGEROUS_COMMAND_CHECKS=(
     ["rm_home"]='rm[[:space:]]+.*[[:space:]]*~([[:space:]]|$)|rm[[:space:]]+~([[:space:]]|$)'
     ["dd_zero"]='dd[[:space:]]+if=/dev/zero'
     ["mkfs"]='mkfs\.'
-    ["fork_bomb"]='[[:alnum:]_:.]+[[:space:]]*\(\)[[:space:]]*\{[^}]*(\||&)[^}]*\}|:[[:space:]]*\(\)[[:space:]]*\{[^}]*:[[:space:]]*\|[[:space:]]*:[[:space:]]*&'
+    ["fork_bomb"]='[[:alnum:]_:.]+[[:space:]]*\(\)[[:space:]]*\{[^}]*(\||&)[^}]*\}|:[[:space:]]*\(\)[[:space:]]*\{[^}]*:[[:space:]]*\|[[:space:]]*:[[:space:]]*&[[:space:]]*[^}]*\}'
     ["chmod_root"]='chmod[[:space:]]+-R[[:space:]]+777[[:space:]]+/'
 )
 
@@ -92,7 +92,7 @@ is_path_allowed() {
             
             # Verify that the canonical safe directory doesn't point outside expected boundaries
             # This prevents attacks where ./build is a symlink to /
-            if [[ "$safe_dir" == ./* ]] && [[ ! "$canonical_safe" == "$(pwd)"* ]]; then
+            if [[ "$safe_dir" == ./* ]] && [[ ! "$canonical_safe/" == "$(pwd)/"* ]]; then
                 echo "[SECURITY] Relative safe directory '$safe_dir' resolves outside working directory: $canonical_safe" >&2
                 continue  # Skip this unsafe directory
             fi
