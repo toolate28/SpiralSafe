@@ -20,7 +20,7 @@ verify_gate() {
     echo "[GATE] $gate_name: $phase_from → $phase_to"
     
     for req in "${requirements[@]}"; do
-        if eval "$req" >/dev/null 2>&1; then
+        if bash -c "$req" >/dev/null 2>&1; then
             echo "  ✓ $req"
         else
             echo "  ✗ $req"
