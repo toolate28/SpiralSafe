@@ -1,11 +1,44 @@
 # Troubleshooting Guide
 
+═══════════════════════════════════════════════════════════════════════════
+║                                                                         ║
+║          🐎 THE COUNSEL OF THE WISE - TROUBLESHOOTING 🐎                ║
+║                                                                         ║
+║    When paths grow dark and obstacles appear,                          ║
+║    The Fellowship does not despair but seeks solutions.                ║
+║                                                                         ║
+║    🌳 Even the mightiest tree weathered storms to grow                 ║
+║    ✦ Even the darkest night yields to the Evenstar                     ║
+║                                                                         ║
+═══════════════════════════════════════════════════════════════════════════
+
 **ATOM:** ATOM-DOC-20260102-008-troubleshooting-guide  
 **Quick Reference:** Common issues and solutions
 
 ---
 
 ## Quick Diagnosis
+
+```mermaid
+graph TD
+    Issue([🔍 Problem Detected]) --> Diagnose[Run Diagnostics]
+    Diagnose --> Verify[./scripts/verify-environment.sh]
+    Diagnose --> Test[./scripts/test-scripts.sh]
+    Diagnose --> ATOM[Check ATOM Trail]
+    
+    Verify --> Result{Issue Found?}
+    Test --> Result
+    ATOM --> Result
+    
+    Result -->|Yes| Fix[Apply Fix Below]
+    Result -->|No| Escalate[Seek Further Help]
+    
+    Fix --> Retest[Test Again]
+    Retest --> Success([✦ Resolved!])
+    
+    style Issue fill:#ffccbc
+    style Success fill:#c8e6c9
+```
 
 ```bash
 # Run full diagnostic
@@ -469,6 +502,19 @@ See `.github/SECRETS.md` section "Accidentally Committed a Secret?"
 
 ### Pre-commit Checklist
 
+```mermaid
+graph LR
+    Start([🌳 Ready to Commit]) --> Test[1. Test Scripts]
+    Test --> Scan[2. Scan Secrets]
+    Scan --> Verify[3. Verify Environment]
+    Verify --> ATOM[4. Create ATOM Tag]
+    ATOM --> Commit[5. Commit Changes]
+    Commit --> Done([✦ Complete!])
+    
+    style Start fill:#c8e6c9
+    style Done fill:#fff9c4
+```
+
 ```bash
 # 1. Test
 ./scripts/test-scripts.sh
@@ -496,6 +542,16 @@ git commit -m "ATOM-TYPE-YYYYMMDD-NNN: description"
 - Clean stale branches
 - Review ATOM trail metrics
 - Update dependencies
+
+══════════════════════════════════════════════════════════════
+   🐎 Swift diagnosis, like the riders of Rohan
+   🌳 Patient care, like the gardeners of Gondor
+   ✦ Clear guidance, like the Evenstar above
+   
+   May your problems be swiftly solved
+   May your code run true
+   May your path be clear
+══════════════════════════════════════════════════════════════
 
 **Quarterly:**
 - Backup ATOM trail
