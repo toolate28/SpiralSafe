@@ -34,18 +34,18 @@ echo "  1. Decision file exists: ✓"
 
 # Check if decision has required fields
 REQUIRED_FIELDS=("atom_tag" "type" "description" "timestamp" "freshness_level")
-all_fields_present=true
+ALL_FIELDS_PRESENT=true
 
 for field in "${REQUIRED_FIELDS[@]}"; do
     if grep -q "\"$field\":" "$DECISION_FILE"; then
         echo "  2. Has $field: ✓"
     else
         echo "  2. Has $field: ✗"
-        all_fields_present=false
+        ALL_FIELDS_PRESENT=false
     fi
 done
 
-if [ "$all_fields_present" = false ]; then
+if [ "$ALL_FIELDS_PRESENT" = false ]; then
     echo ""
     echo "✗ Decision missing required fields"
     exit 1
