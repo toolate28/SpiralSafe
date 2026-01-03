@@ -9,8 +9,8 @@ main() {
     
     echo "[HOOK] on-intention-enforced: $intention_artifact"
     
-    # Record in ATOM trail
-    ./scripts/atom-track.sh INTENTION "Intention enforced: $intention_artifact" "$intention_artifact"
+    # Record in ATOM trail (use absolute path)
+    "$(dirname "$0")/../atom-track.sh" INTENTION "Intention enforced: $intention_artifact" "$intention_artifact"
     
     # Verify intention → execution gate
     gate_intention_to_execution

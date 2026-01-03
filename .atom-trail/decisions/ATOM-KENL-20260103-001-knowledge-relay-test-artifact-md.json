@@ -1,0 +1,10 @@
+{
+  "atom_tag": "ATOM-KENL-20260103-001-knowledge-relay-test-artifact-md",
+  "type": "KENL",
+  "description": "Knowledge relay: test-artifact.md",
+  "timestamp": "2026-01-03T20:49:26Z",
+  "file": "test-artifact.md",
+  "freshness_level": "fresh",
+  "bedrock_eligible": false,
+  "created_epoch": 1767473366
+}

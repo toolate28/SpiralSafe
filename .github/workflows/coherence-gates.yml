@@ -19,12 +19,21 @@ jobs:
       - name: Validate bump.md
         run: |
           chmod +x scripts/validate-bump.sh
-          ./scripts/validate-bump.sh || echo "::warning::bump.md contains placeholders"
+          if ./scripts/validate-bump.sh; then
+            echo "✓ bump.md validation passed"
+          else
+            echo "::warning::bump.md validation failed - may contain placeholders or be incomplete"
+          fi
       
       - name: Validate document state markers
         run: |
           chmod +x scripts/validate-document-state.sh
-          ./scripts/validate-document-state.sh || echo "::warning::Some documents missing state markers"
+          if ./scripts/validate-document-state.sh; then
+            echo "✓ All documents have valid state markers"
+          else
+            echo "::warning::Some documents are missing state markers"
+            echo "This is expected during migration. Run scripts/validate-document-state.sh locally to see details."
+          fi
       
       - name: Check verification gates
         run: |
