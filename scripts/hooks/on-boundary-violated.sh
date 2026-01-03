@@ -14,8 +14,8 @@ main() {
     mkdir -p .claude/logs
     echo "{\"type\":\"boundary_violation\",\"gate\":\"$gate_name\",\"details\":\"$violation_details\",\"timestamp\":\"$timestamp\"}" >> .claude/logs/violations.jsonl
     
-    # Create ATOM decision for violation
-    ./scripts/atom-track.sh VIOLATION "Boundary violated: $gate_name" "none"
+    # Create ATOM decision for violation (use absolute path)
+    "$(dirname "$0")/../atom-track.sh" VIOLATION "Boundary violated: $gate_name" "none"
     
     echo "[HOOK] Violation logged and tracked"
 }

@@ -18,8 +18,8 @@ main() {
     mkdir -p .atom-trail
     echo "{\"type\":\"cycle_complete\",\"cycle_id\":\"$cycle_id\",\"timestamp\":\"$timestamp\"}" >> .atom-trail/cycles.jsonl
     
-    # Create ATOM decision for cycle completion
-    ./scripts/atom-track.sh CYCLE "Coherence cycle complete: $cycle_id" ".atom-trail/cycles.jsonl"
+    # Create ATOM decision for cycle completion (use absolute path)
+    "$(dirname "$0")/../atom-track.sh" CYCLE "Coherence cycle complete: $cycle_id" ".atom-trail/cycles.jsonl"
     
     echo "[HOOK] Learning → Regeneration transition verified"
     echo "[HOOK] Cycle $cycle_id complete and logged"
