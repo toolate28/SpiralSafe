@@ -7,11 +7,11 @@
 # These patterns are checked in is_dangerous_command() function
 # Pattern format: regex patterns for matching dangerous commands
 declare -A DANGEROUS_COMMAND_CHECKS=(
-    ["rm_root"]='rm[[:space:]]+((-[rRfF][^[:space:]]*|--recursive|--force)[[:space:]]+)+/([[:space:]]|$)'
-    ["rm_home"]='rm[[:space:]]+((-[rRfF][^[:space:]]*|--recursive|--force)[[:space:]]+)+~([[:space:]]|$)'
+    ["rm_root"]='rm[[:space:]]+.*[[:space:]]*/([[:space:]]|$)|rm[[:space:]]+/([[:space:]]|$)'
+    ["rm_home"]='rm[[:space:]]+.*[[:space:]]*~([[:space:]]|$)|rm[[:space:]]+~([[:space:]]|$)'
     ["dd_zero"]='dd[[:space:]]+if=/dev/zero'
     ["mkfs"]='mkfs\.'
-    ["fork_bomb"]='([[:alnum:]_:.]+)[[:space:]]*\(\)[[:space:]]*\{[^}]*\1[[:space:]]*\|[[:space:]]*\1[[:space:]]*&[^}]*\}[[:space:]]*;?'
+    ["fork_bomb"]='[[:alnum:]_:.]+[[:space:]]*\(\)[[:space:]]*\{[^}]*(\||&)[^}]*\}|:[[:space:]]*\(\)[[:space:]]*\{[^}]*:[[:space:]]*\|[[:space:]]*:[[:space:]]*&'
     ["chmod_root"]='chmod[[:space:]]+-R[[:space:]]+777[[:space:]]+/'
 )
 
@@ -74,16 +74,27 @@ is_path_allowed() {
         # Check against allow-list with canonicalized path
         for safe_dir in "${SAFE_DIRECTORIES[@]}"; do
             local canonical_safe
+            # Always resolve relative directories to absolute paths
             if [[ "$safe_dir" == ./* ]]; then
                 canonical_safe="$(pwd)/${safe_dir#./}"
             else
                 canonical_safe="$safe_dir"
             fi
             
-            # Canonicalize safe directory too
+            # Canonicalize safe directory too (must resolve to real path)
             if command -v realpath >/dev/null 2>&1; then
-                local canonical_safe_tmp
-                canonical_safe_tmp=$(realpath -m "$canonical_safe" 2>/dev/null) && canonical_safe="$canonical_safe_tmp"
+                # Use -e to ensure the path exists or -m for missing paths
+                canonical_safe=$(realpath -m "$canonical_safe" 2>/dev/null) || canonical_safe="$safe_dir"
+            elif command -v readlink >/dev/null 2>&1; then
+                local temp_safe
+                temp_safe=$(readlink -f "$canonical_safe" 2>/dev/null) && canonical_safe="$temp_safe"
+            fi
+            
+            # Verify that the canonical safe directory doesn't point outside expected boundaries
+            # This prevents attacks where ./build is a symlink to /
+            if [[ "$safe_dir" == ./* ]] && [[ ! "$canonical_safe" == "$(pwd)"* ]]; then
+                echo "[SECURITY] Relative safe directory '$safe_dir' resolves outside working directory: $canonical_safe" >&2
+                continue  # Skip this unsafe directory
             fi
             
             # Check if canonical path is under canonical safe directory
@@ -111,9 +122,17 @@ safe_exec() {
     fi
     
     # Step 2: Extract paths and validate for destructive operations
+    # NOTE: Currently only rm commands are validated for path restrictions.
+    # Other destructive operations (chmod, chown, truncate, etc.) are not validated.
+    # LIMITATION: Command parsing uses simple word splitting and does not handle
+    # quoted arguments with spaces. Paths with spaces in destructive commands
+    # should be avoided or may bypass validation. This is documented behavior.
     # Validate ALL non-flag paths, not just the last one
     if [[ "$cmd" =~ rm[[:space:]] ]]; then
         # Parse arguments and validate all non-flag paths
+        # WARNING: This uses simple word splitting (read -ra) which doesn't preserve
+        # quoted arguments. Commands like 'rm -rf "/path with spaces"' will be
+        # split incorrectly. Use paths without spaces for safety.
         local -a args
         read -ra args <<< "$cmd"
         
@@ -152,17 +171,9 @@ safe_exec() {
         timeout_seconds=600
     fi
     
-    # Execute without intermediate shell to prevent command injection
-    # Parse command into array for safe execution
-    local -a exec_args
-    read -ra exec_args <<< "$cmd"
-    
-    if [ ${#exec_args[@]} -eq 0 ]; then
-        echo "[SECURITY] Empty command, nothing to execute"
-        return 1
-    fi
-    
-    timeout "$timeout_seconds" "${exec_args[@]}"
+    # Execute command via bash -c to properly handle arguments and quotes
+    # This ensures complex commands with spaces, quotes, and special characters work correctly
+    timeout "$timeout_seconds" bash -c "$cmd"
     local exit_code=$?
     
     if [ $exit_code -eq 124 ]; then

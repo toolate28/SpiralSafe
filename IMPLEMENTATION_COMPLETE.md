@@ -31,7 +31,7 @@ issues in collaborative AI-human systems.
 
 ### 1. UTF-8 Safe String Operations ✅
 - **File:** `scripts/lib/utf8-safe.sh`
-- **Lines:** 43 total (15 core logic)
+- **Lines:** 63 total (~30 core logic)
 - **Functions:**
   - `utf8_length()` - Character count with multi-byte support
   - `utf8_substring()` - Safe substring extraction
@@ -42,7 +42,7 @@ issues in collaborative AI-human systems.
 
 ### 2. Plugin Initialization Ordering ✅
 - **File:** `scripts/lib/plugin-init.sh`
-- **Lines:** 58 total (45 core logic)
+- **Lines:** 73 total (~50 core logic)
 - **Features:**
   - Strict dependency order enforcement
   - Duplicate initialization prevention
