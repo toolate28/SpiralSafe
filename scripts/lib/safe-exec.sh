@@ -58,7 +58,7 @@ normalize_path() {
         if [[ "$part" == ".." ]]; then
             # Remove last component if it exists (go up one directory)
             if [ ${#result[@]} -gt 0 ]; then
-                unset 'result[${#result[@]}-1]'
+                unset 'result[-1]'
             fi
         elif [[ "$part" != "." && -n "$part" ]]; then
             # Add non-empty, non-current-dir components
