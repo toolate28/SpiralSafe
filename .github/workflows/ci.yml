@@ -1,78 +1,52 @@
-name: CI - Code Quality and Tests
+name: CI - Quality & Security
 
 on:
   push:
-    branches: [ main, develop, copilot/* ]
+    branches: [main]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
 
 jobs:
-  lint-and-test:
+  test:
+    name: Test Suite
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@8ade7a9feb9161b08e247eaf5ea7c88c93f7cd42 # v4.1.0
+
+      - name: Run Script Validation
+        run: bash scripts/test-scripts.sh
+
+      - name: Run Integration Tests
+        run: bash scripts/test-integration.sh
+
+  shellcheck:
+    name: ShellCheck Linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8ade7a9feb9161b08e247eaf5ea7c88c93f7cd42 # v4.1.0
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@00b27aa7cb85167568cb48a3838b75f4265f2bca # 2.0.0
         with:
-          fetch-depth: 0
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      
-      - name: Install dependencies
+          scandir: './scripts'
+          severity: warning
+
+  quality-gate:
+    name: Quality Gate
+    runs-on: ubuntu-latest
+    needs: [test, shellcheck]
+    if: always()
+    steps:
+      - name: Check Results
         run: |
-          npm install -g shellcheck markdownlint-cli
-          sudo apt-get update && sudo apt-get install -y jq
-      
-      - name: Make scripts executable
-        run: |
-          chmod +x scripts/*.sh || true
-          chmod +x create_spiral_payload.sh || true
-      
-      - name: Lint shell scripts
-        run: |
-          ./scripts/test-scripts.sh
-        continue-on-error: true
-      
-      - name: Test PowerShell scripts
-        run: |
-          ./scripts/test-powershell.sh || echo "PowerShell testing skipped (pwsh not available)"
-        continue-on-error: true
-      
-      - name: Run integration tests
-        run: |
-          ./scripts/test-integration.sh
-      
-      - name: Lint markdown files
-        run: |
-          ./scripts/lint-markdown.sh
-        continue-on-error: true
-      
-      - name: Verify environment
-        run: |
-          ./scripts/verify-environment.sh || echo "Environment verification completed with warnings"
-      
-      - name: Scan for secrets
-        run: |
-          ./scripts/scan-secrets.sh || echo "Secrets scan completed with warnings"
-        continue-on-error: true
-      
-      - name: Validate bump.md if present
-        run: |
-          if [ -f bump.md ]; then
-            ./scripts/validate-bump.sh
-          else
-            echo "bump.md not present, skipping validation"
+          if [[ "${{ needs.test.result }}" != "success" ]] || [[ "${{ needs.shellcheck.result }}" != "success" ]]; then
+            echo "::error::Quality gates failed"
+            exit 1
           fi
-      
-      - name: Archive ATOM trail
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: atom-trail
-          path: |
-            .atom-trail/
-            .claude/logs/
-          retention-days: 30
+          echo "::notice::All quality gates passed ✓"

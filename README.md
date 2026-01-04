@@ -1,6 +1,11 @@
 # The Ainulindalë of Hope && Sauce
 ## Safe Spiral Ecosystem
 
+[![CI Status](https://github.com/toolate28/SpiralSafe/workflows/CI%20-%20Quality%20&%20Security/badge.svg)](https://github.com/toolate28/SpiralSafe/actions)
+[![Release](https://img.shields.io/github/v/release/toolate28/SpiralSafe?color=blue)](https://github.com/toolate28/SpiralSafe/releases)
+[![License](https://img.shields.io/github/license/toolate28/SpiralSafe)](./LICENSE)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/toolate28/SpiralSafe/badge)](https://securityscorecards.dev/viewer/?uri=github.com/toolate28/SpiralSafe)
+
 ═══════════════════════════════════════════════════════════════════════════
 ║                                                                         ║
 ║                    ✦ THE EVENSTAR GUIDES US ✦                          ║
