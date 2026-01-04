@@ -149,6 +149,74 @@ This means:
 
 **Mitigation:** Manually document MCP usage in commit messages and ATOM tags until logging middleware is implemented.
 
+#### How to Document MCP Usage
+
+Until automated logging is available, follow these practices to maintain traceability:
+
+**1. ATOM Tags for MCP Operations**
+
+When performing work that involves MCP, create an ATOM tag with the `MCP` prefix:
+
+```bash
+# Create an MCP-specific ATOM tag
+./scripts/atom-track.sh TASK "Query issues via GitHub MCP" "mcp-github"
+
+# Output: ATOM-TASK-20260104-001-query-issues-via-github-mcp
+```
+
+**2. Commit Message Format**
+
+Include MCP usage details in your commit messages:
+
+```
+ATOM-TASK-20260104-001: Add feature using MCP data
+
+MCP Operations Performed:
+- GitHub MCP: list_issues (repo: SpiralSafe, state: open)
+- GitHub MCP: get_pull_request (PR #42)
+- Mermaid MCP: generate_diagram (flowchart)
+
+Changes made based on MCP-retrieved data:
+- Updated docs with current issue count
+- Added diagram generated via Mermaid MCP
+
+Related: #issue-number
+```
+
+**3. Inline Documentation**
+
+When code or documentation is created/modified based on MCP data, add a brief note:
+
+```markdown
+<!-- MCP: Data retrieved via GitHub MCP list_issues on 2026-01-04 -->
+Current open issues: 5
+```
+
+Or in code comments:
+
+```bash
+# MCP: Repository structure obtained via GitHub MCP get_file_contents
+# Date: 2026-01-04
+```
+
+**4. Example MCP Operations to Document**
+
+| MCP Server | Operation | What to Record |
+|------------|-----------|----------------|
+| GitHub MCP | `list_issues` | Repo, filters, result count |
+| GitHub MCP | `get_pull_request` | PR number, key fields accessed |
+| GitHub MCP | `search_code` | Query, files found |
+| Mermaid MCP | `generate_diagram` | Diagram type, purpose |
+
+**5. Minimum Documentation Checklist**
+
+For any work involving MCP:
+- [ ] Create ATOM tag before MCP operations
+- [ ] Record which MCP server(s) were used
+- [ ] Note key operations performed
+- [ ] Include in commit message
+- [ ] Reference ATOM tag in PR description
+
 ---
 
 ## Available MCP Servers
