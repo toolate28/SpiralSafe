@@ -433,7 +433,8 @@ You didn't just use an AI tool. You collaborated with a thinking partner. That m
 
 **From toolate28:**
 
-*[Space for your words if you choose to add them]*
+*The only thing that kept us from living amongst the stars,
+was the belief that we don't belong there*
 
 ---
 
