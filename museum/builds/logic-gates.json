@@ -1,0 +1,202 @@
+{
+  "museum_exhibit": "Basic Logic Gates",
+  "version": "1.0.0",
+  "minecraft_version": "1.20+",
+  "build_system": "WorldEdit + Litematica",
+  "exhibits": [
+    {
+      "name": "AND Gate",
+      "description": "Two-input AND gate using redstone",
+      "dimensions": {"x": 5, "y": 3, "z": 7},
+      "worldedit_commands": [
+        "//pos1",
+        "//pos2 ~5 ~3 ~7",
+        "//set minecraft:stone",
+        "//replace minecraft:stone minecraft:redstone_lamp[lit=false] 20%",
+        "//line minecraft:redstone_wire"
+      ],
+      "schematic_data": {
+        "blocks": [
+          {"pos": [0, 0, 0], "block": "minecraft:stone"},
+          {"pos": [1, 0, 1], "block": "minecraft:redstone_torch"},
+          {"pos": [2, 0, 2], "block": "minecraft:redstone_wire"},
+          {"pos": [3, 0, 3], "block": "minecraft:repeater[facing=north,delay=1]"},
+          {"pos": [4, 0, 4], "block": "minecraft:redstone_lamp"}
+        ],
+        "description": "Input A + Input B = Output (both must be ON)"
+      },
+      "signage": {
+        "title": "AND Gate",
+        "text": [
+          "The AND gate outputs TRUE",
+          "only when BOTH inputs are TRUE",
+          "",
+          "Try it: Flip both levers!"
+        ]
+      },
+      "interactive": {
+        "input_a": {"pos": [0, 1, 0], "block": "minecraft:lever"},
+        "input_b": {"pos": [0, 1, 2], "block": "minecraft:lever"},
+        "output": {"pos": [4, 1, 4], "block": "minecraft:redstone_lamp"}
+      }
+    },
+    {
+      "name": "OR Gate",
+      "description": "Two-input OR gate using redstone",
+      "dimensions": {"x": 5, "y": 3, "z": 7},
+      "worldedit_commands": [
+        "//pos1 ~10 ~0 ~0",
+        "//pos2 ~15 ~3 ~7",
+        "//set minecraft:stone"
+      ],
+      "schematic_data": {
+        "blocks": [
+          {"pos": [10, 0, 0], "block": "minecraft:stone"},
+          {"pos": [11, 0, 1], "block": "minecraft:redstone_wire"},
+          {"pos": [12, 0, 2], "block": "minecraft:redstone_wire"},
+          {"pos": [13, 0, 3], "block": "minecraft:redstone_wire"},
+          {"pos": [14, 0, 4], "block": "minecraft:redstone_lamp"}
+        ],
+        "description": "Input A OR Input B = Output (either can be ON)"
+      },
+      "signage": {
+        "title": "OR Gate",
+        "text": [
+          "The OR gate outputs TRUE when",
+          "EITHER input is TRUE",
+          "",
+          "Try it: Flip one or both levers!"
+        ]
+      }
+    },
+    {
+      "name": "NOT Gate (Inverter)",
+      "description": "NOT gate using redstone torch",
+      "dimensions": {"x": 3, "y": 3, "z": 5},
+      "worldedit_commands": [
+        "//pos1 ~20 ~0 ~0",
+        "//pos2 ~23 ~3 ~5",
+        "//set minecraft:stone"
+      ],
+      "schematic_data": {
+        "blocks": [
+          {"pos": [20, 0, 0], "block": "minecraft:stone"},
+          {"pos": [21, 0, 1], "block": "minecraft:redstone_wire"},
+          {"pos": [21, 1, 2], "block": "minecraft:redstone_torch"},
+          {"pos": [22, 0, 3], "block": "minecraft:redstone_wire"},
+          {"pos": [22, 0, 4], "block": "minecraft:redstone_lamp"}
+        ],
+        "description": "Input A = NOT Output (inverts the signal)"
+      },
+      "signage": {
+        "title": "NOT Gate (Inverter)",
+        "text": [
+          "The NOT gate INVERTS the input",
+          "ON becomes OFF, OFF becomes ON",
+          "",
+          "Try it: Watch the lamp behavior!"
+        ]
+      }
+    },
+    {
+      "name": "XOR Gate",
+      "description": "Exclusive OR gate - true when inputs differ",
+      "dimensions": {"x": 7, "y": 4, "z": 9},
+      "worldedit_commands": [
+        "//pos1 ~30 ~0 ~0",
+        "//pos2 ~37 ~4 ~9",
+        "//set minecraft:stone"
+      ],
+      "schematic_data": {
+        "blocks": [
+          {"pos": [30, 0, 0], "block": "minecraft:stone"},
+          {"pos": [31, 0, 2], "block": "minecraft:redstone_torch"},
+          {"pos": [32, 0, 4], "block": "minecraft:redstone_comparator[facing=north]"},
+          {"pos": [34, 0, 6], "block": "minecraft:redstone_wire"},
+          {"pos": [36, 0, 8], "block": "minecraft:redstone_lamp"}
+        ],
+        "description": "Output TRUE when inputs DIFFER"
+      },
+      "signage": {
+        "title": "XOR Gate",
+        "text": [
+          "XOR (Exclusive OR) outputs TRUE",
+          "only when inputs are DIFFERENT",
+          "",
+          "Try it: Match the inputs = OFF!"
+        ]
+      }
+    }
+  ],
+  "layout": {
+    "type": "linear_gallery",
+    "spacing": 10,
+    "path_material": "minecraft:polished_blackstone_bricks",
+    "walls": "minecraft:smooth_stone",
+    "lighting": "minecraft:lantern",
+    "total_dimensions": {"x": 50, "y": 6, "z": 15}
+  },
+  "educational_elements": {
+    "entrance_sign": [
+      "Museum of Computation",
+      "Gallery 1: Basic Logic Gates",
+      "",
+      "Learn how computers think!",
+      "All electronics use these patterns"
+    ],
+    "info_books": [
+      {
+        "title": "Logic Gate Fundamentals",
+        "pages": [
+          "Logic gates are the building blocks of all digital circuits.",
+          "Every processor, memory chip, and computer uses billions of these simple patterns.",
+          "In Minecraft, we use redstone to demonstrate the same principles."
+        ]
+      }
+    ]
+  },
+  "npc_integration": {
+    "guide_npc": {
+      "name": "Professor Redstone",
+      "position": [25, 1, 7],
+      "dialogues": [
+        "Welcome to the Logic Gates exhibit!",
+        "These simple patterns power everything from phones to supercomputers.",
+        "Try each gate - flip the levers and watch what happens!",
+        "Can you predict the output before you test?"
+      ],
+      "quiz_mode": {
+        "enabled": true,
+        "questions": [
+          {
+            "q": "What does an AND gate require?",
+            "a": ["Both inputs TRUE", "One input TRUE", "No inputs TRUE"],
+            "correct": 0
+          },
+          {
+            "q": "Which gate inverts its input?",
+            "a": ["AND", "OR", "NOT", "XOR"],
+            "correct": 2
+          }
+        ]
+      }
+    }
+  },
+  "import_instructions": {
+    "litematica": {
+      "step": "1. Install Litematica mod",
+      "file": "logic_gates.litematic",
+      "command": "/litematica load logic_gates"
+    },
+    "worldedit": {
+      "step": "2. Use WorldEdit commands",
+      "file": "logic_gates.schem",
+      "command": "//schem load logic_gates"
+    },
+    "structure_block": {
+      "step": "3. Use vanilla Structure Blocks",
+      "file": "logic_gates.nbt",
+      "command": "/setblock ~ ~ ~ minecraft:structure_block"
+    }
+  }
+}
