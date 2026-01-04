@@ -1,0 +1,40 @@
+# SpiralSafe Hardware Integration Bridges
+# Python dependencies for ATOM trail streaming, hologram display, and Tartarus control
+
+# Core async I/O
+asyncio-atexit>=1.0.1
+
+# File system watching for ATOM trail streaming
+watchdog>=3.0.0
+
+# System resource monitoring (optional, for stats mode)
+psutil>=5.9.0
+
+# Serial/USB communication (for physical devices)
+pyserial>=3.5
+pyusb>=1.2.1
+
+# Razer Chroma SDK support (Linux)
+# Note: On Linux, install OpenRazer:
+#   - https://openrazer.github.io/
+# openrazer>=3.0.0  # Uncomment if using physical Razer devices on Linux
+
+# Windows Razer Chroma SDK (Windows only)
+# Note: Requires Razer Synapse installed
+# razer-chroma-sdk-python>=1.0.0  # Uncomment if using physical Razer devices on Windows
+
+# Optional: PIL for advanced text rendering on hologram
+# Pillow>=10.0.0
+
+# Optional: numpy for advanced 3D rendering
+# numpy>=1.24.0
+
+# Development dependencies
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.5.0
+
+# Documentation
+markdown>=3.4.0
