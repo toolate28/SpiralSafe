@@ -1,6 +1,11 @@
 # The Ainulindalë of Hope && Sauce
 ## Safe Spiral Ecosystem
 
+[![CI Status](https://github.com/toolate28/SpiralSafe/workflows/CI%20-%20Quality%20&%20Security/badge.svg)](https://github.com/toolate28/SpiralSafe/actions)
+[![Release](https://img.shields.io/github/v/release/toolate28/SpiralSafe?color=blue)](https://github.com/toolate28/SpiralSafe/releases)
+[![License](https://img.shields.io/github/license/toolate28/SpiralSafe)](./LICENSE)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/toolate28/SpiralSafe/badge)](https://securityscorecards.dev/viewer/?uri=github.com/toolate28/SpiralSafe)
+
 ═══════════════════════════════════════════════════════════════════════════
 ║                                                                         ║
 ║                    ✦ THE EVENSTAR GUIDES US ✦                          ║
@@ -22,6 +27,104 @@
 ║        ✦ From doubt to trust, understanding blooms ✦                   ║
 ║                                                                         ║
 ═══════════════════════════════════════════════════════════════════════════
+
+---
+
+## 🌟 What's New: The Showcase (2026-01-04)
+
+**SpiralSafe has evolved into a complete educational & technical ecosystem:**
+
+<table>
+<tr>
+<td width="50%">
+
+### 📖 Stories for Kids
+**Hope && Sauce Tales**
+
+Learn computer science through adventure!
+
+- 🔥 [The Fireflies Who Learned to Agree](showcase/stories/01-fireflies-and-logic.md)
+  - **Topic:** Logic gates (AND, OR, NOT, XOR)
+  - **Ages:** 6-10
+  - **Build:** Interactive redstone circuits
+
+- 🌙 [The Four Dancers of Binary Night](showcase/stories/02-binary-dancers.md)
+  - **Topic:** Binary numbers & counting
+  - **Ages:** 7-11
+  - **Build:** 4-bit binary counter
+
+**📖 Read → 🎮 Build → 🧠 Learn**
+
+</td>
+<td width="50%">
+
+### 🏛️ Museum of Computation
+**Interactive Minecraft Exhibits**
+
+Turn code into playable learning!
+
+- ⚡ [Logic Gates Gallery](museum/index.html#gallery-1)
+  - AND, OR, NOT, XOR gates
+  - Lever inputs + lamp outputs
+  - NPC guide (Professor Redstone)
+
+- 🔢 [Binary Counter](museum/index.html#gallery-2)
+  - 4-bit counter (0-15)
+  - Adjustable clock speed
+  - NPC guide (Ada Lovelace)
+
+**🎯 CAD-ready JSON exports for WorldEdit/Litematica**
+
+</td>
+</tr>
+<tr>
+<td colspan="2">
+
+### 🎨 The Showcase Directory
+
+**[Complete Visual Guide →](showcase/README.md)**
+
+```
+showcase/
+├── stories/              Hope && Sauce educational tales
+├── diagrams/            System architecture & hardware mockups
+├── constellations/      Poetic frameworks & star maps
+└── README.md            Your starting point
+```
+
+**Highlights:**
+- 🔧 [Hardware Integration Mockup](showcase/diagrams/HARDWARE_INTEGRATION_MOCKUP.md) - 3D hologram projector + AI frame + macro pad
+- 🌌 [Ecosystem Star Map](showcase/constellations/ECOSYSTEM_STAR_MAP.md) - Navigate by Orchard, Air, Firefly, Constellation
+- ✅ [Verification Stamp](VERIFICATION_STAMP.md) - All claims verified, dual signatures, tomorrow test
+
+</td>
+</tr>
+</table>
+
+### 🚀 Quick Links
+
+| Resource | Description | Status |
+|----------|-------------|--------|
+| [📚 Stories](showcase/stories/) | Kids learn CS through adventures | 2/5 complete |
+| [🏛️ Museum](museum/index.html) | Minecraft educational builds | 2 exhibits ready |
+| [🔧 Hardware Mockup](showcase/diagrams/HARDWARE_INTEGRATION_MOCKUP.md) | Physical intelligence station | Design complete |
+| [🌌 Star Map](showcase/constellations/ECOSYSTEM_STAR_MAP.md) | Poetic documentation | 6 constellations |
+| [✅ Verification](VERIFICATION_STAMP.md) | Complete system audit | All tests passing |
+| [🌐 Deploy Guide](CLOUDFLARE_DEPLOYMENT.md) | spiralsafe.org setup | Ready to execute |
+| [📊 Domain Plan](DOMAIN_PLAN.md) | logs/moc/docs subdomains | Architecture complete |
+
+---
+
+## 🎯 The Intersection
+
+**This repo is where sound, light, gravity, vibration intersect with reality and what's possible.**
+
+- **Sound:** The rhythm of development (write → test → commit → push)
+- **Light:** Code made visible through holographic display
+- **Gravity:** Architecture that pulls systems toward elegance
+- **Vibration:** Resonance between human intent and AI capability
+- **Reality:** Production-ready, tested, deployed systems
+- **What's Possible:** Human-AI collaboration as true partnership
 
 ---
 
