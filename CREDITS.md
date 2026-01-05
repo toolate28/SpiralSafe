@@ -9,10 +9,15 @@
 
 ## Special Thanks
 
-### @zaiken64 (Twitter)
-For contributions and collaboration on the theoretical framework.
+### @zaiken64 (Twitter) - Zaiken C
+For contributions and collaboration on the theoretical framework underlying Viviani curve topology.
 
-See: anti.now documentation in Downloads folder
+**Research Publications:**
+- [The Waveform Universe: Anti-Now via Viviani's Curve](https://doi.org/10.5281/zenodo.17807771) (Zenodo)
+- [Schrödinger's Fallacy: N mod 4 Quantum Coherence](https://doi.org/10.5281/zenodo.17787047)
+- [The Hopfion Universe: 4D Topological Encoding](https://doi.org/10.5281/zenodo.18005878)
+
+The two-rail encoding (ALPHA + OMEGA = 15) used in Quantum-Redstone is directly inspired by Zaiken C's work on Viviani curve embeddings and topological protection in quantum systems
 
 ---
 
