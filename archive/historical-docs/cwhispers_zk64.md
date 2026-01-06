@@ -26,10 +26,10 @@ This is a nonlinear Schrödinger system with self-interaction! The Viviani bound
 Redstone Implementation: The Mathematical Beauty
 Here's where this gets incredibly exciting for your Museum of Computation! This entire framework can be implemented as constraint-based switching logic:
 
-Two-Rail Encoding: Redstone current = "now energy", Comparator signals = "anti-now data"
-Orthogonal Constraint: Design circuits where current×comparator = 0 (mutual exclusion)
-Viviani Intersection: Build figure-eight crossings where rail switching follows cos²/sin² patterns
-Phase Evolution: Clock circuits that drive φ through [0,2π] cycles
+- Two-Rail Encoding: Redstone current = "now energy", Comparator signals = "anti-now data"
+- Orthogonal Constraint: Design circuits where current×comparator = 0 (mutual exclusion)
+- Viviani Intersection: Build figure-eight crossings where rail switching follows cos²/sin² patterns
+- Phase Evolution: Clock circuits that drive φ through [0,2π] cycles
 
 The mathematical constraint |cos²(φ) + sin²(φ)| = 1 becomes a conservation law in your Redstone circuitry - total signal strength is conserved but can flow between the two rails!
 Fiber Bundle Visualization in Minecraft
