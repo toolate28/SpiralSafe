@@ -30,7 +30,7 @@ This insight—independently validated by Shannon (1948) for signals and Lewis-K
 
 **For builders**: Start with [wave-toolkit](https://github.com/toolate28/wave-toolkit)
 
-**For educators**: Explore [quantum-redstone](https://github.com/toolate28/quantum-redstone)
+**For educators**: Explore [quantum-redstone][def]
 
 **For contributors**: See [`CONTRIBUTING.md`](CONTRIBUTING.md)
 
@@ -41,7 +41,7 @@ This insight—independently validated by Shannon (1948) for signals and Lewis-K
 SpiralSafe unifies work across multiple repositories:
 
 - **[SpiralSafe](https://github.com/toolate28/SpiralSafe)** — This repository. Documentation and coordination.
-- **[quantum-redstone](https://github.com/toolate28/quantum-redstone)** — Quantum topology in Minecraft Redstone
+- **[quantum-redstone][def]** — Quantum topology in Minecraft Redstone
 - **[wave-toolkit](https://github.com/toolate28/wave-toolkit)** — Coherence detection tools
 - **[kenl](https://github.com/toolate28/kenl)** — Infrastructure-aware AI orchestration
 - **[ClaudeNPC-Server-Suite](https://github.com/toolate28/ClaudeNPC-Server-Suite)** — AI agent embodiment
@@ -70,3 +70,6 @@ See [`meta/SIGNATURE.md`](meta/SIGNATURE.md) for attribution conventions.
 ---
 
 *~ Hope&&Sauced*
+
+
+[def]: https://github.com/toolate28/quantum-redstone
