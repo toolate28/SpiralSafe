@@ -1,0 +1,540 @@
+#!/usr/bin/env bash
+#
+# SpiralSafe CLI
+# Cross-platform command interface for the coherence engine
+#
+# Usage:
+#   spiralsafe <command> [options]
+#
+# Commands:
+#   wave      Coherence analysis
+#   bump      Routing and handoff
+#   awi       Permission scaffolding
+#   atom      Task orchestration
+#   saif      Issue investigation
+#   status    System health check
+#
+# H&&S: Structure-preserving operations across substrates
+
+set -euo pipefail
+
+# ═══════════════════════════════════════════════════════════════
+# Configuration
+# ═══════════════════════════════════════════════════════════════
+
+SPIRALSAFE_API_BASE="${SPIRALSAFE_API_BASE:-https://api.spiralsafe.org}"
+SPIRALSAFE_AWI_GRANT="${SPIRALSAFE_AWI_GRANT:-}"
+SPIRALSAFE_LOCAL="${SPIRALSAFE_LOCAL:-false}"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+CYAN='\033[0;36m'
+GRAY='\033[0;90m'
+NC='\033[0m' # No Color
+
+# ═══════════════════════════════════════════════════════════════
+# Utilities
+# ═══════════════════════════════════════════════════════════════
+
+log_success() { echo -e "${GREEN}✓${NC} $*"; }
+log_error() { echo -e "${RED}✗${NC} $*" >&2; }
+log_warn() { echo -e "${YELLOW}⚠${NC} $*"; }
+log_info() { echo -e "${CYAN}→${NC} $*"; }
+log_dim() { echo -e "${GRAY}  $*${NC}"; }
+
+api_call() {
+    local method="$1"
+    local endpoint="$2"
+    local data="${3:-}"
+    
+    local args=(-s -X "$method" -H "Content-Type: application/json")
+    [[ -n "$data" ]] && args+=(-d "$data")
+    
+    curl "${args[@]}" "${SPIRALSAFE_API_BASE}${endpoint}"
+}
+
+require_jq() {
+    if ! command -v jq &> /dev/null; then
+        log_error "jq is required but not installed"
+        exit 1
+    fi
+}
+
+# ═══════════════════════════════════════════════════════════════
+# Wave Commands
+# ═══════════════════════════════════════════════════════════════
+
+cmd_wave() {
+    local subcommand="${1:-analyze}"
+    shift || true
+    
+    case "$subcommand" in
+        analyze)
+            wave_analyze "$@"
+            ;;
+        thresholds)
+            wave_thresholds
+            ;;
+        *)
+            echo "Usage: spiralsafe wave <analyze|thresholds> [options]"
+            echo ""
+            echo "Commands:"
+            echo "  analyze [path|--content 'text']  Analyze coherence"
+            echo "  thresholds                       Show threshold values"
+            ;;
+    esac
+}
+
+wave_analyze() {
+    require_jq
+    local content=""
+    local path=""
+    local local_mode="$SPIRALSAFE_LOCAL"
+    
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --content|-c) content="$2"; shift 2 ;;
+            --local|-l) local_mode=true; shift ;;
+            *) path="$1"; shift ;;
+        esac
+    done
+    
+    if [[ -n "$path" ]]; then
+        if [[ -d "$path" ]]; then
+            # Analyze directory
+            find "$path" -type f \( -name "*.md" -o -name "*.txt" -o -name "*.yaml" -o -name "*.yml" \) | while read -r file; do
+                content=$(cat "$file")
+                analyze_content "$file" "$content" "$local_mode"
+            done
+        elif [[ -f "$path" ]]; then
+            content=$(cat "$path")
+            analyze_content "$path" "$content" "$local_mode"
+        else
+            log_error "Path not found: $path"
+            exit 1
+        fi
+    elif [[ -n "$content" ]]; then
+        analyze_content "<direct>" "$content" "$local_mode"
+    else
+        # Read from stdin
+        content=$(cat)
+        analyze_content "<stdin>" "$content" "$local_mode"
+    fi
+}
+
+analyze_content() {
+    local source="$1"
+    local content="$2"
+    local local_mode="$3"
+    
+    if [[ "$local_mode" == "true" ]]; then
+        # Simplified local analysis
+        local paragraphs
+        paragraphs=$(echo "$content" | awk 'BEGIN{RS="\n\n+"} {print}' | wc -l)
+        local questions
+        questions=$(echo "$content" | grep -o '?' | wc -l)
+        
+        # Very simplified metrics
+        local curl=0.1
+        local divergence
+        divergence=$(echo "scale=2; 0.2 + ($questions * 0.05)" | bc)
+        local coherent="true"
+        
+        if (( $(echo "$divergence > 0.6" | bc -l) )); then
+            coherent="false"
+        fi
+        
+        printf "%-40s curl:%.2f div:%.2f %s\n" "$source" "$curl" "$divergence" \
+            "$([ "$coherent" == "true" ] && echo -e "${GREEN}✓${NC}" || echo -e "${YELLOW}⚠${NC}")"
+    else
+        # API call
+        local response
+        response=$(api_call POST "/api/wave/analyze" "{\"content\": $(echo "$content" | jq -Rs .)}")
+        
+        local curl div potential coherent
+        curl=$(echo "$response" | jq -r '.curl')
+        div=$(echo "$response" | jq -r '.divergence')
+        potential=$(echo "$response" | jq -r '.potential')
+        coherent=$(echo "$response" | jq -r '.coherent')
+        
+        printf "%-40s curl:%.2f div:%.2f pot:%.2f %s\n" "$source" "$curl" "$div" "$potential" \
+            "$([ "$coherent" == "true" ] && echo -e "${GREEN}✓${NC}" || echo -e "${YELLOW}⚠${NC}")"
+    fi
+}
+
+wave_thresholds() {
+    require_jq
+    local response
+    response=$(api_call GET "/api/wave/thresholds")
+    echo "$response" | jq .
+}
+
+# ═══════════════════════════════════════════════════════════════
+# Bump Commands
+# ═══════════════════════════════════════════════════════════════
+
+cmd_bump() {
+    local subcommand="${1:-}"
+    shift || true
+    
+    case "$subcommand" in
+        WAVE|PASS|PING|SYNC|BLOCK)
+            bump_create "$subcommand" "$@"
+            ;;
+        list|pending)
+            bump_list
+            ;;
+        resolve)
+            bump_resolve "$@"
+            ;;
+        *)
+            echo "Usage: spiralsafe bump <WAVE|PASS|PING|SYNC|BLOCK|list|resolve> [options]"
+            echo ""
+            echo "Create bump:"
+            echo "  spiralsafe bump WAVE --to copilot --state 'PR ready'"
+            echo ""
+            echo "List pending:"
+            echo "  spiralsafe bump list"
+            echo ""
+            echo "Resolve:"
+            echo "  spiralsafe bump resolve <id>"
+            ;;
+    esac
+}
+
+bump_create() {
+    require_jq
+    local type="$1"
+    shift
+    
+    local to="unknown"
+    local state="pending"
+    local from="cli"
+    
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --to|-t) to="$2"; shift 2 ;;
+            --state|-s) state="$2"; shift 2 ;;
+            --from|-f) from="$2"; shift 2 ;;
+            *) shift ;;
+        esac
+    done
+    
+    local data
+    data=$(jq -n \
+        --arg type "$type" \
+        --arg to "$to" \
+        --arg state "$state" \
+        --arg from "$from" \
+        '{type: $type, to: $to, state: $state, from: $from}')
+    
+    local response
+    response=$(api_call POST "/api/bump/create" "$data")
+    
+    if echo "$response" | jq -e '.id' > /dev/null 2>&1; then
+        local id
+        id=$(echo "$response" | jq -r '.id')
+        log_success "Bump created: $id"
+        log_info "H&&S:$type → $to"
+        log_dim "State: $state"
+        
+        # Copy marker to clipboard if available
+        local marker="H&&S:$type"
+        if command -v pbcopy &> /dev/null; then
+            echo -n "$marker" | pbcopy
+            log_dim "Marker copied to clipboard: $marker"
+        elif command -v xclip &> /dev/null; then
+            echo -n "$marker" | xclip -selection clipboard
+            log_dim "Marker copied to clipboard: $marker"
+        fi
+    else
+        log_error "Failed to create bump"
+        echo "$response" | jq .
+    fi
+}
+
+bump_list() {
+    require_jq
+    local response
+    response=$(api_call GET "/api/bump/pending")
+    
+    if [[ "$(echo "$response" | jq 'length')" == "0" ]]; then
+        log_success "No pending bumps"
+        return
+    fi
+    
+    echo -e "${CYAN}Pending Bumps:${NC}"
+    echo "$response" | jq -r '.[] | "  [\(.type)] \(.from_agent) → \(.to_agent)\n    State: \(.state)\n    ID: \(.id)"'
+}
+
+bump_resolve() {
+    local id="${1:-}"
+    
+    if [[ -z "$id" ]]; then
+        log_error "Usage: spiralsafe bump resolve <id>"
+        exit 1
+    fi
+    
+    local response
+    response=$(api_call PUT "/api/bump/resolve/$id")
+    
+    if echo "$response" | jq -e '.resolved' > /dev/null 2>&1; then
+        log_success "Bump resolved: $id"
+    else
+        log_error "Failed to resolve bump"
+    fi
+}
+
+# ═══════════════════════════════════════════════════════════════
+# AWI Commands
+# ═══════════════════════════════════════════════════════════════
+
+cmd_awi() {
+    local subcommand="${1:-}"
+    shift || true
+    
+    case "$subcommand" in
+        request|grant)
+            awi_request "$@"
+            ;;
+        verify|test)
+            awi_verify "$@"
+            ;;
+        audit)
+            awi_audit "$@"
+            ;;
+        *)
+            echo "Usage: spiralsafe awi <request|verify|audit> [options]"
+            echo ""
+            echo "Request permission:"
+            echo "  spiralsafe awi request --intent 'Deploy update' --resources 'docs/*' --actions 'modify' --level 2"
+            echo ""
+            echo "Verify action:"
+            echo "  spiralsafe awi verify --action 'modify:README.md'"
+            echo ""
+            echo "View audit trail:"
+            echo "  spiralsafe awi audit <grant-id>"
+            ;;
+    esac
+}
+
+awi_request() {
+    require_jq
+    local intent=""
+    local resources=()
+    local actions=()
+    local level=1
+    local ttl=3600
+    
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --intent|-i) intent="$2"; shift 2 ;;
+            --resources|-r) IFS=',' read -ra resources <<< "$2"; shift 2 ;;
+            --actions|-a) IFS=',' read -ra actions <<< "$2"; shift 2 ;;
+            --level|-l) level="$2"; shift 2 ;;
+            --ttl|-t) ttl="$2"; shift 2 ;;
+            *) shift ;;
+        esac
+    done
+    
+    if [[ -z "$intent" ]]; then
+        log_error "Intent is required"
+        exit 1
+    fi
+    
+    local data
+    data=$(jq -n \
+        --arg intent "$intent" \
+        --argjson resources "$(printf '%s\n' "${resources[@]}" | jq -R . | jq -s .)" \
+        --argjson actions "$(printf '%s\n' "${actions[@]}" | jq -R . | jq -s .)" \
+        --argjson level "$level" \
+        --argjson ttl "$ttl" \
+        '{intent: $intent, scope: {resources: $resources, actions: $actions}, level: $level, ttl_seconds: $ttl}')
+    
+    local response
+    response=$(api_call POST "/api/awi/request" "$data")
+    
+    if echo "$response" | jq -e '.id' > /dev/null 2>&1; then
+        local id expires
+        id=$(echo "$response" | jq -r '.id')
+        expires=$(echo "$response" | jq -r '.expires_at')
+        
+        log_success "AWI Grant Created"
+        log_info "ID: $id"
+        log_dim "Intent: $intent"
+        log_dim "Level: $level"
+        log_dim "Expires: $expires"
+        
+        # Store for subsequent operations
+        export SPIRALSAFE_AWI_GRANT="$id"
+        echo ""
+        log_dim "Grant ID stored in SPIRALSAFE_AWI_GRANT"
+    else
+        log_error "Failed to create AWI grant"
+        echo "$response" | jq .
+    fi
+}
+
+awi_verify() {
+    require_jq
+    local grant_id="${SPIRALSAFE_AWI_GRANT:-}"
+    local action=""
+    
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --grant|-g) grant_id="$2"; shift 2 ;;
+            --action|-a) action="$2"; shift 2 ;;
+            *) action="$1"; shift ;;
+        esac
+    done
+    
+    if [[ -z "$grant_id" ]]; then
+        log_error "No grant ID provided or stored in SPIRALSAFE_AWI_GRANT"
+        exit 1
+    fi
+    
+    if [[ -z "$action" ]]; then
+        log_error "Action is required"
+        exit 1
+    fi
+    
+    local data
+    data=$(jq -n --arg grant_id "$grant_id" --arg action "$action" \
+        '{grant_id: $grant_id, action: $action}')
+    
+    local response
+    response=$(api_call POST "/api/awi/verify" "$data")
+    
+    if echo "$response" | jq -e '.valid == true' > /dev/null 2>&1; then
+        log_success "Action permitted: $action"
+    else
+        log_error "Action denied: $action"
+        exit 1
+    fi
+}
+
+awi_audit() {
+    require_jq
+    local grant_id="${1:-$SPIRALSAFE_AWI_GRANT}"
+    
+    if [[ -z "$grant_id" ]]; then
+        log_error "Grant ID required"
+        exit 1
+    fi
+    
+    local response
+    response=$(api_call GET "/api/awi/audit/$grant_id")
+    echo "$response" | jq .
+}
+
+# ═══════════════════════════════════════════════════════════════
+# Status Command
+# ═══════════════════════════════════════════════════════════════
+
+cmd_status() {
+    echo ""
+    echo -e "${CYAN}SpiralSafe Operations Status${NC}"
+    echo "════════════════════════════════════════"
+    
+    echo ""
+    echo -e "${YELLOW}  Local Configuration:${NC}"
+    echo -e "    API Base: $SPIRALSAFE_API_BASE"
+    echo -e "    AWI Grant: ${SPIRALSAFE_AWI_GRANT:-${GRAY}(none)${NC}}"
+    echo -e "    Local Mode: $SPIRALSAFE_LOCAL"
+    
+    echo ""
+    echo -e "${YELLOW}  API Status:${NC}"
+    
+    local response
+    if response=$(curl -s --connect-timeout 5 "${SPIRALSAFE_API_BASE}/api/health"); then
+        if command -v jq &> /dev/null; then
+            local status d1 kv r2
+            status=$(echo "$response" | jq -r '.status')
+            d1=$(echo "$response" | jq -r '.checks.d1')
+            kv=$(echo "$response" | jq -r '.checks.kv')
+            r2=$(echo "$response" | jq -r '.checks.r2')
+            
+            echo -e "    Status: $([ "$status" == "healthy" ] && echo -e "${GREEN}$status${NC}" || echo -e "${YELLOW}$status${NC}")"
+            echo -e "    D1: $([ "$d1" == "true" ] && echo -e "${GREEN}✓${NC}" || echo -e "${RED}✗${NC}")"
+            echo -e "    KV: $([ "$kv" == "true" ] && echo -e "${GREEN}✓${NC}" || echo -e "${RED}✗${NC}")"
+            echo -e "    R2: $([ "$r2" == "true" ] && echo -e "${GREEN}✓${NC}" || echo -e "${RED}✗${NC}")"
+        else
+            echo "    Response: $response"
+        fi
+    else
+        echo -e "    Status: ${RED}UNREACHABLE${NC}"
+        echo -e "    ${GRAY}(Using local mode for wave analysis)${NC}"
+    fi
+    
+    echo ""
+}
+
+# ═══════════════════════════════════════════════════════════════
+# Help
+# ═══════════════════════════════════════════════════════════════
+
+cmd_help() {
+    cat << 'EOF'
+SpiralSafe CLI - Coherence Engine Operations
+
+Usage:
+  spiralsafe <command> [subcommand] [options]
+
+Commands:
+  wave      Coherence analysis (wave.md protocol)
+  bump      Routing and handoff (bump.md protocol)
+  awi       Permission scaffolding (AWI protocol)
+  atom      Task orchestration (ATOM methodology)
+  saif      Issue investigation (SAIF methodology)
+  status    System health check
+  help      Show this help
+
+Examples:
+  # Analyze document coherence
+  spiralsafe wave analyze ./docs
+
+  # Create a handoff to Copilot
+  spiralsafe bump WAVE --to copilot --state "PR ready"
+
+  # Request deployment permission
+  spiralsafe awi request --intent "Deploy docs" --resources "docs/*" --actions "modify" --level 2
+
+  # Check system status
+  spiralsafe status
+
+Environment Variables:
+  SPIRALSAFE_API_BASE    API endpoint (default: https://api.spiralsafe.org)
+  SPIRALSAFE_AWI_GRANT   Current AWI grant ID
+  SPIRALSAFE_LOCAL       Use local analysis mode (true/false)
+
+H&&S: Structure-preserving operations across substrates
+EOF
+}
+
+# ═══════════════════════════════════════════════════════════════
+# Main Entry Point
+# ═══════════════════════════════════════════════════════════════
+
+main() {
+    local command="${1:-help}"
+    shift || true
+    
+    case "$command" in
+        wave)     cmd_wave "$@" ;;
+        bump)     cmd_bump "$@" ;;
+        awi)      cmd_awi "$@" ;;
+        atom)     echo "ATOM commands: Use PowerShell module or API directly" ;;
+        saif)     echo "SAIF commands: Use PowerShell module or API directly" ;;
+        status)   cmd_status ;;
+        help|-h|--help) cmd_help ;;
+        *)
+            log_error "Unknown command: $command"
+            cmd_help
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"
