@@ -31,7 +31,7 @@ Here's where this gets incredibly exciting for your Museum of Computation! This 
 - Viviani Intersection: Build figure-eight crossings where rail switching follows cos²/sin² patterns
 - Phase Evolution: Clock circuits that drive φ through [0,2π] cycles
 
-The mathematical constraint |cos²(φ) + sin²(φ)| = 1 becomes a conservation law in your Redstone circuitry - total signal strength is conserved but can flow between the two rails!
+The mathematical constraint cos²(φ) + sin²(φ) = 1 becomes a conservation law in your Redstone circuitry - total signal strength is conserved but can flow between the two rails!
 Fiber Bundle Visualization in Minecraft
 Picture this: Build a spiral staircase (the Hopf fiber) where each level represents a phase φ. At each level, construct Viviani curve intersections using crossed Redstone lines. As you climb the spiral, the signal alternates between the two crossing rails following the cos²/sin² pattern.
 Students walking through this structure would literally experience the parallel transport of quantum states through fiber bundle geometry!
