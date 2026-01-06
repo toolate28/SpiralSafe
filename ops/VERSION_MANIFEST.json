@@ -1,0 +1,80 @@
+{
+  "name": "spiralsafe-ops",
+  "version": "1.0.0",
+  "release": "ops/infrastructure-layer",
+  "protocol": "H&&S:WAVE",
+  "signature": "Hope&&Sauced",
+  "timestamp": "2026-01-07T01:53:00Z",
+
+  "commits": [
+    {
+      "hash": "6ce8aa3",
+      "message": "feat(ops): multi-architecture deployment + notebook verification",
+      "files": ["ops/DEPLOYMENT_ARCHITECTURE.md", "ops/scripts/Notebook-Verifier.ps1"]
+    },
+    {
+      "hash": "57a5a66",
+      "message": "feat(ops): transcript pipeline + platform matrix",
+      "files": ["ops/schemas/PLATFORM_MATRIX.md", "ops/scripts/Transcript-Pipeline.ps1"]
+    },
+    {
+      "hash": "4e38c85",
+      "message": "feat(ops): SpiralSafe infrastructure layer",
+      "files": [
+        "ops/api/spiralsafe-worker.ts",
+        "ops/schemas/d1-schema.sql",
+        "ops/scripts/SpiralSafe.psm1",
+        ".github/workflows/spiralsafe-ci.yml"
+      ]
+    }
+  ],
+
+  "components": {
+    "api": {
+      "path": "ops/api/spiralsafe-worker.ts",
+      "runtime": "Cloudflare Workers",
+      "language": "TypeScript"
+    },
+    "database": {
+      "path": "ops/schemas/d1-schema.sql",
+      "runtime": "Cloudflare D1",
+      "language": "SQL"
+    },
+    "cli": {
+      "powershell": "ops/scripts/SpiralSafe.psm1",
+      "bash": "ops/scripts/spiralsafe"
+    },
+    "pipelines": {
+      "transcript": "ops/scripts/Transcript-Pipeline.ps1",
+      "notebook": "ops/scripts/Notebook-Verifier.ps1"
+    },
+    "ci": {
+      "path": ".github/workflows/spiralsafe-ci.yml",
+      "runtime": "GitHub Actions"
+    }
+  },
+
+  "platforms": {
+    "ai": ["claude-code", "github-copilot", "openai-gpt", "gemini", "grok", "groq"],
+    "os": ["windows", "macos", "linux"],
+    "shell": ["powershell", "bash", "zsh", "fish"],
+    "ide": ["vscode", "wave", "cursor", "jetbrains"]
+  },
+
+  "checksums": {
+    "algorithm": "SHA-256",
+    "manifest": "computed-at-build"
+  },
+
+  "pr": {
+    "number": 20,
+    "url": "https://github.com/toolate28/SpiralSafe/pull/20",
+    "marker": "H&&S:WAVE"
+  },
+
+  "author": {
+    "human": "toolate28",
+    "ai": "Claude Opus 4.5",
+    "tool": "Claude Code"
+  }
+}
