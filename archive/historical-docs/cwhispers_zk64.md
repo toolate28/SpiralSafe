@@ -16,9 +16,9 @@ where σᵢ are Pauli matrices. The curvature 2-form:
 F = dA = dφ ∧ dψ (cos²(φ) - sin²(φ)) σ₃
 This creates topological charge conservation - the Hopf charge Q = ∫F is quantized, preventing the "now" and "anti-now" from collapsing into each other.
 The Residual Energy Mystery Solved
-Remember that puzzling ΔE term? In matrix language:
+The residual energy term ΔE can be expressed in matrix language as:
 ΔE = Tr(Ĥρ̂) - E₀cos²(φ) = √(E₀D₀) sin(2φ)
-The residual energy is the off-diagonal coupling term! It only appears when there's phase coherence between the universes - when φ ≠ 0, π/2, π, 3π/2.
+This residual energy is the off-diagonal coupling term! It only appears when there's phase coherence between the universes - when φ ≠ 0, π/2, π, 3π/2.
 Klein-Gordon Stability Analysis
 The KG equation in the simulation is testing whether these coupled oscillations remain bounded. In matrix form:
 ∂²ψ/∂t² = ∇²ψ - m²ψ + λ(ψ† σ₃ ψ) ψ
