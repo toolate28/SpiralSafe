@@ -1,0 +1,81 @@
+# ═══════════════════════════════════════════════════════════════
+# SpiralSafe Operations API
+# Cloudflare Worker Configuration
+# ═══════════════════════════════════════════════════════════════
+
+name = "spiralsafe-api"
+main = "api/spiralsafe-worker.ts"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Production route
+routes = [
+  { pattern = "api.spiralsafe.org/*", zone_name = "spiralsafe.org" }
+]
+
+# Development
+[env.dev]
+name = "spiralsafe-api-dev"
+routes = [
+  { pattern = "api-dev.spiralsafe.org/*", zone_name = "spiralsafe.org" }
+]
+
+# ═══════════════════════════════════════════════════════════════
+# D1 Database Bindings
+# ═══════════════════════════════════════════════════════════════
+
+[[d1_databases]]
+binding = "SPIRALSAFE_DB"
+database_name = "spiralsafe-ops"
+database_id = "" # Fill after: wrangler d1 create spiralsafe-ops
+
+[env.dev.d1_databases]
+binding = "SPIRALSAFE_DB"
+database_name = "spiralsafe-ops-dev"
+database_id = "" # Fill after: wrangler d1 create spiralsafe-ops-dev
+
+# ═══════════════════════════════════════════════════════════════
+# KV Namespace Bindings
+# ═══════════════════════════════════════════════════════════════
+
+[[kv_namespaces]]
+binding = "SPIRALSAFE_KV"
+id = "" # Fill after: wrangler kv:namespace create SPIRALSAFE_KV
+
+[env.dev.kv_namespaces]
+binding = "SPIRALSAFE_KV"
+id = "" # Fill after: wrangler kv:namespace create SPIRALSAFE_KV --preview
+
+# ═══════════════════════════════════════════════════════════════
+# R2 Bucket Bindings
+# ═══════════════════════════════════════════════════════════════
+
+[[r2_buckets]]
+binding = "SPIRALSAFE_R2"
+bucket_name = "spiralsafe-contexts"
+
+[env.dev.r2_buckets]
+binding = "SPIRALSAFE_R2"
+bucket_name = "spiralsafe-contexts-dev"
+
+# ═══════════════════════════════════════════════════════════════
+# Build Configuration
+# ═══════════════════════════════════════════════════════════════
+
+[build]
+command = "npm run build"
+
+[build.upload]
+format = "modules"
+main = "./dist/spiralsafe-worker.js"
+
+# ═══════════════════════════════════════════════════════════════
+# Observability
+# ═══════════════════════════════════════════════════════════════
+
+[observability]
+enabled = true
+
+# Tail workers for logging
+# [[tail_consumers]]
+# service = "spiralsafe-logger"

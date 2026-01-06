@@ -1,0 +1,63 @@
+{
+  "name": "@spiralsafe/ops",
+  "version": "1.0.0",
+  "description": "SpiralSafe Operations API - Coherence engine for human-AI collaboration",
+  "type": "module",
+  "main": "dist/spiralsafe-worker.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:dev": "wrangler deploy --env dev",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint api/**/*.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:create": "wrangler d1 create spiralsafe-ops",
+    "db:migrate": "wrangler d1 execute spiralsafe-ops --file=./schemas/d1-schema.sql",
+    "db:migrate:dev": "wrangler d1 execute spiralsafe-ops-dev --file=./schemas/d1-schema.sql --local",
+    "kv:create": "wrangler kv:namespace create SPIRALSAFE_KV",
+    "r2:create": "wrangler r2 bucket create spiralsafe-contexts",
+    "setup": "npm run db:create && npm run kv:create && npm run r2:create && npm run db:migrate",
+    "wave": "./scripts/spiralsafe wave",
+    "bump": "./scripts/spiralsafe bump",
+    "awi": "./scripts/spiralsafe awi",
+    "status": "./scripts/spiralsafe status"
+  },
+  "bin": {
+    "spiralsafe": "./scripts/spiralsafe"
+  },
+  "keywords": [
+    "spiralsafe",
+    "coherence",
+    "human-ai-collaboration",
+    "cloudflare-workers",
+    "wave-protocol",
+    "bump-protocol",
+    "awi",
+    "atom"
+  ],
+  "author": "Hope&&Sauced (H&&S)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/toolate28/SpiralSafe.git"
+  },
+  "homepage": "https://spiralsafe.org",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240117.0",
+    "@types/node": "^20.11.0",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0",
+    "wrangler": "^3.24.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist",
+    "scripts",
+    "schemas"
+  ]
+}
