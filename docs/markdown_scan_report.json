@@ -1,0 +1,42 @@
+{
+  "files_scanned": 113,
+  "table_issues": [
+    {
+      "file": "SpiralSafe\\MAGNUM_OPUS.md",
+      "start_line": 527,
+      "issue": "missing_header_separator",
+      "rows": 2
+    },
+    {
+      "file": "SpiralSafe\\docs\\templates\\DOCUMENT_STATE_MARKER.md",
+      "start_line": 5,
+      "issue": "missing_header_separator",
+      "rows": 2
+    },
+    {
+      "file": "SpiralSafe\\docs\\templates\\DOCUMENT_STATE_MARKER.md",
+      "start_line": 5,
+      "issue": "uneven_columns",
+      "col_counts": [
+        4,
+        5
+      ]
+    }
+  ],
+  "fence_issues": [],
+  "broken_links": [
+    {
+      "file": "SpiralSafe\\THE_ONE_PATH.md",
+      "line": 92,
+      "link": "",
+      "resolved": ""
+    },
+    {
+      "file": "SpiralSafe\\bridges\\README.md",
+      "line": 634,
+      "link": "../docs/atom-trail-spec.md",
+      "resolved": "SpiralSafe\\docs\\atom-trail-spec.md"
+    }
+  ],
+  "todo_items_count": 68
+}
