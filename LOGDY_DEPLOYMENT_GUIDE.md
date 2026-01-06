@@ -145,7 +145,7 @@ $TUNNEL_ID = (cloudflared tunnel list | Select-String "spiralsafe-logs" | ForEac
 **Via API (if you prefer):**
 ```powershell
 $headers = @{
-    "Authorization" = "Bearer aJ0rdJoHcKDCerLsO_WUBsA3No0JxqorLpl_mSXU"
+    "Authorization" = "Bearer your_cloudflare_api_token_here"
     "Content-Type" = "application/json"
 }
 
@@ -384,7 +384,7 @@ Once live, announce:
 & "C:\Users\iamto\.kenl\bin\logdy.exe" serve --port 8081
 
 # 2. Authenticate cloudflared
-$env:CLOUDFLARE_API_TOKEN = "aJ0rdJoHcKDCerLsO_WUBsA3No0JxqorLpl_mSXU"
+$env:CLOUDFLARE_API_TOKEN = Read-Host "Enter Cloudflare API token"
 cloudflared tunnel login
 
 # 3. Create tunnel
