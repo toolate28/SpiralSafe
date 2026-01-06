@@ -17,15 +17,19 @@ If you find a secret committed (accidentally):
 3. Open an incident note and record the rotation proof in the security audit log.
 
 Ephemeral session artifacts:
+
 - `.verification/` should be ignored and preserved as CI build artifacts when needed; do NOT commit session files.
 
 CI & PR requirements:
+
 - PRs must pass the `secret-scan` workflow (Gitleaks + detect-secrets).
 - Maintainers should review any exception in `.secrets.baseline` before merging.
 
 Tools & setup:
+
 - `pre-commit` with `detect-secrets` and `gitleaks` pre-commit hooks (see `scripts/setup-precommit.ps1`).
 - `gitleaks` GitHub Action (runs on PRs) and `detect-secrets` scan in CI.
 
 Contact & escalation:
+
 - If unsure, ping the security owner (see `SECURITY.md`) or open an issue tagged `security/secret-leak`.
