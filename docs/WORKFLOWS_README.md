@@ -9,6 +9,8 @@ Workflows added:
 - `.github/workflows/verify-and-hash.yml` — Scheduled daily and manual dispatch. Runs `verify_claims.ps1` and `hash_all.ps1`. Uploads artifacts.
 - `.github/workflows/journey-sim.yml` — Designed to run on a self-hosted runner; simulates forward/backward pipeline walks. `apply=true` triggers safe copy/restore simulation and requires a self-hosted runner.
 
+- `.github/workflows/markdown-and-linkcheck.yml` — Runs `markdownlint` and `markdown-link-check` on pushes, PRs for Markdown files, and daily on a schedule to catch broken links and style issues.
+
 Security & required secrets
 - `GITHUB_TOKEN` — automatically provided to workflows; sufficient for commit/push/PR within the same repository. No action needed.
 - If you want workflows to push as a different bot account or access other repos, provide a Personal Access Token with `repo` and `workflow` scopes as a repo secret (e.g. `REPO_PAT`).
