@@ -25,16 +25,50 @@ Purpose: Short, actionable instructions to help AI coding agents be immediately 
 - CI specifics: `.github/workflows/spiralsafe-ci.yml` runs a document "coherence" (wave) analysis before lint/build, then runs lint, typecheck, tests, and Cloudflare deploys with AWI grants.
 
 ## Project-specific patterns & conventions (must follow)
-- H&&S markers (protocol/bump-spec.md): use `H&&S:WAVE` for soft handoff (add to PR body for review), `H&&S:PASS` to transfer ownership, `H&&S:SYNC` for synchronization, `H&&S:BLOCK` for blocking issues. Examples: include `H&&S:WAVE` in PR body for architectural changes.
-- Commit message format: `[layer] Brief description` (layers e.g. `[protocol]`, `[interface]`, `[methodology]`). See `CONTRIBUTING.md`.
-- Dual-format docs: Many files follow a dual-format convention—prose + structured summary (`.context.yaml` style). Preserve both when adding or editing docs.
-- Atom trail: project sessions and decisions live in `.atom-trail/` (subdirs: `decisions`, `sessions`, `verifications`). Use `ops/scripts/session_report.py` (`start` / `signout`) for session work, and `ops/scripts/sign_verification.py` to record human signatures.
-- Verification & signing:
+- **H&&S markers** (protocol/bump-spec.md): use `H&&S:WAVE` for soft handoff (add to PR body for review), `H&&S:PASS` to transfer ownership, `H&&S:SYNC` for synchronization, `H&&S:BLOCK` for blocking issues. Examples: include `H&&S:WAVE` in PR body for architectural changes.
+- **Commit message format**: `[layer] Brief description` (layers e.g. `[protocol]`, `[interface]`, `[methodology]`). See `CONTRIBUTING.md`.
+- **ATOM tagging**: Format `ATOM-TYPE-YYYYMMDD-NNN-description`. Types: INIT, FEATURE, FIX, DOC, REFACTOR, TEST, DECISION, RELEASE, TASK.
+- **Dual-format docs**: Many files follow a dual-format convention—prose + structured summary (`.context.yaml` style). Preserve both when adding or editing docs.
+- **Atom trail**: project sessions and decisions live in `.atom-trail/` (subdirs: `decisions`, `sessions`, `verifications`). Use `ops/scripts/session_report.py` (`start` / `signout`) for session work, and `ops/scripts/sign_verification.py` to record human signatures.
+- **Verification & signing**:
   - Start a session: `python ops/scripts/session_report.py start "desc"`
   - Sign out: `python ops/scripts/session_report.py signout <ATOM_TAG>`
   - Add verification: `python ops/scripts/sign_verification.py <VER_TAG> --name "your-name"`
   - Encryption helper: `ops/scripts/Transcript-Pipeline.ps1` (PowerShell, AES-256-GCM)
   - Verify signatures: documented as `ss-verify <path>` in docs (see `ops/DEPLOYMENT_ARCHITECTURE.md`).
+
+## Code style guidelines
+
+### Shell Scripts
+- Always use `set -euo pipefail` for strict mode
+- Check dependencies gracefully before use
+- Provide clear error messages with recovery steps
+- Make scripts idempotent when possible
+
+### PowerShell Scripts
+- Use `#Requires -Version 5.1` at the top
+- Set `$ErrorActionPreference = "Stop"`
+- Use appropriate Write-* cmdlets (Write-Host for user output, Write-Error for errors)
+
+### Markdown Documentation
+- Use ATOM tags in headers when documenting decisions
+- Include concrete examples
+- Link to related documents
+- Follow "Tomorrow Test" - can someone use this without additional context?
+
+## Security requirements
+
+**NEVER commit:**
+- API keys, tokens, passwords, or credentials
+- `.env` files with sensitive data
+- SSH keys or certificates
+- Any `*secret*`, `*password*`, `*token*` named files
+
+**ALWAYS:**
+- Use GitHub Secrets for CI/CD credentials
+- Include `.env.example` files with placeholders only
+- Use `scripts/redact-log.sh` before sharing logs
+- Store runtime secrets in environment variables
 
 ## Integration points & external dependencies
 - Cloudflare (wrangler) deploys in CI; AWI grant requests are created during deploy job (`SPIRALSAFE_API_BASE` used for API calls).
@@ -62,5 +96,18 @@ Purpose: Short, actionable instructions to help AI coding agents be immediately 
 - Humans: file an issue and tag maintainers.
 - Agents: follow `.github/AGENTS.md` coordination flow (`Claude -> H&&S:WAVE -> Copilot -> Human`).
 
+## Core principles (KENL ecosystem)
+1. **Visible State** - All decisions logged with ATOM tags, state changes observable in git history
+2. **Clear Intent** - Document WHY, not just WHAT; include rationale in code comments
+3. **Natural Decomposition** - Scripts do ONE thing well; fail fast with clear errors
+4. **Networked Learning** - Documentation enriches through use; include examples
+5. **Measurable Delivery** - Testable exit codes, verification steps, clear success/failure indicators
+
+## Additional resources
+- `.github/copilot/instructions.md` - Detailed code patterns and examples
+- `.github/AGENTS.md` - Multi-agent collaboration protocols
+- `CONTRIBUTING.md` - Contribution guidelines and philosophy
+- `ARCHITECTURE.md` - System architecture and design layers
+
 ---
-If you'd like, I can open a PR to add this file (or expand any section with examples tailored to a specific subdirectory). Feedback? Any section you want shifted or expanded?
+*For detailed code patterns, ATOM workflow examples, and anti-patterns, see `.github/copilot/instructions.md`*
