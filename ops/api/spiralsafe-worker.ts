@@ -132,21 +132,21 @@ async function checkRateLimit(
   // Calculate remaining slots
   let remaining: number;
   
-  // Only add current request if allowed
+  // Add current request if allowed
   if (allowed) {
     requests.push(now);
     remaining = maxRequests - requests.length;
-    
-    // Store updated request list with TTL
-    await env.SPIRALSAFE_KV.put(
-      rateLimitKey,
-      JSON.stringify(requests),
-      { expirationTtl: windowSeconds }
-    );
   } else {
     // No remaining requests when rate limit is exceeded
     remaining = 0;
   }
+  
+  // Store updated request list with TTL (always update to keep data clean)
+  await env.SPIRALSAFE_KV.put(
+    rateLimitKey,
+    JSON.stringify(requests),
+    { expirationTtl: windowSeconds }
+  );
 
   const resetAt = now + windowSeconds;
 
