@@ -119,7 +119,7 @@ export default {
       const apiKey = request.headers.get('X-API-Key');
       const validKey = env.SPIRALSAFE_API_KEY; // Set in wrangler secrets
       
-      if (!apiKey || apiKey !== validKey) {
+      if (!apiKey || !validKey || !constantTimeEqual(apiKey, validKey)) {
         return new Response(JSON.stringify({ error: 'Unauthorized' }), {
           status: 401,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -614,6 +614,25 @@ function jsonResponse(data: unknown, status = 200): Response {
     status,
     headers: { 'Content-Type': 'application/json' }
   });
+}
+
+/**
+ * Constant-time string comparison to prevent timing attacks
+ * @param a First string to compare
+ * @param b Second string to compare
+ * @returns true if strings match, false otherwise
+ */
+function constantTimeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) {
+    return false;
+  }
+  
+  let result = 0;
+  for (let i = 0; i < a.length; i++) {
+    result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  
+  return result === 0;
 }
 
 async function hashContent(content: string): Promise<string> {

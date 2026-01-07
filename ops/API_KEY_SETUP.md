@@ -36,8 +36,8 @@ Write-Host "Your API key: $apiKey"
 Alternatively, use bash:
 
 ```bash
-# Generate a strong API key
-openssl rand -base64 32
+# Generate a strong API key (64 hex characters)
+openssl rand -hex 32
 ```
 
 **Important**: Store this key securely. You'll need it for the next step.
