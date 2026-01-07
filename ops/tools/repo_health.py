@@ -15,7 +15,6 @@ Usage: python ops/tools/repo_health.py --output .verification/repo_health-YYYYMM
 
 import argparse
 import json
-import os
 import subprocess
 import sys
 import time
