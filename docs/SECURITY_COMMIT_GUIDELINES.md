@@ -22,7 +22,11 @@ Ephemeral session artifacts:
 
 CI & PR requirements:
 
+<<<<<<< HEAD
 - PRs must pass the `secret-scan` workflow (Gitleaks + detect-secrets). The Gitleaks job is scheduled daily and uploads a report artifact for audits; maintainers should block merges on critical findings.
+=======
+- PRs must pass the `secret-scan` workflow (Gitleaks + detect-secrets).
+>>>>>>> main
 - Maintainers should review any exception in `.secrets.baseline` before merging.
 
 Tools & setup:
@@ -33,6 +37,7 @@ Tools & setup:
 Contact & escalation:
 
 - If unsure, ping the security owner (see `SECURITY.md`) or open an issue tagged `security/secret-leak`.
+<<<<<<< HEAD
 
 ---
 
@@ -41,3 +46,5 @@ Contact & escalation:
 - **2026-01-07 (Iteration 1):** Added `.secrets.baseline`, initial triage, and untracked `.verification/` artifacts. See `docs/SECURITY_TRIAGE.md` for detailed rationale.
 - **2026-01-07 (Iteration 2):** Documentation hygiene pass — redacted hardcoded tokens (Cloudflare), standardized GitHub token placeholders to `your_github_pat_here`, and replaced example tokens in scripts and docs to reduce false positives.
 - **Next (Iteration 3):** Enforce CI gating for secret scans and add scheduled Gitleaks retention/alerting; prepare PR updates to require maintainers to review any `.secrets.baseline` changes.
+=======
+>>>>>>> main

@@ -65,7 +65,7 @@ This token has:
 - ✅ Cloudflare Tunnel:Edit
 - ✅ Account:Read
 
-**Perfect permissions for this deployment.**
+**Perfect permissions for this deployment (REDACTED).**
 
 > **Note:** If you find a real token in the documentation, rotate it immediately and follow `docs/SECURITY_COMMIT_GUIDELINES.md`.
 
@@ -77,7 +77,11 @@ This token has:
 
 ```powershell
 # Set API token (placeholder)
+<<<<<<< HEAD
 # Do NOT commit real tokens into docs or source. Use environment variables or GitHub Secrets.
+=======
+# Do NOT commit real tokens into docs. Use environment variables or secrets in CI.
+>>>>>>> main
 $env:CLOUDFLARE_API_TOKEN = "REDACTED_CLOUDFLARE_API_TOKEN"
 
 # Login to Cloudflare
@@ -147,7 +151,11 @@ $TUNNEL_ID = (cloudflared tunnel list | Select-String "spiralsafe-logs" | ForEac
 **Via API (if you prefer):**
 ```powershell
 $headers = @{
+<<<<<<< HEAD
     "Authorization" = "Bearer REDACTED_CLOUDFLARE_API_TOKEN"
+=======
+    "Authorization" = "Bearer your_cloudflare_api_token_here"
+>>>>>>> main
     "Content-Type" = "application/json"
 }
 
@@ -386,7 +394,7 @@ Once live, announce:
 & "C:\Users\iamto\.kenl\bin\logdy.exe" serve --port 8081
 
 # 2. Authenticate cloudflared
-$env:CLOUDFLARE_API_TOKEN = "aJ0rdJoHcKDCerLsO_WUBsA3No0JxqorLpl_mSXU"
+$env:CLOUDFLARE_API_TOKEN = Read-Host "Enter Cloudflare API token"
 cloudflared tunnel login
 
 # 3. Create tunnel
