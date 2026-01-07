@@ -1,5 +1,4 @@
 import json
-import xml.etree.ElementTree as ET
 from ops.integrations.benchmarks.grok_benchmark import benchmark, write_summary_with_questions, QUERIES, run_mock_grok
 
 
