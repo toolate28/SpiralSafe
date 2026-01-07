@@ -148,7 +148,12 @@ async function checkRateLimit(
     { expirationTtl: windowSeconds }
   );
 
-  const resetAt = now + windowSeconds;
+  // When rate limited, the window effectively resets when the oldest
+  // request in the current window expires, not a full window from now.
+  // Use a conservative fallback when not rate limited or if there are no requests.
+  const resetAt = !allowed && requests.length > 0
+    ? requests[0] + windowSeconds
+    : now + windowSeconds;
 
   return { allowed, remaining, resetAt };
 }
