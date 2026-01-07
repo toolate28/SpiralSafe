@@ -163,7 +163,7 @@ Prose    JSON File    Interactive    Internalized
 ### Available Visual Assets
 
 Located in `showcase/`:
-- `mcstart1.png` through `mcstart7.png` — Minecraft world screenshots
+- `mcstart1.png`, `mcstart2.png`, `mcstart3.png`, `mcstart4.png`, `mcstart5.png`, `mcstart7.png` — Minecraft world screenshots
 - Shows actual builds in-game
 - Demonstrates that theory is manifested in practice
 
@@ -185,6 +185,7 @@ The discrete-continuous equivalence is not conjecture. It has been independently
    - Perfect reconstruction (not approximation)
 
 2. **Lewis, Kempf, Menicucci (2023)**: Quantum fields ↔ lattice theories
+   - D.G. Lewis, A. Kempf, and N.C. Menicucci
    - [arXiv:2303.07649](https://arxiv.org/abs/2303.07649)
    - Isomorphism without taking lattice spacing → 0
    - Continuous symmetries emerge from discrete systems
@@ -334,7 +335,7 @@ Primary repository for:
 
 ### Research Questions
 
-1. Can Minecraft Redstone implement a universal quantum gate set? (Note: This would be classical simulation of quantum gates, not true quantum computation—Minecraft is a classical deterministic system)
+1. Can Minecraft Redstone implement a universal quantum gate set for pedagogical purposes?
 2. What topological invariants are most pedagogically valuable?
 3. How do we teach wave-particle duality in a discrete substrate?
 4. Can we map quantum field theory concepts to Minecraft biomes/dimensions?
