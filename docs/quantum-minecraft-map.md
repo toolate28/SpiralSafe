@@ -3,6 +3,14 @@
 
 **Purpose**: This document maps quantum concepts to their Minecraft Redstone implementations, demonstrating the isomorphism principle in action—that discrete systems can instantiate (not approximate) continuous mathematics.
 
+**Important Clarification**: Minecraft is a classical, deterministic system. When we map quantum concepts to Minecraft, we are:
+- Teaching quantum *concepts* through classical analogs
+- Demonstrating topological and structural equivalences
+- NOT claiming Minecraft can perform true quantum computation
+- Using constraints (discreteness, determinism) as pedagogical advantages
+
+The value is pedagogical: concrete, interactive models that build intuition for abstract quantum concepts. The mappings are structurally sound but fundamentally classical.
+
 ---
 
 ## The Core Principle
@@ -321,12 +329,12 @@ Primary repository for:
 2. **Measurement** → Observer-dependent circuit behavior
 3. **Decoherence** → Redstone signal decay over distance
 4. **Quantum Error Correction** → Redundant circuit paths
-5. **Grover's Algorithm** → Search optimization in Redstone
-6. **Shor's Algorithm** → Factorization demonstration (simplified)
+5. **Grover's Algorithm** → Search optimization in Redstone (classical simulation for pedagogy)
+6. **Shor's Algorithm** → Factorization demonstration (simplified classical simulation)
 
 ### Research Questions
 
-1. Can Minecraft Redstone implement a universal quantum gate set? (Classical simulation)
+1. Can Minecraft Redstone implement a universal quantum gate set? (Note: This would be classical simulation of quantum gates, not true quantum computation—Minecraft is a classical deterministic system)
 2. What topological invariants are most pedagogically valuable?
 3. How do we teach wave-particle duality in a discrete substrate?
 4. Can we map quantum field theory concepts to Minecraft biomes/dimensions?
