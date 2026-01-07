@@ -18,6 +18,10 @@ export interface Env {
   SPIRALSAFE_KV: KVNamespace;
   SPIRALSAFE_R2: R2Bucket;
   SPIRALSAFE_API_KEY: string;
+  SPIRALSAFE_API_KEYS?: string;      // Comma-separated list of valid API keys
+  RATE_LIMIT_REQUESTS?: string;      // Max requests per window (default: 100)
+  RATE_LIMIT_WINDOW?: string;        // Time window in seconds (default: 60)
+  RATE_LIMIT_AUTH_FAILURES?: string; // Max auth failures per window (default: 5)
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -95,6 +99,113 @@ interface Atom {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// Security Utilities
+// ═══════════════════════════════════════════════════════════════
+
+interface RateLimitResult {
+  allowed: boolean;
+  remaining: number;
+  resetAt: number;
+}
+
+async function checkRateLimit(
+  env: Env,
+  ip: string,
+  key: string,
+  maxRequests: number,
+  windowSeconds: number
+): Promise<RateLimitResult> {
+  const rateLimitKey = `ratelimit:${key}:${ip}`;
+  const now = Math.floor(Date.now() / 1000);
+  const windowStart = now - windowSeconds;
+
+  // Get current request data
+  const dataJson = await env.SPIRALSAFE_KV.get(rateLimitKey);
+  let requests: number[] = dataJson ? JSON.parse(dataJson) : [];
+
+  // Filter out requests outside the current window
+  requests = requests.filter(timestamp => timestamp > windowStart);
+
+  // Add current request timestamp
+  requests.push(now);
+
+  // Store updated request list with TTL
+  await env.SPIRALSAFE_KV.put(
+    rateLimitKey,
+    JSON.stringify(requests),
+    { expirationTtl: windowSeconds }
+  );
+
+  const allowed = requests.length <= maxRequests;
+  const remaining = Math.max(0, maxRequests - requests.length);
+  const resetAt = now + windowSeconds;
+
+  return { allowed, remaining, resetAt };
+}
+
+async function logRequest(
+  env: Env,
+  request: Request,
+  path: string,
+  authenticated: boolean,
+  status: number,
+  error?: string
+): Promise<void> {
+  try {
+    const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+    const userAgent = request.headers.get('User-Agent') || 'unknown';
+    const logEntry = {
+      timestamp: new Date().toISOString(),
+      ip,
+      method: request.method,
+      path,
+      authenticated,
+      status,
+      error,
+      userAgent,
+      country: request.headers.get('CF-IPCountry') || 'unknown'
+    };
+
+    // Store in KV with 30-day retention
+    const logKey = `log:${Date.now()}:${crypto.randomUUID()}`;
+    await env.SPIRALSAFE_KV.put(logKey, JSON.stringify(logEntry), { expirationTtl: 86400 * 30 });
+
+    // For failed auth attempts, also log to D1 for permanent audit
+    if (!authenticated && (status === 401 || status === 403)) {
+      await env.SPIRALSAFE_DB.prepare(
+        'INSERT INTO system_health (timestamp, status, details) VALUES (?, ?, ?)'
+      ).bind(
+        new Date().toISOString(),
+        'auth_failure',
+        JSON.stringify({ ip, path, userAgent })
+      ).run();
+    }
+  } catch (err) {
+    // Don't fail requests if logging fails, but emit error for observability
+    console.error('logRequest failed', err);
+  }
+}
+
+function validateApiKey(env: Env, providedKey: string): boolean {
+  // Check primary key using constant-time comparison
+  if (constantTimeEqual(providedKey, env.SPIRALSAFE_API_KEY)) {
+    return true;
+  }
+
+  // Check additional keys if configured using constant-time comparison
+  if (env.SPIRALSAFE_API_KEYS) {
+    const validKeys = env.SPIRALSAFE_API_KEYS.split(',').map(k => k.trim());
+    for (const validKey of validKeys) {
+      if (constantTimeEqual(providedKey, validKey)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+// ═══════════════════════════════════════════════════════════════
 // Main Handler
 // ═══════════════════════════════════════════════════════════════
 
@@ -102,6 +213,7 @@ export default {
   async fetch(request: Request, env: Env, _ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     const path = url.pathname;
+    const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
 
     // CORS headers for cross-origin requests
     const corsHeaders = {
@@ -114,18 +226,99 @@ export default {
       return new Response(null, { headers: corsHeaders });
     }
 
-    // Protect all write endpoints
-    if (request.method === 'POST' || request.method === 'PUT' || request.method === 'DELETE') {
-      const apiKey = request.headers.get('X-API-Key');
-      const validKey = env.SPIRALSAFE_API_KEY; // Set in wrangler secrets
-      
-      // Validate that both keys exist and match using constant-time comparison
-      if (!apiKey || !validKey || validKey.length === 0 || !constantTimeEqual(apiKey, validKey)) {
-        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+    // ═══════════════════════════════════════════════════════════════
+    // Rate Limiting
+    // ═══════════════════════════════════════════════════════════════
+    const rateLimitRequests = parseInt(env.RATE_LIMIT_REQUESTS || '100');
+    const rateLimitWindow = parseInt(env.RATE_LIMIT_WINDOW || '60');
+
+    const rateLimit = await checkRateLimit(env, ip, 'api', rateLimitRequests, rateLimitWindow);
+
+    if (!rateLimit.allowed) {
+      await logRequest(env, request, path, false, 429, 'Rate limit exceeded');
+      return new Response(JSON.stringify({
+        error: 'Too Many Requests',
+        message: `Rate limit exceeded. Try again in ${rateLimit.resetAt - Math.floor(Date.now() / 1000)} seconds.`,
+        limit: rateLimitRequests,
+        window: rateLimitWindow,
+        resetAt: rateLimit.resetAt
+      }), {
+        status: 429,
+        headers: {
+          ...corsHeaders,
+          'Content-Type': 'application/json',
+          'X-RateLimit-Limit': rateLimitRequests.toString(),
+          'X-RateLimit-Remaining': '0',
+          'X-RateLimit-Reset': rateLimit.resetAt.toString()
+        }
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // Authentication for write endpoints
+    // ═══════════════════════════════════════════════════════════════
+    const isWriteOperation = request.method === 'POST' || request.method === 'PUT' || request.method === 'DELETE';
+    const isHealthCheck = path === '/api/health';
+    let authenticated = false;
+
+    if (isWriteOperation && !isHealthCheck) {
+      const providedKey = request.headers.get('X-API-Key');
+
+      if (!providedKey) {
+        await logRequest(env, request, path, false, 401, 'No API key provided');
+
+        // Check auth failure rate limit (stricter)
+        const authFailureLimit = parseInt(env.RATE_LIMIT_AUTH_FAILURES || '5');
+        const authRateLimit = await checkRateLimit(env, ip, 'auth_failures', authFailureLimit, rateLimitWindow);
+
+        if (!authRateLimit.allowed) {
+          return new Response(JSON.stringify({
+            error: 'Too Many Failed Authentication Attempts',
+            message: `Temporary block due to too many failed attempts. Try again in ${authRateLimit.resetAt - Math.floor(Date.now() / 1000)} seconds.`,
+            resetAt: authRateLimit.resetAt
+          }), {
+            status: 429,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+          });
+        }
+
+        return new Response(JSON.stringify({
+          error: 'Unauthorized',
+          message: 'API key required. Include X-API-Key header.'
+        }), {
           status: 401,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         });
       }
+
+      if (!validateApiKey(env, providedKey)) {
+        await logRequest(env, request, path, false, 403, 'Invalid API key');
+
+        // Check auth failure rate limit (stricter)
+        const authFailureLimit = parseInt(env.RATE_LIMIT_AUTH_FAILURES || '5');
+        const authRateLimit = await checkRateLimit(env, ip, 'auth_failures', authFailureLimit, rateLimitWindow);
+
+        if (!authRateLimit.allowed) {
+          return new Response(JSON.stringify({
+            error: 'Too Many Failed Authentication Attempts',
+            message: `Temporary block due to too many failed attempts. Try again in ${authRateLimit.resetAt - Math.floor(Date.now() / 1000)} seconds.`,
+            resetAt: authRateLimit.resetAt
+          }), {
+            status: 429,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+          });
+        }
+
+        return new Response(JSON.stringify({
+          error: 'Forbidden',
+          message: 'Invalid API key'
+        }), {
+          status: 403,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
+
+      authenticated = true;
     }
 
     try {
@@ -151,18 +344,27 @@ export default {
         }), { status: 404 });
       }
 
-      // Add CORS headers to response
+      // Add CORS and rate limit headers to response
       Object.entries(corsHeaders).forEach(([key, value]) => {
         response.headers.set(key, value);
       });
+      response.headers.set('X-RateLimit-Limit', rateLimitRequests.toString());
+      response.headers.set('X-RateLimit-Remaining', rateLimit.remaining.toString());
+      response.headers.set('X-RateLimit-Reset', rateLimit.resetAt.toString());
+
+      // Log successful request
+      await logRequest(env, request, path, authenticated, response.status);
 
       return response;
 
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      await logRequest(env, request, path, authenticated, 500, errorMessage);
+
       return new Response(JSON.stringify({
         error: 'Internal server error',
-        message: error instanceof Error ? error.message : 'Unknown error'
-      }), { 
+        message: errorMessage
+      }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
