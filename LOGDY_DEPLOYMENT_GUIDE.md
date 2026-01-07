@@ -163,6 +163,8 @@ Invoke-RestMethod -Method Post `
     -Body $body
 ```
 
+**Security note:** Do **not** commit real API tokens into repository files or documentation. If a token is accidentally committed, rotate/revoke it immediately, remove it from Git history using `git filter-repo` or [BFG Repo-Cleaner](https://rtyley.github.io/bfg-repo-cleaner/), and follow `docs/SECURITY_COMMIT_GUIDELINES.md` to log the incident and record rotation evidence.
+
 ### Step 5: Start Tunnel
 
 ```powershell

@@ -1,0 +1,31 @@
+{
+  "version": "1.0.1",
+  "created_at": "2026-01-07T00:41:46.286088Z",
+  "files": [
+    {
+      "path": "project-book.ipynb",
+      "sha256": "fb842d886d9d8a7e2f2f58cb2835ac19f79133961c1d94165391ba8badb58abd",
+      "size": 45967
+    },
+    {
+      "path": "RELEASE_MANIFEST.json",
+      "sha256": "b212d1d3c6364c58439acede1fa99d964707a082d4f6d5b8b1bcb28f2de86827",
+      "size": 193
+    },
+    {
+      "path": "session_report.py",
+      "sha256": "a5a7613c7659d3cd4a37769d61c1fee7288fa3b5743ebbc05d574ecbe99043fa",
+      "size": 4561
+    },
+    {
+      "path": "VERIFICATION_STAMP.md",
+      "sha256": "0a3d984c0dae8bbc324b8234a768eebd935d7a20454594cf933c3680f039f595",
+      "size": 17320
+    },
+    {
+      "path": "VERSION_MANIFEST.json",
+      "sha256": "8e68401d70552db930deb4d312ee1f3ce30903ff4bb897688a4a92beb3351e43",
+      "size": 2608
+    }
+  ]
+}
