@@ -1,5 +1,8 @@
 name: Test xAI/Grok Integration
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [ 'integration/xai-grok' ]
