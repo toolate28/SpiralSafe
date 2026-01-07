@@ -82,9 +82,22 @@ def parse_args():
     return p.parse_args()
 
 
+def find_repo_root(start: Path) -> Path:
+    """
+    Attempt to locate the repository root by walking up from ``start`` until a
+    directory containing a ``.git`` marker is found. If no such directory is
+    found, fall back to the directory containing ``start``.
+    """
+    for path in [start] + list(start.parents):
+        if (path / '.git').is_dir():
+            return path
+    return start.parent
+
+
 def main():
     args = parse_args()
-    repo_root = Path(__file__).resolve().parents[2]
+    script_path = Path(__file__).resolve()
+    repo_root = find_repo_root(script_path)
     outdir = Path(args.outdir) if args.outdir else (repo_root / 'ops' / 'integrations' / 'results')
     outdir.mkdir(parents=True, exist_ok=True)
     mock_dir = Path(args.mock_dir) if args.mock_dir else (repo_root / 'ops' / 'integrations' / 'xai-grok' / 'mocks')
