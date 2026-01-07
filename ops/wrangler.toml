@@ -25,11 +25,10 @@ routes = [
 # D1 Database Bindings
 # ═══════════════════════════════════════════════════════════════
 
-# Commented out until resources are created
-# [[d1_databases]]
-# binding = "SPIRALSAFE_DB"
-# database_name = "spiralsafe-ops"
-# database_id = "" # Fill after: wrangler d1 create spiralsafe-ops
+[[d1_databases]]
+binding = "SPIRALSAFE_DB"
+database_name = "spiralsafe-ops"
+database_id = "d47d04ca-7d74-41a8-b489-0af373a2bb2c"
 
 # [env.dev.d1_databases]
 # binding = "SPIRALSAFE_DB"
@@ -40,10 +39,9 @@ routes = [
 # KV Namespace Bindings
 # ═══════════════════════════════════════════════════════════════
 
-# Commented out until resources are created
-# [[kv_namespaces]]
-# binding = "SPIRALSAFE_KV"
-# id = "" # Fill after: wrangler kv:namespace create SPIRALSAFE_KV
+[[kv_namespaces]]
+binding = "SPIRALSAFE_KV"
+id = "79d496efbfab4d54a6277ed80dc29d1f"
 
 # [env.dev.kv_namespaces]
 # binding = "SPIRALSAFE_KV"
@@ -53,10 +51,9 @@ routes = [
 # R2 Bucket Bindings
 # ═══════════════════════════════════════════════════════════════
 
-# Commented out until resources are created
-# [[r2_buckets]]
-# binding = "SPIRALSAFE_R2"
-# bucket_name = "spiralsafe-contexts"
+[[r2_buckets]]
+binding = "SPIRALSAFE_R2"
+bucket_name = "spiralsafe-contexts"
 
 # [env.dev.r2_buckets]
 # binding = "SPIRALSAFE_R2"
