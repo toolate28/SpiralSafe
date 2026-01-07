@@ -30,7 +30,7 @@ All 6 core API endpoints have been validated and are fully operational in produc
     "r2": true
   },
   "timestamp": "2026-01-07T15:31:31.737Z",
-  "version": "1.0.0"
+  "version": "2.0.0"
 }
 ```
 **Validation**: ✅ All infrastructure components responding correctly
