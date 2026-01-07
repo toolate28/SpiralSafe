@@ -162,12 +162,50 @@ jobs:
             }' || true
 
   # ─────────────────────────────────────────────────────────────
+  # Lint: Static Analysis (ShellCheck + PSScriptAnalyzer)
+  # ─────────────────────────────────────────────────────────────
+  lint:
+    name: Lint & Static Analysis
+    runs-on: ubuntu-latest
+    needs: [coherence]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install ShellCheck
+        run: |
+          sudo apt-get update && sudo apt-get install -y shellcheck || true
+
+      - name: Run ShellCheck on scripts
+        run: |
+          set -e
+          SCRIPTS=$(find . -type f -name "*.sh" -not -path './node_modules/*' -not -path './.git/*')
+          if [ -n "$SCRIPTS" ]; then
+            shellcheck -x $SCRIPTS || true
+          else
+            echo "No shell scripts found"
+          fi
+
+      - name: Setup PowerShell
+        uses: PowerShell/Setup-PowerShell@v2
+        with:
+          pwsh-version: '7.3.8'
+
+      - name: Install PSScriptAnalyzer
+        run: |
+          pwsh -Command "Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser"
+
+      - name: Run PSScriptAnalyzer
+        run: |
+          pwsh -Command "Get-ChildItem -Path . -Recurse -Include *.ps1 | ForEach-Object { Invoke-ScriptAnalyzer -Path $_.FullName -Severity Warning,Error }"
+
+  # ─────────────────────────────────────────────────────────────
   # Phase 2: Build & Test
   # ─────────────────────────────────────────────────────────────
   build:
     name: Build & Test
     runs-on: ubuntu-latest
-    needs: [coherence]
+    needs: [coherence, lint]
     if: always() && (needs.coherence.result == 'success' || needs.coherence.result == 'skipped')
     
     steps:
