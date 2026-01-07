@@ -6,7 +6,6 @@
   "start_iso": "2026-01-07T00:00:00Z",
   "created_by": "iamto",
   "host": "local-machine",
-  "nonce": "00000000000000000000000000000000",
   "session_hash": "placeholderhash",
   "signed": true,
   "end_epoch": 1767749436,

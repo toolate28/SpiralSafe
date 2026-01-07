@@ -43,7 +43,20 @@ EXPOSE 8080
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD python -c "from hologram import HologramDevice; import asyncio; asyncio.run(HologramDevice('virtual').connect())"
+    CMD python - << 'EOF'
+import asyncio
+from hologram import HologramDevice
 
+async def _hc() -> None:
+    d = None
+    try:
+        d = HologramDevice('virtual')
+        await d.connect()
+    finally:
+        if d is not None:
+            await d.disconnect()
+
+asyncio.run(_hc())
+EOF
 # Default command: run hologram bridge in ATOM streaming mode
 CMD ["python", "hologram-bridge.py", "--mode", "atom", "--trail", "/data/atom-trails/default.atom", "--device", "virtual"]

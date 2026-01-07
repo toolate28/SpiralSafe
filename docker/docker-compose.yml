@@ -62,20 +62,7 @@ services:
     build: .
     image: spiralsafe/atom-writer:latest
     container_name: spiralsafe-atom-writer
-    command: |
-      python -c "
-      import asyncio
-      from atom import ATOMWriter
-      import time
-
-      async def write_demo():
-          writer = ATOMWriter('/data/atom-trails/spiralsafe.atom')
-          while True:
-              await writer.write('STATUS', 'Container heartbeat', {'service': 'atom-writer'})
-              await asyncio.sleep(60)
-
-      asyncio.run(write_demo())
-      "
+    command: python atom-writer.py
     volumes:
       - atom-data:/data/atom-trails
     restart: unless-stopped

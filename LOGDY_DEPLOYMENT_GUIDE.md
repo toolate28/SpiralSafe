@@ -147,7 +147,7 @@ $TUNNEL_ID = (cloudflared tunnel list | Select-String "spiralsafe-logs" | ForEac
 **Via API (if you prefer):**
 ```powershell
 $headers = @{
-    "Authorization" = "Bearer REACTED_CLOUDFLARE_API_TOKEN"
+    "Authorization" = "Bearer REDACTED_CLOUDFLARE_API_TOKEN"
     "Content-Type" = "application/json"
 }
 
