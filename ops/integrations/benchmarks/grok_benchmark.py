@@ -1,16 +1,20 @@
 """
 Improved grok benchmark harness for xAI/Grok.
 - Adds CLI (iterations, output dir)
-- Writes a human-readable summary file that begins with the questions (one blank line), then a JSON payload
+- Writes a human-readable summary file that begins with a bulleted list of questions (one blank line), then a JSON payload
 - Handles missing mocks gracefully
 - Emits p50/p95 latencies
 """
 import argparse
 import json
+import logging
 import statistics
 import time
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import List, Dict, Any
+
+logging.basicConfig(level=logging.WARNING)
 
 QUERIES = [
     {"id": "q1", "query": "What is wave.md divergence and how to reduce it?"},
@@ -24,11 +28,13 @@ def run_mock_grok(query: str, mock_xml_path: Path = None) -> Dict[str, Any]:
     If the mock XML is missing, return a minimal fallback response.
     """
     if mock_xml_path and mock_xml_path.exists():
-        import xml.etree.ElementTree as ET
         try:
             tree = ET.parse(str(mock_xml_path))
             root = tree.getroot()
-            top = root.findall('.//result')[0]
+            results = root.findall('.//result')
+            if not results:
+                raise IndexError("No result elements found in XML")
+            top = results[0]
             return {
                 'query': query,
                 'time_ms': 5,
@@ -36,9 +42,9 @@ def run_mock_grok(query: str, mock_xml_path: Path = None) -> Dict[str, Any]:
                     {'title': top.findtext('title'), 'url': top.findtext('url'), 'snippet': top.findtext('snippet')}
                 ]
             }
-        except Exception:
+        except (ET.ParseError, IndexError) as e:
+            logging.warning(f"Failed to parse mock XML at {mock_xml_path}: {e}")
             # fall through to fallback
-            pass
 
     # Fallback deterministic response
     return {'query': query, 'time_ms': 1, 'results': [{'title': 'Fallback', 'url': '', 'snippet': ''}]}
@@ -58,7 +64,7 @@ def benchmark(queries: List[Dict[str, str]], iterations: int = 1, mock_dir: Path
         'total_runs': len(runs),
         'avg_latency_ms': statistics.mean(latencies) if latencies else None,
         'p50_ms': statistics.median(latencies) if latencies else None,
-        'p95_ms': statistics.quantiles(latencies, n=100)[94] if latencies and len(latencies) >= 20 else (max(latencies) if latencies else None),
+        'p95_ms': statistics.quantiles(latencies, n=100)[94] if len(latencies) >= 2 else (max(latencies) if latencies else None),
     }
 
     return {'runs': runs, 'summary': summary}
@@ -82,10 +88,23 @@ def parse_args():
     return p.parse_args()
 
 
+def find_repo_root(start: Path) -> Path:
+    """
+    Attempt to locate the repository root by walking up from ``start`` until a
+    directory containing a ``.git`` marker is found. If no such directory is
+    found, fall back to the directory containing ``start``.
+    """
+    for path in [start] + list(start.parents):
+        if (path / '.git').is_dir():
+            return path
+    return start.parent
+
+
 def main():
     args = parse_args()
-    repo_root = Path(__file__).resolve().parents[2]
-    outdir = Path(args.outdir) if args.outdir else (repo_root / 'ops' / 'integrations' / 'results')
+    script_path = Path(__file__).resolve()
+    repo_root = find_repo_root(script_path)
+    outdir = Path(args.outdir) if args.outdir else (repo_root / 'ops' / 'ops' / 'integrations' / 'results')
     outdir.mkdir(parents=True, exist_ok=True)
     mock_dir = Path(args.mock_dir) if args.mock_dir else (repo_root / 'ops' / 'integrations' / 'xai-grok' / 'mocks')
 
