@@ -126,17 +126,21 @@ async function checkRateLimit(
   // Filter out requests outside the current window
   requests = requests.filter(timestamp => timestamp > windowStart);
 
-  // Add current request timestamp
-  requests.push(now);
+  // Check if rate limit is exceeded BEFORE adding current request
+  const allowed = requests.length < maxRequests;
+  
+  // Only add current request if allowed
+  if (allowed) {
+    requests.push(now);
+    
+    // Store updated request list with TTL
+    await env.SPIRALSAFE_KV.put(
+      rateLimitKey,
+      JSON.stringify(requests),
+      { expirationTtl: windowSeconds }
+    );
+  }
 
-  // Store updated request list with TTL
-  await env.SPIRALSAFE_KV.put(
-    rateLimitKey,
-    JSON.stringify(requests),
-    { expirationTtl: windowSeconds }
-  );
-
-  const allowed = requests.length <= maxRequests;
   const remaining = Math.max(0, maxRequests - requests.length);
   const resetAt = now + windowSeconds;
 
