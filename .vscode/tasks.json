@@ -1,0 +1,40 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Bootstrap (dry-run)",
+      "type": "shell",
+      "command": "pwsh",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\scripts\\bootstrap.ps1"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Bootstrap (apply)",
+      "type": "shell",
+      "command": "pwsh",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\scripts\\bootstrap.ps1","-Apply"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Hash all (dry-run)",
+      "type": "shell",
+      "command": "pwsh",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\scripts\\hash_all.ps1"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Verify claims (dry-run)",
+      "type": "shell",
+      "command": "pwsh",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\scripts\\verify_claims.ps1"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Walk journeys (dry-run)",
+      "type": "shell",
+      "command": "pwsh",
+      "args": ["-NoProfile","-ExecutionPolicy","Bypass","-File","${workspaceFolder}\\scripts\\walk_journeys.ps1"],
+      "problemMatcher": []
+    }
+  ]
+}
