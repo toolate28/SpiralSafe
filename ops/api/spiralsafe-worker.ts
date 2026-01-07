@@ -119,7 +119,8 @@ export default {
       const apiKey = request.headers.get('X-API-Key');
       const validKey = env.SPIRALSAFE_API_KEY; // Set in wrangler secrets
       
-      if (!apiKey || !constantTimeEqual(apiKey, validKey)) {
+      // Validate that both keys exist and match using constant-time comparison
+      if (!apiKey || !validKey || validKey.length === 0 || !constantTimeEqual(apiKey, validKey)) {
         return new Response(JSON.stringify({ error: 'Unauthorized' }), {
           status: 401,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }

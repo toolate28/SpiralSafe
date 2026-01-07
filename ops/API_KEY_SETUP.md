@@ -29,13 +29,13 @@ All endpoints with these HTTP methods require authentication:
 openssl rand -hex 32
 ```
 
-Alternatively, use PowerShell (190-bit entropy):
+Alternatively, use PowerShell (~381-bit entropy):
 
 ```powershell
 # Navigate to ops directory
 cd $env:USERPROFILE\repos\SpiralSafe\ops
 
-# Generate a strong API key (64 random alphanumeric characters)
+# Generate a strong API key (64 random alphanumeric characters, ~381 bits entropy)
 $apiKey = -join ((48..57) + (65..90) + (97..122) | Get-Random -Count 64 | % {[char]$_})
 Write-Host "Your API key: $apiKey"
 ```
