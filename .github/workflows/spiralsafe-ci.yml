@@ -13,6 +13,11 @@
 
 name: SpiralSafe CI
 
+# Security: Minimal permissions (CodeQL fix)
+permissions:
+  contents: read
+
+
 on:
   push:
     branches: [main, develop]
