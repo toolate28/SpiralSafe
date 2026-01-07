@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "ms-vscode.powershell",
+    "eamodio.gitlens",
+    "markdownlint.markdownlint"
+  ]
+}
