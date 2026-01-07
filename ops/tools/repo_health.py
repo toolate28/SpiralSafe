@@ -21,8 +21,6 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-import shutil
-
 try:
     import requests
 except Exception:
