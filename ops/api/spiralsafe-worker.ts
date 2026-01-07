@@ -171,7 +171,7 @@ async function logRequest(
     await env.SPIRALSAFE_KV.put(logKey, JSON.stringify(logEntry), { expirationTtl: 86400 * 30 });
 
     // For failed auth attempts, also log to D1 for permanent audit
-    if (!authenticated && status === 401) {
+    if (!authenticated && (status === 401 || status === 403)) {
       await env.SPIRALSAFE_DB.prepare(
         'INSERT INTO system_health (timestamp, status, details) VALUES (?, ?, ?)'
       ).bind(
