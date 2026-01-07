@@ -180,8 +180,9 @@ async function logRequest(
         JSON.stringify({ ip, path, userAgent })
       ).run();
     }
-  } catch {
-    // Don't fail requests if logging fails
+  } catch (err) {
+    // Don't fail requests if logging fails, but emit error for observability
+    console.error('logRequest failed', err);
   }
 }
 
