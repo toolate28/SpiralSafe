@@ -137,7 +137,7 @@ Check that the API key environment variable is set:
 echo $env:SPIRALSAFE_API_KEY
 ```
 
-Should output your production API key (64-character hex string)
+Should output your 64-character hex API key (e.g., `abc123...def456`)
 
 ---
 
