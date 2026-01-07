@@ -34,6 +34,8 @@ This insight—independently validated by Shannon (1948) for signals and Lewis-K
 
 **For contributors**: See [`CONTRIBUTING.md`](CONTRIBUTING.md)
 
+**Project sessions:** The `project-book.ipynb` now supports signed ATOM sessions for live work. Use `start_session()` to open a session and `sign_out()` to close it — session reports are written to `.atom-trail/sessions/` and can be encrypted with the repository's `Transcript-Pipeline.ps1` (AES-256-GCM).
+
 ---
 
 ## The Repository Ecosystem

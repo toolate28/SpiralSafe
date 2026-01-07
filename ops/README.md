@@ -161,6 +161,18 @@ spiralsafe awi verify --action "modify:README.md"
 spiralsafe awi audit <grant-id>
 ```
 
+### Session Reports
+
+Run and export session reports from the command line (creates `.atom-trail/sessions/*.json` and optional encrypted bundle):
+
+```bash
+# Start a session
+python ops/scripts/session_report.py start "verification-session"
+
+# Close session and generate report (encrypts if Transcript-Pipeline is available)
+python ops/scripts/session_report.py signout ATOM-SESSION-20260107-001-verification-session
+```
+
 ### Status
 
 ```bash

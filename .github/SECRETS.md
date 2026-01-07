@@ -55,11 +55,11 @@ ghs_[A-Za-z0-9]{36}
 ```bash
 # .env.example (commit this)
 API_KEY=your_api_key_here
-DATABASE_URL=postgresql://user:password@localhost:5432/dbname
+DATABASE_URL=postgresql://your_user:your_password@localhost:5432/dbname  # placeholder
 
 # .env (DO NOT commit - in .gitignore)
-API_KEY=actual_secret_key_xyz123
-DATABASE_URL=postgresql://realuser:realpass@prod.example.com:5432/proddb
+API_KEY=your_api_key_here
+DATABASE_URL=postgresql://your_user:your_password@prod.example.com:5432/proddb
 ```
 
 **In code:**
@@ -211,7 +211,7 @@ source .env
 # Use test/mock credentials
 env:
   API_KEY: "test_key_not_real"
-  DATABASE_URL: "postgresql://testuser:testpass@localhost/testdb"
+  DATABASE_URL: "postgresql://testuser:your_password@localhost/testdb"  # placeholder
 ```
 
 ### Test Files

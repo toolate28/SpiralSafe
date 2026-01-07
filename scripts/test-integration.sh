@@ -123,7 +123,7 @@ echo "-----------------------------------"
 cd "$TEST_DIR"
 # Create test files
 echo "API_KEY=test_key_12345" > test-secret.txt  # Should be detected
-echo "password=TEST_PASSWORD_DO_NOT_USE" > test-pass.txt  # Should be detected and clearly fake
+echo "password=TEST_PASSWORD_DO_NOT_USE" > test-pass.txt  # placeholder (test only) - Should be detected
 
 if "$SCRIPT_DIR/scan-secrets.sh" 2>&1 | grep -qi "potential\|found"; then
   echo "✓ Secrets scanner detects test patterns"
