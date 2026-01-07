@@ -7,6 +7,9 @@ on:
   schedule:
     - cron: '0 2 * * *' # daily at 02:00 UTC
 
+permissions:
+  contents: read
+
 jobs:
   gitleaks:
     name: Run gitleaks
