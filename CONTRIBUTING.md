@@ -73,11 +73,11 @@ Layers:
 - `[foundation]` - Core principles, theoretical work
 - `[interface]` - AWI, ClaudeNPC, BattleMedic
 - `[methodology]` - ATOM, SAIF, KENL, Day Zero
-- `[protocol]` - wave.md, bump.md, .context.yaml
+- `[protocol]` - wave-spec, bump-spec, .context.yaml
 - `[manifestation]` - Quantum Valley, Museum, production systems
 - `[meta]` - Documentation, contributing guides, signatures
 
-Example: `[protocol] Add coherence threshold parameters to wave.md`
+Example: `[protocol] Add coherence threshold parameters to wave-spec`
 
 ---
 
