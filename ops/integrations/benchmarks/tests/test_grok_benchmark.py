@@ -1,5 +1,4 @@
 import json
-from pathlib import Path
 from ops.integrations.benchmarks.grok_benchmark import benchmark, write_summary_with_questions, QUERIES
 
 
