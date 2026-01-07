@@ -74,6 +74,11 @@ def benchmark(queries: List[Dict[str, str]], iterations: int = 1, mock_dir: Path
 def write_summary_with_questions(dest: Path, queries: List[Dict[str, str]], data: Dict[str, Any]) -> None:
     # Human-friendly prefix: list the questions, then one blank line, then JSON
     lines = []
+    lines.append('# MOCK BENCHMARK RESULTS')
+    lines.append('# Note: Latency values reflect local mock/XML parsing overhead, NOT real API call performance.')
+    lines.append('# These are example values for testing the benchmark harness and should not be used')
+    lines.append('# for performance comparisons or capacity planning.')
+    lines.append('')
     for q in queries:
         lines.append(f"- [{q['id']}] {q['query']}")
     lines.append('')
