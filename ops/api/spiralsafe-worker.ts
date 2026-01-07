@@ -142,6 +142,8 @@ async function checkRateLimit(
   }
   
   // Store updated request list with TTL (always update to keep data clean)
+  // Note: Denied requests are intentionally not tracked in KV to prevent
+  // attackers from filling storage with blocked request timestamps
   await env.SPIRALSAFE_KV.put(
     rateLimitKey,
     JSON.stringify(requests),
