@@ -49,8 +49,6 @@ We maintain a curated mapping of all Minecraft-linked and quantum-related conten
 
 ---
 
----
-
 ## The Repository Ecosystem
 
 SpiralSafe unifies work across multiple repositories:
