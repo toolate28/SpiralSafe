@@ -14,13 +14,13 @@ This insight—independently validated by Shannon (1948) for signals and Lewis-K
 
 ## What SpiralSafe Provides
 
-| Layer | Components | Purpose |
-|-------|------------|---------|
-| **Foundation** | Isomorphism Principle, Constraints as Gifts | Theoretical bedrock |
-| **Interface** | AWI, ClaudeNPC, BattleMedic, UnifiedComms | Contact surfaces |
-| **Methodology** | ATOM, SAIF, KENL, Day Zero Design | Cognitive tools |
-| **Protocol** | wave.md, bump.md, .context.yaml | Information transmission |
-| **Manifestation** | Quantum Valley, Museum of Computation | Theory made tangible |
+| Layer             | Components                                   | Purpose                  |
+|-------------------|----------------------------------------------|--------------------------|
+| **Foundation**    | Isomorphism Principle, Constraints as Gifts  | Theoretical bedrock      |
+| **Interface**     | AWI, ClaudeNPC, BattleMedic, UnifiedComms    | Contact surfaces         |
+| **Methodology**   | ATOM, SAIF, KENL, Day Zero Design            | Cognitive tools          |
+| **Protocol**      | wave.md, bump.md, .context.yaml              | Information transmission |
+| **Manifestation** | Quantum Valley, Museum of Computation        | Theory made tangible     |
 
 ---
 
