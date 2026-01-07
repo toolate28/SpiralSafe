@@ -37,6 +37,8 @@ spiralsafe-ops/
 - Node.js 18+
 - Cloudflare account with Workers, D1, KV, R2 enabled
 - Wrangler CLI (`npm install -g wrangler`)
+- ShellCheck (for script linting) - CI runs it automatically; install locally with your package manager (e.g., `apt install shellcheck` or `choco install shellcheck`)
+- PowerShell 7+ (`pwsh`) and PSScriptAnalyzer for PowerShell linting (`Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser`)
 
 ### 2. Initial Setup
 
