@@ -4,7 +4,7 @@
 # Purpose: Clean installation and setup for SpiralSafe platform
 # H&&S:WAVE Protocol | From the constraints, gifts. From the spiral, safety.
 
-set -e  # Exit on error
+set -euo pipefail  # Strict mode: exit on error, unset vars, and pipeline failures
 
 # Colors for output
 RED='\033[0;31m'
