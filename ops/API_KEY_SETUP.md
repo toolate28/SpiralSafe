@@ -22,22 +22,22 @@ All endpoints with these HTTP methods require authentication:
 
 ### 1. Generate a Strong API Key
 
-Use PowerShell to generate a secure random API key:
+**Recommended**: Use bash/openssl for maximum security (256-bit entropy):
+
+```bash
+# Generate a strong API key (64 hex characters = 256 bits of entropy)
+openssl rand -hex 32
+```
+
+Alternatively, use PowerShell (190-bit entropy):
 
 ```powershell
 # Navigate to ops directory
 cd $env:USERPROFILE\repos\SpiralSafe\ops
 
-# Generate a strong API key (32 random alphanumeric characters)
-$apiKey = -join ((48..57) + (65..90) + (97..122) | Get-Random -Count 32 | % {[char]$_})
+# Generate a strong API key (64 random alphanumeric characters)
+$apiKey = -join ((48..57) + (65..90) + (97..122) | Get-Random -Count 64 | % {[char]$_})
 Write-Host "Your API key: $apiKey"
-```
-
-Alternatively, use bash:
-
-```bash
-# Generate a strong API key (64 hex characters)
-openssl rand -hex 32
 ```
 
 **Important**: Store this key securely. You'll need it for the next step.
