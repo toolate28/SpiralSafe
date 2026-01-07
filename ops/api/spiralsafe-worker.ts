@@ -17,6 +17,7 @@ export interface Env {
   SPIRALSAFE_DB: D1Database;
   SPIRALSAFE_KV: KVNamespace;
   SPIRALSAFE_R2: R2Bucket;
+  SPIRALSAFE_API_KEY: string;
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -98,7 +99,7 @@ interface Atom {
 // ═══════════════════════════════════════════════════════════════
 
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  async fetch(request: Request, env: Env, _ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     const path = url.pathname;
 
@@ -106,11 +107,25 @@ export default {
     const corsHeaders = {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-AWI-Intent',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-AWI-Intent, X-API-Key',
     };
 
     if (request.method === 'OPTIONS') {
       return new Response(null, { headers: corsHeaders });
+    }
+
+    // Protect all write endpoints
+    if (request.method === 'POST' || request.method === 'PUT' || request.method === 'DELETE') {
+      const apiKey = request.headers.get('X-API-Key');
+      const validKey = env.SPIRALSAFE_API_KEY; // Set in wrangler secrets
+      
+      // Validate that both keys exist and match using constant-time comparison
+      if (!apiKey || !validKey || validKey.length === 0 || !constantTimeEqual(apiKey, validKey)) {
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
     }
 
     try {
@@ -561,7 +576,8 @@ async function handleHealth(env: Env): Promise<Response> {
   const checks = {
     d1: false,
     kv: false,
-    r2: false
+    r2: false,
+    api_key_configured: false
   };
 
   try {
@@ -581,13 +597,16 @@ async function handleHealth(env: Env): Promise<Response> {
     checks.r2 = true; // R2 returns null for missing keys, not error
   }
 
+  // Check if API key is configured
+  checks.api_key_configured = !!(env.SPIRALSAFE_API_KEY && env.SPIRALSAFE_API_KEY.length > 0);
+
   const healthy = Object.values(checks).every(v => v);
 
   return jsonResponse({
     status: healthy ? 'healthy' : 'degraded',
     checks,
     timestamp: new Date().toISOString(),
-    version: '1.0.0'
+    version: '2.0.0'
   }, healthy ? 200 : 503);
 }
 
@@ -600,6 +619,25 @@ function jsonResponse(data: unknown, status = 200): Response {
     status,
     headers: { 'Content-Type': 'application/json' }
   });
+}
+
+/**
+ * Constant-time string comparison to prevent timing attacks
+ * @param a First string to compare
+ * @param b Second string to compare
+ * @returns true if strings match, false otherwise
+ */
+function constantTimeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) {
+    return false;
+  }
+  
+  let result = 0;
+  for (let i = 0; i < a.length; i++) {
+    result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  
+  return result === 0;
 }
 
 async function hashContent(content: string): Promise<string> {
