@@ -187,15 +187,19 @@ async function logRequest(
 }
 
 function validateApiKey(env: Env, providedKey: string): boolean {
-  // Check primary key
-  if (providedKey === env.SPIRALSAFE_API_KEY) {
+  // Check primary key using constant-time comparison
+  if (constantTimeEqual(providedKey, env.SPIRALSAFE_API_KEY)) {
     return true;
   }
 
-  // Check additional keys if configured
+  // Check additional keys if configured using constant-time comparison
   if (env.SPIRALSAFE_API_KEYS) {
     const validKeys = env.SPIRALSAFE_API_KEYS.split(',').map(k => k.trim());
-    return validKeys.includes(providedKey);
+    for (const validKey of validKeys) {
+      if (constantTimeEqual(providedKey, validKey)) {
+        return true;
+      }
+    }
   }
 
   return false;
