@@ -92,7 +92,7 @@ curl https://api.spiralsafe.org/api/health | ConvertFrom-Json | ConvertTo-Json -
 ### Step 5: Run Full Test Suite
 
 ```powershell
-$env:SPIRALSAFE_API_KEY = "bee53792f93c8ae9f3dc15c106d7c3da7ffa6c692ad18aba4b90bcbee7c310de"
+$env:SPIRALSAFE_API_KEY = "<YOUR_SPIRALSAFE_API_KEY>"
 .\test-api-endpoints.ps1
 ```
 
