@@ -725,13 +725,23 @@ const PATTERNS = {
 ```typescript
 // Generate LED keycode
 async function generateLEDKeycode(sessionId: string): Promise<LEDKeycode> {
-  // Use cryptographically secure random number generator
-  const randomValues = new Uint32Array(1);
-  crypto.getRandomValues(randomValues);
-  const code = String(1000 + (randomValues[0] % 9000)); // 1000-9999
+  // Use cryptographically secure random number generator with rejection sampling
+  // to avoid modulo bias when generating 4-digit codes (1000-9999)
+  let code: number;
+  const maxValue = 0xFFFFFFFF;
+  const range = 9000; // 1000-9999 = 9000 possible values
+  const validRange = Math.floor(maxValue / range) * range;
+  
+  do {
+    const randomValues = new Uint32Array(1);
+    crypto.getRandomValues(randomValues);
+    code = randomValues[0];
+  } while (code >= validRange); // Rejection sampling to eliminate bias
+  
+  const codeString = String(1000 + (code % range)); // 1000-9999
 
   const keycode: LEDKeycode = {
-    code,
+    code: codeString,
     issued_at: Date.now(),
     expires_at: Date.now() + 60000, // 60 seconds
     session_id: sessionId,
