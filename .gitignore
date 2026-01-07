@@ -20,6 +20,13 @@ logs/
 !releases/*.zip
 !spiral_safe_bump_ci_payload.zip
 
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
 # ATOM trail - keep structure but ignore temp files
 .atom-trail/**/*.tmp
 .atom-trail/**/*.backup
