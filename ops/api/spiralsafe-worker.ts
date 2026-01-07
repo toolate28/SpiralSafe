@@ -136,7 +136,7 @@ async function checkRateLimit(
     { expirationTtl: windowSeconds }
   );
 
-  const allowed = requests.length <= maxRequests;
+  const allowed = requests.length < maxRequests;
   const remaining = Math.max(0, maxRequests - requests.length);
   const resetAt = now + windowSeconds;
 

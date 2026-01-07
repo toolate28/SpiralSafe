@@ -62,8 +62,8 @@ curl -X POST https://api.spiralsafe.org/api/bump/create `
 ## Step 3: Test Authenticated Request (Should Succeed)
 
 ```powershell
-# Set your API key as environment variable
-$env:SPIRALSAFE_API_KEY = "bee53792f93c8ae9f3dc15c106d7c3da7ffa6c692ad18aba4b90bcbee7c310de"
+# Set your API key as environment variable (value should come from your secure secrets store)
+$env:SPIRALSAFE_API_KEY = "<YOUR_SPIRALSAFE_API_KEY>"
 
 # Run the full test suite
 .\test-api-endpoints.ps1
@@ -230,7 +230,7 @@ After deployment, verify:
 
 **Your API Key** (save this securely):
 ```
-bee53792f93c8ae9f3dc15c106d7c3da7ffa6c692ad18aba4b90bcbee7c310de
+<YOUR_PRODUCTION_API_KEY_GOES_HERE>
 ```
 
 **Never commit this to git!** It's stored securely in Cloudflare Secrets.
