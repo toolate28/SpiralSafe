@@ -100,7 +100,7 @@ def main():
     repo_root = find_repo_root(script_path)
     outdir = Path(args.outdir) if args.outdir else (repo_root / 'ops' / 'integrations' / 'results')
     outdir.mkdir(parents=True, exist_ok=True)
-    mock_dir = Path(args.mock_dir) if args.mock_dir else (repo_root / 'ops' / 'integrations' / 'xai-grok' / 'mocks')
+    mock_dir = Path(args.mock_dir) if args.mock_dir else (repo_root / 'ops' / 'ops' / 'integrations' / 'xai-grok' / 'mocks')
 
     data = benchmark(QUERIES, iterations=args.iterations, mock_dir=mock_dir)
 
