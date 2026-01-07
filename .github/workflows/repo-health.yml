@@ -1,5 +1,8 @@
 name: Repo Health
 
+permissions:
+  contents: read
+
 on:
   schedule:
     - cron: '0 6 * * *'  # daily at 06:00 UTC
