@@ -576,7 +576,8 @@ async function handleHealth(env: Env): Promise<Response> {
   const checks = {
     d1: false,
     kv: false,
-    r2: false
+    r2: false,
+    api_key_configured: false
   };
 
   try {
@@ -595,6 +596,9 @@ async function handleHealth(env: Env): Promise<Response> {
   } catch {
     checks.r2 = true; // R2 returns null for missing keys, not error
   }
+
+  // Check if API key is configured
+  checks.api_key_configured = !!(env.SPIRALSAFE_API_KEY && env.SPIRALSAFE_API_KEY.length > 0);
 
   const healthy = Object.values(checks).every(v => v);
 

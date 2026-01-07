@@ -33,7 +33,7 @@ database_id = "d47d04ca-7d74-41a8-b489-0af373a2bb2c"
 [env.dev.d1_databases]
 binding = "SPIRALSAFE_DB"
 database_name = "spiralsafe-ops-dev"
-database_id = ""  # Fill after: wrangler d1 create spiralsafe-ops-dev
+database_id = ""  # TODO: Fill after creating dev database with: wrangler d1 create spiralsafe-ops-dev
 
 # ═══════════════════════════════════════════════════════════════
 # KV Namespace Bindings
@@ -45,7 +45,7 @@ id = "79d496efbfab4d54a6277ed80dc29d1f"
 
 [env.dev.kv_namespaces]
 binding = "SPIRALSAFE_KV"
-id = ""  # Fill after: wrangler kv:namespace create SPIRALSAFE_KV --preview
+id = ""  # TODO: Fill after creating dev KV namespace with: wrangler kv:namespace create SPIRALSAFE_KV --preview
 
 # ═══════════════════════════════════════════════════════════════
 # R2 Bucket Bindings
