@@ -126,36 +126,19 @@ async function checkRateLimit(
   // Filter out requests outside the current window
   requests = requests.filter(timestamp => timestamp > windowStart);
 
-  // Check if rate limit is exceeded BEFORE adding current request
-  const allowed = requests.length < maxRequests;
-  
-  // Calculate remaining slots
-  let remaining: number;
-  
-  // Add current request if allowed
-  if (allowed) {
-    requests.push(now);
-    remaining = maxRequests - requests.length;
-  } else {
-    // No remaining requests when rate limit is exceeded
-    remaining = 0;
-  }
-  
-  // Store updated request list with TTL (always update to keep data clean)
-  // Note: Denied requests are intentionally not tracked in KV to prevent
-  // attackers from filling storage with blocked request timestamps
+  // Add current request timestamp
+  requests.push(now);
+
+  // Store updated request list with TTL
   await env.SPIRALSAFE_KV.put(
     rateLimitKey,
     JSON.stringify(requests),
     { expirationTtl: windowSeconds }
   );
 
-  // When rate limited, the window effectively resets when the oldest
-  // request in the current window expires, not a full window from now.
-  // Use a conservative fallback when not rate limited or if there are no requests.
-  const resetAt = !allowed && requests.length > 0
-    ? requests[0] + windowSeconds
-    : now + windowSeconds;
+  const allowed = requests.length <= maxRequests;
+  const remaining = Math.max(0, maxRequests - requests.length);
+  const resetAt = now + windowSeconds;
 
   return { allowed, remaining, resetAt };
 }
@@ -188,7 +171,7 @@ async function logRequest(
     await env.SPIRALSAFE_KV.put(logKey, JSON.stringify(logEntry), { expirationTtl: 86400 * 30 });
 
     // For failed auth attempts, also log to D1 for permanent audit
-    if (!authenticated && (status === 401 || status === 403)) {
+    if (!authenticated && status === 401) {
       await env.SPIRALSAFE_DB.prepare(
         'INSERT INTO system_health (timestamp, status, details) VALUES (?, ?, ?)'
       ).bind(
@@ -197,26 +180,21 @@ async function logRequest(
         JSON.stringify({ ip, path, userAgent })
       ).run();
     }
-  } catch (err) {
-    // Don't fail requests if logging fails, but emit error for observability
-    console.error('logRequest failed', err);
+  } catch {
+    // Don't fail requests if logging fails
   }
 }
 
 function validateApiKey(env: Env, providedKey: string): boolean {
-  // Check primary key using constant-time comparison
-  if (constantTimeEqual(providedKey, env.SPIRALSAFE_API_KEY)) {
+  // Check primary key
+  if (providedKey === env.SPIRALSAFE_API_KEY) {
     return true;
   }
 
-  // Check additional keys if configured using constant-time comparison
+  // Check additional keys if configured
   if (env.SPIRALSAFE_API_KEYS) {
     const validKeys = env.SPIRALSAFE_API_KEYS.split(',').map(k => k.trim());
-    for (const validKey of validKeys) {
-      if (constantTimeEqual(providedKey, validKey)) {
-        return true;
-      }
-    }
+    return validKeys.includes(providedKey);
   }
 
   return false;

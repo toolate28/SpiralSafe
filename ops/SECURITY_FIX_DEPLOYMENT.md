@@ -63,7 +63,7 @@ curl -X POST https://api.spiralsafe.org/api/bump/create `
 
 ```powershell
 # Set your API key as environment variable
-$env:SPIRALSAFE_API_KEY = "bee53792f93c8ae9f3dc15c106d7c3da7ffa6c692ad18aba4b90bcbee7c310de"
+$env:SPIRALSAFE_API_KEY = "your-64-character-hex-api-key-here"
 
 # Run the full test suite
 .\test-api-endpoints.ps1
@@ -228,12 +228,13 @@ After deployment, verify:
 
 ---
 
-**Your API Key** (save this securely):
-```
-bee53792f93c8ae9f3dc15c106d7c3da7ffa6c692ad18aba4b90bcbee7c310de
-```
+**API Key Security**:
 
-**Never commit this to git!** It's stored securely in Cloudflare Secrets.
+> ⚠️ **Never commit API keys to git!** Store them securely in Cloudflare Secrets using:
+> ```bash
+> npx wrangler secret put SPIRALSAFE_API_KEY
+> ```
+> Your key should be a 64-character hex string stored only in secure secret storage.
 
 ---
 
