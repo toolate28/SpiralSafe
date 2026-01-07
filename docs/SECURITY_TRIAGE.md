@@ -1,5 +1,7 @@
 # Detect-Secrets Triage Log
 
+**ATOM:** ATOM-DOC-20260107-005-security-triage-log
+
 This file records why specific findings were allowlisted in `.secrets.baseline`.
 
 Entries (2026-01-07):
