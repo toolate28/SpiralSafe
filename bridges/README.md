@@ -659,4 +659,28 @@ Contributions welcome! Please:
 
 ---
 
+## 📸 Showcase
+
+### mcstart Dashboard in Action
+
+![mcstart Dashboard](../showcase/mcstart1.png)
+*SpiralSafe Control Dashboard - System Status & Quick Actions*
+
+![mcstart Options](../showcase/mcstart2.png)
+*Quick Actions Menu - Build, Test, Deploy*
+
+![mcstart Testing](../showcase/mcstart3.png)
+*Validation Suite - 12/12 Tests Passing*
+
+![mcstart Docker](../showcase/mcstart4.png)
+*Docker Services - Multi-Bridge Orchestration*
+
+![mcstart Stats](../showcase/mcstart5.png)
+*System Diagnostics - Repository Status*
+
+![mcstart Prism](../showcase/mcstart7.png)
+*Prism Launcher Integration - Minecraft Instances*
+
+---
+
 *Where computation becomes visible, tangible, and beautiful*
