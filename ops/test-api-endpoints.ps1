@@ -4,9 +4,18 @@
 
 $API_BASE = "https://api.spiralsafe.org"
 
+# API Key for authentication (read from environment variable)
+$API_KEY = $env:SPIRALSAFE_API_KEY
+if (-not $API_KEY) {
+    Write-Host "ERROR: SPIRALSAFE_API_KEY environment variable not set" -ForegroundColor Red
+    Write-Host "Set it with: `$env:SPIRALSAFE_API_KEY = 'your-api-key'" -ForegroundColor Yellow
+    exit 1
+}
+
 Write-Host "╔══════════════════════════════════════════════════════════════╗" -ForegroundColor Blue
 Write-Host "║  SpiralSafe Operations API - Endpoint Validation            ║" -ForegroundColor Blue
 Write-Host "║  H&&S:WAVE | Hope&&Sauced                                   ║" -ForegroundColor Blue
+Write-Host "║  🔐 Authenticated Mode                                       ║" -ForegroundColor Blue
 Write-Host "╚══════════════════════════════════════════════════════════════╝" -ForegroundColor Blue
 Write-Host ""
 
@@ -32,6 +41,7 @@ $wavePayload = @{
 
 $response = curl -s -X POST "$API_BASE/api/wave/analyze" `
     -H "Content-Type: application/json" `
+    -H "X-API-Key: $API_KEY" `
     -d $wavePayload | ConvertFrom-Json
 Write-Host ($response | ConvertTo-Json -Depth 5) -ForegroundColor Green
 Write-Host ""
@@ -53,6 +63,7 @@ $bumpPayload = @{
 
 $response = curl -s -X POST "$API_BASE/api/bump/create" `
     -H "Content-Type: application/json" `
+    -H "X-API-Key: $API_KEY" `
     -d $bumpPayload | ConvertFrom-Json
 Write-Host ($response | ConvertTo-Json -Depth 5) -ForegroundColor Green
 Write-Host ""
@@ -72,6 +83,7 @@ $awiPayload = @{
 
 $response = curl -s -X POST "$API_BASE/api/awi/request" `
     -H "Content-Type: application/json" `
+    -H "X-API-Key: $API_KEY" `
     -d $awiPayload | ConvertFrom-Json
 Write-Host ($response | ConvertTo-Json -Depth 5) -ForegroundColor Green
 Write-Host ""
@@ -99,6 +111,7 @@ $atomPayload = @{
 
 $response = curl -s -X POST "$API_BASE/api/atom/create" `
     -H "Content-Type: application/json" `
+    -H "X-API-Key: $API_KEY" `
     -d $atomPayload | ConvertFrom-Json
 Write-Host ($response | ConvertTo-Json -Depth 5) -ForegroundColor Green
 Write-Host ""
@@ -128,6 +141,7 @@ $contextPayload = @{
 
 $response = curl -s -X POST "$API_BASE/api/context/store" `
     -H "Content-Type: application/json" `
+    -H "X-API-Key: $API_KEY" `
     -d $contextPayload | ConvertFrom-Json
 Write-Host ($response | ConvertTo-Json -Depth 5) -ForegroundColor Green
 Write-Host ""

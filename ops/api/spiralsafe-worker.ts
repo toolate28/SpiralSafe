@@ -17,6 +17,7 @@ export interface Env {
   SPIRALSAFE_DB: D1Database;
   SPIRALSAFE_KV: KVNamespace;
   SPIRALSAFE_R2: R2Bucket;
+  SPIRALSAFE_API_KEY: string;
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -106,11 +107,41 @@ export default {
     const corsHeaders = {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-AWI-Intent',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-API-Key, X-AWI-Intent',
     };
 
     if (request.method === 'OPTIONS') {
       return new Response(null, { headers: corsHeaders });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // Authentication for write endpoints
+    // ═══════════════════════════════════════════════════════════════
+    const isWriteOperation = request.method === 'POST' || request.method === 'PUT' || request.method === 'DELETE';
+    const isHealthCheck = path === '/api/health';
+
+    if (isWriteOperation && !isHealthCheck) {
+      const providedKey = request.headers.get('X-API-Key');
+
+      if (!providedKey) {
+        return new Response(JSON.stringify({
+          error: 'Unauthorized',
+          message: 'API key required. Include X-API-Key header.'
+        }), {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
+
+      if (providedKey !== env.SPIRALSAFE_API_KEY) {
+        return new Response(JSON.stringify({
+          error: 'Forbidden',
+          message: 'Invalid API key'
+        }), {
+          status: 403,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
     }
 
     try {
