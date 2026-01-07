@@ -58,7 +58,7 @@ def benchmark(queries: List[Dict[str, str]], iterations: int = 1, mock_dir: Path
         'total_runs': len(runs),
         'avg_latency_ms': statistics.mean(latencies) if latencies else None,
         'p50_ms': statistics.median(latencies) if latencies else None,
-        'p95_ms': statistics.quantiles(latencies, n=100)[94] if latencies and len(latencies) >= 20 else (max(latencies) if latencies else None),
+        'p95_ms': statistics.quantiles(latencies, n=100)[94] if len(latencies) >= 2 else (max(latencies) if latencies else None),
     }
 
     return {'runs': runs, 'summary': summary}
