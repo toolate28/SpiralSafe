@@ -11,4 +11,10 @@ Quick links
 Import
 - Use WorldEdit / Litematica / datapack functions as described in `MINECRAFT_PLAY_SCHEDULE.md` and `../server-suite/PRISM_LAUNCHER_INTEGRATION.md`.
 
-If you'd like, I can add direct download artifacts for pre-built datapacks or MC schematic files in `archive/` and reference them from this README.
+Downloads (example)
+
+- Prebuilt quantum datapack: [`releases/quantum-datapack-v0.1.zip`](../releases/quantum-datapack-v0.1.zip)
+  - Unpack into your Minecraft save's `datapacks/` folder or load with Prism Launcher
+  - Use `/function quantum:place_hadamard` in-game to place the example structure
+
+If you want, I can add more artifacts (schematics, Litematica files), or produce teacher-facing lesson packs (slide + step-by-step import instructions).
