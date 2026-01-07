@@ -181,7 +181,7 @@ async function logRequest(
     await env.SPIRALSAFE_KV.put(logKey, JSON.stringify(logEntry), { expirationTtl: 86400 * 30 });
 
     // For failed auth attempts, also log to D1 for permanent audit
-    if (!authenticated && status === 401) {
+    if (!authenticated && (status === 401 || status === 403)) {
       await env.SPIRALSAFE_DB.prepare(
         'INSERT INTO system_health (timestamp, status, details) VALUES (?, ?, ?)'
       ).bind(
@@ -190,21 +190,26 @@ async function logRequest(
         JSON.stringify({ ip, path, userAgent })
       ).run();
     }
-  } catch {
-    // Don't fail requests if logging fails
+  } catch (err) {
+    // Don't fail requests if logging fails, but emit error for observability
+    console.error('logRequest failed', err);
   }
 }
 
 function validateApiKey(env: Env, providedKey: string): boolean {
-  // Check primary key
-  if (providedKey === env.SPIRALSAFE_API_KEY) {
+  // Check primary key using constant-time comparison
+  if (constantTimeEqual(providedKey, env.SPIRALSAFE_API_KEY)) {
     return true;
   }
 
-  // Check additional keys if configured
+  // Check additional keys if configured using constant-time comparison
   if (env.SPIRALSAFE_API_KEYS) {
     const validKeys = env.SPIRALSAFE_API_KEYS.split(',').map(k => k.trim());
-    return validKeys.includes(providedKey);
+    for (const validKey of validKeys) {
+      if (constantTimeEqual(providedKey, validKey)) {
+        return true;
+      }
+    }
   }
 
   return false;
