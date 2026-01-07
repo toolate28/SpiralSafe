@@ -88,8 +88,6 @@ def test_p95_calculation_edge_cases(tmp_path):
 
 def test_json_output_file(tmp_path):
     """Test that JSON output file is generated correctly."""
-    from ops.integrations.benchmarks.grok_benchmark import benchmark, QUERIES
-    
     data = benchmark(QUERIES, iterations=1, mock_dir=tmp_path)
     json_file = tmp_path / 'output.json'
     json_file.write_text(json.dumps(data, indent=2), encoding='utf-8')
