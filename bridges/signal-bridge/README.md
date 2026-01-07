@@ -48,11 +48,17 @@ Chat through Signal → Execute commands → Get results back
 
 ```bash
 # Using Docker (recommended)
+# Pin to a specific version for security - update explicitly after verification
 docker run -d \
   --name signal-cli-rest-api \
   -p 8080:8080 \
   -v signal-cli-config:/home/.local/share/signal-cli \
-  bbernhard/signal-cli-rest-api:latest
+  bbernhard/signal-cli-rest-api:0.85
+
+# To update to a newer version:
+# 1. Check release notes at https://github.com/bbernhard/signal-cli-rest-api/releases
+# 2. Pull and verify the new image: docker pull bbernhard/signal-cli-rest-api:X.XX
+# 3. Update the version number above
 ```
 
 ### 2. Link Your Phone Number

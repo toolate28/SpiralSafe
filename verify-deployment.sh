@@ -4,9 +4,9 @@
 # SpiralSafe Deployment Verification Script
 # ═══════════════════════════════════════════════════════════════
 # Usage: ./verify-deployment.sh [api-key]
-# Example: ./verify-deployment.sh bee53792f93c8ae9f3dc15c106d7c3da7ffa6c692ad18aba4b90bcbee7c310de
+# Example: ./verify-deployment.sh your-api-key-here
 
-set -e
+set -euo pipefail  # Strict mode: exit on error, unset vars, and pipeline failures
 
 # Colors for output
 RED='\033[0;31m'
@@ -293,12 +293,10 @@ if command -v git &> /dev/null; then
     CURRENT_BRANCH=$(git branch --show-current 2>/dev/null || echo "unknown")
     print_info "Current branch: $CURRENT_BRANCH"
 
-    if [ "$CURRENT_BRANCH" = "claude/review-codebase-state-KuPq8" ]; then
-        print_success "On feature branch (ready to merge to main)"
-    elif [ "$CURRENT_BRANCH" = "main" ]; then
+    if [ "$CURRENT_BRANCH" = "main" ]; then
         print_success "On main branch (production ready)"
     else
-        print_warning "On branch: $CURRENT_BRANCH"
+        print_info "On branch: $CURRENT_BRANCH"
     fi
 
     # Check for uncommitted changes

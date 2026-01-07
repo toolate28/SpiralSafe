@@ -725,7 +725,10 @@ const PATTERNS = {
 ```typescript
 // Generate LED keycode
 async function generateLEDKeycode(sessionId: string): Promise<LEDKeycode> {
-  const code = String(Math.floor(1000 + Math.random() * 9000)); // 1000-9999
+  // Use cryptographically secure random number generator
+  const randomValues = new Uint32Array(1);
+  crypto.getRandomValues(randomValues);
+  const code = String(1000 + (randomValues[0] % 9000)); // 1000-9999
 
   const keycode: LEDKeycode = {
     code,
@@ -1054,7 +1057,8 @@ void setup() {
   lc.setIntensity(0, 8);
   lc.clearDisplay(0);
 
-  WiFi.begin("SSID", "PASSWORD");
+  // Replace with your actual WiFi credentials
+  WiFi.begin("YOUR_SSID_HERE", "YOUR_PASSWORD_HERE");
   while (WiFi.status() != WL_CONNECTED) delay(500);
 
   server.on("/led/display", HTTP_POST, handleDisplayCode);
