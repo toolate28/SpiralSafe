@@ -98,7 +98,7 @@ interface Atom {
 // ═══════════════════════════════════════════════════════════════
 
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  async fetch(request: Request, env: Env, _ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     const path = url.pathname;
 
@@ -381,7 +381,7 @@ async function handleAWI(request: Request, env: Env, path: string): Promise<Resp
 
     const grant = JSON.parse(grantJson) as AWIGrant;
     const actionAllowed = grant.scope.actions.some(a => 
-      a === '*' || a === body.action || body.action.startsWith(a.replace('*', ''))
+      a === '*' || a === body.action || body.action.startsWith(a.replace(/\*/g, ''))
     );
 
     // Log verification attempt

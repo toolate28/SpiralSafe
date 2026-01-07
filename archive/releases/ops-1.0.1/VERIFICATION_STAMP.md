@@ -407,22 +407,6 @@ Verification Attestation:
 
 Signature: _________________________
 Date: _____________________________
-
-
-### How to co-sign (human)
-To co-sign this verification receipt locally:
-
-1. Run the human co-sign helper (provide your name):
-
-```bash
-python ops/scripts/sign_verification.py ATOM-VERIFY-20260104-001-complete-system-audit --name "your-name"
-```
-
-2. This will update `.atom-trail/verifications/ATOM-VERIFY-20260104-001-complete-system-audit.json` with your human signature hash and mark the verification as `complete`.
-
-3. Commit the updated verification file and decision entry, push your branch, and create a PR to merge the human-signed verification into `main`.
-
-(If you prefer GPG signing, compute and record your signature externally and add `human_signature_hash` field manually.)
 ```
 
 ### Handshake Protocol

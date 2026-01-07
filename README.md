@@ -14,13 +14,13 @@ This insight—independently validated by Shannon (1948) for signals and Lewis-K
 
 ## What SpiralSafe Provides
 
-| Layer | Components | Purpose |
-|-------|------------|---------|
-| **Foundation** | Isomorphism Principle, Constraints as Gifts | Theoretical bedrock |
-| **Interface** | AWI, ClaudeNPC, BattleMedic, UnifiedComms | Contact surfaces |
-| **Methodology** | ATOM, SAIF, KENL, Day Zero Design | Cognitive tools |
-| **Protocol** | wave.md, bump.md, .context.yaml | Information transmission |
-| **Manifestation** | Quantum Valley, Museum of Computation | Theory made tangible |
+| Layer             | Components                                   | Purpose                  |
+|-------------------|----------------------------------------------|--------------------------|
+| **Foundation**    | Isomorphism Principle, Constraints as Gifts  | Theoretical bedrock      |
+| **Interface**     | AWI, ClaudeNPC, BattleMedic, UnifiedComms    | Contact surfaces         |
+| **Methodology**   | ATOM, SAIF, KENL, Day Zero Design            | Cognitive tools          |
+| **Protocol**      | wave.md, bump.md, .context.yaml              | Information transmission |
+| **Manifestation** | Quantum Valley, Museum of Computation        | Theory made tangible     |
 
 ---
 
@@ -33,6 +33,21 @@ This insight—independently validated by Shannon (1948) for signals and Lewis-K
 **For educators**: Explore [quantum-redstone][def]
 
 **For contributors**: See [`CONTRIBUTING.md`](CONTRIBUTING.md)
+
+**Project sessions:** The `project-book.ipynb` now supports signed ATOM sessions for live work. Use `start_session()` to open a session and `sign_out()` to close it — session reports are written to `.atom-trail/sessions/` and can be encrypted with the repository's `Transcript-Pipeline.ps1` (AES-256-GCM).
+
+---
+
+## Quantum + Minecraft (quick map) 🔭
+
+We maintain a curated mapping of all Minecraft-linked and quantum-related content (builds, tools, integration docs, and theory). See: [`docs/quantum-minecraft-map.md`](docs/quantum-minecraft-map.md).
+
+![Quantum → Minecraft flow](docs/assets/quantum-minecraft-flow.svg)
+
+- Short view: Theory → `quantum-redstone` → `quantum_circuit_generator.py` → mcfunctions/datapacks → Museum of Computation (Minecraft).
+- Proposed visuals: Mermaid flowchart (in the docs) and museum floor map (SVG) (both included in `docs/`).
+
+---
 
 ---
 
