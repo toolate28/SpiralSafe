@@ -38,19 +38,6 @@ This insight—independently validated by Shannon (1948) for signals and Lewis-K
 
 ---
 
-## Quantum + Minecraft (quick map) 🔭
-
-We maintain a curated mapping of all Minecraft-linked and quantum-related content (builds, tools, integration docs, and theory). See: [`docs/quantum-minecraft-map.md`](docs/quantum-minecraft-map.md).
-
-![Quantum → Minecraft flow](docs/assets/quantum-minecraft-flow.svg)
-
-- Short view: Theory → `quantum-redstone` → `quantum_circuit_generator.py` → mcfunctions/datapacks → Museum of Computation (Minecraft).
-- Proposed visuals: Mermaid flowchart (in the docs) and museum floor map (SVG) (both included in `docs/`).
-
----
-
----
-
 ## The Repository Ecosystem
 
 SpiralSafe unifies work across multiple repositories:

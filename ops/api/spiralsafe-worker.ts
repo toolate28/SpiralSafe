@@ -18,9 +18,9 @@ export interface Env {
   SPIRALSAFE_KV: KVNamespace;
   SPIRALSAFE_R2: R2Bucket;
   SPIRALSAFE_API_KEY: string;
-  SPIRALSAFE_API_KEYS?: string; // Comma-separated list of valid API keys
-  RATE_LIMIT_REQUESTS?: string; // Max requests per window (default: 100)
-  RATE_LIMIT_WINDOW?: string;   // Time window in seconds (default: 60)
+  SPIRALSAFE_API_KEYS?: string;      // Comma-separated list of valid API keys
+  RATE_LIMIT_REQUESTS?: string;      // Max requests per window (default: 100)
+  RATE_LIMIT_WINDOW?: string;        // Time window in seconds (default: 60)
   RATE_LIMIT_AUTH_FAILURES?: string; // Max auth failures per window (default: 5)
 }
 
@@ -214,7 +214,7 @@ export default {
     const corsHeaders = {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-API-Key, X-AWI-Intent',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-AWI-Intent, X-API-Key',
     };
 
     if (request.method === 'OPTIONS') {
@@ -773,7 +773,8 @@ async function handleHealth(env: Env): Promise<Response> {
   const checks = {
     d1: false,
     kv: false,
-    r2: false
+    r2: false,
+    api_key_configured: false
   };
 
   try {
@@ -792,6 +793,9 @@ async function handleHealth(env: Env): Promise<Response> {
   } catch {
     checks.r2 = true; // R2 returns null for missing keys, not error
   }
+
+  // Check if API key is configured
+  checks.api_key_configured = !!(env.SPIRALSAFE_API_KEY && env.SPIRALSAFE_API_KEY.length > 0);
 
   const healthy = Object.values(checks).every(v => v);
 
@@ -812,6 +816,25 @@ function jsonResponse(data: unknown, status = 200): Response {
     status,
     headers: { 'Content-Type': 'application/json' }
   });
+}
+
+/**
+ * Constant-time string comparison to prevent timing attacks
+ * @param a First string to compare
+ * @param b Second string to compare
+ * @returns true if strings match, false otherwise
+ */
+function constantTimeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) {
+    return false;
+  }
+  
+  let result = 0;
+  for (let i = 0; i < a.length; i++) {
+    result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  
+  return result === 0;
 }
 
 async function hashContent(content: string): Promise<string> {

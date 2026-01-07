@@ -30,10 +30,10 @@ binding = "SPIRALSAFE_DB"
 database_name = "spiralsafe-ops"
 database_id = "d47d04ca-7d74-41a8-b489-0af373a2bb2c"
 
-# [env.dev.d1_databases]
-# binding = "SPIRALSAFE_DB"
-# database_name = "spiralsafe-ops-dev"
-# database_id = "" # Fill after: wrangler d1 create spiralsafe-ops-dev
+[env.dev.d1_databases]
+binding = "SPIRALSAFE_DB"
+database_name = "spiralsafe-ops-dev"
+database_id = ""  # TODO: Fill after creating dev database with: wrangler d1 create spiralsafe-ops-dev
 
 # ═══════════════════════════════════════════════════════════════
 # KV Namespace Bindings
@@ -43,9 +43,9 @@ database_id = "d47d04ca-7d74-41a8-b489-0af373a2bb2c"
 binding = "SPIRALSAFE_KV"
 id = "79d496efbfab4d54a6277ed80dc29d1f"
 
-# [env.dev.kv_namespaces]
-# binding = "SPIRALSAFE_KV"
-# id = "" # Fill after: wrangler kv:namespace create SPIRALSAFE_KV --preview
+[env.dev.kv_namespaces]
+binding = "SPIRALSAFE_KV"
+id = ""  # TODO: Fill after creating dev KV namespace with: wrangler kv:namespace create SPIRALSAFE_KV --preview
 
 # ═══════════════════════════════════════════════════════════════
 # R2 Bucket Bindings
@@ -55,9 +55,9 @@ id = "79d496efbfab4d54a6277ed80dc29d1f"
 binding = "SPIRALSAFE_R2"
 bucket_name = "spiralsafe-contexts"
 
-# [env.dev.r2_buckets]
-# binding = "SPIRALSAFE_R2"
-# bucket_name = "spiralsafe-contexts-dev"
+[env.dev.r2_buckets]
+binding = "SPIRALSAFE_R2"
+bucket_name = "spiralsafe-contexts-dev"
 
 # ═══════════════════════════════════════════════════════════════
 # Build Configuration
@@ -74,7 +74,3 @@ command = "npm run build"
 
 [observability]
 enabled = true
-
-# Tail workers for logging
-# [[tail_consumers]]
-# service = "spiralsafe-logger"

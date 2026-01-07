@@ -174,7 +174,7 @@ curl https://api.spiralsafe.org/api/health
     "r2": true
   },
   "timestamp": "2026-01-07T15:10:53.715Z",
-  "version": "1.0.0"
+  "version": "2.0.0"
 }
 ```
 
@@ -416,16 +416,16 @@ git push origin main
 
 ## Deployment Status Summary
 
-| Phase | Status | Completion Date | Notes |
-|-------|--------|-----------------|-------|
-| Phase 0: Prerequisites | ✅ Complete | 2026-01-07 | Dependencies installed |
-| Phase 1: Local Setup | ✅ Complete | 2026-01-07 | TypeScript builds successfully |
-| Phase 2: Cloudflare Setup | ⏸️ Pending | - | Requires Cloudflare account |
-| Phase 3: Deployment | ⏸️ Pending | - | Blocked by Phase 2 |
-| Phase 4: CI/CD Config | ⏸️ Pending | - | Blocked by Phase 2 |
-| Phase 5: Verification | ⏸️ Pending | - | Blocked by Phase 3 |
-| Phase 6: Monitoring | ⏸️ Pending | - | Blocked by Phase 3 |
-| Phase 7: Documentation | ⏸️ Pending | - | Blocked by Phase 5 |
+| Phase                     | Status      | Completion Date | Notes                          |
+|---------------------------|-------------|-----------------|--------------------------------|
+| Phase 0: Prerequisites    | ✅ Complete | 2026-01-07     | Dependencies installed         |
+| Phase 1: Local Setup      | ✅ Complete | 2026-01-07     | TypeScript builds successfully |
+| Phase 2: Cloudflare Setup | ⏸️ Pending  | -              | Requires Cloudflare account    |
+| Phase 3: Deployment       | ⏸️ Pending  | -              | Blocked by Phase 2             |
+| Phase 4: CI/CD Config     | ⏸️ Pending  | -              | Blocked by Phase 2             |
+| Phase 5: Verification     | ⏸️ Pending  | -              | Blocked by Phase 3             |
+| Phase 6: Monitoring       | ⏸️ Pending  | -              | Blocked by Phase 3             |
+| Phase 7: Documentation    | ⏸️ Pending  | -              | Blocked by Phase 5             |
 
 **Next Action**: Create Cloudflare account and obtain API credentials (Phase 2.1)
 

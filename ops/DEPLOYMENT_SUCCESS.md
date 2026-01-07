@@ -194,10 +194,11 @@ This will validate all 6 API endpoints with properly formatted requests.
 - Cloudflare SSL certificate active
 - No insecure (HTTP) access available
 
-### ⚠️ Authentication
+### ✅ Authentication
 - Cloudflare Access enabled on workers.dev subdomain
-- Custom domain (`api.spiralsafe.org`) currently open
-- **TODO**: Implement JWT validation for production
+- API key authentication implemented for all write endpoints (POST, PUT, DELETE)
+- Custom domain (`api.spiralsafe.org`) protected with `X-API-Key` header requirement
+- Read endpoints (GET) remain open for public access
 
 ---
 
