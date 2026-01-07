@@ -29,3 +29,19 @@ logs/
 !.atom-trail/decisions/
 !.atom-trail/counters/
 !.atom-trail/bedrock/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+.Python
+.venv/
+venv/
+ENV/
+env/
+.pytest_cache/
+.coverage
+htmlcov/
