@@ -174,7 +174,7 @@ curl https://api.spiralsafe.org/api/health
     "r2": true
   },
   "timestamp": "2026-01-07T15:10:53.715Z",
-  "version": "1.0.0"
+  "version": "2.0.0"
 }
 ```
 
