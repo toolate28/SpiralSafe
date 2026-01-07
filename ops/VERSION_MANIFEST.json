@@ -1,12 +1,18 @@
 {
   "name": "spiralsafe-ops",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "release": "ops/infrastructure-layer",
+  "release_notes": "Add session reporting CLI, project-book session logging, verification receipts, and session analytics; bump patch version to 1.0.1"
   "protocol": "H&&S:WAVE",
   "signature": "Hope&&Sauced",
   "timestamp": "2026-01-07T01:53:00Z",
 
   "commits": [
+    {
+      "hash": "96b6c5f",
+      "message": "feat(ops): add session_report CLI + project-book session logging (H&&S:WAVE)",
+      "files": ["ops/scripts/session_report.py", "project-book.ipynb", "README.md", "ops/README.md", "VERIFICATION_STAMP.md"]
+    },
     {
       "hash": "6ce8aa3",
       "message": "feat(ops): multi-architecture deployment + notebook verification",
