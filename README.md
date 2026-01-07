@@ -19,7 +19,7 @@ This insight—independently validated by Shannon (1948) for signals and Lewis-K
 | **Foundation**    | Isomorphism Principle, Constraints as Gifts  | Theoretical bedrock      |
 | **Interface**     | AWI, ClaudeNPC, BattleMedic, UnifiedComms    | Contact surfaces         |
 | **Methodology**   | ATOM, SAIF, KENL, Day Zero Design            | Cognitive tools          |
-| **Protocol**      | wave.md, bump.md, .context.yaml              | Information transmission |
+| **Protocol**      | [wave-spec](protocol/wave-spec.md), [bump-spec](protocol/bump-spec.md), .context.yaml | Information transmission |
 | **Manifestation** | Quantum Valley, Museum of Computation        | Theory made tangible     |
 
 ---

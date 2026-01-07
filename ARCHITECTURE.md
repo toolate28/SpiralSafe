@@ -14,7 +14,7 @@ SpiralSafe comprises five architectural layers, each implementing the core insig
 │         Quantum Valley  │  Museum of Computation  │  Production │
 ├─────────────────────────────────────────────────────────────────┤
 │                          PROTOCOL                               │
-│           wave.md  │  bump.md  │  .context.yaml  │  Dual-Format │
+│           wave-spec  │  bump-spec  │  .context.yaml  │  Dual-Format │
 ├─────────────────────────────────────────────────────────────────┤
 │                        METHODOLOGY                              │
 │              ATOM  │  SAIF  │  KENL  │  Day Zero Design         │
@@ -142,7 +142,7 @@ Philosophy of correct implementation from inception.
 
 Transmission media for information movement within and beyond SpiralSafe.
 
-### wave.md
+### Wave Protocol
 
 Coherence detection treating text as vector fields.
 
@@ -156,11 +156,11 @@ Coherence detection treating text as vector fields.
 - Potential mapping (development opportunities)
 - Integration with CI/CD pipelines
 
-### bump.md
+### Bump Protocol
 
 Routing and handoff protocol between agents, sessions, and contexts.
 
-**Key Features**:
+**Documentation**: [`protocol/bump-spec.md`](protocol/bump-spec.md)
 - Clean session transitions
 - Context preservation across handoffs
 - Multi-agent coordination
@@ -242,7 +242,7 @@ All layers are designed for collaborative development. The Hope&&Sauced methodol
 
 ### Coherence Verification
 
-wave.md analysis can be applied at any layer to verify coherence:
+The Wave protocol analysis can be applied at any layer to verify coherence:
 
 - Foundation documents should show low curl (no circular definitions)
 - Interface specifications should show balanced divergence (complete without bloat)
@@ -266,7 +266,7 @@ Each layer accepts new components that honor the layer's constraints:
 |-------|-----------|------------|
 | Manifestation | Quantum Valley | [quantum-redstone](https://github.com/toolate28/quantum-redstone) |
 | Manifestation | Production | [SpiralSafe](https://github.com/toolate28/SpiralSafe) |
-| Protocol | wave.md | [wave-toolkit](https://github.com/toolate28/wave-toolkit) |
+| Protocol | Wave Protocol | [wave-toolkit](https://github.com/toolate28/wave-toolkit) |
 | Methodology | KENL | [kenl](https://github.com/toolate28/kenl) |
 | Interface | ClaudeNPC | [ClaudeNPC-Server-Suite](https://github.com/toolate28/ClaudeNPC-Server-Suite) |
 | Utilities | Claude Code tools | [claude-code-tools](https://github.com/toolate28/claude-code-tools) |
