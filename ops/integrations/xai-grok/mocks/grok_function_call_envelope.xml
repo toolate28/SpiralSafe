@@ -1,0 +1,14 @@
+<grok-response>
+  <function name="web_search">
+    <call id="abc123" tool="web_search">
+      <args>
+        <query>wave.md divergence guidance</query>
+        <limit>3</limit>
+      </args>
+      <result>
+        <status>ok</status>
+        <payload ref="grok_web_search_response.xml"/>
+      </result>
+    </call>
+  </function>
+</grok-response>

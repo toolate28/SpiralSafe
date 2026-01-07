@@ -1,0 +1,14 @@
+{
+  "atom_tag": "ATOM-SESSION-20260107-001-project-book-session",
+  "type": "session",
+  "description": "project-book-session",
+  "start_epoch": 1704624000,
+  "start_iso": "2026-01-07T00:00:00Z",
+  "created_by": "iamto",
+  "host": "local-machine",
+  "nonce": "00000000000000000000000000000000",
+  "session_hash": "placeholderhash",
+  "signed": true,
+  "end_epoch": 1767749436,
+  "end_iso": "2026-01-07T01:30:36Z"
+}

@@ -1,0 +1,51 @@
+{
+  "session": {
+    "atom_tag": "ATOM-SESSION-20260107-001-project-book-session",
+    "type": "session",
+    "description": "project-book-session",
+    "start_epoch": 1704624000,
+    "start_iso": "2026-01-07T00:00:00Z",
+    "created_by": "iamto",
+    "host": "local-machine",
+    "nonce": "00000000000000000000000000000000",
+    "session_hash": "placeholderhash",
+    "signed": true,
+    "end_epoch": 1767749436,
+    "end_iso": "2026-01-07T01:30:36Z"
+  },
+  "decisions": [
+    {
+      "file": "ATOM-COMPLETE-20260102-001-implementation-complete-with-all-requirements-addressed.json",
+      "id": "ATOM-COMPLETE-20260102-001-implementation-complete-with-all-requirements-addressed"
+    },
+    {
+      "file": "ATOM-DOC-20260102-001-archive-unreferenced-documents-and-create-contributing-guide.json",
+      "id": "ATOM-DOC-20260102-001-archive-unreferenced-documents-and-create-contributing-guide"
+    },
+    {
+      "file": "ATOM-ENHANCE-20260102-001-address-negative-space-gaps-with-automation-and-testing.json",
+      "id": "ATOM-ENHANCE-20260102-001-address-negative-space-gaps-with-automation-and-testing"
+    },
+    {
+      "file": "ATOM-INIT-20260102-001-repository-setup-with-ci-and-atom-tracking.json",
+      "id": "ATOM-INIT-20260102-001-repository-setup-with-ci-and-atom-tracking"
+    },
+    {
+      "file": "ATOM-KENL-20260103-001-knowledge-relay-test-artifact-md.json",
+      "id": "ATOM-KENL-20260103-001-knowledge-relay-test-artifact-md"
+    },
+    {
+      "file": "ATOM-VIOLATION-20260103-001-boundary-violated-test-gate.json",
+      "id": "ATOM-VIOLATION-20260103-001-boundary-violated-test-gate"
+    },
+    {
+      "file": "ATOM-VIOLATION-20260103-002-boundary-violated-test-violation.json",
+      "id": "ATOM-VIOLATION-20260103-002-boundary-violated-test-violation"
+    },
+    {
+      "file": "ATOM-VIOLATION-20260103-003-boundary-violated-test-violation.json",
+      "id": "ATOM-VIOLATION-20260103-003-boundary-violated-test-violation"
+    }
+  ],
+  "generated_at": 1767749436
+}

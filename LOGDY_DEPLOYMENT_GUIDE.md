@@ -58,7 +58,7 @@ winget install Cloudflare.cloudflared
 ```
 
 ### 3. Cloudflare API Token Ready
-You provided: `aJ0rdJoHcKDCerLsO_WUBsA3No0JxqorLpl_mSXU`
+You provided: `REDACTED_CLOUDFLARE_API_TOKEN`
 
 This token has:
 - ✅ Zone:Edit (DNS records)
@@ -67,6 +67,8 @@ This token has:
 
 **Perfect permissions for this deployment.**
 
+> **Note:** If you find a real token in the documentation, rotate it immediately and follow `docs/SECURITY_COMMIT_GUIDELINES.md`.
+
 ---
 
 ## 🚀 Deployment Steps
@@ -74,8 +76,9 @@ This token has:
 ### Step 1: Authenticate Cloudflared
 
 ```powershell
-# Set API token
-$env:CLOUDFLARE_API_TOKEN = "aJ0rdJoHcKDCerLsO_WUBsA3No0JxqorLpl_mSXU"
+# Set API token (placeholder)
+# Do NOT commit real tokens into docs or source. Use environment variables or GitHub Secrets.
+$env:CLOUDFLARE_API_TOKEN = "REDACTED_CLOUDFLARE_API_TOKEN"
 
 # Login to Cloudflare
 cloudflared tunnel login
@@ -144,7 +147,7 @@ $TUNNEL_ID = (cloudflared tunnel list | Select-String "spiralsafe-logs" | ForEac
 **Via API (if you prefer):**
 ```powershell
 $headers = @{
-    "Authorization" = "Bearer aJ0rdJoHcKDCerLsO_WUBsA3No0JxqorLpl_mSXU"
+    "Authorization" = "Bearer REACTED_CLOUDFLARE_API_TOKEN"
     "Content-Type" = "application/json"
 }
 

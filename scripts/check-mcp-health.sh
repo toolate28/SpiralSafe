@@ -126,7 +126,7 @@ if [ -n "${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ]; then
   fi
 else
   echo -e "${RED}✗${NC} GITHUB_PERSONAL_ACCESS_TOKEN is not set"
-  echo "  → Set with: export GITHUB_PERSONAL_ACCESS_TOKEN='ghp_your_token_here'"
+  echo "  → Set with: export GITHUB_PERSONAL_ACCESS_TOKEN='your_github_pat_here'  # example placeholder"
   echo "  → Generate token at: https://github.com/settings/tokens"
   EXIT_CODE=1
 fi

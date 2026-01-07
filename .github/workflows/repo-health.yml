@@ -1,0 +1,37 @@
+name: Repo Health
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # daily at 06:00 UTC
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  repo-health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests pytest
+
+      - name: Run repo health scanner
+        run: |
+          python ops/tools/mark_files.py
+          python ops/tools/repo_health.py --output .verification/repo-health-latest.json
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo-health-report
+          path: .verification/repo-health-latest.json

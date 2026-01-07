@@ -211,14 +211,19 @@ Unauthenticated: 60 requests/hour
 Authenticated: 5,000 requests/hour
 
 ```bash
-# Ensure token is set
-export GITHUB_PERSONAL_ACCESS_TOKEN="ghp_your_token_here"
+# Ensure token is set (example placeholder - DO NOT USE REAL TOKENS)
+export GITHUB_PERSONAL_ACCESS_TOKEN="your_github_pat_here"
 
 # Restart Claude Desktop to pick up new environment
 ```
 
 **Use different token:**
 Create a separate GitHub account/token for MCP usage to avoid depleting your main account's quota.
+
+```bash
+# Example placeholder (do NOT use real tokens in docs)
+export GITHUB_PERSONAL_ACCESS_TOKEN="your_github_pat_here"
+```
 
 **Implement caching (future work):**
 ```bash
@@ -266,7 +271,7 @@ curl -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" \
 **Update environment:**
 ```bash
 # Add to shell profile (~/.bashrc, ~/.zshrc)
-export GITHUB_PERSONAL_ACCESS_TOKEN="ghp_new_token_here"
+export GITHUB_PERSONAL_ACCESS_TOKEN="your_github_pat_here"
 
 # Reload shell
 source ~/.bashrc  # or ~/.zshrc

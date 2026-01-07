@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  # Hologram bridge - ATOM trail visualization
+  hologram-atom:
+    build: .
+    image: spiralsafe/hologram-bridge:latest
+    container_name: spiralsafe-hologram-atom
+    command: python hologram-bridge.py --mode atom --trail /data/atom-trails/spiralsafe.atom --device virtual --fps 20
+    volumes:
+      - atom-data:/data/atom-trails
+    environment:
+      - DEVICE_MODE=virtual
+      - HOLOGRAM_FPS=20
+    restart: unless-stopped
+    networks:
+      - spiralsafe
+
+  # Hologram bridge - System stats mode
+  hologram-stats:
+    build: .
+    image: spiralsafe/hologram-bridge:latest
+    container_name: spiralsafe-hologram-stats
+    command: python hologram-bridge.py --mode stats --device virtual --interval 5
+    environment:
+      - DEVICE_MODE=virtual
+    restart: unless-stopped
+    networks:
+      - spiralsafe
+
+  # Hologram bridge - Thinking animation
+  hologram-idle:
+    build: .
+    image: spiralsafe/hologram-bridge:latest
+    container_name: spiralsafe-hologram-idle
+    command: python hologram-bridge.py --mode idle --device virtual
+    environment:
+      - DEVICE_MODE=virtual
+    restart: unless-stopped
+    networks:
+      - spiralsafe
+    profiles:
+      - idle
+
+  # Tartarus Pro bridge - SpiralSafe profile
+  tartarus-spiralsafe:
+    build: .
+    image: spiralsafe/tartarus-bridge:latest
+    container_name: spiralsafe-tartarus
+    command: python tartarus-bridge.py --profile spiralsafe --device virtual --trail /data/atom-trails/spiralsafe.atom
+    volumes:
+      - atom-data:/data/atom-trails
+    environment:
+      - DEVICE_MODE=virtual
+      - PROFILE=spiralsafe
+    restart: unless-stopped
+    networks:
+      - spiralsafe
+
+  # ATOM trail writer (standalone service)
+  atom-writer:
+    build: .
+    image: spiralsafe/atom-writer:latest
+    container_name: spiralsafe-atom-writer
+    command: |
+      python -c "
+      import asyncio
+      from atom import ATOMWriter
+      import time
+
+      async def write_demo():
+          writer = ATOMWriter('/data/atom-trails/spiralsafe.atom')
+          while True:
+              await writer.write('STATUS', 'Container heartbeat', {'service': 'atom-writer'})
+              await asyncio.sleep(60)
+
+      asyncio.run(write_demo())
+      "
+    volumes:
+      - atom-data:/data/atom-trails
+    restart: unless-stopped
+    networks:
+      - spiralsafe
+    profiles:
+      - demo
+
+networks:
+  spiralsafe:
+    driver: bridge
+    name: spiralsafe-network
+
+volumes:
+  atom-data:
+    name: spiralsafe-atom-trails

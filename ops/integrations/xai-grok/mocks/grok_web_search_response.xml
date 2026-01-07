@@ -1,0 +1,27 @@
+<grok-response>
+  <function name="web_search">
+    <results total="3">
+      <result id="1">
+        <title>SpiralSafe launches Wave Coherence</title>
+        <url>https://blog.example/spiralsafe-wave</url>
+        <snippet>SpiralSafe's Wave algorithm detects curl and divergence metrics and reports coherence improvements when evidence is added.</snippet>
+        <timestamp>2026-01-06T12:00:00Z</timestamp>
+        <relevance>0.92</relevance>
+      </result>
+      <result id="2">
+        <title>Wave.md: divergence patterns</title>
+        <url>https://docs.example/wave-spec</url>
+        <snippet>Wave.md computes curl and divergence on textual fields and recommends adding conclusions to reduce divergence.</snippet>
+        <timestamp>2025-12-20T09:00:00Z</timestamp>
+        <relevance>0.78</relevance>
+      </result>
+      <result id="3">
+        <title>Coherence measurements explained</title>
+        <url>https://research.example/coherence</url>
+        <snippet>Practical thresholds are used to flag documents; a "conclusion" section reduces divergence and aids verification.</snippet>
+        <timestamp>2025-11-11T08:00:00Z</timestamp>
+        <relevance>0.55</relevance>
+      </result>
+    </results>
+  </function>
+</grok-response>

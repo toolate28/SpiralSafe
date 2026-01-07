@@ -1,0 +1,37 @@
+name: Test xAI/Grok Integration
+
+on:
+  push:
+    branches: [ 'integration/xai-grok' ]
+  pull_request:
+    branches: [ 'integration/xai-grok' ]
+  workflow_dispatch: {}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ops/integrations/xai-grok/requirements.txt
+
+      - name: Run pytest
+        run: |
+          pytest ops/integrations/xai-grok/tests -q
+
+      - name: Upload test artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xai-grok-test-results
+          path: ops/integrations/xai-grok/tests
