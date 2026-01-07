@@ -1,37 +1,100 @@
 {
   "name": "spiralsafe-ops",
-  "version": "1.0.1",
-  "release": "ops/infrastructure-layer",
-  "release_notes": "Add session reporting CLI, project-book session logging, verification receipts, and session analytics; bump patch version to 1.0.1"
+  "version": "2.0.0",
+  "release": "ops/production-deployment",
+  "release_notes": "Production deployment to Cloudflare Workers with full infrastructure: D1 database, KV namespace, R2 bucket, custom domain (api.spiralsafe.org), all 6 core API endpoints validated and operational",
   "protocol": "H&&S:WAVE",
   "signature": "Hope&&Sauced",
-  "timestamp": "2026-01-07T01:53:00Z",
+  "timestamp": "2026-01-07T15:31:32Z",
+
+  "deployment": {
+    "status": "live",
+    "url": "https://api.spiralsafe.org",
+    "worker_id": "d4e36b58-964c-4820-a08b-27d1e7540a1e",
+    "deployed_at": "2026-01-07T15:10:53.715Z",
+    "validated_at": "2026-01-07T15:31:32Z"
+  },
+
+  "infrastructure": {
+    "d1_database": {
+      "name": "spiralsafe-ops",
+      "id": "d47d04ca-7d74-41a8-b489-0af373a2bb2c",
+      "tables": 7,
+      "location": "OC"
+    },
+    "kv_namespace": {
+      "binding": "SPIRALSAFE_KV",
+      "id": "79d496efbfab4d54a6277ed80dc29d1f"
+    },
+    "r2_bucket": {
+      "binding": "SPIRALSAFE_R2",
+      "name": "spiralsafe-contexts"
+    }
+  },
+
+  "endpoints": {
+    "health": {
+      "path": "/api/health",
+      "method": "GET",
+      "status": "operational"
+    },
+    "wave": {
+      "path": "/api/wave/analyze",
+      "method": "POST",
+      "status": "operational",
+      "validated": "2026-01-07T15:31:31Z"
+    },
+    "bump": {
+      "path": "/api/bump/create",
+      "method": "POST",
+      "status": "operational",
+      "validated": "2026-01-07T15:31:31Z"
+    },
+    "awi": {
+      "path": "/api/awi/request",
+      "method": "POST",
+      "status": "operational",
+      "validated": "2026-01-07T15:31:32Z"
+    },
+    "atom": {
+      "path": "/api/atom/create",
+      "method": "POST",
+      "status": "operational",
+      "validated": "2026-01-07T15:31:38Z"
+    },
+    "context": {
+      "path": "/api/context/store",
+      "method": "POST",
+      "status": "operational",
+      "validated": "2026-01-07T15:31:38Z"
+    }
+  },
 
   "commits": [
     {
+      "hash": "3e32283",
+      "message": "fix(ops): correct API endpoint paths in test script",
+      "timestamp": "2026-01-07T15:31:32Z"
+    },
+    {
+      "hash": "e9c7353",
+      "message": "feat(ops): document successful deployment to production",
+      "timestamp": "2026-01-07T15:31:00Z"
+    },
+    {
+      "hash": "79c1c7a",
+      "message": "docs(ops): add Cloudflare worker URL troubleshooting guide",
+      "timestamp": "2026-01-07T15:15:00Z"
+    },
+    {
+      "hash": "55eefd1",
+      "message": "feat(ops): add NEAR AI integration substrate design",
+      "timestamp": "2026-01-07T14:30:00Z"
+    },
+    {
       "hash": "96b6c5f",
       "message": "feat(ops): add session_report CLI + project-book session logging (H&&S:WAVE)",
-      "files": ["ops/scripts/session_report.py", "project-book.ipynb", "README.md", "ops/README.md", "VERIFICATION_STAMP.md"]
-    },
-    {
-      "hash": "6ce8aa3",
-      "message": "feat(ops): multi-architecture deployment + notebook verification",
-      "files": ["ops/DEPLOYMENT_ARCHITECTURE.md", "ops/scripts/Notebook-Verifier.ps1"]
-    },
-    {
-      "hash": "57a5a66",
-      "message": "feat(ops): transcript pipeline + platform matrix",
-      "files": ["ops/schemas/PLATFORM_MATRIX.md", "ops/scripts/Transcript-Pipeline.ps1"]
-    },
-    {
-      "hash": "4e38c85",
-      "message": "feat(ops): SpiralSafe infrastructure layer",
-      "files": [
-        "ops/api/spiralsafe-worker.ts",
-        "ops/schemas/d1-schema.sql",
-        "ops/scripts/SpiralSafe.psm1",
-        ".github/workflows/spiralsafe-ci.yml"
-      ]
+      "timestamp": "2026-01-07T01:53:00Z"
     }
   ],
 
@@ -39,16 +102,19 @@
     "api": {
       "path": "ops/api/spiralsafe-worker.ts",
       "runtime": "Cloudflare Workers",
-      "language": "TypeScript"
+      "language": "TypeScript",
+      "version": "2.0.0"
     },
     "database": {
       "path": "ops/schemas/d1-schema.sql",
       "runtime": "Cloudflare D1",
-      "language": "SQL"
+      "language": "SQL",
+      "tables": ["wave_analyses", "bumps", "awi_grants", "awi_audit", "atoms", "contexts", "system_health"]
     },
     "cli": {
       "powershell": "ops/scripts/SpiralSafe.psm1",
-      "bash": "ops/scripts/spiralsafe"
+      "bash": "ops/scripts/spiralsafe",
+      "python": "ops/scripts/session_report.py"
     },
     "pipelines": {
       "transcript": "ops/scripts/Transcript-Pipeline.ps1",
@@ -64,23 +130,78 @@
     "ai": ["claude-code", "github-copilot", "openai-gpt", "gemini", "grok", "groq"],
     "os": ["windows", "macos", "linux"],
     "shell": ["powershell", "bash", "zsh", "fish"],
-    "ide": ["vscode", "wave", "cursor", "jetbrains"]
+    "ide": ["vscode", "wave", "cursor", "jetbrains"],
+    "cloud": ["cloudflare-workers", "cloudflare-d1", "cloudflare-kv", "cloudflare-r2"]
   },
 
   "checksums": {
     "algorithm": "SHA-256",
-    "manifest": "computed-at-build"
+    "manifest": "computed-at-build",
+    "merkle_root": "fd72c4a41569ee2d40d87c4203aab453f4eadb2a3998c25d631f77c861fb119c"
   },
 
   "pr": {
-    "number": 20,
-    "url": "https://github.com/toolate28/SpiralSafe/pull/20",
-    "marker": "H&&S:WAVE"
+    "branch": "claude/review-codebase-state-KuPq8",
+    "url": "https://github.com/toolate28/SpiralSafe/pull/new/claude/review-codebase-state-KuPq8",
+    "marker": "H&&S:WAVE",
+    "session": "ATOM-SESSION-20260107-DEPLOYMENT-002"
   },
 
   "author": {
     "human": "toolate28",
     "ai": "Claude Opus 4.5",
-    "tool": "Claude Code"
+    "tool": "Claude Code",
+    "mode": "Ultrathink 5x"
+  },
+
+  "changelog": {
+    "2.0.0": {
+      "date": "2026-01-07",
+      "type": "major",
+      "changes": [
+        "Production deployment to Cloudflare Workers",
+        "Full infrastructure provisioning (D1, KV, R2)",
+        "Custom domain configured (api.spiralsafe.org)",
+        "All 6 core API endpoints validated and operational",
+        "WAVE analysis (coherence detection) endpoint",
+        "BUMP markers (routing & handoff) endpoint",
+        "AWI grants (authority-with-intent) endpoint",
+        "ATOM sessions (task orchestration) endpoint",
+        "Context storage (knowledge units) endpoint",
+        "Health check endpoint with infrastructure validation",
+        "NEAR AI integration design (6th platform substrate)",
+        "Comprehensive deployment documentation",
+        "Endpoint validation test suite"
+      ],
+      "breaking_changes": [
+        "API now requires specific sub-paths (e.g., /api/wave/analyze instead of /api/wave)"
+      ],
+      "migration_notes": [
+        "Update all API calls to use correct endpoint paths",
+        "Refer to ENDPOINT_VALIDATION_RESULTS.md for exact paths and payloads"
+      ]
+    },
+    "1.0.1": {
+      "date": "2026-01-07",
+      "type": "patch",
+      "changes": [
+        "Add session reporting CLI",
+        "Project-book session logging",
+        "Verification receipts",
+        "Session analytics"
+      ]
+    },
+    "1.0.0": {
+      "date": "2026-01-06",
+      "type": "major",
+      "changes": [
+        "Initial infrastructure layer",
+        "TypeScript API worker",
+        "D1 database schema",
+        "PowerShell and Bash CLI tools",
+        "CI/CD pipeline",
+        "Platform matrix"
+      ]
+    }
   }
 }

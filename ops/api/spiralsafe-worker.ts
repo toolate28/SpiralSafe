@@ -587,7 +587,7 @@ async function handleHealth(env: Env): Promise<Response> {
     status: healthy ? 'healthy' : 'degraded',
     checks,
     timestamp: new Date().toISOString(),
-    version: '1.0.0'
+    version: '2.0.0'
   }, healthy ? 200 : 503);
 }
 
