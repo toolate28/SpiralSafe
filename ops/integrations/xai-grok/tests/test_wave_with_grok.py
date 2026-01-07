@@ -1,7 +1,6 @@
 from pathlib import Path
 from typing import List
 import re
-from statistics import mean
 
 ROOT = Path(__file__).resolve().parents[2]
 MOCK = ROOT / "mocks" / "grok_web_search_response.xml"
