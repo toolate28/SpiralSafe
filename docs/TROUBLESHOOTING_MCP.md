@@ -266,7 +266,7 @@ curl -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" \
 **Update environment:**
 ```bash
 # Add to shell profile (~/.bashrc, ~/.zshrc)
-export GITHUB_PERSONAL_ACCESS_TOKEN="ghp_new_token_here"
+export GITHUB_PERSONAL_ACCESS_TOKEN="your_github_pat_here"
 
 # Reload shell
 source ~/.bashrc  # or ~/.zshrc
