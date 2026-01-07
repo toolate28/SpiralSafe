@@ -25,12 +25,6 @@ routes = [
 # D1 Database Bindings
 # ═══════════════════════════════════════════════════════════════
 
-<<<<<<< HEAD
-[[d1_databases]]
-binding = "SPIRALSAFE_DB"
-database_name = "spiralsafe-ops"
-database_id = "d47d04ca-7d74-41a8-b489-0af373a2bb2c"
-=======
 # Commented out until resources are created
 # [[d1_databases]]
 # binding = "SPIRALSAFE_DB"
@@ -41,17 +35,11 @@ database_id = "d47d04ca-7d74-41a8-b489-0af373a2bb2c"
 # binding = "SPIRALSAFE_DB"
 # database_name = "spiralsafe-ops-dev"
 # database_id = "" # Fill after: wrangler d1 create spiralsafe-ops-dev
->>>>>>> d15c382814cb562d945f53f9b25e1d689c8845f1
 
 # ═══════════════════════════════════════════════════════════════
 # KV Namespace Bindings
 # ═══════════════════════════════════════════════════════════════
 
-<<<<<<< HEAD
-[[kv_namespaces]]
-binding = "SPIRALSAFE_KV"
-id = "79d496efbfab4d54a6277ed80dc29d1f"
-=======
 # Commented out until resources are created
 # [[kv_namespaces]]
 # binding = "SPIRALSAFE_KV"
@@ -60,7 +48,6 @@ id = "79d496efbfab4d54a6277ed80dc29d1f"
 # [env.dev.kv_namespaces]
 # binding = "SPIRALSAFE_KV"
 # id = "" # Fill after: wrangler kv:namespace create SPIRALSAFE_KV --preview
->>>>>>> d15c382814cb562d945f53f9b25e1d689c8845f1
 
 # ═══════════════════════════════════════════════════════════════
 # R2 Bucket Bindings
@@ -71,13 +58,10 @@ id = "79d496efbfab4d54a6277ed80dc29d1f"
 # binding = "SPIRALSAFE_R2"
 # bucket_name = "spiralsafe-contexts"
 
-<<<<<<< HEAD
-=======
 # [env.dev.r2_buckets]
 # binding = "SPIRALSAFE_R2"
 # bucket_name = "spiralsafe-contexts-dev"
 
->>>>>>> d15c382814cb562d945f53f9b25e1d689c8845f1
 # ═══════════════════════════════════════════════════════════════
 # Build Configuration
 # ═══════════════════════════════════════════════════════════════
@@ -85,14 +69,15 @@ id = "79d496efbfab4d54a6277ed80dc29d1f"
 [build]
 command = "npm run build"
 
-<<<<<<< HEAD
-=======
 # Note: build.upload removed - wrangler 3.x infers format automatically
 
->>>>>>> d15c382814cb562d945f53f9b25e1d689c8845f1
 # ═══════════════════════════════════════════════════════════════
 # Observability
 # ═══════════════════════════════════════════════════════════════
 
 [observability]
 enabled = true
+
+# Tail workers for logging
+# [[tail_consumers]]
+# service = "spiralsafe-logger"
