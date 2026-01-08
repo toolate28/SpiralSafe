@@ -2,7 +2,7 @@
   "name": "spiralsafe-ops",
   "version": "1.0.1",
   "release": "ops/infrastructure-layer",
-  "release_notes": "Add session reporting CLI, project-book session logging, verification receipts, and session analytics; bump patch version to 1.0.1"
+  "release_notes": "Add session reporting CLI, project-book session logging, verification receipts, and session analytics; bump patch version to 1.0.1",
   "protocol": "H&&S:WAVE",
   "signature": "Hope&&Sauced",
   "timestamp": "2026-01-07T01:53:00Z",
