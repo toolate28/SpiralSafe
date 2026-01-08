@@ -31,7 +31,10 @@ const config = {
     number: process.env.SIGNAL_NUMBER || '',
   },
   auth: {
-    authorizedNumbers: (process.env.AUTHORIZED_NUMBERS || '').split(',').map(n => n.trim()),
+    authorizedNumbers: (process.env.AUTHORIZED_NUMBERS || '')
+      .split(',')
+      .map(n => n.trim())
+      .filter(n => n.length > 0),
     requireConfirmation: process.env.REQUIRE_CONFIRMATION === 'true',
   },
   execution: {
