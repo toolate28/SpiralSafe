@@ -58,14 +58,14 @@ winget install Cloudflare.cloudflared
 ```
 
 ### 3. Cloudflare API Token Ready
-You provided: `aJ0rdJoHcKDCerLsO_WUBsA3No0JxqorLpl_mSXU`
+You provided: `REDACTED_CLOUDFLARE_API_TOKEN`
 
 This token has:
 - ✅ Zone:Edit (DNS records)
 - ✅ Cloudflare Tunnel:Edit
 - ✅ Account:Read
 
-**Perfect permissions for this deployment.**
+**Perfect permissions for this deployment (REDACTED).**
 
 ---
 
@@ -74,8 +74,9 @@ This token has:
 ### Step 1: Authenticate Cloudflared
 
 ```powershell
-# Set API token
-$env:CLOUDFLARE_API_TOKEN = "aJ0rdJoHcKDCerLsO_WUBsA3No0JxqorLpl_mSXU"
+# Set API token (placeholder)
+# Do NOT commit real tokens into docs. Use environment variables or secrets in CI.
+$env:CLOUDFLARE_API_TOKEN = "REDACTED_CLOUDFLARE_API_TOKEN"
 
 # Login to Cloudflare
 cloudflared tunnel login
@@ -144,7 +145,7 @@ $TUNNEL_ID = (cloudflared tunnel list | Select-String "spiralsafe-logs" | ForEac
 **Via API (if you prefer):**
 ```powershell
 $headers = @{
-    "Authorization" = "Bearer aJ0rdJoHcKDCerLsO_WUBsA3No0JxqorLpl_mSXU"
+    "Authorization" = "Bearer your_cloudflare_api_token_here"
     "Content-Type" = "application/json"
 }
 
@@ -161,6 +162,8 @@ Invoke-RestMethod -Method Post `
     -Headers $headers `
     -Body $body
 ```
+
+**Security note:** Do **not** commit real API tokens into repository files or documentation. If a token is accidentally committed, rotate/revoke it immediately, remove it from Git history using `git filter-repo` or [BFG Repo-Cleaner](https://rtyley.github.io/bfg-repo-cleaner/), and follow `docs/SECURITY_COMMIT_GUIDELINES.md` to log the incident and record rotation evidence.
 
 ### Step 5: Start Tunnel
 
@@ -383,7 +386,7 @@ Once live, announce:
 & "C:\Users\iamto\.kenl\bin\logdy.exe" serve --port 8081
 
 # 2. Authenticate cloudflared
-$env:CLOUDFLARE_API_TOKEN = "aJ0rdJoHcKDCerLsO_WUBsA3No0JxqorLpl_mSXU"
+$env:CLOUDFLARE_API_TOKEN = Read-Host "Enter Cloudflare API token"
 cloudflared tunnel login
 
 # 3. Create tunnel

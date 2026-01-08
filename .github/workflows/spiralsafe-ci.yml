@@ -16,8 +16,7 @@ name: SpiralSafe CI
 # Security: Minimal permissions (CodeQL fix)
 permissions:
   contents: read
-
-
+  
 on:
   push:
     branches: [main, develop]
@@ -42,6 +41,8 @@ jobs:
     name: Wave Coherence Check
     runs-on: ubuntu-latest
     if: ${{ !inputs.skip_coherence }}
+    permissions:
+      contents: read
     
     outputs:
       coherent: ${{ steps.analyze.outputs.coherent }}
@@ -162,13 +163,55 @@ jobs:
             }' || true
 
   # ─────────────────────────────────────────────────────────────
+  # Lint: Static Analysis (ShellCheck + PSScriptAnalyzer)
+  # ─────────────────────────────────────────────────────────────
+  lint:
+    name: Lint & Static Analysis
+    runs-on: ubuntu-latest
+    needs: [coherence]
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install ShellCheck
+        run: |
+          sudo apt-get update && sudo apt-get install -y shellcheck || true
+
+      - name: Run ShellCheck on scripts
+        run: |
+          set -e
+          SCRIPTS=$(find . -type f -name "*.sh" -not -path './node_modules/*' -not -path './.git/*')
+          if [ -n "$SCRIPTS" ]; then
+            shellcheck -x $SCRIPTS || true
+          else
+            echo "No shell scripts found"
+          fi
+
+      - name: Setup PowerShell
+        uses: PowerShell/Setup-PowerShell@v2
+        with:
+          pwsh-version: '7.3.8'
+
+      - name: Install PSScriptAnalyzer
+        run: |
+          pwsh -Command "Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser"
+
+      - name: Run PSScriptAnalyzer
+        run: |
+          pwsh -Command "Get-ChildItem -Path . -Recurse -Include *.ps1 | ForEach-Object { Invoke-ScriptAnalyzer -Path $_.FullName -Severity Warning,Error }"
+
+  # ─────────────────────────────────────────────────────────────
   # Phase 2: Build & Test
   # ─────────────────────────────────────────────────────────────
   build:
     name: Build & Test
     runs-on: ubuntu-latest
-    needs: [coherence]
+    needs: [coherence, lint]
     if: always() && (needs.coherence.result == 'success' || needs.coherence.result == 'skipped')
+    permissions:
+      contents: read
     
     steps:
       - name: Checkout
@@ -204,6 +247,8 @@ jobs:
     needs: [coherence, build]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment: production
+    permissions:
+      contents: read
     
     steps:
       - name: Checkout
@@ -281,6 +326,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [deploy]
     if: success()
+    permissions:
+      contents: read
     
     steps:
       - name: Health Check
@@ -320,6 +367,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [coherence, build, deploy]
     if: failure()
+    permissions:
+      contents: read
     
     steps:
       - name: Create BLOCK Bump

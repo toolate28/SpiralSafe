@@ -1,0 +1,20 @@
+# Quick Fix for wrangler.toml (Windows PowerShell)
+
+# 1. Open wrangler.toml in your editor
+# 2. Find and DELETE this entire section (around line 65-70):
+
+[build.upload]
+format = "modules"
+main = "./dist/spiralsafe-worker.js"
+
+# 3. COMMENT OUT these sections (add # at start of each line):
+#   - Lines ~27-35: [[d1_databases]] and [env.dev.d1_databases]
+#   - Lines ~41-47: [[kv_namespaces]] and [env.dev.kv_namespaces]
+#   - Lines ~53-59: [[r2_buckets]] and [env.dev.r2_buckets]
+
+# After making these changes, the wrangler commands will work!
+
+# Then run:
+npx wrangler d1 create spiralsafe-ops
+npx wrangler kv namespace create SPIRALSAFE_KV
+npx wrangler r2 bucket create spiralsafe-contexts

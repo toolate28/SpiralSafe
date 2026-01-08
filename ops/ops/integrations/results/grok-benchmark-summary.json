@@ -1,0 +1,28 @@
+{
+  "runs": [
+    {
+      "query_id": "q1",
+      "query": "What is wave.md divergence and how to reduce it?",
+      "latency_ms": 0.022221999984139984,
+      "hit": true
+    },
+    {
+      "query_id": "q2",
+      "query": "How to measure curl in documents?",
+      "latency_ms": 0.017994000018006773,
+      "hit": true
+    },
+    {
+      "query_id": "q3",
+      "query": "Provide a short summary of coherence gates",
+      "latency_ms": 0.014939000010372183,
+      "hit": true
+    }
+  ],
+  "summary": {
+    "total_runs": 3,
+    "avg_latency_ms": 0.01838500000417298,
+    "p50_ms": 0.017994000018006773,
+    "p95_ms": 0.025604399957046553
+  }
+}
