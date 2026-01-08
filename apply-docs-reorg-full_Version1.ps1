@@ -29,7 +29,7 @@ Notes:
 #>
 
 param(
-  [switch]$DryRun = $true,
+  [switch]$DryRun,
   [switch]$AutoConfirm,
   [switch]$UseLfs,
   [switch]$UpdateRefs,
