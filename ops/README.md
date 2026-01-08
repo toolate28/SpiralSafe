@@ -37,6 +37,8 @@ spiralsafe-ops/
 - Node.js 18+
 - Cloudflare account with Workers, D1, KV, R2 enabled
 - Wrangler CLI (`npm install -g wrangler`)
+- ShellCheck (for script linting) - CI runs it automatically; install locally with your package manager (e.g., `apt install shellcheck` or `choco install shellcheck`)
+- PowerShell 7+ (`pwsh`) and PSScriptAnalyzer for PowerShell linting (`Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser`)
 
 ### 2. Initial Setup
 
@@ -159,6 +161,18 @@ spiralsafe awi verify --action "modify:README.md"
 
 # View audit trail
 spiralsafe awi audit <grant-id>
+```
+
+### Session Reports
+
+Run and export session reports from the command line (creates `.atom-trail/sessions/*.json` and optional encrypted bundle):
+
+```bash
+# Start a session
+python ops/scripts/session_report.py start "verification-session"
+
+# Close session and generate report (encrypts if Transcript-Pipeline is available)
+python ops/scripts/session_report.py signout ATOM-SESSION-20260107-001-verification-session
 ```
 
 ### Status

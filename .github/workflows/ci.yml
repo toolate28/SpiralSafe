@@ -17,7 +17,12 @@ jobs:
     name: Test Suite
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4 # or @v4.1.0 for pinning
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
 
       - name: Run Script Validation
         run: bash scripts/test-scripts.sh
@@ -29,10 +34,10 @@ jobs:
     name: ShellCheck Linting
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4 # or @v4.1.0
+      - uses: actions/checkout@v4
 
       - name: Run ShellCheck
-        uses: ludeeus/action-shellcheck@2.0.0
+        uses: ludeeus/action-shellcheck@v2
         with:
           scandir: './scripts'
           severity: warning  
