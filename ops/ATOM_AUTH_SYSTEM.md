@@ -727,13 +727,13 @@ const PATTERNS = {
 async function generateLEDKeycode(sessionId: string): Promise<LEDKeycode> {
   // Use cryptographically secure random number generator with rejection sampling
   // to avoid modulo bias when generating 4-digit codes (1000-9999)
-  let code: number;
-  const maxValue = 0xFFFFFFFF;
   const range = 9000; // 1000-9999 = 9000 possible values
+  const maxValue = 0x100000000; // 2^32, the total range of Uint32Array values
   const validRange = Math.floor(maxValue / range) * range;
+  const randomValues = new Uint32Array(1);
   
+  let code: number;
   do {
-    const randomValues = new Uint32Array(1);
     crypto.getRandomValues(randomValues);
     code = randomValues[0];
   } while (code >= validRange); // Rejection sampling to eliminate bias
@@ -1226,12 +1226,12 @@ async function generateProjectorChallenge(
   ];
   
   const numTypes = types.length;
-  const maxValue = 0xFFFFFFFF;
+  const maxValue = 0x100000000; // 2^32, the total range of Uint32Array values
   const validRange = Math.floor(maxValue / numTypes) * numTypes;
+  const randomIndex = new Uint32Array(1);
   
   let randomValue: number;
   do {
-    const randomIndex = new Uint32Array(1);
     crypto.getRandomValues(randomIndex);
     randomValue = randomIndex[0];
   } while (randomValue >= validRange); // Rejection sampling to eliminate bias
