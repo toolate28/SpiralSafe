@@ -1218,14 +1218,25 @@ async function generateProjectorChallenge(
   env: Env
 ): Promise<ProjectorChallenge> {
 
-  // Select random challenge type using crypto API for consistency
+  // Select random challenge type using crypto API with rejection sampling
+  // to avoid modulo bias
   const types: ProjectorChallenge['type'][] = [
     'object-count', 'color-identify', 'pattern-match',
     'scene-describe', 'quantum-spiral'
   ];
-  const randomIndex = new Uint32Array(1);
-  crypto.getRandomValues(randomIndex);
-  const type = types[randomIndex[0] % types.length];
+  
+  const numTypes = types.length;
+  const maxValue = 0xFFFFFFFF;
+  const validRange = Math.floor(maxValue / numTypes) * numTypes;
+  
+  let randomValue: number;
+  do {
+    const randomIndex = new Uint32Array(1);
+    crypto.getRandomValues(randomIndex);
+    randomValue = randomIndex[0];
+  } while (randomValue >= validRange); // Rejection sampling to eliminate bias
+  
+  const type = types[randomValue % numTypes];
 
   // Get random image from R2 bucket
   const imageKey = await selectRandomImage(type, env);
