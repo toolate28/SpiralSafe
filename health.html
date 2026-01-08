@@ -393,6 +393,17 @@
                     alert('Invalid URL protocol. Only http:// and https:// are allowed.');
                     return;
                 }
+                // Warn about localhost/private IPs in production
+                const hostname = urlObj.hostname;
+                const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+                const isPrivateIP = /^(10\.|172\.(1[6-9]|2[0-9]|3[01])\.|192\.168\.)/.test(hostname);
+                
+                if ((isLocalhost || isPrivateIP) && window.location.protocol === 'https:') {
+                    if (!confirm('Warning: Using localhost or private IP address from a production site. Continue?')) {
+                        return;
+                    }
+                }
+                
                 API_BASE_URL = url;
                 localStorage.setItem('spiralsafe_api_url', API_BASE_URL);
                 document.getElementById('current-api-url').textContent = API_BASE_URL;
