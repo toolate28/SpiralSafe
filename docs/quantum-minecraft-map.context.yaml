@@ -160,7 +160,7 @@ verification:
     tool: wave-toolkit
     check: Documentation ↔ implementation alignment
     ci_integration: .github/workflows/spiralsafe-ci.yml
-    standard: wave.md protocol
+    standard: wave-spec.md protocol
   
   claim_verification:
     backed_by:
