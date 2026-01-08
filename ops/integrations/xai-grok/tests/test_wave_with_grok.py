@@ -16,7 +16,7 @@ def compute_metrics(text: str) -> dict:
     curl = 0.0 if total == 0 else round(1.0 - (len(uniques) / total), 2)
 
     question_count = text.count('?')
-    has_conclusion = bool(re.search(r'\b(therefore|thus|conclusion|summary|in summary)\b', text, re.I))
+    has_conclusion = bool(re.search(r'\b(therefore|thus|conclusions?|summary|in summary)\b', text, re.I))
     divergence = 0.2 if has_conclusion else min(0.3 + question_count * 0.05, 0.8)
 
     return {'curl': curl, 'divergence': round(divergence, 2), 'total_sentences': total}
