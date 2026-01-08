@@ -43,8 +43,8 @@ jupyter notebook notebooks/claude-platform.ipynb
 
 ## Related Documentation
 
-- [Project Book](../project-book.ipynb) - Main development notebook (in root)
-- [Foundation](../foundation/) - Theoretical foundations
+- [Project Book](../project-book.ipynb) - Main development notebook (root directory)
+- [Foundation](../foundation/) - Theoretical foundations (isomorphism principle, constraints)
 - [Methodology](../methodology/) - ATOM, SAIF, KENL frameworks
 
 ---

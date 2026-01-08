@@ -366,18 +366,40 @@
         let API_BASE_URL = 'https://api.spiralsafe.org';
         let startTime = Date.now();
         
-        // Load saved API URL from localStorage
+        // Load saved API URL from localStorage with validation
         if (localStorage.getItem('spiralsafe_api_url')) {
-            API_BASE_URL = localStorage.getItem('spiralsafe_api_url');
-            document.getElementById('api-url-input').value = API_BASE_URL;
+            const savedUrl = localStorage.getItem('spiralsafe_api_url');
+            try {
+                const urlObj = new URL(savedUrl);
+                if (urlObj.protocol === 'http:' || urlObj.protocol === 'https:') {
+                    API_BASE_URL = savedUrl;
+                    document.getElementById('api-url-input').value = API_BASE_URL;
+                }
+            } catch (e) {
+                // Invalid stored URL, use default
+                console.warn('Invalid stored URL, using default');
+            }
         }
         
         function updateApiUrl() {
             const input = document.getElementById('api-url-input');
-            API_BASE_URL = input.value.trim();
-            localStorage.setItem('spiralsafe_api_url', API_BASE_URL);
-            document.getElementById('current-api-url').textContent = API_BASE_URL;
-            checkHealth();
+            let url = input.value.trim();
+            
+            // Basic URL validation to prevent XSS
+            try {
+                const urlObj = new URL(url);
+                // Only allow http and https protocols
+                if (urlObj.protocol !== 'http:' && urlObj.protocol !== 'https:') {
+                    alert('Invalid URL protocol. Only http:// and https:// are allowed.');
+                    return;
+                }
+                API_BASE_URL = url;
+                localStorage.setItem('spiralsafe_api_url', API_BASE_URL);
+                document.getElementById('current-api-url').textContent = API_BASE_URL;
+                checkHealth();
+            } catch (e) {
+                alert('Invalid URL format. Please enter a valid HTTP or HTTPS URL.');
+            }
         }
         
         async function checkEndpoint(endpoint) {

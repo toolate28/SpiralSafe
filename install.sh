@@ -113,7 +113,13 @@ install_git() {
     
     case "$pkg_mgr" in
         apt)
-            sudo apt-get update && sudo apt-get install -y git
+            if ! sudo apt-get update; then
+                print_warning "Package index update failed, continuing anyway..."
+            fi
+            sudo apt-get install -y git || {
+                print_error "Failed to install Git via apt"
+                exit 1
+            }
             ;;
         yum)
             sudo yum install -y git
