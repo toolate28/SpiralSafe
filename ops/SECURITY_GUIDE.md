@@ -118,10 +118,12 @@ npx wrangler secret put SPIRALSAFE_API_KEY
 # Enter your 64-character hex key
 ```
 
-**Current Production Key** (rotate regularly):
+**Example Key Format** (use your actual key):
 ```
-bee53792f93c8ae9f3dc15c106d7c3da7ffa6c692ad18aba4b90bcbee7c310de
+your-64-character-hex-api-key-here
 ```
+
+> **Security Note**: Never commit actual API keys to the repository. Store them securely in Cloudflare Secrets or environment variables.
 
 ### Multiple API Keys
 
