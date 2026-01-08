@@ -197,8 +197,25 @@ jobs:
 
       - name: Run PSScriptAnalyzer
         run: |
-          pwsh -Command "Get-ChildItem -Path . -Recurse -Include *.ps1 | ForEach-Object { Invoke-ScriptAnalyzer -Path $_.FullName -Severity Warning,Error }"
+          pwsh -Command "
+            \$scripts = Get-ChildItem -Path . -Recurse -Include *.ps1
+            if (-not \$scripts) {
+              Write-Host 'No PowerShell scripts found.'
+              exit 0
+            }
 
+            \$results = \$scripts | ForEach-Object {
+              Invoke-ScriptAnalyzer -Path \$_.FullName -Severity Warning,Error
+            }
+
+            if (\$results) {
+              Write-Host 'PSScriptAnalyzer found issues:'
+              \$results | Format-Table -AutoSize | Out-String | Write-Host
+              exit 1
+            } else {
+              Write-Host 'PSScriptAnalyzer found no issues.'
+            }
+          "
   # ─────────────────────────────────────────────────────────────
   # Phase 2: Build & Test
   # ─────────────────────────────────────────────────────────────
