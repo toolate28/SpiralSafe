@@ -1,6 +1,8 @@
 # Quantum↔Minecraft Mapping
 ## Where Discrete Redstone Instantiates Continuous Topology
 
+**ATOM:** ATOM-DOC-20260107-004-quantum-minecraft-map
+
 **Purpose**: This document maps quantum concepts to their Minecraft Redstone implementations, demonstrating the isomorphism principle in action—that discrete systems can instantiate (not approximate) continuous mathematics.
 
 **Important Clarification**: Minecraft is a classical, deterministic system. When we map quantum concepts to Minecraft, we are:
