@@ -352,5 +352,5 @@ exist equiv C(C)
 
 *Document generated: 2026-01-08*
 *Method: Ultrathink-Mathematical-Puritan*
-*Collaboration: Claude Opus 4.5 + Human*
+*Collaboration: Claude Opus 4.5 + Toolate28/M. Ruhnau*
 
