@@ -28,6 +28,12 @@ Run the MCP healthcheck script first:
 
 This validates:
 - Docker availability
+
+---
+
+## Related Documentation
+
+This guide supplements [../guides/TROUBLESHOOTING.md](../guides/TROUBLESHOOTING.md).
 - Node.js/npx setup
 - Environment variables
 - MCP configuration validity
@@ -447,7 +453,7 @@ docker build -t mcp/github .
 
 ## Integration with Existing Troubleshooting
 
-This guide supplements [../TROUBLESHOOTING.md](../TROUBLESHOOTING.md).
+This guide supplements [../guides/TROUBLESHOOTING.md](../guides/TROUBLESHOOTING.md).
 
 ### When to Use Which Guide
 
