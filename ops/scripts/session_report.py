@@ -99,8 +99,14 @@ def sign_out(tag: str) -> dict:
     script = repo_root / 'ops' / 'scripts' / 'Transcript-Pipeline.ps1'
     if script.exists():
         cmd = [
-            'pwsh', '-NoProfile', '-Command',
-            f"& '{str(script)}' -Action Encrypt -InputPath '{str(report_path)}'"
+            'pwsh',
+            '-NoProfile',
+            '-File',
+            str(script),
+            '-Action',
+            'Encrypt',
+            '-InputPath',
+            str(report_path),
         ]
         try:
             subprocess.run(cmd, check=True)
