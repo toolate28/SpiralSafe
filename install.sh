@@ -106,7 +106,8 @@ get_package_manager() {
 # ═══════════════════════════════════════════════════════════════
 
 install_git() {
-    local pkg_mgr=$(get_package_manager)
+    local pkg_mgr
+    pkg_mgr=$(get_package_manager)
     
     print_step "Installing Git..."
     
@@ -133,7 +134,8 @@ install_git() {
 }
 
 install_node() {
-    local platform=$(detect_platform)
+    local platform
+    platform=$(detect_platform)
     
     print_step "Installing Node.js 20..."
     
@@ -162,7 +164,8 @@ install_node() {
 }
 
 install_python() {
-    local pkg_mgr=$(get_package_manager)
+    local pkg_mgr
+    pkg_mgr=$(get_package_manager)
     
     print_step "Installing Python 3.10+..."
     
@@ -190,7 +193,8 @@ install_python() {
 }
 
 install_shellcheck() {
-    local pkg_mgr=$(get_package_manager)
+    local pkg_mgr
+    pkg_mgr=$(get_package_manager)
     
     print_step "Installing ShellCheck (optional)..."
     
@@ -311,9 +315,11 @@ verify_installation() {
 # ═══════════════════════════════════════════════════════════════
 
 main() {
-    local platform=$(detect_platform)
+    local platform
     local install_deps=false
     local quick_mode=false
+    
+    platform=$(detect_platform)
     
     # Parse arguments
     while [[ $# -gt 0 ]]; do
