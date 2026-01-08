@@ -30,11 +30,13 @@ This insight—independently validated by Shannon (1948) for signals and Lewis-K
 
 **Unix/Linux/Mac:**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/toolate28/SpiralSafe/main/install.sh | bash
-# Or clone and run locally:
+# Recommended: Clone and inspect before running
 git clone https://github.com/toolate28/SpiralSafe.git
 cd SpiralSafe
 ./install.sh --install-deps
+
+# Quick install (inspect script first for security)
+# curl -fsSL https://raw.githubusercontent.com/toolate28/SpiralSafe/main/install.sh | bash
 ```
 
 **Windows:**
