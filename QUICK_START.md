@@ -218,7 +218,7 @@ git commit -am "$(cat .claude/last_atom): Update SOME_DOC"
 
 ## Troubleshooting
 
-**Something not working?** See [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
+**Something not working?** See [TROUBLESHOOTING.md](docs/guides/TROUBLESHOOTING.md)
 
 **Quick fixes:**
 ```bash
