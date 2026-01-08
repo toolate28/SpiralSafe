@@ -1218,12 +1218,14 @@ async function generateProjectorChallenge(
   env: Env
 ): Promise<ProjectorChallenge> {
 
-  // Select random challenge type
+  // Select random challenge type using crypto API for consistency
   const types: ProjectorChallenge['type'][] = [
     'object-count', 'color-identify', 'pattern-match',
     'scene-describe', 'quantum-spiral'
   ];
-  const type = types[Math.floor(Math.random() * types.length)];
+  const randomIndex = new Uint32Array(1);
+  crypto.getRandomValues(randomIndex);
+  const type = types[randomIndex[0] % types.length];
 
   // Get random image from R2 bucket
   const imageKey = await selectRandomImage(type, env);
