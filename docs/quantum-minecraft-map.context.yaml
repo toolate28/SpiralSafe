@@ -1,0 +1,185 @@
+# quantum-minecraft-map.context.yaml
+# Structured knowledge companion for quantum-minecraft-map.md
+
+meta:
+  domain: quantum-minecraft-integration
+  source: Hope&&Sauced
+  version: 1.0.0
+  confidence: high
+  atom_tag: ATOM-DOC-20260107-004-quantum-minecraft-map
+
+concepts:
+  - name: quantum-minecraft-mapping
+    definition: >
+      A pedagogical framework mapping quantum computing concepts to Minecraft
+      Redstone implementations, demonstrating the isomorphism principle that
+      discrete systems can instantiate (not approximate) continuous mathematics.
+    relationships:
+      - type: requires
+        target: isomorphism-principle
+      - type: enables
+        target: quantum-pedagogy
+      - type: part_of
+        target: spiralsafe-ecosystem
+    examples:
+      - "Logic gates (AND, OR, NOT, XOR) as quantum gate analogs"
+      - "Binary counter as quantum state evolution demonstration"
+      - "Redstone circuit topology as graph theory teaching"
+    counterexamples:
+      - "True quantum computation (Minecraft is classical/deterministic)"
+      - "Quantum randomness or entanglement effects"
+
+  - name: pedagogical-isomorphism
+    definition: >
+      Using Minecraft's discrete, deterministic substrate to teach quantum
+      concepts through structurally sound classical analogs that preserve
+      topological invariants.
+    relationships:
+      - type: is_a
+        target: isomorphism-principle
+      - type: enables
+        target: age-appropriate-learning
+    examples:
+      - "Ages 6-10: Concrete logic through AND/OR gates"
+      - "Ages 7-11: Binary counting with visual feedback"
+      - "Ages 14+: Understanding discrete-continuous equivalence"
+
+  - name: museum-builds
+    definition: >
+      JSON-format Minecraft structures that instantiate quantum concepts
+      as interactive, testable builds with educational success criteria.
+    relationships:
+      - type: part_of
+        target: quantum-minecraft-mapping
+      - type: requires
+        target: minecraft-datapack-format
+    examples:
+      - "museum/builds/logic-gates.json"
+      - "museum/builds/binary-counter.json"
+
+  - name: topological-preservation
+    definition: >
+      Maintaining mathematical invariants (connectivity, homotopy class,
+      intersection points) in discrete Minecraft substrate.
+    relationships:
+      - type: requires
+        target: isomorphism-principle
+      - type: enables
+        target: pedagogical-isomorphism
+    examples:
+      - "Viviani curve (planned): sphere-cylinder intersection in blocks"
+      - "Redstone circuit graphs: node-edge topology preserved"
+
+signals:
+  use_when:
+    - teaching_quantum_concepts_to_children
+    - designing_educational_minecraft_content
+    - demonstrating_discrete_continuous_equivalence
+    - building_interactive_logic_demonstrations
+    - creating_age_appropriate_stem_content
+  avoid_when:
+    - implementing_actual_quantum_computation
+    - requiring_quantum_randomness_or_superposition
+    - needing_true_quantum_entanglement
+
+invariants:
+  - "Minecraft is classical and deterministic - not true quantum"
+  - "Mappings preserve structural/topological properties, not quantum physics"
+  - "Educational value through concrete, interactive models"
+  - "All builds testable with clear success criteria"
+  - "Documentation aligned with implementation (coherence)"
+
+integration_points:
+  - location: museum/builds/logic-gates.json
+    type: minecraft-structure
+    purpose: AND, OR, NOT, XOR gate implementations
+  - location: museum/builds/binary-counter.json
+    type: minecraft-structure
+    purpose: 4-bit counter (0-15) with clock circuit
+  - location: showcase/stories/01-fireflies-and-logic.md
+    type: narrative
+    purpose: Story-based introduction to logic gates
+  - location: showcase/stories/02-binary-dancers.md
+    type: narrative
+    purpose: Story-based introduction to binary counting
+  - location: foundation/isomorphism-principle.md
+    type: theoretical-foundation
+    purpose: Mathematical basis for discrete-continuous equivalence
+  - location: museum/MINECRAFT_PLAY_SCHEDULE.md
+    type: testing-protocol
+    purpose: 5-session validation with educational criteria
+
+related_repositories:
+  - name: quantum-redstone
+    url: https://github.com/toolate28/quantum-redstone
+    purpose: Advanced quantum circuit builds and topological demonstrations
+  - name: wave-toolkit
+    url: https://github.com/toolate28/wave-toolkit
+    purpose: Documentation-implementation coherence detection
+  - name: ClaudeNPC-Server-Suite
+    url: https://github.com/toolate28/ClaudeNPC-Server-Suite
+    purpose: AI agent embodiment for interactive museum tours
+  - name: kenl
+    url: https://github.com/toolate28/kenl
+    purpose: ATOM trail infrastructure and session tracking
+
+educational_paths:
+  - age_range: "6-10"
+    entry_point: showcase/stories/01-fireflies-and-logic.md
+    build: museum/builds/logic-gates.json
+    concepts: ["Boolean logic", "AND/OR/NOT/XOR"]
+    outcome: "Understand logic gates intuitively through story and play"
+  
+  - age_range: "7-11"
+    entry_point: showcase/stories/02-binary-dancers.md
+    build: museum/builds/binary-counter.json
+    concepts: ["Binary numbers", "Place value", "State machines"]
+    outcome: "Count to 15 in binary, understand bit positions"
+  
+  - age_range: "14+"
+    entry_point: foundation/isomorphism-principle.md
+    build: custom-designs
+    concepts: ["Discrete-continuous equivalence", "Topology", "Category theory"]
+    outcome: "Design topologically-correct builds, understand theoretical basis"
+
+validation:
+  technical_success:
+    - "All logic gates produce correct truth table outputs"
+    - "Binary counter counts 0-15 without skipping states"
+    - "No redstone timing glitches or race conditions"
+    - "Builds import cleanly from JSON format"
+  
+  educational_success:
+    - "Stories align with in-game experience"
+    - "Age-appropriate complexity and language"
+    - "Kids can explain concepts after playing"
+    - "Organic 'aha!' moments during interaction"
+
+theoretical_foundation:
+  - source: Shannon (1948)
+    concept: Nyquist-Shannon sampling theorem
+    relevance: Perfect reconstruction from discrete samples
+  
+  - source: Lewis, Kempf, Menicucci (2023)
+    concept: Quantum lattice field theory isomorphism
+    reference: "arXiv:2303.07649"
+    relevance: Continuous symmetries from discrete systems
+  
+  - source: SpiralSafe (2024-2025)
+    concept: Topological equivalence in Minecraft
+    relevance: Constraint-based implementation preserves invariants
+
+future_directions:
+  planned_mappings:
+    - "Quantum entanglement → multi-gate circuits with shared state"
+    - "Measurement → observer-dependent circuit behavior"
+    - "Decoherence → redstone signal decay over distance"
+    - "Quantum error correction → redundant circuit paths"
+    - "Grover's algorithm → search optimization (classical simulation)"
+    - "Shor's algorithm → factorization demonstration (simplified)"
+  
+  research_questions:
+    - "Can Minecraft implement universal quantum gate set for pedagogy?"
+    - "Which topological invariants are most pedagogically valuable?"
+    - "How to teach wave-particle duality in discrete substrate?"
+    - "Can quantum field theory map to Minecraft biomes/dimensions?"

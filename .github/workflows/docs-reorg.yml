@@ -1,0 +1,63 @@
+name: Docs Reorg (dry-run first, PR on apply)
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: 'If true, run the script in apply mode and open PR'
+        required: false
+        default: 'false'
+      target_branch:
+        description: 'Branch to push changes to (when apply=true)'
+        required: false
+        default: 'docs/cleanup/root-docs-consolidation'
+
+jobs:
+  reorg:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Show branch
+        run: pwsh -NoProfile -Command "Write-Host 'On branch:'; git rev-parse --abbrev-ref HEAD || Write-Host 'detached'"
+
+      - name: Run docs reorg (dry-run / apply)
+        run: |
+          $apply = $([bool]::Parse('${{ github.event.inputs.apply || 'false' }}'))
+          if ($apply) {
+            pwsh -NoProfile -ExecutionPolicy Bypass -File .\apply-docs-reorg-full_Version1.ps1 -AutoConfirm
+          } else {
+            pwsh -NoProfile -ExecutionPolicy Bypass -File .\apply-docs-reorg-full_Version1.ps1 -DryRun
+          }
+
+      - name: Commit & push changes (only when apply=true)
+        if: ${{ github.event.inputs.apply == 'true' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(docs): apply docs reorg via workflow" || Write-Host "No changes to commit"
+          BR=${{ github.event.inputs.target_branch }}
+          # Use credentials from REPO_PAT if present, otherwise GITHUB_TOKEN
+          if ($env:REPO_PAT) {
+            git remote set-url origin "https://x-access-token:${env:REPO_PAT}@github.com/${{ github.repository }}"
+            git push origin HEAD:refs/heads/$BR --force
+          } else {
+            git push origin HEAD:refs/heads/$BR --force
+          }
+
+      - name: Create Pull Request (when apply=true)
+        if: ${{ github.event.inputs.apply == 'true' }}
+        uses: peter-evans/create-pull-request@v5
+        with:
+          # prefer REPO_PAT if provided as a secret, otherwise use GITHUB_TOKEN
+          token: ${{ secrets.REPO_PAT || secrets.GITHUB_TOKEN }}
+          commit-message: chore(docs): apply docs reorg via workflow
+          branch: ${{ github.event.inputs.target_branch }}
+          title: chore(docs): apply docs reorg
+          body: |
+            This PR applies the automated docs reorganization performed by the repository workflow.
+            Review changes and merge when ready.

@@ -1,3 +1,0 @@
-{
-  "note": "Session metadata removed from repository; real session verification files in .verification/ should not be committed and must be generated per-session by CI or tooling."
-}

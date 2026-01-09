@@ -145,7 +145,7 @@
 | `API_KEY` | API keys/tokens | `api_key=sk_live_...` |
 | `AUTH_TOKEN` | Bearer/auth tokens | `Bearer eyJ...` |
 | `JWT` | JSON Web Tokens | `eyJhbGciOiJI...` |
-| `PASSWORD` | Password fields | `password: secret123` |
+| `PASSWORD` | Password fields | `password: your_password_here` |
 | `EMAIL` | Email addresses | `user@domain.com` |
 | `IP_ADDRESS` | IPv4 addresses | `192.168.1.1` |
 | `AWS_KEY` | AWS access keys | `AKIA...` |

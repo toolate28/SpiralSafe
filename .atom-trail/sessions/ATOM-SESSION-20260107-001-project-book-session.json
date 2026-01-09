@@ -2,12 +2,11 @@
   "atom_tag": "ATOM-SESSION-20260107-001-project-book-session",
   "type": "session",
   "description": "project-book-session",
-  "start_epoch": 1704624000,
-  "start_iso": "2026-01-07T00:00:00Z",
+  "start_epoch": 1767745011,
+  "start_iso": "2026-01-07T00:16:51.165677Z",
   "created_by": "iamto",
-  "host": "local-machine",
-  "session_hash": "placeholderhash",
-  "signed": true,
-  "end_epoch": 1767749436,
-  "end_iso": "2026-01-07T01:30:36Z"
+  "host": "win11-amd0",
+  "nonce": "4985a86d110f4d9cb494705705d261ae",
+  "session_hash": "5594c744704e476bb3d624b94621083676cf2db2d5824cf2ee5f3b0e34395484",
+  "signed": true
 }

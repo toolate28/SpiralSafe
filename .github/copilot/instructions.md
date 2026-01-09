@@ -1,5 +1,8 @@
 # GitHub Copilot Custom Instructions for SpiralSafe
 
+> **Note:** This is a supplementary detailed reference. For quick start guidance, see `../.github/copilot-instructions.md`.
+> This file contains comprehensive code patterns, examples, and anti-patterns for working with the KENL ecosystem.
+
 ## Repository Context
 
 This is the **SpiralSafe** repository - a knowledge management system implementing the KENL ecosystem frameworks:
