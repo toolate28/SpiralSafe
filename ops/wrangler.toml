@@ -74,3 +74,10 @@ command = "npm run build"
 
 [observability]
 enabled = true
+
+# ═══════════════════════════════════════════════════════════════
+# Environment Variables  
+# ═══════════════════════════════════════════════════════════════
+
+[vars]
+SPIRALSAFE_API_KEY = "ATOM-SECRETS-20260109-spiralsafe-prod-key"
