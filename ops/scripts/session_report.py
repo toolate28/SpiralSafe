@@ -109,10 +109,24 @@ def sign_out(tag: str) -> dict:
             str(report_path),
         ]
         try:
-            subprocess.run(cmd, check=True)
+            result = subprocess.run(
+                cmd,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
             print('Encryption command executed (check transcript.encrypted.json near the report output)')
-        except Exception as e:
-            print('Encryption failed:', e)
+        except subprocess.CalledProcessError as e:
+            print('Encryption command failed with non-zero exit status.')
+            print('  Command:', e.cmd)
+            print('  Return code:', e.returncode)
+            if e.stdout:
+                print('  Stdout:', e.stdout.strip())
+            if e.stderr:
+                print('  Stderr:', e.stderr.strip())
+        except OSError as e:
+            print('Failed to execute encryption command:', e)
+            print('  Command:', cmd)
     else:
         print('Transcript-Pipeline.ps1 not found; encrypted output not generated')
 
