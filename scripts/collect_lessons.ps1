@@ -8,7 +8,7 @@
 #   docs/staging/lessons_summary.md
 
 Param(
-    [string]$RepoRoot = (Split-Path -Parent $MyInvocation.MyCommand.Path)
+    [string]$RepoRoot = (Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path))
 )
 
 Set-StrictMode -Version Latest
