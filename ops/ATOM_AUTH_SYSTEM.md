@@ -1228,12 +1228,12 @@ async function generateProjectorChallenge(
   const numTypes = types.length;
   const maxValue = 0x100000000; // 2^32, the total range of Uint32Array values
   const validRange = Math.floor(maxValue / numTypes) * numTypes;
-  const randomIndex = new Uint32Array(1);
+  const randomValues = new Uint32Array(1);
   
   let randomValue: number;
   do {
-    crypto.getRandomValues(randomIndex);
-    randomValue = randomIndex[0];
+    crypto.getRandomValues(randomValues);
+    randomValue = randomValues[0];
   } while (randomValue >= validRange); // Rejection sampling to eliminate bias
   
   const type = types[randomValue % numTypes];
