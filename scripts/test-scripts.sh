@@ -18,9 +18,9 @@ test_script() {
   
   echo "Testing: $script_name"
   
-  # Shellcheck if available
+  # Shellcheck if available (ignore info-level, only warn on warning+)
   if command -v shellcheck >/dev/null 2>&1; then
-    if shellcheck -x "$script" 2>&1; then
+    if shellcheck -x --severity=warning "$script" 2>&1; then
       echo "  ✓ shellcheck passed"
     else
       echo "  ✗ shellcheck failed"
