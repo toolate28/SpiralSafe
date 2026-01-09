@@ -174,14 +174,14 @@ jobs:
 
       - name: Install ShellCheck
         run: |
-          sudo apt-get update && sudo apt-get install -y shellcheck || true
+          sudo apt-get update && sudo apt-get install -y shellcheck
 
       - name: Run ShellCheck on scripts
         run: |
           set -e
           SCRIPTS=$(find . -type f -name "*.sh" -not -path './node_modules/*' -not -path './.git/*')
           if [ -n "$SCRIPTS" ]; then
-            shellcheck -x $SCRIPTS || true
+            shellcheck -x $SCRIPTS
           else
             echo "No shell scripts found"
           fi
