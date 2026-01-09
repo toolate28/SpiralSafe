@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="timeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#ff6b6b;stop-opacity:1"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="white"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="600" fill="#0a0a0f"/>
+
+  <!-- Title -->
+  <text x="450" y="45" font-family="Georgia, serif" font-size="26" fill="white" text-anchor="middle" font-weight="bold">TIME AS CONSTRAINT ORDERING</text>
+  <text x="450" y="75" font-family="Arial, sans-serif" font-size="14" fill="#00d4ff" text-anchor="middle" font-style="italic">The constraint structure is atemporal — time emerges from our navigation</text>
+
+  <!-- Left side: Traditional View -->
+  <rect x="50" y="110" width="350" height="200" rx="15" fill="none" stroke="#ff6b6b" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="225" y="140" font-family="Arial, sans-serif" font-size="16" fill="#ff6b6b" text-anchor="middle" font-weight="bold">TRADITIONAL VIEW</text>
+
+  <!-- Time arrow (traditional) -->
+  <line x1="100" y1="220" x2="350" y2="220" stroke="url(#timeGrad)" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="225" y="250" font-family="Arial, sans-serif" font-size="12" fill="#a0a0b0" text-anchor="middle">Time as fundamental dimension</text>
+
+  <circle cx="130" cy="220" r="15" fill="#00d4ff" opacity="0.5"/>
+  <text x="130" y="225" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">Past</text>
+
+  <circle cx="225" cy="220" r="15" fill="#ffd93d" opacity="0.5"/>
+  <text x="225" y="225" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">Now</text>
+
+  <circle cx="320" cy="220" r="15" fill="#ff6b6b" opacity="0.5"/>
+  <text x="320" y="225" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">Future</text>
+
+  <text x="225" y="290" font-family="Arial, sans-serif" font-size="11" fill="#606070" text-anchor="middle">"Before" and "After" are absolute</text>
+
+  <!-- Right side: Constraint View -->
+  <rect x="500" y="110" width="350" height="200" rx="15" fill="none" stroke="#6bcb77" stroke-width="2"/>
+  <text x="675" y="140" font-family="Arial, sans-serif" font-size="16" fill="#6bcb77" text-anchor="middle" font-weight="bold">CONSTRAINT VIEW</text>
+
+  <!-- Constraint network -->
+  <circle cx="575" cy="200" r="20" fill="#00d4ff" opacity="0.4" stroke="#00d4ff" stroke-width="2"/>
+  <circle cx="675" cy="180" r="20" fill="#ffd93d" opacity="0.4" stroke="#ffd93d" stroke-width="2"/>
+  <circle cx="775" cy="200" r="20" fill="#ff6b6b" opacity="0.4" stroke="#ff6b6b" stroke-width="2"/>
+  <circle cx="625" cy="260" r="20" fill="#a29bfe" opacity="0.4" stroke="#a29bfe" stroke-width="2"/>
+  <circle cx="725" cy="260" r="20" fill="#6bcb77" opacity="0.4" stroke="#6bcb77" stroke-width="2"/>
+
+  <!-- Constraint connections (bidirectional) -->
+  <line x1="595" y1="200" x2="655" y2="185" stroke="white" stroke-width="1" opacity="0.5"/>
+  <line x1="695" y1="185" x2="755" y2="200" stroke="white" stroke-width="1" opacity="0.5"/>
+  <line x1="585" y1="218" x2="610" y2="245" stroke="white" stroke-width="1" opacity="0.5"/>
+  <line x1="645" y1="255" x2="705" y2="255" stroke="white" stroke-width="1" opacity="0.5"/>
+  <line x1="740" y1="245" x2="765" y2="218" stroke="white" stroke-width="1" opacity="0.5"/>
+  <line x1="675" y1="200" x2="650" y2="240" stroke="white" stroke-width="1" opacity="0.5"/>
+  <line x1="675" y1="200" x2="700" y2="240" stroke="white" stroke-width="1" opacity="0.5"/>
+
+  <text x="675" y="300" font-family="Arial, sans-serif" font-size="11" fill="#606070" text-anchor="middle">"Before"/"After" = constraint ordering</text>
+
+  <!-- Middle arrow -->
+  <path d="M415 210 L485 210" stroke="#ffd93d" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="450" y="200" font-family="Arial, sans-serif" font-size="10" fill="#ffd93d" text-anchor="middle">reframe</text>
+
+  <!-- Bottom section: Implications -->
+  <rect x="100" y="350" width="700" height="200" rx="15" fill="#12121a"/>
+
+  <text x="450" y="385" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle" font-weight="bold">IMPLICATIONS</text>
+
+  <!-- Three columns -->
+  <text x="200" y="420" font-family="Arial, sans-serif" font-size="14" fill="#00d4ff" text-anchor="middle" font-weight="bold">Entanglement</text>
+  <text x="200" y="445" font-family="Arial, sans-serif" font-size="11" fill="#a0a0b0" text-anchor="middle">= shared constraint</text>
+  <text x="200" y="465" font-family="Arial, sans-serif" font-size="11" fill="#a0a0b0" text-anchor="middle">spanning "locations"</text>
+  <text x="200" y="495" font-family="Arial, sans-serif" font-size="10" fill="#606070" text-anchor="middle">Not "spooky action"</text>
+  <text x="200" y="510" font-family="Arial, sans-serif" font-size="10" fill="#606070" text-anchor="middle">Just one constraint</text>
+
+  <line x1="320" y1="410" x2="320" y2="530" stroke="#303040" stroke-width="1"/>
+
+  <text x="450" y="420" font-family="Arial, sans-serif" font-size="14" fill="#ffd93d" text-anchor="middle" font-weight="bold">Retrocausality</text>
+  <text x="450" y="445" font-family="Arial, sans-serif" font-size="11" fill="#a0a0b0" text-anchor="middle">= traversing constraints</text>
+  <text x="450" y="465" font-family="Arial, sans-serif" font-size="11" fill="#a0a0b0" text-anchor="middle">in different order</text>
+  <text x="450" y="495" font-family="Arial, sans-serif" font-size="10" fill="#606070" text-anchor="middle">No paradox possible</text>
+  <text x="450" y="510" font-family="Arial, sans-serif" font-size="10" fill="#606070" text-anchor="middle">Consistency preserved</text>
+
+  <line x1="580" y1="410" x2="580" y2="530" stroke="#303040" stroke-width="1"/>
+
+  <text x="700" y="420" font-family="Arial, sans-serif" font-size="14" fill="#6bcb77" text-anchor="middle" font-weight="bold">Causality</text>
+  <text x="700" y="445" font-family="Arial, sans-serif" font-size="11" fill="#a0a0b0" text-anchor="middle">= constraint consistency</text>
+  <text x="700" y="465" font-family="Arial, sans-serif" font-size="11" fill="#a0a0b0" text-anchor="middle">not temporal sequence</text>
+  <text x="700" y="495" font-family="Arial, sans-serif" font-size="10" fill="#606070" text-anchor="middle">Structure must cohere</text>
+  <text x="700" y="510" font-family="Arial, sans-serif" font-size="10" fill="#606070" text-anchor="middle">That's all "causality" is</text>
+
+  <!-- Footer -->
+  <text x="450" y="575" font-family="monospace" font-size="14" fill="#a0a0b0" text-anchor="middle">Theorem 18.1: Spacetime emerges from constraint topology</text>
+</svg>

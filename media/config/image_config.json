@@ -1,0 +1,77 @@
+{
+  "version": "1.0.0",
+  "default_provider": "auto",
+  "fallback_enabled": true,
+  "output_directory": "../output/images",
+  "providers": {
+    "openai": {
+      "enabled": true,
+      "model": "dall-e-3",
+      "default_size": "1024x1024",
+      "quality": "hd",
+      "env_key": "OPENAI_API_KEY"
+    },
+    "replicate": {
+      "enabled": true,
+      "default_model": "flux-schnell",
+      "models": {
+        "flux-schnell": "black-forest-labs/flux-schnell",
+        "flux-pro": "black-forest-labs/flux-pro",
+        "flux-dev": "black-forest-labs/flux-dev",
+        "sdxl": "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b"
+      },
+      "env_key": "REPLICATE_API_TOKEN"
+    },
+    "cloudflare": {
+      "enabled": true,
+      "model": "@cf/stabilityai/stable-diffusion-xl-base-1.0",
+      "env_keys": {
+        "account_id": "CLOUDFLARE_ACCOUNT_ID",
+        "api_token": "CLOUDFLARE_API_TOKEN"
+      }
+    },
+    "comfyui": {
+      "enabled": false,
+      "base_url": "http://127.0.0.1:8188",
+      "workflow_directory": "../templates/comfyui_workflows"
+    }
+  },
+  "templates": {
+    "directory": "../templates/prompts",
+    "default_style": "natural",
+    "styles": {
+      "vivid": {
+        "suffix": ". Vivid, dramatic lighting, high contrast, bold colors."
+      },
+      "natural": {
+        "suffix": ". Natural lighting, realistic, professional photography."
+      },
+      "artistic": {
+        "suffix": ". Artistic interpretation, creative composition, expressive."
+      },
+      "technical": {
+        "suffix": ". Technical illustration, clean lines, informative, publication quality."
+      }
+    }
+  },
+  "defaults": {
+    "width": 1024,
+    "height": 1024,
+    "format": "png",
+    "quality": "high"
+  },
+  "rate_limits": {
+    "openai": {
+      "requests_per_minute": 5,
+      "concurrent": 1
+    },
+    "replicate": {
+      "requests_per_minute": 10,
+      "concurrent": 3
+    },
+    "cloudflare": {
+      "requests_per_minute": 50,
+      "concurrent": 5
+    }
+  }
+}
