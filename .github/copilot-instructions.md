@@ -63,6 +63,8 @@ Purpose: Short, actionable instructions to help AI coding agents be immediately 
 - `.env` files with sensitive data
 - SSH keys or certificates
 - Any `*secret*`, `*password*`, `*token*` named files
+- **"Initial plan" commits**: Do not create commits for planning. Only commit actual code changes.
+- **Desktop paths**: Never use local paths like `C:\Users\...` or `~/Desktop`.
 
 **ALWAYS:**
 - Use GitHub Secrets for CI/CD credentials

@@ -1,13 +1,30 @@
 {
-  "terminal.integrated.shell.windows": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-  "terminal.integrated.profiles.windows": {
-    "PowerShell-Pwsh": {
-      "path": "pwsh",
-      "source": "PowerShell"
-    }
+  "files.eol": "\n",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python",
+    "editor.formatOnType": true
   },
+  "[powershell]": {
+    "editor.defaultFormatter": "ms-vscode.powershell",
+    "editor.formatOnSave": true
+  },
+  "[shellscript]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "powershell.scriptAnalysis.enable": true,
   "files.exclude": {
     "**/.git": true,
+    "**/.DS_Store": true,
+    "**/__pycache__": true,
+    ".atom-trail/": false,
     "**/target": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.atom-trail": false
   }
 }

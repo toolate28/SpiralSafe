@@ -1,7 +1,13 @@
 {
   "recommendations": [
     "ms-vscode.powershell",
-    "eamodio.gitlens",
-    "markdownlint.markdownlint"
+    "ms-python.python",
+    "timonwong.shellcheck",
+    "davidanson.vscode-markdownlint",
+    "editorconfig.editorconfig",
+    "github.copilot",
+    "github.copilot-chat",
+    "esbenp.prettier-vscode",
+    "eamodio.gitlens"
   ]
 }

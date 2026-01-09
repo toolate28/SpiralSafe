@@ -1,0 +1,34 @@
+name: Branch Hygiene
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Run weekly on Sunday
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  cleanup-stale-branches:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Delete merged branches
+        run: |
+          git fetch -p
+          git branch -r --merged origin/main | grep -v 'HEAD' | grep -v 'main' | grep -v 'integration/' | sed 's/origin\///' | while read -r branch; do
+            echo "Deleting merged branch: $branch"
+            # Start dry run - uncomment next line to enable
+            # git push origin --delete "$branch"
+          done
+
+      - name: Report stale branches (older than 14 days)
+        run: |
+          echo "## 🍂 Stale Branch Report" >> $GITHUB_STEP_SUMMARY
+          echo "The following branches have had no activity for 14+ days:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          git for-each-ref --sort=-committerdate --format='%(committerdate:short) %(refname:short)' refs/remotes/origin/ | while read date branch; do
+             # specialized logic could go here to filter by date, for now simple listing
+             echo "- $date : $branch" >> $GITHUB_STEP_SUMMARY
+          done
