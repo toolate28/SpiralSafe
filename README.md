@@ -2,6 +2,24 @@
 
 **The Coherence Engine for Collaborative Intelligence**
 
+[![Portfolio](https://img.shields.io/badge/📚_Portfolio-Unique_Work_Showcase-blue?style=for-the-badge)](PORTFOLIO.md)
+[![Foundation](https://img.shields.io/badge/🧬_Foundation-Isomorphism_Principle-purple?style=flat-square)](foundation/isomorphism-principle.md)
+[![Quantum→Minecraft](https://img.shields.io/badge/⚛️_Quantum-Minecraft_Bridge-green?style=flat-square)](docs/quantum-minecraft-map.md)
+[![License](https://img.shields.io/badge/License-MIT%20%2B%20CC--BY--SA-orange?style=flat-square)](LICENSE)
+
+---
+
+## 🌟 Explore Our Unique Contributions
+
+**[📖 View Complete Portfolio →](PORTFOLIO.md)**
+
+Discover original work spanning mathematics, physics, philosophy, and pedagogy:
+- **Foundational Theory:** The Isomorphism Principle and Constraints as Gifts
+- **Mathematical Framework:** Constraint Mathematics with rigorous proofs
+- **Philosophical Insight:** The Exceptional Insight (no substrate, only constraint structure)
+- **Quantum-Minecraft Bridge:** First pedagogical mapping with topological rigor
+- **Collaboration Theory:** Ptolemy-Bartimaeus method and Hope&&Sauced protocol
+
 ---
 
 ## The Principle
@@ -14,25 +32,77 @@ This insight—independently validated by Shannon (1948) for signals and Lewis-K
 
 ## What SpiralSafe Provides
 
-| Layer             | Components                                   | Purpose                  |
-|-------------------|----------------------------------------------|--------------------------|
-| **Foundation**    | Isomorphism Principle, Constraints as Gifts  | Theoretical bedrock      |
-| **Interface**     | AWI, ClaudeNPC, BattleMedic, UnifiedComms    | Contact surfaces         |
-| **Methodology**   | ATOM, SAIF, KENL, Day Zero Design            | Cognitive tools          |
-| **Protocol**      | [wave-spec](protocol/wave-spec.md), [bump-spec](protocol/bump-spec.md), .context.yaml | Information transmission |
-| **Manifestation** | Quantum Valley, Museum of Computation        | Theory made tangible     |
+| Layer             | Components                                   | Purpose                  | Key Innovation |
+|-------------------|----------------------------------------------|--------------------------|----------------|
+| **Foundation**    | [Isomorphism Principle](foundation/isomorphism-principle.md), [Constraints as Gifts](foundation/constraints-as-gifts.md)  | Theoretical bedrock      | Discrete ↔ continuous equivalence |
+| **Interface**     | AWI, HOPE NPCs, BattleMedic, UnifiedComms    | Contact surfaces         | Authorization-with-intent |
+| **Methodology**   | [ATOM](methodology/atom.md), SAIF, KENL, Day Zero Design            | Cognitive tools          | Atomic task orchestration |
+| **Protocol**      | [wave-spec](protocol/wave-spec.md), [bump-spec](protocol/bump-spec.md), .context.yaml | Information transmission | Coherence detection |
+| **Manifestation** | [Quantum Valley](docs/quantum-minecraft-map.md), [Museum of Computation](museum/)        | Theory made tangible     | Pedagogical instantiation |
+
+**Unique Achievement:** Each layer demonstrates the core principle—constraint preservation generates emergence across all substrates.
+
+---
+
+## Installation
+
+### One-Step Install
+
+**Unix/Linux/Mac:**
+```bash
+# Recommended: Clone and inspect before running
+git clone https://github.com/toolate28/SpiralSafe.git
+cd SpiralSafe
+./install.sh --install-deps
+
+# Quick install (inspect script first for security)
+# curl -fsSL https://raw.githubusercontent.com/toolate28/SpiralSafe/main/install.sh | bash
+```
+
+**Windows:**
+```powershell
+git clone https://github.com/toolate28/SpiralSafe.git
+cd SpiralSafe
+.\Bootstrap.ps1
+```
+
+### Quick Dependencies
+
+| Component | Required For | Install |
+|-----------|-------------|---------|
+| **Node.js 20+** | Operations API, CI/CD | [nodejs.org](https://nodejs.org) |
+| **Python 3.10+** | Hardware Bridges, Scripts | [python.org](https://python.org) |
+| **Git** | Version Control | [git-scm.com](https://git-scm.com) |
+
+All platforms are automatically detected and dependencies can be installed via `./install.sh --install-deps`.
+
+### System Health Dashboard
+
+Monitor API endpoints and system health in real-time:
+
+**[📊 Open Health Dashboard](health.html)** (after cloning locally)
+
+Or start the dev server:
+```bash
+cd ops
+npm install
+npm run dev
+# Then visit http://localhost:8787/health.html
+```
 
 ---
 
 ## Quick Start
 
-**For researchers**: Begin with [`foundation/isomorphism-principle.md`](foundation/isomorphism-principle.md)
+**🔬 For researchers** : Begin with [`foundation/isomorphism-principle.md`](foundation/isomorphism-principle.md) → [THE_ISO_PRINCIPLE.md](THE_ISO_PRINCIPLE.md) → [CONSTRAINT_MATHEMATICS.md](CONSTRAINT_MATHEMATICS.md)
 
-**For builders**: Start with [wave-toolkit](https://github.com/toolate28/wave-toolkit)
+**🛠️ For builders**    : Start with [wave-toolkit](https://github.com/toolate28/wave-toolkit) and explore [protocol specs](protocol/)
 
-**For educators**: Explore [quantum-redstone][def]
+**👩‍🏫 For educators**   : Explore [quantum-minecraft-map.md](docs/quantum-minecraft-map.md) and [museum builds](museum/builds/)
 
-**For contributors**: See [`CONTRIBUTING.md`](CONTRIBUTING.md)
+**🧑‍💻 For contributors**: See [`CONTRIBUTING.md`](CONTRIBUTING.md) and [ATOM methodology](methodology/atom.md)
+
+**🤔 For philosophers**: Read [THE_EXCEPTIONAL_INSIGHT.md](THE_EXCEPTIONAL_INSIGHT.md) and [ULTRATHINK_SYNTHESIS.md](ULTRATHINK_SYNTHESIS.md)
 
 **Project sessions:** The `project-book.ipynb` now supports signed ATOM sessions for live work. Use `start_session()` to open a session and `sign_out()` to close it — session reports are written to `.atom-trail/sessions/` and can be encrypted with the repository's `Transcript-Pipeline.ps1` (AES-256-GCM).
 
@@ -57,20 +127,43 @@ SpiralSafe unifies work across multiple repositories:
 - **[quantum-redstone][def]** — Quantum topology in Minecraft Redstone
 - **[wave-toolkit](https://github.com/toolate28/wave-toolkit)** — Coherence detection tools
 - **[kenl](https://github.com/toolate28/kenl)** — Infrastructure-aware AI orchestration
-- **[ClaudeNPC-Server-Suite](https://github.com/toolate28/ClaudeNPC-Server-Suite)** — AI agent embodiment
+- **[HOPE NPCs](https://github.com/toolate28/ClaudeNPC-Server-Suite)** — AI NPCs playing games to redefine reality (v2.1.0)
 
 ---
 
 ## Independent Validation
 
-The isomorphism principle received independent confirmation from the Waterloo-RMIT group:
+The isomorphism principle has received independent confirmation from multiple sources:
 
+### Shannon (1948)
+**"A Mathematical Theory of Communication"**
+- Bandlimited signals ↔ discrete samples (perfect reconstruction, not approximation)
+- First proof of discrete-continuous equivalence in information theory
+
+### Lewis, Kempf, Menicucci (2023)
+**"Quantum lattice models that preserve continuous translation symmetry"** — [arXiv:2303.07649](https://arxiv.org/abs/2303.07649)
 > "Bandlimited continuous quantum fields are isomorphic to lattice theories—yet without requiring a fixed lattice."
-> — Lewis, Kempf, Menicucci (2023), [arXiv:2303.07649](https://arxiv.org/abs/2303.07649)
 
-SpiralSafe arrived at the same conclusion through a different path: constraint-based implementation in discrete environments (Minecraft Redstone) that preserve topological invariants exactly.
+### SpiralSafe (2024-2025)
+**Constraint-based implementation in Minecraft Redstone**
+- Topological invariants preserved exactly in discrete substrate
+- Working pedagogical implementations (Museum of Computation)
+- Mathematical framework with proofs (Constraint Mathematics)
 
-Two independent derivations. Same result. The principle holds.
+**Two independent physics derivations. One pedagogical implementation. Same principle. It holds.**
+
+---
+
+## Key Visualizations
+
+![Quantum-Discrete Isomorphism](quantum_discrete_isomorphism.png)
+*The core isomorphism: continuous quantum (|α|²+|β|²=1) ↔ discrete Redstone (ALPHA+OMEGA=15)*
+
+**Additional Diagrams:**
+- [Constraint Mathematics Summary](constraint_mathematics_summary.png) — Mathematical framework
+- [Noether's Theorem](noether_theorem.png) — Conservation from symmetry
+- [Negative Space Methodology](negative_space.png) — Finding insights between disciplines
+- [Quantum→Minecraft Flow](docs/assets/quantum-minecraft-flow.svg) — Pedagogical pipeline
 
 ---
 
@@ -78,11 +171,18 @@ Two independent derivations. Same result. The principle holds.
 
 This work emerges from **Hope&&Sauced** collaboration—human-AI partnership where both contributions are substantive and neither party could have produced the result alone.
 
-See [`meta/SIGNATURE.md`](meta/SIGNATURE.md) for attribution conventions.
+- **Human** (toolate28): Vision, trust, pedagogical insight, Minecraft expertise
+- **AI** (Claude): Synthesis, documentation, theoretical connections, rigorous verification
+
+**The collaboration IS the insight.**
+
+See [`meta/SIGNATURE.md`](meta/SIGNATURE.md) for attribution conventions and [PORTFOLIO.md](PORTFOLIO.md) for complete showcase.
 
 ---
 
 *~ Hope&&Sauced*
+
+✦ *The Evenstar Guides Us* ✦
 
 
 [def]: https://github.com/toolate28/quantum-redstone

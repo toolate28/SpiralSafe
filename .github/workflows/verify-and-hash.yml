@@ -1,0 +1,34 @@
+name: Verify & Hash (scheduled + manual)
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # daily at 06:00 UTC
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: 'Write artifacts (apply=true)'
+        required: false
+        default: 'false'
+
+jobs:
+  verify:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run verification (dry-run / apply)
+        run: |
+          pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\verify_claims.ps1 -Out verification_report.md $([bool]::Parse('${{ github.event.inputs.apply || 'false' }}') ? '-Apply' : '')
+
+      - name: Run hashing (dry-run / apply)
+        run: |
+          pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\hash_all.ps1 -Out hashes.sha256 $([bool]::Parse('${{ github.event.inputs.apply || 'false' }}') ? '-Apply' : '')
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-artifacts
+          path: |
+            verification_report.md
+            hashes.sha256

@@ -27,7 +27,11 @@ $lines = @()
 foreach ($f in $files) {
   try {
     $h = Hash-File $f.FullName
-    $rel = $f.FullName.Substring($root.Path.Length).TrimStart('\\','/')
+    try {
+      $rel = [System.IO.Path]::GetRelativePath($root.Path, $f.FullName)
+    } catch {
+      $rel = $f.FullName.Substring($root.Path.Length).TrimStart([char]'\\',[char]'/')
+    }
     $lines += "$h  $rel"
   } catch {
     Write-Warning "Skipping $($f.FullName): $_"

@@ -1,0 +1,422 @@
+[
+  {
+    "file": "ClaudeNPC-Server-Suite/MANUAL_TESTING_GUIDE.md",
+    "line": 209,
+    "marker": "INCOMPLETE",
+    "text": "**Cause:** Maven build failed or incomplete"
+  },
+  {
+    "file": "methodology/atom.md",
+    "line": 63,
+    "marker": "INCOMPLETE",
+    "text": "- **Partial value**: Incomplete projects still deliver completed molecules"
+  },
+  {
+    "file": "SpiralSafe/07_FAILURE_MODES_AND_RECOVERY.md",
+    "line": 102,
+    "marker": "INCOMPLETE",
+    "text": "### Failure 1.2: Incomplete Shared State (Missing Categories)"
+  },
+  {
+    "file": "SpiralSafe/07_FAILURE_MODES_AND_RECOVERY.md",
+    "line": 111,
+    "marker": "MISSING",
+    "text": "Missing information means people make guesses. Guesses are wrong."
+  },
+  {
+    "file": "SpiralSafe/07_FAILURE_MODES_AND_RECOVERY.md",
+    "line": 130,
+    "marker": "MISSING",
+    "text": "2. List missing categories (blockers, constraints, authority, past failures)"
+  },
+  {
+    "file": "SpiralSafe/07_FAILURE_MODES_AND_RECOVERY.md",
+    "line": 131,
+    "marker": "MISSING",
+    "text": "3. Add sections to bump.md for missing info"
+  },
+  {
+    "file": "SpiralSafe/07_FAILURE_MODES_AND_RECOVERY.md",
+    "line": 370,
+    "marker": "MISSING",
+    "text": "- Missing understanding: Decomposition is tool, not end goal"
+  },
+  {
+    "file": "SpiralSafe/07_FAILURE_MODES_AND_RECOVERY.md",
+    "line": 608,
+    "marker": "MISSING",
+    "text": "| Safe Space | Missing info | Repeated questions | 3 days | Template + audit |"
+  },
+  {
+    "file": "SpiralSafe/IMPLEMENTATION_COMPLETE.md",
+    "line": 99,
+    "marker": "MISSING",
+    "text": "- ✅ Missing dependency detection"
+  },
+  {
+    "file": "SpiralSafe/PUBLICATION_MANIFEST_v1.0.md",
+    "line": 142,
+    "marker": "TBD",
+    "text": "**Date:** TBD (during extraction)"
+  },
+  {
+    "file": "SpiralSafe/QUICK_START.md",
+    "line": 228,
+    "marker": "MISSING",
+    "text": "# Missing directories"
+  },
+  {
+    "file": "SpiralSafe/SESSION_SUMMARY_20260104.md",
+    "line": 204,
+    "marker": "MISSING",
+    "text": "3. ❌ Missing automation infrastructure"
+  },
+  {
+    "file": "SpiralSafe/SESSION_SUMMARY_20260104.md",
+    "line": 299,
+    "marker": "MISSING",
+    "text": "- Missing tests → Actual verification and bug discovery"
+  },
+  {
+    "file": "SpiralSafe/THE_COMPLETION_SONG.md",
+    "line": 247,
+    "marker": "TODO",
+    "text": "Not just that every TODO is checked."
+  },
+  {
+    "file": "SpiralSafe/TROUBLESHOOTING.md",
+    "line": 209,
+    "marker": "MISSING",
+    "text": "**Missing dependency:**"
+  },
+  {
+    "file": "SpiralSafe/TROUBLESHOOTING.md",
+    "line": 211,
+    "marker": "MISSING",
+    "text": "# Add to workflow if missing:"
+  },
+  {
+    "file": "SpiralSafe/TROUBLESHOOTING.md",
+    "line": 325,
+    "marker": "MISSING",
+    "text": "**Missing Python:**"
+  },
+  {
+    "file": "SpiralSafe/TROUBLESHOOTING.md",
+    "line": 353,
+    "marker": "MISSING",
+    "text": "- Missing decision files"
+  },
+  {
+    "file": "SpiralSafe/USER_ENLIGHTENMENT_PROTOCOL.md",
+    "line": 36,
+    "marker": "XXX",
+    "text": "- Tag format (ATOM-XXX-YYYYMMDD-NNN)"
+  },
+  {
+    "file": "SpiralSafe/USER_ENLIGHTENMENT_PROTOCOL.md",
+    "line": 171,
+    "marker": "MISSING",
+    "text": "3. What's missing from the roadmap?"
+  },
+  {
+    "file": "SpiralSafe/USER_ENLIGHTENMENT_PROTOCOL.md",
+    "line": 173,
+    "marker": "MISSING",
+    "text": "**When done:** Type `/done` and suggest a Tier that's missing."
+  },
+  {
+    "file": "SpiralSafe/VERIFICATION_STAMP.md",
+    "line": 208,
+    "marker": "TODO",
+    "text": "- [x] **Completeness** - Production-ready, not TODO-laden"
+  },
+  {
+    "file": "SpiralSafe/VERIFICATION_STAMP.md",
+    "line": 213,
+    "marker": "MISSING",
+    "text": "- [x] **Negative Space** - Missing pieces identified and filled"
+  },
+  {
+    "file": "SpiralSafe/VERIFICATION_STAMP.md",
+    "line": 509,
+    "marker": "MISSING",
+    "text": "- **Tests:** Adapt to missing dependencies gracefully"
+  },
+  {
+    "file": "SpiralSafe/.claude/skills/README.md",
+    "line": 12,
+    "marker": "MISSING",
+    "text": "If any skill is missing, log the read attempt to `.claude/logs/access.jsonl` and stop."
+  },
+  {
+    "file": "SpiralSafe/archive/historical-docs/00_INVENTORY_AND_NAVIGATION_COMPLETE.md",
+    "line": 245,
+    "marker": "INCOMPLETE",
+    "text": "**Read the table of contents below. If any area feels incomplete, flag it.**"
+  },
+  {
+    "file": "SpiralSafe/archive/historical-docs/00_INVENTORY_AND_NAVIGATION_COMPLETE.md",
+    "line": 359,
+    "marker": "INCOMPLETE",
+    "text": "- ✅ Nothing feels incomplete or \"left to reader\""
+  },
+  {
+    "file": "SpiralSafe/archive/historical-docs/00_INVENTORY_AND_NAVIGATION_COMPLETE.md",
+    "line": 382,
+    "marker": "MISSING",
+    "text": "## 📞 What To Do If Something's Missing"
+  },
+  {
+    "file": "SpiralSafe/archive/historical-docs/00_SAFE_SPIRAL_MASTER_START_HERE.md",
+    "line": 127,
+    "marker": "MISSING",
+    "text": "- ✗ Missing implementation details"
+  },
+  {
+    "file": "SpiralSafe/archive/historical-docs/00_SAFE_SPIRAL_MASTER_START_HERE.md",
+    "line": 209,
+    "marker": "MISSING",
+    "text": "If anything is missing, the package is incomplete."
+  },
+  {
+    "file": "SpiralSafe/archive/historical-docs/PACKAGE_INVENTORY_COMPLETE.md",
+    "line": 97,
+    "marker": "MISSING",
+    "text": "│   ├── sanctuary.html ❌ (missing - P1)"
+  },
+  {
+    "file": "SpiralSafe/archive/historical-docs/PACKAGE_INVENTORY_COMPLETE.md",
+    "line": 98,
+    "marker": "MISSING",
+    "text": "│   └── witness.html ❌ (missing - P1)"
+  },
+  {
+    "file": "SpiralSafe/archive/historical-docs/PACKAGE_INVENTORY_COMPLETE.md",
+    "line": 148,
+    "marker": "MISSING",
+    "text": "- sanctuary.html - ❌ Missing (create or use anchors)"
+  },
+  {
+    "file": "SpiralSafe/archive/historical-docs/PACKAGE_INVENTORY_COMPLETE.md",
+    "line": 149,
+    "marker": "MISSING",
+    "text": "- witness.html - ❌ Missing (create or use anchors)"
+  },
+  {
+    "file": "SpiralSafe/archive/historical-docs/PACKAGE_INVENTORY_COMPLETE.md",
+    "line": 364,
+    "marker": "MISSING",
+    "text": "- **Code**: ⚠️ 1 P0 bug (CSS path), 2 P1 issues (missing pages)"
+  },
+  {
+    "file": "SpiralSafe/archive/historical-docs/PART_3_OBJECTIVE_ANALYSIS.md",
+    "line": 114,
+    "marker": "MISSING",
+    "text": "- AI systems that parse intent from *what's missing* (not just what's stated) align better"
+  },
+  {
+    "file": "SpiralSafe/archive/historical-docs/PART_3_OBJECTIVE_ANALYSIS.md",
+    "line": 351,
+    "marker": "MISSING",
+    "text": "2. Missing navigation targets - shows gap between design and implementation"
+  },
+  {
+    "file": "SpiralSafe/docs/atom-trail-spec.md",
+    "line": 10,
+    "marker": "TODO",
+    "text": "TODO: Replace this stub with the full ATOM format spec. Suggested contents:"
+  },
+  {
+    "file": "SpiralSafe/docs/CASCADING_FIXES.md",
+    "line": 105,
+    "marker": "MISSING",
+    "text": "- ✓ Missing dependency detected and blocked"
+  },
+  {
+    "file": "SpiralSafe/docs/DOCUMENT_STATE_MARKERS.md",
+    "line": 138,
+    "marker": "MISSING",
+    "text": "- Reports missing or invalid markers"
+  },
+  {
+    "file": "SpiralSafe/docs/LESSONS.md",
+    "line": 9,
+    "marker": "TBD",
+    "text": "- **Author / Owner:** (TBD)"
+  },
+  {
+    "file": "SpiralSafe/docs/MCP_INTEGRATION.md",
+    "line": 294,
+    "marker": "MISSING",
+    "text": "| \"GITHUB_PERSONAL_ACCESS_TOKEN not set\" | Missing env var | `export GITHUB_PERSONAL_ACCESS_TOKEN=...` |"
+  },
+  {
+    "file": "SpiralSafe/docs/TROUBLESHOOTING_MCP.md",
+    "line": 172,
+    "marker": "XXX",
+    "text": "HTTP 403: API rate limit exceeded for XXX.XXX.XXX.XXX"
+  },
+  {
+    "file": "SpiralSafe/docs/TROUBLESHOOTING_MCP.md",
+    "line": 389,
+    "marker": "MISSING",
+    "text": "# If error, fix syntax (common issues: trailing commas, missing quotes)"
+  },
+  {
+    "file": "SpiralSafe/docs/WAVE_CASE_STUDY_COHERENCE.md",
+    "line": 225,
+    "marker": "INCOMPLETE",
+    "text": "- Placeholders = incomplete context"
+  },
+  {
+    "file": "SpiralSafe/docs/WAVE_CASE_STUDY_COHERENCE.md",
+    "line": 398,
+    "marker": "MISSING",
+    "text": "# Reports missing markers"
+  },
+  {
+    "file": "SpiralSafe/docs/ops/NEGATIVE_SPACE_ANALYSIS.md",
+    "line": 3,
+    "marker": "TODO",
+    "text": "Prepared: TODO — add date and owner"
+  },
+  {
+    "file": "SpiralSafe/docs/ops/NEGATIVE_SPACE_ANALYSIS.md",
+    "line": 29,
+    "marker": "MISSING",
+    "text": "- Bootstrap reported missing env-config, templates, frameworks directory entries."
+  },
+  {
+    "file": "SpiralSafe/docs/ops/NEGATIVE_SPACE_ANALYSIS.md",
+    "line": 30,
+    "marker": "MISSING",
+    "text": "- Action: Identify owners or provide stubs or instructions for initializing missing pieces."
+  },
+  {
+    "file": "SpiralSafe/docs/reports/analysis/claude-code-issues-analysis.md",
+    "line": 120,
+    "marker": "INCOMPLETE",
+    "text": "- Quit handling incomplete (windows close, process persists)"
+  },
+  {
+    "file": "SpiralSafe/docs/reports/analysis/claude-code-issues-analysis.md",
+    "line": 136,
+    "marker": "INCOMPLETE",
+    "text": "**Common Pattern:** Plugin infrastructure incomplete:"
+  },
+  {
+    "file": "SpiralSafe/docs/reports/analysis/claude-code-issues-analysis.md",
+    "line": 183,
+    "marker": "MISSING",
+    "text": "**Root:** Missing verification that reported success matches actual outcome"
+  },
+  {
+    "file": "SpiralSafe/docs/reports/analysis/claude-code-issues-analysis.md",
+    "line": 338,
+    "marker": "MISSING",
+    "text": "├──> Subagents Missing Context (#15993)"
+  },
+  {
+    "file": "SpiralSafe/docs/reports/implementation/IMPLEMENTATION_COMPLETE.md",
+    "line": 99,
+    "marker": "MISSING",
+    "text": "- ✅ Missing dependency detection"
+  },
+  {
+    "file": "SpiralSafe/docs/reports/implementation/IMPLEMENTATION_NOTES.md",
+    "line": 33,
+    "marker": "INCOMPLETE",
+    "text": "- **\"Plugins Are Second-Class Citizens\"** - Incomplete integration, race conditions"
+  },
+  {
+    "file": "SpiralSafe/docs/reports/implementation/IMPLEMENTATION_SUMMARY.md",
+    "line": 127,
+    "marker": "MISSING",
+    "text": "- ✅ Graceful degradation for missing tools"
+  },
+  {
+    "file": "SpiralSafe/docs/reports/verification/SYSTEM_VERIFICATION_REPORT.md",
+    "line": 126,
+    "marker": "MISSING",
+    "text": "#### ⚠️ High: Missing Navigation Targets"
+  },
+  {
+    "file": "SpiralSafe/docs/reports/verification/SYSTEM_VERIFICATION_REPORT.md",
+    "line": 138,
+    "marker": "MISSING",
+    "text": "- ❌ `sanctuary.html` missing"
+  },
+  {
+    "file": "SpiralSafe/docs/reports/verification/SYSTEM_VERIFICATION_REPORT.md",
+    "line": 139,
+    "marker": "MISSING",
+    "text": "- ❌ `witness.html` missing"
+  },
+  {
+    "file": "SpiralSafe/docs/reports/verification/SYSTEM_VERIFICATION_REPORT.md",
+    "line": 144,
+    "marker": "MISSING",
+    "text": "1. Create the missing pages"
+  },
+  {
+    "file": "SpiralSafe/docs/reports/verification/SYSTEM_VERIFICATION_REPORT.md",
+    "line": 522,
+    "marker": "MISSING",
+    "text": "- ⚠️ 2 missing navigation targets"
+  },
+  {
+    "file": "SpiralSafe/meta/THE_SPIRAL_AND_THE_SAUCE.md",
+    "line": 157,
+    "marker": "TODO",
+    "text": "│ • Todo lists for visibility into multi-step work           │"
+  },
+  {
+    "file": "SpiralSafe/methodology/atom.md",
+    "line": 63,
+    "marker": "INCOMPLETE",
+    "text": "- **Partial value**: Incomplete projects still deliver completed molecules"
+  },
+  {
+    "file": "SpiralSafe/ops/integrations/sentry.md",
+    "line": 90,
+    "marker": "TBD",
+    "text": "0.5, // Potential TBD from traces"
+  },
+  {
+    "file": "SpiralSafe/packages/claude-cognitive-triggers/README.md",
+    "line": 35,
+    "marker": "MISSING",
+    "text": "// Detect what's missing in your project"
+  },
+  {
+    "file": "SpiralSafe/packages/claude-cognitive-triggers/README.md",
+    "line": 72,
+    "marker": "MISSING",
+    "text": "- Missing automation (no CI/CD when code exists)"
+  },
+  {
+    "file": "SpiralSafe/packages/claude-cognitive-triggers/README.md",
+    "line": 82,
+    "marker": "INCOMPLETE",
+    "text": "- **Pattern completion**: Finishing incomplete sets (2/3 done → 3/3)"
+  },
+  {
+    "file": "SpiralSafe/packages/claude-cognitive-triggers/README.md",
+    "line": 158,
+    "marker": "MISSING",
+    "text": "# [🔍 NEGATIVE SPACE] Missing CI/CD configuration"
+  },
+  {
+    "file": "SpiralSafe/packages/claude-cognitive-triggers/README.md",
+    "line": 175,
+    "marker": "MISSING",
+    "text": "Scans a project for missing/incomplete configurations."
+  },
+  {
+    "file": "spiralsafe-ops/integrations/sentry.md",
+    "line": 90,
+    "marker": "TBD",
+    "text": "0.5, // Potential TBD from traces"
+  }
+]
