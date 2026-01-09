@@ -19,7 +19,7 @@ import subprocess
 from pathlib import Path
 from datetime import datetime
 
-repo_root = Path(__file__).resolve().parents[1]
+repo_root = Path(__file__).resolve().parents[2]
 sessions_dir = repo_root / '.atom-trail' / 'sessions'
 sessions_dir.mkdir(parents=True, exist_ok=True)
 
