@@ -17,7 +17,7 @@ This insight—independently validated by Shannon (1948) for signals and Lewis-K
 | Layer             | Components                                   | Purpose                  |
 |-------------------|----------------------------------------------|--------------------------|
 | **Foundation**    | Isomorphism Principle, Constraints as Gifts  | Theoretical bedrock      |
-| **Interface**     | AWI, ClaudeNPC, BattleMedic, UnifiedComms    | Contact surfaces         |
+| **Interface**     | AWI, HOPE NPCs, BattleMedic, UnifiedComms    | Contact surfaces         |
 | **Methodology**   | ATOM, SAIF, KENL, Day Zero Design            | Cognitive tools          |
 | **Protocol**      | [wave-spec](protocol/wave-spec.md), [bump-spec](protocol/bump-spec.md), .context.yaml | Information transmission |
 | **Manifestation** | Quantum Valley, Museum of Computation        | Theory made tangible     |
@@ -57,7 +57,7 @@ SpiralSafe unifies work across multiple repositories:
 - **[quantum-redstone][def]** — Quantum topology in Minecraft Redstone
 - **[wave-toolkit](https://github.com/toolate28/wave-toolkit)** — Coherence detection tools
 - **[kenl](https://github.com/toolate28/kenl)** — Infrastructure-aware AI orchestration
-- **[ClaudeNPC-Server-Suite](https://github.com/toolate28/ClaudeNPC-Server-Suite)** — AI agent embodiment
+- **[HOPE NPCs](https://github.com/toolate28/ClaudeNPC-Server-Suite)** — AI NPCs playing games to redefine reality (v2.1.0)
 
 ---
 

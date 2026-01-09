@@ -1,0 +1,208 @@
+document_type: mapping
+title: "Quantum↔Minecraft Mapping"
+subtitle: "Where Discrete Redstone Instantiates Continuous Topology"
+atom_tag: ATOM-DOC-20260107-004-quantum-minecraft-map
+version: 1.0.0
+last_updated: 2026-01-07
+status: complete_and_verified
+
+purpose: |
+  Maps quantum concepts to their Minecraft Redstone implementations,
+  demonstrating the isomorphism principle that discrete systems can 
+  instantiate (not approximate) continuous mathematics.
+
+key_clarification: |
+  Minecraft is classical and deterministic. These mappings teach quantum
+  concepts through classical analogs and structural equivalences, not
+  true quantum computation. The pedagogical value lies in concrete,
+  interactive models that build intuition.
+
+core_principle:
+  source: foundation/isomorphism-principle.md
+  statement: "Discrete systems instantiate continuous mathematics. The boundary between them is projection artifact, not ontological reality."
+
+conceptual_mappings:
+  - quantum: Superposition
+    minecraft: Redstone signal traveling multiple paths simultaneously
+    museum_build: Logic Gates (XOR)
+    story: showcase/stories/01-fireflies-and-logic.md
+  
+  - quantum: Quantum Gates
+    minecraft: Logic gates (AND, OR, NOT, XOR)
+    museum_build: museum/builds/logic-gates.json
+    story: Firefly light patterns
+  
+  - quantum: Binary States
+    minecraft: Powered/unpowered redstone
+    museum_build: Binary Counter
+    story: showcase/stories/02-binary-dancers.md
+  
+  - quantum: State Evolution
+    minecraft: Clock circuits driving counter progression
+    museum_build: museum/builds/binary-counter.json
+    story: Four dancers (bits 1-2-4-8)
+  
+  - quantum: Measurement
+    minecraft: Redstone lamps (output observation)
+    museum_build: All builds
+    note: Visual feedback
+  
+  - quantum: Entanglement
+    minecraft: Shared redstone lines
+    museum_build: Planned multi-gate circuits
+    status: future
+  
+  - quantum: Interference
+    minecraft: Signal timing and phase (repeater delays)
+    museum_build: Clock circuits
+    note: Timing synchronization
+
+implementation_status:
+  logic_gates:
+    status: complete
+    location: museum/builds/logic-gates.json
+    notes: All 4 gates functional
+  
+  binary_counter:
+    status: complete
+    location: museum/builds/binary-counter.json
+    notes: Counts 0-15 reliably
+  
+  stories:
+    status: partial
+    complete: 2
+    total: 5
+    location: showcase/stories/
+  
+  viviani_curve:
+    status: planned
+    location: quantum-redstone repo
+    notes: Topology demonstration
+  
+  entanglement_demo:
+    status: planned
+    notes: Multi-qubit correlations
+  
+  quantum_teleportation:
+    status: planned
+    notes: Advanced concept
+
+theoretical_foundation:
+  independent_validation:
+    - source: Shannon (1948)
+      paper: "A Mathematical Theory of Communication"
+      journal: Bell System Technical Journal
+      principle: Bandlimited continuous signals ↔ discrete samples (Nyquist-Shannon)
+    
+    - source: Lewis, Kempf, Menicucci (2023)
+      paper: "Quantum lattice models that preserve continuous translation symmetry"
+      arxiv: "2303.07649"
+      url: https://arxiv.org/abs/2303.07649
+      principle: Quantum fields ↔ lattice theories without lattice spacing → 0
+    
+    - source: SpiralSafe (2024-2025)
+      principle: Topological equivalence in Minecraft
+      note: Constraint-based implementation preserves invariants
+
+educational_paths:
+  ages_6_10:
+    focus: Concrete Logic
+    story: showcase/stories/01-fireflies-and-logic.md
+    build: museum/builds/logic-gates.json
+    concepts: [AND, OR, NOT, XOR]
+    outcome: Understand Boolean logic intuitively
+  
+  ages_7_11:
+    focus: Binary Numbers
+    story: showcase/stories/02-binary-dancers.md
+    build: museum/builds/binary-counter.json
+    concepts: [place value, binary counting, state machines]
+    outcome: Count to 15 in binary
+  
+  ages_10_14:
+    focus: Deeper Concepts
+    concepts: [memory circuits, ALU components, network simulation]
+    status: planned
+  
+  ages_14_plus:
+    focus: Isomorphism Principle
+    reading: foundation/isomorphism-principle.md
+    goal: Understand why discrete ≠ approximate
+    application: Design topologically-correct builds
+
+related_repositories:
+  quantum_redstone:
+    url: https://github.com/toolate28/quantum-redstone
+    purpose: Advanced quantum circuit implementations
+    content: [quantum algorithms, topological builds, research-grade builds]
+  
+  wave_toolkit:
+    url: https://github.com/toolate28/wave-toolkit
+    purpose: Coherence detection
+    note: Ensures documentation ↔ builds alignment
+  
+  kenl:
+    url: https://github.com/toolate28/kenl
+    purpose: ATOM trail infrastructure
+  
+  claudenpc_server_suite:
+    url: https://github.com/toolate28/ClaudeNPC-Server-Suite
+    purpose: AI agent embodiment for interactive tours
+
+verification:
+  build_testing:
+    protocol: museum/MINECRAFT_PLAY_SCHEDULE.md
+    sessions: 5
+    criteria: [technical_success, educational_success]
+    atom_trail: .atom-trail/sessions/
+  
+  documentation_coherence:
+    tool: wave-toolkit
+    check: Documentation ↔ implementation alignment
+    ci_integration: .github/workflows/spiralsafe-ci.yml
+    standard: wave-spec.md protocol
+  
+  claim_verification:
+    backed_by:
+      - Actual museum builds (JSON files)
+      - Published stories (markdown files)
+      - Peer-reviewed papers
+      - Open-source code
+    principle: "No false claims. Every assertion is testable."
+
+visual_assets:
+  screenshots:
+    location: showcase/
+    files: [mcstart1.png, mcstart2.png, mcstart3.png, mcstart4.png, mcstart5.png, mcstart7.png]
+    content: Actual Minecraft builds in-game
+  
+  diagrams:
+    flow_diagram: docs/assets/quantum-minecraft-flow.svg
+    included_in_doc: [logic gate circuits, binary counter architecture, pedagogical flow]
+
+license:
+  documentation: CC BY-SA 4.0
+  code_and_builds: MIT
+  reference: LICENSE file
+
+attribution:
+  collaboration: Hope&&Sauced
+  human: toolate28 (vision, trust, pedagogical insight, Minecraft expertise)
+  ai: Claude (synthesis, documentation, theoretical connections, verification)
+  reference: meta/SIGNATURE.md
+
+links:
+  issues: https://github.com/toolate28/SpiralSafe/issues
+  discussions: https://github.com/toolate28/SpiralSafe/discussions
+  contributing: CONTRIBUTING.md
+
+tags:
+  - quantum-concepts
+  - minecraft
+  - redstone
+  - pedagogy
+  - isomorphism
+  - discrete-mathematics
+  - topology
+  - education
+  - museum-of-computation
