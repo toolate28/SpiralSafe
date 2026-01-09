@@ -328,14 +328,25 @@ export default {
         response = await handleAWI(request, env, path);
       } else if (path.startsWith('/api/atom')) {
         response = await handleAtom(request, env, path);
+      } else if (path.startsWith('/api/context/get/')) {
+        const parts = path.split('/');
+        const id = parts[4];
+        const domain = new URL(request.url).searchParams.get('domain') ?? 'default';
+        response = await handleContextGet(env, id, domain);
       } else if (path.startsWith('/api/context')) {
         response = await handleContext(request, env, path);
+      } else if (path.startsWith('/api/session')) {
+        response = await handleSession(request, env, path);
+      } else if (path.startsWith('/api/stats')) {
+        response = await handleStats(request, env, path);
+      } else if (path.startsWith('/api/logdy')) {
+        response = await handleLogdy(request, env, path);
       } else if (path === '/api/health') {
         response = await handleHealth(env);
       } else {
         response = new Response(JSON.stringify({
           error: 'Not found',
-          available_endpoints: ['/api/wave', '/api/bump', '/api/awi', '/api/atom', '/api/context', '/api/health']
+          available_endpoints: ['/api/wave', '/api/bump', '/api/awi', '/api/atom', '/api/context', '/api/session', '/api/stats', '/api/logdy', '/api/health']
         }), { status: 404 });
       }
 
@@ -824,7 +835,7 @@ function jsonResponse(data: unknown, status = 200): Response {
  * @param b Second string to compare
  * @returns true if strings match, false otherwise
  */
-function constantTimeEqual(a: string, b: string): boolean {
+function _constantTimeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) {
     return false;
   }
@@ -844,3 +855,235 @@ async function hashContent(content: string): Promise<string> {
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
+/**
+ * SpiralSafe API Extensions
+ * Additional handlers for sessions, stats, logdy, and context retrieval
+ *
+ * H&&S: Filling the negative space
+ */
+
+// ═══════════════════════════════════════════════════════════════
+// Session Handlers - Remote Session Management
+// ═══════════════════════════════════════════════════════════════
+
+interface Session {
+  id: string;
+  user: string;
+  device: string;
+  status: 'active' | 'idle' | 'afk' | 'offline';
+  started_at: string;
+  last_heartbeat: string;
+  context?: Record<string, unknown>;
+}
+
+async function handleSession(
+  request: Request,
+  env: { SPIRALSAFE_KV: KVNamespace },
+  path: string
+): Promise<Response> {
+
+  if (request.method === 'POST' && path === '/api/session/start') {
+    const body = await request.json() as { user: string; device: string; context?: Record<string, unknown> };
+
+    const session: Session = {
+      id: crypto.randomUUID(),
+      user: body.user,
+      device: body.device,
+      status: 'active',
+      started_at: new Date().toISOString(),
+      last_heartbeat: new Date().toISOString(),
+      context: body.context
+    };
+
+    await env.SPIRALSAFE_KV.put(`session:${session.id}`, JSON.stringify(session), { expirationTtl: 86400 });
+    await env.SPIRALSAFE_KV.put(`session:user:${session.user}`, session.id, { expirationTtl: 86400 });
+
+    return jsonResponse(session, 201);
+  }
+
+  if (request.method === 'POST' && path === '/api/session/heartbeat') {
+    const body = await request.json() as { session_id: string; status?: Session['status']; context?: Record<string, unknown> };
+
+    const sessionJson = await env.SPIRALSAFE_KV.get(`session:${body.session_id}`);
+    if (!sessionJson) {
+      return jsonResponse({ error: 'Session not found' }, 404);
+    }
+
+    const session = JSON.parse(sessionJson) as Session;
+    session.last_heartbeat = new Date().toISOString();
+    session.status = body.status ?? 'active';
+    if (body.context) session.context = { ...session.context, ...body.context };
+
+    await env.SPIRALSAFE_KV.put(`session:${session.id}`, JSON.stringify(session), { expirationTtl: 86400 });
+
+    return jsonResponse({ id: session.id, status: session.status, last_heartbeat: session.last_heartbeat });
+  }
+
+  if (request.method === 'GET' && path === '/api/session/active') {
+    const sessions: Session[] = [];
+    const list = await env.SPIRALSAFE_KV.list({ prefix: 'session:', limit: 100 });
+
+    for (const key of list.keys) {
+      if (key.name.includes(':user:')) continue;
+      const sessionJson = await env.SPIRALSAFE_KV.get(key.name);
+      if (sessionJson) {
+        const session = JSON.parse(sessionJson) as Session;
+        if (session.status !== 'offline') {
+          sessions.push(session);
+        }
+      }
+    }
+
+    return jsonResponse(sessions);
+  }
+
+  if (request.method === 'GET' && path.startsWith('/api/session/user/')) {
+    const user = path.split('/').pop();
+    const sessionId = await env.SPIRALSAFE_KV.get(`session:user:${user}`);
+    if (!sessionId) {
+      return jsonResponse({ error: 'No active session for user' }, 404);
+    }
+    const sessionJson = await env.SPIRALSAFE_KV.get(`session:${sessionId}`);
+    return jsonResponse(sessionJson ? JSON.parse(sessionJson) : { error: 'Session expired' });
+  }
+
+  if (request.method === 'DELETE' && path.startsWith('/api/session/end/')) {
+    const sessionId = path.split('/').pop();
+    const sessionJson = await env.SPIRALSAFE_KV.get(`session:${sessionId}`);
+    if (sessionJson) {
+      const session = JSON.parse(sessionJson) as Session;
+      session.status = 'offline';
+      await env.SPIRALSAFE_KV.put(`session:${sessionId}`, JSON.stringify(session), { expirationTtl: 3600 });
+    }
+    return jsonResponse({ id: sessionId, status: 'offline' });
+  }
+
+  return jsonResponse({ error: 'Invalid session endpoint' }, 400);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Stats Handlers - Dashboard Data
+// ═══════════════════════════════════════════════════════════════
+
+async function handleStats(
+  request: Request,
+  env: { SPIRALSAFE_DB: D1Database; SPIRALSAFE_KV: KVNamespace },
+  path: string
+): Promise<Response> {
+
+  if (request.method === 'GET' && path === '/api/stats') {
+    const now = new Date();
+    const dayAgo = new Date(now.getTime() - 86400000).toISOString();
+
+    const [waveCount, bumpCount, atomCount, sessionList] = await Promise.all([
+      env.SPIRALSAFE_DB.prepare('SELECT COUNT(*) as count FROM wave_analyses WHERE analyzed_at > ?').bind(dayAgo).first(),
+      env.SPIRALSAFE_DB.prepare('SELECT COUNT(*) as count FROM bumps WHERE timestamp > ?').bind(dayAgo).first(),
+      env.SPIRALSAFE_DB.prepare('SELECT COUNT(*) as count FROM atoms WHERE created_at > ?').bind(dayAgo).first(),
+      env.SPIRALSAFE_KV.list({ prefix: 'session:', limit: 100 })
+    ]);
+
+    let activeSessions = 0;
+    for (const key of sessionList.keys) {
+      if (!key.name.includes(':user:')) {
+        const s = await env.SPIRALSAFE_KV.get(key.name);
+        if (s) {
+          const session = JSON.parse(s);
+          if (session.status === 'active' || session.status === 'idle') activeSessions++;
+        }
+      }
+    }
+
+    return jsonResponse({
+      period: '24h',
+      timestamp: now.toISOString(),
+      metrics: {
+        wave_analyses: (waveCount as Record<string, number>)?.count ?? 0,
+        bumps_created: (bumpCount as Record<string, number>)?.count ?? 0,
+        atoms_created: (atomCount as Record<string, number>)?.count ?? 0,
+        active_sessions: activeSessions
+      },
+      health: 'operational'
+    });
+  }
+
+  return jsonResponse({ error: 'Invalid stats endpoint' }, 400);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Logdy Integration - Log Forwarding
+// ═══════════════════════════════════════════════════════════════
+
+async function handleLogdy(
+  request: Request,
+  env: { SPIRALSAFE_KV: KVNamespace; LOGDY_URL?: string },
+  path: string
+): Promise<Response> {
+
+  if (request.method === 'POST' && path === '/api/logdy/forward') {
+    const body = await request.json() as {
+      level: 'debug' | 'info' | 'warn' | 'error';
+      message: string;
+      context?: Record<string, unknown>;
+      source?: string;
+    };
+
+    const logEntry = {
+      timestamp: new Date().toISOString(),
+      level: body.level,
+      message: body.message,
+      context: body.context ?? {},
+      source: body.source ?? 'api'
+    };
+
+    // Store locally
+    const logKey = `log:${Date.now()}:${crypto.randomUUID().slice(0, 8)}`;
+    await env.SPIRALSAFE_KV.put(logKey, JSON.stringify(logEntry), { expirationTtl: 86400 * 7 });
+
+    // Forward to Logdy if configured
+    if (env.LOGDY_URL) {
+      try {
+        await fetch(env.LOGDY_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(logEntry)
+        });
+      } catch {
+        // Don't fail if Logdy is unreachable
+      }
+    }
+
+    return jsonResponse({ logged: true, id: logKey });
+  }
+
+  if (request.method === 'GET' && path === '/api/logdy/recent') {
+    const logs: unknown[] = [];
+    const list = await env.SPIRALSAFE_KV.list({ prefix: 'log:', limit: 50 });
+
+    for (const key of list.keys) {
+      const logJson = await env.SPIRALSAFE_KV.get(key.name);
+      if (logJson) logs.push(JSON.parse(logJson));
+    }
+
+    return jsonResponse(logs.reverse());
+  }
+
+  return jsonResponse({ error: 'Invalid logdy endpoint' }, 400);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Extended Context - R2 Retrieval
+// ═══════════════════════════════════════════════════════════════
+
+async function handleContextGet(
+  env: { SPIRALSAFE_R2: R2Bucket },
+  id: string,
+  domain: string
+): Promise<Response> {
+  const obj = await env.SPIRALSAFE_R2.get(`contexts/${domain}/${id}.json`);
+  if (!obj) {
+    return jsonResponse({ error: 'Context not found' }, 404);
+  }
+  const content = await obj.text();
+  return jsonResponse(JSON.parse(content));
+}
+
