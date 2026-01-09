@@ -34,11 +34,19 @@ System-critical and actively maintained documents:
 - `CONTRIBUTING.md` - Contributor guide
 - `ARCHITECTURE.md` - System overview
 - `QUICK_START.md` - Getting started guide
-- `TROUBLESHOOTING.md` - Active support documentation
-- `DEPLOYMENT_GUIDE.md` - Active deployment instructions
-- `DEPLOYMENT_CHECKLIST.md` - Deployment verification
+- `docs/guides/TROUBLESHOOTING.md` - Active support documentation (moved 2026-01-08)
+- `ops/DEPLOYMENT_GUIDE.md` - Active deployment instructions (moved 2026-01-08)
+- `ops/DEPLOYMENT_CHECKLIST.md` - Deployment verification (moved 2026-01-08)
 
 ## Archived Documents
+
+### Recent Additions (2026-01-08)
+
+**Mission Artifacts:**
+- `mission-accomplished-v3.0.0.txt` - Complete v3.0.0 quantum implementation milestone (originally `B&&P`)
+
+**One-time Scripts:**
+- `apply-docs-reorg-full_Version1.ps1` - Completed documentation reorganization script
 
 ### Release v2.0.0 (2026-01-07)
 

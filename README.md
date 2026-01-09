@@ -44,13 +44,61 @@ This insight—independently validated by Shannon (1948) for signals and Lewis-K
 
 ---
 
+## Installation
+
+### One-Step Install
+
+**Unix/Linux/Mac:**
+```bash
+# Recommended: Clone and inspect before running
+git clone https://github.com/toolate28/SpiralSafe.git
+cd SpiralSafe
+./install.sh --install-deps
+
+# Quick install (inspect script first for security)
+# curl -fsSL https://raw.githubusercontent.com/toolate28/SpiralSafe/main/install.sh | bash
+```
+
+**Windows:**
+```powershell
+git clone https://github.com/toolate28/SpiralSafe.git
+cd SpiralSafe
+.\Bootstrap.ps1
+```
+
+### Quick Dependencies
+
+| Component | Required For | Install |
+|-----------|-------------|---------|
+| **Node.js 20+** | Operations API, CI/CD | [nodejs.org](https://nodejs.org) |
+| **Python 3.10+** | Hardware Bridges, Scripts | [python.org](https://python.org) |
+| **Git** | Version Control | [git-scm.com](https://git-scm.com) |
+
+All platforms are automatically detected and dependencies can be installed via `./install.sh --install-deps`.
+
+### System Health Dashboard
+
+Monitor API endpoints and system health in real-time:
+
+**[📊 Open Health Dashboard](health.html)** (after cloning locally)
+
+Or start the dev server:
+```bash
+cd ops
+npm install
+npm run dev
+# Then visit http://localhost:8787/health.html
+```
+
+---
+
 ## Quick Start
 
-**🔬 For researchers**: Begin with [`foundation/isomorphism-principle.md`](foundation/isomorphism-principle.md) → [THE_ISO_PRINCIPLE.md](THE_ISO_PRINCIPLE.md) → [CONSTRAINT_MATHEMATICS.md](CONSTRAINT_MATHEMATICS.md)
+**🔬 For researchers** : Begin with [`foundation/isomorphism-principle.md`](foundation/isomorphism-principle.md) → [THE_ISO_PRINCIPLE.md](THE_ISO_PRINCIPLE.md) → [CONSTRAINT_MATHEMATICS.md](CONSTRAINT_MATHEMATICS.md)
 
-**🛠️ For builders**: Start with [wave-toolkit](https://github.com/toolate28/wave-toolkit) and explore [protocol specs](protocol/)
+**🛠️ For builders**    : Start with [wave-toolkit](https://github.com/toolate28/wave-toolkit) and explore [protocol specs](protocol/)
 
-**👩‍🏫 For educators**: Explore [quantum-minecraft-map.md](docs/quantum-minecraft-map.md) and [museum builds](museum/builds/)
+**👩‍🏫 For educators**   : Explore [quantum-minecraft-map.md](docs/quantum-minecraft-map.md) and [museum builds](museum/builds/)
 
 **🧑‍💻 For contributors**: See [`CONTRIBUTING.md`](CONTRIBUTING.md) and [ATOM methodology](methodology/atom.md)
 
