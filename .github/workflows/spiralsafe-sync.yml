@@ -85,6 +85,8 @@ jobs:
               --arg id "$tag" \
               --arg name "$DESC" \
               --arg type "$TYPE" \
+              --arg date "$DATE" \
+              --arg seq "$SEQ" \
               --arg repo "${{ github.repository }}" \
               --arg sha "${{ github.sha }}" \
               --arg actor "${{ github.actor }}" \
@@ -196,10 +198,12 @@ jobs:
           # Get PR body
           PR_BODY='${{ github.event.pull_request.body }}'
           
-          # Check for explicit bump type marker
-          if echo "$PR_BODY" | grep -qE '<!-- spiralsafe:bump:[A-Z]+:[a-z_]+ -->'; then
-            EXPLICIT_TYPE=$(echo "$PR_BODY" | grep -oE 'spiralsafe:bump:[A-Z]+:[a-z_]+' | head -1 | cut -d':' -f3)
-            EXPLICIT_STATE=$(echo "$PR_BODY" | grep -oE 'spiralsafe:bump:[A-Z]+:[a-z_]+' | head -1 | cut -d':' -f4)
+          # Check for explicit bump type marker (extract once)
+          MARKER_MATCH=$(echo "$PR_BODY" | grep -oE 'spiralsafe:bump:[A-Z]+:[a-z_]+' | head -1 || echo "")
+          
+          if [ -n "$MARKER_MATCH" ]; then
+            EXPLICIT_TYPE=$(echo "$MARKER_MATCH" | cut -d':' -f3)
+            EXPLICIT_STATE=$(echo "$MARKER_MATCH" | cut -d':' -f4)
             echo "Found explicit marker: $EXPLICIT_TYPE / $EXPLICIT_STATE"
             echo "has_explicit=true" >> "$GITHUB_OUTPUT"
             echo "explicit_type=$EXPLICIT_TYPE" >> "$GITHUB_OUTPUT"
@@ -209,12 +213,13 @@ jobs:
             echo "has_explicit=false" >> "$GITHUB_OUTPUT"
           fi
           
-          # Check for H&&S markers in body
-          if echo "$PR_BODY" | grep -qE 'H&&S:(WAVE|PASS|PING|SYNC|BLOCK)'; then
-            HS_MARKER=$(echo "$PR_BODY" | grep -oE 'H&&S:(WAVE|PASS|PING|SYNC|BLOCK)' | head -1)
-            echo "Found H&&S marker: $HS_MARKER"
+          # Check for H&&S markers in body (extract once)
+          HS_MATCH=$(echo "$PR_BODY" | grep -oE 'H&&S:(WAVE|PASS|PING|SYNC|BLOCK)' | head -1 || echo "")
+          
+          if [ -n "$HS_MATCH" ]; then
+            echo "Found H&&S marker: $HS_MATCH"
             echo "has_hs_marker=true" >> "$GITHUB_OUTPUT"
-            echo "hs_marker=$HS_MARKER" >> "$GITHUB_OUTPUT"
+            echo "hs_marker=$HS_MATCH" >> "$GITHUB_OUTPUT"
           else
             echo "has_hs_marker=false" >> "$GITHUB_OUTPUT"
           fi
