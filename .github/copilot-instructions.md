@@ -25,9 +25,14 @@ Purpose: Short, actionable instructions to help AI coding agents be immediately 
 - CI specifics: `.github/workflows/spiralsafe-ci.yml` runs a document "coherence" (wave) analysis before lint/build, then runs lint, typecheck, tests, and Cloudflare deploys with AWI grants.
 
 ## Project-specific patterns & conventions (must follow)
-- **H&&S markers** (protocol/bump-spec.md): use `H&&S:WAVE` for soft handoff (add to PR body for review), `H&&S:PASS` to transfer ownership, `H&&S:SYNC` for synchronization, `H&&S:BLOCK` for blocking issues. Examples: include `H&&S:WAVE` in PR body for architectural changes.
+- **H&&S markers** (protocol/bump-spec.md): use `H&&S:WAVE` for soft handoff (add to PR body for review), `H&&S:PASS` to transfer ownership, `H&&S:SYNC` for synchronization, `H&&S:BLOCK` for blocking issues, `H&&S:GH-COPILOT` for GitHub Copilot agent signatures. Examples: include `H&&S:WAVE` in PR body for architectural changes.
 - **Commit message format**: `[layer] Brief description` (layers e.g. `[protocol]`, `[interface]`, `[methodology]`). See `CONTRIBUTING.md`.
 - **ATOM tagging**: Format `ATOM-TYPE-YYYYMMDD-NNN-description`. Types: INIT, FEATURE, FIX, DOC, REFACTOR, TEST, DECISION, RELEASE, TASK.
+  - ATOM tags in commit messages are automatically extracted and logged to the SpiralSafe API
+  - Regex pattern: `ATOM-[A-Z]+-[0-9]{8}-[0-9]{3}-[a-z0-9-]+`
+- **PR body markers for API logging**: Use HTML comments to control bump marker creation:
+  - `<!-- spiralsafe:bump:TYPE:state -->` - Explicit bump type override (e.g., `<!-- spiralsafe:bump:WAVE:pr_opened -->`)
+  - Automatically detected: PR opened → WAVE, PR merged → PASS, PR closed → SYNC, PR updated → PING
 - **Dual-format docs**: Many files follow a dual-format convention—prose + structured summary (`.context.yaml` style). Preserve both when adding or editing docs.
 - **Atom trail**: project sessions and decisions live in `.atom-trail/` (subdirs: `decisions`, `sessions`, `verifications`). Use `ops/scripts/session_report.py` (`start` / `signout`) for session work, and `ops/scripts/sign_verification.py` to record human signatures.
 - **Verification & signing**:
@@ -56,6 +61,23 @@ Purpose: Short, actionable instructions to help AI coding agents be immediately 
 - Link to related documents
 - Follow "Tomorrow Test" - can someone use this without additional context?
 
+## API integration patterns
+
+When integrating with the SpiralSafe API:
+- **Authentication**: Use `X-API-Key` header with `secrets.SPIRALSAFE_API_KEY`
+- **API Base URL**: Use `${{ vars.SPIRALSAFE_API_BASE || 'https://api.spiralsafe.org' }}`
+- **Endpoints**:
+  - `POST /api/atom/create` - Log ATOM tags from commits
+  - `POST /api/bump/create` - Create bump markers for PR events
+  - `POST /api/wave/analyze` - Analyze documentation coherence
+  - `POST /api/awi/request` - Request AWI permission grants
+- **Standard payload fields**:
+  - Include `signature: "H&&S:GH-COPILOT"` in context objects for GitHub Copilot agent actions
+  - Include `repository`, `sha`, `actor`, `workflow_run_id` for traceability
+  - Use proper bump types: WAVE (soft handoff), PASS (hard handoff), SYNC (state sync), PING (attention), BLOCK (blocker)
+- **Error handling**: Don't fail workflows if API is unavailable; log warnings and continue
+- **Documentation**: See `ops/api/spiralsafe-worker.ts` for API implementation and `ops/schemas/d1-schema.sql` for data schema
+
 ## Security requirements
 
 **NEVER commit:**
@@ -67,12 +89,16 @@ Purpose: Short, actionable instructions to help AI coding agents be immediately 
 **ALWAYS:**
 - Use GitHub Secrets for CI/CD credentials
 - Include `.env.example` files with placeholders only
-- Use `scripts/redact-log.sh` before sharing logs
+- Use `scripts/scan-secrets.sh` before committing (run it to verify no secrets)
 - Store runtime secrets in environment variables
 
 ## Integration points & external dependencies
 - Cloudflare (wrangler) deploys in CI; AWI grant requests are created during deploy job (`SPIRALSAFE_API_BASE` used for API calls).
 - Coherence analysis reports to the Wave API (`/api/wave/analyze`) during CI.
+- GitHub events sync to SpiralSafe API via `.github/workflows/spiralsafe-sync.yml`:
+  - Push to main → Extract ATOM tags → POST to `/api/atom/create`
+  - PR events (opened/closed/synchronize) → Create bump markers → POST to `/api/bump/create`
+  - See `protocol/bump-spec.md` for bump marker types and usage
 - `kenl` and other companion repos may provide local `~/.kenl/.atom-trail` artifacts used by scripts—be cautious when modifying atom-tracking code.
 
 ## Role-specific guidance for agents
