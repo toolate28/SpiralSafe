@@ -15,15 +15,11 @@ Usage: python ops/tools/repo_health.py --output .verification/repo_health-YYYYMM
 
 import argparse
 import json
-import os
 import subprocess
 import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from urllib.parse import urlparse
-
-import shutil
 
 try:
     import requests
@@ -81,8 +77,8 @@ def find_orphans():
     for p in ROOT.rglob("*"):
         if p.is_file() and p.suffix.lower() in MARKED_EXTS:
             name = p.name
-            rc, out = run_cmd(f"git grep -n \"{name}\" || true")
-            if rc != 0 and not out.strip():
+            rc, out = run_cmd(f"git grep -n \"{name}\"")
+            if not out.strip():
                 orphans.append(str(p.relative_to(ROOT)))
     return orphans
 

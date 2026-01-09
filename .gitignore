@@ -19,10 +19,13 @@ logs/
 *.tar.gz
 !releases/*.zip
 !spiral_safe_bump_ci_payload.zip
+
+# Python
 __pycache__/
-*.pyc
-*.pyo
-.pytest_cache/
+*.py[cod]
+*$py.class
+*.so
+.Python
 
 # ATOM trail - keep structure but ignore temp files
 .atom-trail/**/*.tmp
@@ -34,18 +37,5 @@ __pycache__/
 !.atom-trail/counters/
 !.atom-trail/bedrock/
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-*.egg
-*.egg-info/
-.Python
-.venv/
-venv/
-ENV/
-env/
-.pytest_cache/
-.coverage
-htmlcov/
+# Verification session artifacts (should not be committed per security guidelines)
+.verification/

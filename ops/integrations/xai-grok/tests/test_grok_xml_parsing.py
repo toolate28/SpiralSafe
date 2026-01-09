@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from pydantic import BaseModel, ValidationError, AnyUrl, Field
+from pydantic import BaseModel, AnyUrl, Field
 from typing import List
 from pathlib import Path
 
