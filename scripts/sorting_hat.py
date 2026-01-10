@@ -805,6 +805,7 @@ def cmd_sort_house(args: argparse.Namespace) -> int:
     if not target_name:
         print("ERROR: Please provide --name or --path for the target.", file=sys.stderr)
         return 2
+    target_name = target_name.strip()
 
     # Step 1: Extract features (stubbed for now)
     features = stub_features_for(args.kind, target_name)
@@ -913,15 +914,19 @@ For more information: protocol/SORTING_HAT_SPEC.md
 
 def main(argv: Optional[List[str]] = None) -> int:
     """Main entry point."""
-    parser = build_parser()
-    args = parser.parse_args(argv)
+    try:
+        parser = build_parser()
+        args = parser.parse_args(argv)
 
-    func = getattr(args, "func", None)
-    if func is None:
-        parser.print_help(sys.stderr)
-        return 1
+        func = getattr(args, "func", None)
+        if func is None:
+            parser.print_help(sys.stderr)
+            return 1
 
-    return func(args)
+        return func(args)
+    except KeyboardInterrupt:
+        print(f"\n{Colors.RESET}Operation cancelled by user.")
+        return 130
 
 
 # =============================================================================
