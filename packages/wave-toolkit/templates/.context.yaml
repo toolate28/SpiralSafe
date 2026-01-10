@@ -1,0 +1,63 @@
+# .context.yaml - Project Context Template
+# Place this file at the root of your project
+
+# Project identification
+project: your-project-name
+version: 1.0.0
+description: "Brief description of the project"
+
+# wave-toolkit configuration
+wave_toolkit:
+  enabled: true
+  version: 1.0.0
+
+# Coherence settings
+coherence:
+  curl_threshold: 0.5      # Repetition alert level
+  divergence_threshold: 0.6 # Misalignment alert level
+  potential_threshold: 0.8  # Overload alert level
+
+# BUMP configuration
+bump:
+  types_allowed:
+    - WAVE  # Soft handoff
+    - PASS  # Hard handoff
+    - PING  # Attention request
+    - SYNC  # Bidirectional update
+    - BLOCK # Work blocked
+  require_context: true
+
+# AWI configuration
+awi:
+  default_level: 2  # Act with confirmation
+  levels:
+    0: "Inform only"
+    1: "Suggest"
+    2: "Act with confirmation"
+    3: "Act within scope"
+    4: "Full autonomy"
+
+# ATOM configuration
+atom:
+  tracking_enabled: true
+  require_verification: true
+  trail_path: ".atom-trail/"
+
+# Knowledge boundaries
+knowledge:
+  primary_sources:
+    - "docs/"
+    - "README.md"
+  excluded:
+    - "node_modules/"
+    - ".git/"
+    - "*.log"
+
+# Collaboration metadata
+collaboration:
+  primary_human: "your-name"
+  ai_agents:
+    - name: "claude"
+      role: "primary"
+    - name: "copilot"
+      role: "assistant"
