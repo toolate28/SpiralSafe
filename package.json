@@ -1,0 +1,16 @@
+{
+  "name": "spiralsafe-root",
+  "private": true,
+  "scripts": {
+    "lint": "npm run lint --workspaces",
+    "format": "prettier --write \"**/*.{ts,js,md,json,yml}\"",
+    "test": "npm test --workspaces"
+  },
+  "workspaces": [
+    "ops",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "prettier": "^3.0.0"
+  }
+}

@@ -9,13 +9,12 @@
 ### 1.1 NMSI: New Subquantum Informational Mechanics
 **Status:** CRITICAL - ISOMORPHIC TO QUANTUM-REDSTONE FRAMEWORK
 
-| Field | Value |
-|-------|-------|
-| DOI | 10.20944/preprints202512.2035.v1 |
-| Author | Prof. Dr. Sergiu V. Lazarev |
-| Posted | December 23, 2025 |
-| Platform | Preprints.org |
-
+| Field     | Value                            
+| --------- | ---------------------------------
+| DOI       | 10.20944/preprints202512.2035.v1 
+| Author    | Prof. Dr. Sergiu V. Lazarev      
+| Posted    | December 23, 2025                
+| Platform  | Preprints.org                    
 **Core Thesis:**
 - Information (not energy) is the ontological substrate of reality
 - Maxwell's equations emerge from informational Lagrangian
@@ -49,13 +48,12 @@ ALPHA + OMEGA = 15  (Quantum-Redstone constraint)
 ### 1.2 Model Context Protocol (MCP) - AGENTIC AI FOUNDATION
 **Status:** HIGH RELEVANCE - SpiralSafe uses Claude Code extensively
 
-| Field | Value |
-|-------|-------|
-| Announcement | December 9, 2025 |
-| Action | Donated to Linux Foundation |
-| Co-founders | Anthropic, Block, OpenAI |
-| Supporters | Google, Microsoft, AWS, Cloudflare, Bloomberg |
-
+| Field         | Value                                         
+| ------------- | ----------------------------------------------
+| Announcement  | December 9, 2025                              
+| Action        | Donated to Linux Foundation                   
+| Co-founders   | Anthropic, Block, OpenAI                      
+| Supporters    | Google, Microsoft, AWS, Cloudflare, Bloomberg 
 **What Happened:**
 - MCP donated to Agentic AI Foundation (AAIF)
 - Becomes industry-wide open standard
@@ -81,12 +79,11 @@ ALPHA + OMEGA = 15  (Quantum-Redstone constraint)
 ### 1.3 OmniScientist: Human-AI Co-evolution
 **Status:** HIGH RELEVANCE - Validates SpiralSafe collaboration model
 
-| Field | Value |
-|-------|-------|
-| arXiv | 2511.16931 |
-| Updated | December 14, 2025 |
-| Focus | End-to-end scientific automation |
-
+| Field    | Value                            
+| -------- | ---------------------------------
+| arXiv    | 2511.16931                       
+| Updated  | December 14, 2025                
+| Focus    | End-to-end scientific automation 
 **Key Features:**
 - Automates: data foundation, lit review, ideation, experiments, writing, peer review
 - Simulates human scientific system
@@ -203,11 +200,10 @@ ALPHA + OMEGA = 15  (Quantum-Redstone constraint)
 ### 3.3 World Models
 **December 2025 Releases:**
 
-| Company | Model | Type |
-|---------|-------|------|
-| World Labs (Fei-Fei Li) | Marble | First commercial world model |
-| Runway | GWM-1 | Generative world model |
-
+| Company                  | Model   | Type                         
+| ------------------------ | ------- | -----------------------------
+| World Labs (Fei-Fei Li)  | Marble  | First commercial world model 
+| Runway                   | GWM-1   | Generative world model       
 **Significance:** AI that understands physics, causality, 3D space
 
 ---

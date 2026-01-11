@@ -432,19 +432,18 @@ Quantum measurement corresponds to the intersection of the normalization constra
 
 ### Core Theorems
 
-| Theorem | Statement | Significance |
-|---------|-----------|--------------|
-| 1.1 | Q₂ and D₁₅ are related by constraint-preserving surjection | Quantum-discrete isomorphism |
-| 2.1 | Unitary transformations induce discrete transformations | Dynamics preservation |
-| 3.1 | Constraint structures form a category | Mathematical foundation |
-| 4.1 | Consistent structures have emergent properties | Emergence is necessary |
-| 5.1 | Emergence is recursive | Hierarchy generation |
-| 6.1 | No-constraint is invalid | Existence requires constraint |
-| 7.1 | Something must exist | Necessity of being |
-| 8.1 | Emergence is substrate-independent | Universal applicability |
-| 10.1 | Unitarity = constraint preservation | Quantum mechanics connection |
-| 11.1 | Measurement = constraint intersection | Measurement problem resolved |
-
+| Theorem  | Statement                                                   | Significance                  
+| -------- | ----------------------------------------------------------- | ------------------------------
+| 1.1      | Q₂ and D₁₅ are related by constraint-preserving surjection  | Quantum-discrete isomorphism  
+| 2.1      | Unitary transformations induce discrete transformations     | Dynamics preservation         
+| 3.1      | Constraint structures form a category                       | Mathematical foundation       
+| 4.1      | Consistent structures have emergent properties              | Emergence is necessary        
+| 5.1      | Emergence is recursive                                      | Hierarchy generation          
+| 6.1      | No-constraint is invalid                                    | Existence requires constraint 
+| 7.1      | Something must exist                                        | Necessity of being            
+| 8.1      | Emergence is substrate-independent                          | Universal applicability       
+| 10.1     | Unitarity = constraint preservation                         | Quantum mechanics connection  
+| 11.1     | Measurement = constraint intersection                       | Measurement problem resolved  
 ### The Master Equation
 
 From these theorems, we derive the fundamental equation:
@@ -504,19 +503,18 @@ SELF-REFERENTIAL: C ∈ X and C ~_C C
 
 ## Appendix B: Proof Verification Status
 
-| Theorem | Proof Type | Verification |
-|---------|------------|--------------|
-| 1.1 | Constructive | ✓ Verified |
-| 2.1 | Constructive | ✓ Verified |
-| 3.1 | Category-theoretic | ✓ Verified |
-| 4.1 | Existence | ✓ Verified |
-| 5.1 | Recursive | ✓ Verified |
-| 6.1 | Contradiction | ✓ Verified |
-| 7.1 | Modal logic | ✓ Verified |
-| 8.1 | Structural | ✓ Verified |
-| 10.1 | Direct | ✓ Verified |
-| 11.1 | Constructive (sketch) | ○ Needs expansion |
-
+| Theorem  | Proof Type             | Verification      
+| -------- | ---------------------- | ------------------
+| 1.1      | Constructive           | ✓ Verified        
+| 2.1      | Constructive           | ✓ Verified        
+| 3.1      | Category-theoretic     | ✓ Verified        
+| 4.1      | Existence              | ✓ Verified        
+| 5.1      | Recursive              | ✓ Verified        
+| 6.1      | Contradiction          | ✓ Verified        
+| 7.1      | Modal logic            | ✓ Verified        
+| 8.1      | Structural             | ✓ Verified        
+| 10.1     | Direct                 | ✓ Verified        
+| 11.1     | Constructive (sketch)  | ○ Needs expansion 
 ---
 
 ```

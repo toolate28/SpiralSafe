@@ -17,9 +17,9 @@ import getpass
 import socket
 import subprocess
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
-repo_root = Path(__file__).resolve().parents[1]
+repo_root = Path(__file__).resolve().parents[2]
 sessions_dir = repo_root / '.atom-trail' / 'sessions'
 sessions_dir.mkdir(parents=True, exist_ok=True)
 
@@ -29,7 +29,7 @@ def _next_seq_for_date(date_str: str) -> int:
 
 
 def start_session(description: str = 'session') -> dict:
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     date_str = now.strftime('%Y%m%d')
     seq = _next_seq_for_date(date_str)
     tag = f'ATOM-SESSION-{date_str}-{seq:03d}-{description}'
@@ -69,7 +69,7 @@ def sign_out(tag: str) -> dict:
 
     end_epoch = int(time.time())
     session['end_epoch'] = end_epoch
-    session['end_iso'] = datetime.utcfromtimestamp(end_epoch).isoformat() + 'Z'
+    session['end_iso'] = datetime.fromtimestamp(end_epoch, tz=timezone.utc).isoformat()
 
     decisions_dir = repo_root / '.atom-trail' / 'decisions'
     session_decisions = []
@@ -80,7 +80,8 @@ def sign_out(tag: str) -> dict:
                 created = d.get('created_epoch') or d.get('created') or d.get('timestamp')
                 if created and isinstance(created, int) and session['start_epoch'] <= created <= end_epoch:
                     session_decisions.append({'file': str(f.name), 'id': d.get('atom_tag') or d.get('id')})
-            except Exception:
+            except (OSError, UnicodeDecodeError, json.JSONDecodeError, TypeError, ValueError) as exc:
+                print(f"Warning: skipping decision file {f} due to error: {exc}")
                 continue
 
     report = {
@@ -99,14 +100,34 @@ def sign_out(tag: str) -> dict:
     script = repo_root / 'ops' / 'scripts' / 'Transcript-Pipeline.ps1'
     if script.exists():
         cmd = [
-            'pwsh', '-NoProfile', '-Command',
-            f"& '{str(script)}' -Action Encrypt -InputPath '{str(report_path)}'"
+            'pwsh',
+            '-NoProfile',
+            '-File',
+            str(script),
+            '-Action',
+            'Encrypt',
+            '-InputPath',
+            str(report_path),
         ]
         try:
-            subprocess.run(cmd, check=True)
+            result = subprocess.run(
+                cmd,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
             print('Encryption command executed (check transcript.encrypted.json near the report output)')
-        except Exception as e:
-            print('Encryption failed:', e)
+        except subprocess.CalledProcessError as e:
+            print('Encryption command failed with non-zero exit status.')
+            print('  Command:', e.cmd)
+            print('  Return code:', e.returncode)
+            if e.stdout:
+                print('  Stdout:', e.stdout.strip())
+            if e.stderr:
+                print('  Stderr:', e.stderr.strip())
+        except OSError as e:
+            print('Failed to execute encryption command:', e)
+            print('  Command:', cmd)
     else:
         print('Transcript-Pipeline.ps1 not found; encrypted output not generated')
 

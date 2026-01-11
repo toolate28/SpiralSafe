@@ -10,7 +10,7 @@ This computes SHA256 of the verification document (VERIFICATION_STAMP.md) and up
 import argparse, hashlib, json
 from pathlib import Path
 
-repo_root = Path(__file__).resolve().parents[1]
+repo_root = Path(__file__).resolve().parents[2]
 ver_dir = repo_root / '.atom-trail' / 'verifications'
 if not ver_dir.exists():
     raise SystemExit('No verifications directory found')
