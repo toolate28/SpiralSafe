@@ -29,3 +29,10 @@ logs/
 !.atom-trail/decisions/
 !.atom-trail/counters/
 !.atom-trail/bedrock/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
