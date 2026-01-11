@@ -1,0 +1,107 @@
+{
+  "version": "1.0.0",
+  "output_directory": "../output/videos",
+  "temp_directory": null,
+  "ffmpeg": {
+    "path": null,
+    "presets": {
+      "low": {
+        "crf": 28,
+        "preset": "fast"
+      },
+      "medium": {
+        "crf": 23,
+        "preset": "medium"
+      },
+      "high": {
+        "crf": 18,
+        "preset": "slow"
+      },
+      "ultra": {
+        "crf": 15,
+        "preset": "veryslow"
+      }
+    },
+    "codecs": {
+      "h264": {
+        "video": "libx264",
+        "audio": "aac",
+        "extension": "mp4"
+      },
+      "h265": {
+        "video": "libx265",
+        "audio": "aac",
+        "extension": "mp4"
+      },
+      "vp9": {
+        "video": "libvpx-vp9",
+        "audio": "libopus",
+        "extension": "webm"
+      },
+      "prores": {
+        "video": "prores_ks",
+        "audio": "pcm_s16le",
+        "extension": "mov"
+      }
+    }
+  },
+  "defaults": {
+    "fps": 24,
+    "width": 1920,
+    "height": 1080,
+    "codec": "h264",
+    "quality": "high",
+    "format": "mp4"
+  },
+  "slideshow": {
+    "duration_per_image": 3.0,
+    "transition": "fade",
+    "transition_duration": 0.5,
+    "ken_burns": {
+      "enabled": false,
+      "zoom_range": [1.0, 1.2],
+      "pan_range": [-0.1, 0.1]
+    }
+  },
+  "gif": {
+    "fps": 15,
+    "width": 480,
+    "colors": 256,
+    "dither": "sierra2_4a"
+  },
+  "ai_providers": {
+    "replicate": {
+      "enabled": true,
+      "models": {
+        "stable-video-diffusion": "stability-ai/stable-video-diffusion",
+        "animate-diff": "lucataco/animate-diff"
+      },
+      "env_key": "REPLICATE_API_TOKEN"
+    },
+    "runway": {
+      "enabled": false,
+      "model": "gen-3-alpha",
+      "env_key": "RUNWAY_API_KEY"
+    }
+  },
+  "audio": {
+    "default_codec": "aac",
+    "bitrate": "192k",
+    "sample_rate": 44100
+  },
+  "text_overlay": {
+    "font": "Arial",
+    "default_size": 48,
+    "default_color": "white",
+    "background_color": "black@0.5",
+    "positions": {
+      "top": "x=(w-text_w)/2:y=50",
+      "center": "x=(w-text_w)/2:y=(h-text_h)/2",
+      "bottom": "x=(w-text_w)/2:y=h-text_h-50",
+      "top-left": "x=50:y=50",
+      "top-right": "x=w-text_w-50:y=50",
+      "bottom-left": "x=50:y=h-text_h-50",
+      "bottom-right": "x=w-text_w-50:y=h-text_h-50"
+    }
+  }
+}

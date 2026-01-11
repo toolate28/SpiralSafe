@@ -1,3 +1,8 @@
+# MOCK BENCHMARK RESULTS
+# Note: Latency values reflect local mock/XML parsing overhead, NOT real API call performance.
+# These are example values for testing the benchmark harness and should not be used
+# for performance comparisons or capacity planning.
+
 - [q1] What is wave.md divergence and how to reduce it?
 - [q2] How to measure curl in documents?
 - [q3] Provide a short summary of coherence gates
@@ -7,26 +12,26 @@
     {
       "query_id": "q1",
       "query": "What is wave.md divergence and how to reduce it?",
-      "latency_ms": 0.30590000096708536,
+      "latency_ms": 0.022221999984139984,
       "hit": true
     },
     {
       "query_id": "q2",
       "query": "How to measure curl in documents?",
-      "latency_ms": 0.21949998335912824,
+      "latency_ms": 0.017994000018006773,
       "hit": true
     },
     {
       "query_id": "q3",
       "query": "Provide a short summary of coherence gates",
-      "latency_ms": 0.1914000022225082,
+      "latency_ms": 0.014939000010372183,
       "hit": true
     }
   ],
   "summary": {
     "total_runs": 3,
-    "avg_latency_ms": 0.23893332884957394,
-    "p50_ms": 0.21949998335912824,
-    "p95_ms": 0.30590000096708536
+    "avg_latency_ms": 0.01838500000417298,
+    "p50_ms": 0.017994000018006773,
+    "p95_ms": 0.025604399957046553
   }
 }

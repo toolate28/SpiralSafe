@@ -5,7 +5,7 @@ How to run:
   - Run the grok benchmark test file:
     pytest ops/integrations/benchmarks/tests/test_grok_benchmark.py -q
   - Or run all integration tests:
-    pytest ops/integrations/benchmarks/tests -q
+    pytest ops/integrations -q
 
 Run summary:
 - Command:
