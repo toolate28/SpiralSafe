@@ -1,0 +1,71 @@
+file,line,marker,text
+ClaudeNPC-Server-Suite/MANUAL_TESTING_GUIDE.md,209,INCOMPLETE,**Cause:** Maven build failed or incomplete
+methodology/atom.md,63,INCOMPLETE,- **Partial value**: Incomplete projects still deliver completed molecules
+SpiralSafe/07_FAILURE_MODES_AND_RECOVERY.md,102,INCOMPLETE,### Failure 1.2: Incomplete Shared State (Missing Categories)
+SpiralSafe/07_FAILURE_MODES_AND_RECOVERY.md,111,MISSING,Missing information means people make guesses. Guesses are wrong.
+SpiralSafe/07_FAILURE_MODES_AND_RECOVERY.md,130,MISSING,"2. List missing categories (blockers, constraints, authority, past failures)"
+SpiralSafe/07_FAILURE_MODES_AND_RECOVERY.md,131,MISSING,3. Add sections to bump.md for missing info
+SpiralSafe/07_FAILURE_MODES_AND_RECOVERY.md,370,MISSING,"- Missing understanding: Decomposition is tool, not end goal"
+SpiralSafe/07_FAILURE_MODES_AND_RECOVERY.md,608,MISSING,| Safe Space | Missing info | Repeated questions | 3 days | Template + audit |
+SpiralSafe/IMPLEMENTATION_COMPLETE.md,99,MISSING,- ✅ Missing dependency detection
+SpiralSafe/PUBLICATION_MANIFEST_v1.0.md,142,TBD,**Date:** TBD (during extraction)
+SpiralSafe/QUICK_START.md,228,MISSING,# Missing directories
+SpiralSafe/SESSION_SUMMARY_20260104.md,204,MISSING,3. ❌ Missing automation infrastructure
+SpiralSafe/SESSION_SUMMARY_20260104.md,299,MISSING,- Missing tests → Actual verification and bug discovery
+SpiralSafe/THE_COMPLETION_SONG.md,247,TODO,Not just that every TODO is checked.
+SpiralSafe/TROUBLESHOOTING.md,209,MISSING,**Missing dependency:**
+SpiralSafe/TROUBLESHOOTING.md,211,MISSING,# Add to workflow if missing:
+SpiralSafe/TROUBLESHOOTING.md,325,MISSING,**Missing Python:**
+SpiralSafe/TROUBLESHOOTING.md,353,MISSING,- Missing decision files
+SpiralSafe/USER_ENLIGHTENMENT_PROTOCOL.md,36,XXX,- Tag format (ATOM-XXX-YYYYMMDD-NNN)
+SpiralSafe/USER_ENLIGHTENMENT_PROTOCOL.md,171,MISSING,3. What's missing from the roadmap?
+SpiralSafe/USER_ENLIGHTENMENT_PROTOCOL.md,173,MISSING,**When done:** Type `/done` and suggest a Tier that's missing.
+SpiralSafe/VERIFICATION_STAMP.md,208,TODO,"- [x] **Completeness** - Production-ready, not TODO-laden"
+SpiralSafe/VERIFICATION_STAMP.md,213,MISSING,- [x] **Negative Space** - Missing pieces identified and filled
+SpiralSafe/VERIFICATION_STAMP.md,509,MISSING,- **Tests:** Adapt to missing dependencies gracefully
+SpiralSafe/.claude/skills/README.md,12,MISSING,"If any skill is missing, log the read attempt to `.claude/logs/access.jsonl` and stop."
+SpiralSafe/archive/historical-docs/00_INVENTORY_AND_NAVIGATION_COMPLETE.md,245,INCOMPLETE,"**Read the table of contents below. If any area feels incomplete, flag it.**"
+SpiralSafe/archive/historical-docs/00_INVENTORY_AND_NAVIGATION_COMPLETE.md,359,INCOMPLETE,"- ✅ Nothing feels incomplete or ""left to reader"""
+SpiralSafe/archive/historical-docs/00_INVENTORY_AND_NAVIGATION_COMPLETE.md,382,MISSING,## 📞 What To Do If Something's Missing
+SpiralSafe/archive/historical-docs/00_SAFE_SPIRAL_MASTER_START_HERE.md,127,MISSING,- ✗ Missing implementation details
+SpiralSafe/archive/historical-docs/00_SAFE_SPIRAL_MASTER_START_HERE.md,209,MISSING,"If anything is missing, the package is incomplete."
+SpiralSafe/archive/historical-docs/PACKAGE_INVENTORY_COMPLETE.md,97,MISSING,│   ├── sanctuary.html ❌ (missing - P1)
+SpiralSafe/archive/historical-docs/PACKAGE_INVENTORY_COMPLETE.md,98,MISSING,│   └── witness.html ❌ (missing - P1)
+SpiralSafe/archive/historical-docs/PACKAGE_INVENTORY_COMPLETE.md,148,MISSING,- sanctuary.html - ❌ Missing (create or use anchors)
+SpiralSafe/archive/historical-docs/PACKAGE_INVENTORY_COMPLETE.md,149,MISSING,- witness.html - ❌ Missing (create or use anchors)
+SpiralSafe/archive/historical-docs/PACKAGE_INVENTORY_COMPLETE.md,364,MISSING,"- **Code**: ⚠️ 1 P0 bug (CSS path), 2 P1 issues (missing pages)"
+SpiralSafe/archive/historical-docs/PART_3_OBJECTIVE_ANALYSIS.md,114,MISSING,- AI systems that parse intent from *what's missing* (not just what's stated) align better
+SpiralSafe/archive/historical-docs/PART_3_OBJECTIVE_ANALYSIS.md,351,MISSING,2. Missing navigation targets - shows gap between design and implementation
+SpiralSafe/docs/atom-trail-spec.md,10,TODO,TODO: Replace this stub with the full ATOM format spec. Suggested contents:
+SpiralSafe/docs/CASCADING_FIXES.md,105,MISSING,- ✓ Missing dependency detected and blocked
+SpiralSafe/docs/DOCUMENT_STATE_MARKERS.md,138,MISSING,- Reports missing or invalid markers
+SpiralSafe/docs/LESSONS.md,9,TBD,- **Author / Owner:** (TBD)
+SpiralSafe/docs/MCP_INTEGRATION.md,294,MISSING,"| ""GITHUB_PERSONAL_ACCESS_TOKEN not set"" | Missing env var | `export GITHUB_PERSONAL_ACCESS_TOKEN=...` |"
+SpiralSafe/docs/TROUBLESHOOTING_MCP.md,172,XXX,HTTP 403: API rate limit exceeded for XXX.XXX.XXX.XXX
+SpiralSafe/docs/TROUBLESHOOTING_MCP.md,389,MISSING,"# If error, fix syntax (common issues: trailing commas, missing quotes)"
+SpiralSafe/docs/WAVE_CASE_STUDY_COHERENCE.md,225,INCOMPLETE,- Placeholders = incomplete context
+SpiralSafe/docs/WAVE_CASE_STUDY_COHERENCE.md,398,MISSING,# Reports missing markers
+SpiralSafe/docs/ops/NEGATIVE_SPACE_ANALYSIS.md,3,TODO,Prepared: TODO — add date and owner
+SpiralSafe/docs/ops/NEGATIVE_SPACE_ANALYSIS.md,29,MISSING,"- Bootstrap reported missing env-config, templates, frameworks directory entries."
+SpiralSafe/docs/ops/NEGATIVE_SPACE_ANALYSIS.md,30,MISSING,- Action: Identify owners or provide stubs or instructions for initializing missing pieces.
+SpiralSafe/docs/reports/analysis/claude-code-issues-analysis.md,120,INCOMPLETE,"- Quit handling incomplete (windows close, process persists)"
+SpiralSafe/docs/reports/analysis/claude-code-issues-analysis.md,136,INCOMPLETE,**Common Pattern:** Plugin infrastructure incomplete:
+SpiralSafe/docs/reports/analysis/claude-code-issues-analysis.md,183,MISSING,**Root:** Missing verification that reported success matches actual outcome
+SpiralSafe/docs/reports/analysis/claude-code-issues-analysis.md,338,MISSING,├──> Subagents Missing Context (#15993)
+SpiralSafe/docs/reports/implementation/IMPLEMENTATION_COMPLETE.md,99,MISSING,- ✅ Missing dependency detection
+SpiralSafe/docs/reports/implementation/IMPLEMENTATION_NOTES.md,33,INCOMPLETE,"- **""Plugins Are Second-Class Citizens""** - Incomplete integration, race conditions"
+SpiralSafe/docs/reports/implementation/IMPLEMENTATION_SUMMARY.md,127,MISSING,- ✅ Graceful degradation for missing tools
+SpiralSafe/docs/reports/verification/SYSTEM_VERIFICATION_REPORT.md,126,MISSING,#### ⚠️ High: Missing Navigation Targets
+SpiralSafe/docs/reports/verification/SYSTEM_VERIFICATION_REPORT.md,138,MISSING,- ❌ `sanctuary.html` missing
+SpiralSafe/docs/reports/verification/SYSTEM_VERIFICATION_REPORT.md,139,MISSING,- ❌ `witness.html` missing
+SpiralSafe/docs/reports/verification/SYSTEM_VERIFICATION_REPORT.md,144,MISSING,1. Create the missing pages
+SpiralSafe/docs/reports/verification/SYSTEM_VERIFICATION_REPORT.md,522,MISSING,- ⚠️ 2 missing navigation targets
+SpiralSafe/meta/THE_SPIRAL_AND_THE_SAUCE.md,157,TODO,│ • Todo lists for visibility into multi-step work           │
+SpiralSafe/methodology/atom.md,63,INCOMPLETE,- **Partial value**: Incomplete projects still deliver completed molecules
+SpiralSafe/ops/integrations/sentry.md,90,TBD,"0.5, // Potential TBD from traces"
+SpiralSafe/packages/claude-cognitive-triggers/README.md,35,MISSING,// Detect what's missing in your project
+SpiralSafe/packages/claude-cognitive-triggers/README.md,72,MISSING,- Missing automation (no CI/CD when code exists)
+SpiralSafe/packages/claude-cognitive-triggers/README.md,82,INCOMPLETE,- **Pattern completion**: Finishing incomplete sets (2/3 done → 3/3)
+SpiralSafe/packages/claude-cognitive-triggers/README.md,158,MISSING,# [🔍 NEGATIVE SPACE] Missing CI/CD configuration
+SpiralSafe/packages/claude-cognitive-triggers/README.md,175,MISSING,Scans a project for missing/incomplete configurations.
+spiralsafe-ops/integrations/sentry.md,90,TBD,"0.5, // Potential TBD from traces"

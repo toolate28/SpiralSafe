@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="900" viewBox="0 0 800 900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#0066ff;stop-opacity:0.1"/>
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd93d;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#ff8c00;stop-opacity:0.1"/>
+    </linearGradient>
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6bcb77;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#2d8f3d;stop-opacity:0.1"/>
+    </linearGradient>
+    <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#cc4444;stop-opacity:0.1"/>
+    </linearGradient>
+    <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a29bfe;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#6c5ce7;stop-opacity:0.1"/>
+    </linearGradient>
+    <linearGradient id="grad6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fd79a8;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#e84393;stop-opacity:0.1"/>
+    </linearGradient>
+    <linearGradient id="grad7" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00cec9;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#00a8a8;stop-opacity:0.1"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="900" fill="#0a0a0f"/>
+
+  <!-- Title -->
+  <text x="400" y="50" font-family="Georgia, serif" font-size="28" fill="white" text-anchor="middle" font-weight="bold">THE DERIVATION HIERARCHY</text>
+  <text x="400" y="80" font-family="Arial, sans-serif" font-size="14" fill="#00d4ff" text-anchor="middle" font-style="italic">From Self-Consistency to All Physics</text>
+
+  <!-- Level 0: Self-Consistency -->
+  <rect x="200" y="110" width="400" height="60" rx="10" fill="url(#grad1)" stroke="#00d4ff" stroke-width="2"/>
+  <text x="400" y="145" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" font-weight="bold">SELF-CONSISTENCY</text>
+  <text x="650" y="145" font-family="monospace" font-size="12" fill="#00d4ff" text-anchor="start">C*</text>
+  <text x="150" y="145" font-family="Arial, sans-serif" font-size="11" fill="#606070" text-anchor="end">Level 0</text>
+
+  <!-- Arrow -->
+  <path d="M400 170 L400 195" stroke="white" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <polygon points="400,200 395,190 405,190" fill="white"/>
+
+  <!-- Level 1: Existence -->
+  <rect x="200" y="205" width="400" height="60" rx="10" fill="url(#grad2)" stroke="#ffd93d" stroke-width="2"/>
+  <text x="400" y="240" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" font-weight="bold">EXISTENCE</text>
+  <text x="650" y="240" font-family="monospace" font-size="12" fill="#ffd93d" text-anchor="start">Thm 7.1</text>
+  <text x="150" y="240" font-family="Arial, sans-serif" font-size="11" fill="#606070" text-anchor="end">Level 1</text>
+
+  <!-- Arrow -->
+  <path d="M400 265 L400 290" stroke="white" stroke-width="2"/>
+  <polygon points="400,295 395,285 405,285" fill="white"/>
+
+  <!-- Level 2: Emergence -->
+  <rect x="200" y="300" width="400" height="60" rx="10" fill="url(#grad3)" stroke="#6bcb77" stroke-width="2"/>
+  <text x="400" y="335" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" font-weight="bold">EMERGENCE</text>
+  <text x="650" y="335" font-family="monospace" font-size="12" fill="#6bcb77" text-anchor="start">Thm 4.1</text>
+  <text x="150" y="335" font-family="Arial, sans-serif" font-size="11" fill="#606070" text-anchor="end">Level 2</text>
+
+  <!-- Arrow -->
+  <path d="M400 360 L400 385" stroke="white" stroke-width="2"/>
+  <polygon points="400,390 395,380 405,380" fill="white"/>
+
+  <!-- Level 3: Conservation -->
+  <rect x="200" y="395" width="400" height="60" rx="10" fill="url(#grad4)" stroke="#ff6b6b" stroke-width="2"/>
+  <text x="400" y="430" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" font-weight="bold">SYMMETRY → CONSERVATION</text>
+  <text x="650" y="430" font-family="monospace" font-size="12" fill="#ff6b6b" text-anchor="start">Thms 12-15</text>
+  <text x="150" y="430" font-family="Arial, sans-serif" font-size="11" fill="#606070" text-anchor="end">Level 3</text>
+
+  <!-- Arrow -->
+  <path d="M400 455 L400 480" stroke="white" stroke-width="2"/>
+  <polygon points="400,485 395,475 405,475" fill="white"/>
+
+  <!-- Level 4: Gauge Fields -->
+  <rect x="200" y="490" width="400" height="60" rx="10" fill="url(#grad2)" stroke="#ff9f43" stroke-width="2"/>
+  <text x="400" y="525" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" font-weight="bold">GAUGE REDUNDANCY → GAUGE FIELDS</text>
+  <text x="650" y="525" font-family="monospace" font-size="12" fill="#ff9f43" text-anchor="start">Thms 16-17</text>
+  <text x="150" y="525" font-family="Arial, sans-serif" font-size="11" fill="#606070" text-anchor="end">Level 4</text>
+
+  <!-- Arrow -->
+  <path d="M400 550 L400 575" stroke="white" stroke-width="2"/>
+  <polygon points="400,580 395,570 405,570" fill="white"/>
+
+  <!-- Level 5: Spacetime -->
+  <rect x="200" y="585" width="400" height="60" rx="10" fill="url(#grad5)" stroke="#a29bfe" stroke-width="2"/>
+  <text x="400" y="620" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" font-weight="bold">CONSTRAINT TOPOLOGY → SPACETIME</text>
+  <text x="650" y="620" font-family="monospace" font-size="12" fill="#a29bfe" text-anchor="start">Thm 18</text>
+  <text x="150" y="620" font-family="Arial, sans-serif" font-size="11" fill="#606070" text-anchor="end">Level 5</text>
+
+  <!-- Arrow -->
+  <path d="M400 645 L400 670" stroke="white" stroke-width="2"/>
+  <polygon points="400,675 395,665 405,665" fill="white"/>
+
+  <!-- Level 6: Gravity -->
+  <rect x="200" y="680" width="400" height="60" rx="10" fill="url(#grad6)" stroke="#fd79a8" stroke-width="2"/>
+  <text x="400" y="715" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" font-weight="bold">CONSTRAINT CURVATURE → GRAVITY</text>
+  <text x="650" y="715" font-family="monospace" font-size="12" fill="#fd79a8" text-anchor="start">Thm 19</text>
+  <text x="150" y="715" font-family="Arial, sans-serif" font-size="11" fill="#606070" text-anchor="end">Level 6</text>
+
+  <!-- Arrow -->
+  <path d="M400 740 L400 765" stroke="white" stroke-width="2"/>
+  <polygon points="400,770 395,760 405,760" fill="white"/>
+
+  <!-- Level 7: Quantum -->
+  <rect x="200" y="775" width="400" height="60" rx="10" fill="url(#grad7)" stroke="#00cec9" stroke-width="2"/>
+  <text x="400" y="810" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" font-weight="bold">COMPOSITION → QUANTUM MECHANICS</text>
+  <text x="650" y="810" font-family="monospace" font-size="12" fill="#00cec9" text-anchor="start">Thms 20-21</text>
+  <text x="150" y="810" font-family="Arial, sans-serif" font-size="11" fill="#606070" text-anchor="end">Level 7</text>
+
+  <!-- Footer equation -->
+  <text x="400" y="870" font-family="monospace" font-size="18" fill="#ffd93d" text-anchor="middle" filter="url(#glow)">exist ≡ C(C)</text>
+</svg>

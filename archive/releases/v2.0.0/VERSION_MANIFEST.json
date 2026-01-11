@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "release_date": "2026-01-04",
+  "description": "Major release with production readiness verification",
+  "documents": [
+    "RELEASE_NOTES_v2.0.0.md",
+    "PR_SUMMARY_v2.0.0.md",
+    "IMPLEMENTATION_COMPLETE.md",
+    "PRODUCTION_READY.md",
+    "VERIFICATION_STAMP.md",
+    "SESSION_SUMMARY_20260104.md"
+  ],
+  "git_tag": "v2.0.0",
+  "archived_on": "2026-01-07"
+}

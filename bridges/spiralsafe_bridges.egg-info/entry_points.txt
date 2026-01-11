@@ -1,0 +1,5 @@
+[console_scripts]
+spiralsafe-atom = atom.atom_trail:main
+spiralsafe-hologram = hologram.hologram_device:main
+spiralsafe-tartarus = tartarus.tartarus_device:main
+spiralsafe-validate = validate_implementation:main

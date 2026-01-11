@@ -1,0 +1,41 @@
+name: Scripts Runner (dry-run first)
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: 'Run scripts with -Apply (dangerous)'
+        required: false
+        default: 'false'
+  push:
+    branches:
+      - 'docs/cleanup/**'
+
+jobs:
+  run-scripts:
+    name: Run scripts (dry-run unless apply=true)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Bootstrap (dry-run / optional apply)
+        run: |
+          pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\bootstrap.ps1 $([bool]::Parse('${{ github.event.inputs.apply || 'false' }}') ? '-Apply' : '')
+
+      - name: Hash All (dry-run / optional apply)
+        run: |
+          pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\hash_all.ps1 -Out hashes.sha256 $([bool]::Parse('${{ github.event.inputs.apply || 'false' }}') ? '-Apply' : '')
+
+      - name: Verify Claims (dry-run / optional apply)
+        run: |
+          pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\verify_claims.ps1 -Out verification_report.md $([bool]::Parse('${{ github.event.inputs.apply || 'false' }}') ? '-Apply' : '')
+
+      - name: Upload artifacts if created
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-artifacts
+          path: |
+            hashes.sha256
+            verification_report.md

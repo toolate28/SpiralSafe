@@ -1,0 +1,22 @@
+name: Journey Simulation (self-hosted)
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: 'Perform simulated copy/restore (requires self-hosted runner)'
+        required: false
+        default: 'false'
+
+jobs:
+  simulate:
+    name: Simulate pipelines on self-hosted
+    # Recommend running on a self-hosted runner that has workspace access
+    runs-on: [self-hosted, Windows]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run journey walker (dry-run / apply)
+        run: |
+          pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\walk_journeys.ps1 $([bool]::Parse('${{ github.event.inputs.apply || 'false' }}') ? '-Apply' : '')
