@@ -15,5 +15,5 @@ Run summary:
 
 Notes:
 - Ensure pytest and project dependencies are installed:
-    pip install -r requirements.txt
+    pip install -r bridges/requirements.txt
 - Update this file with the actual pytest output after running the tests.
