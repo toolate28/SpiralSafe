@@ -3,17 +3,17 @@ grok benchmark tests
 How to run:
 - From repository root:
   - Run the grok benchmark test file:
-    pytest ops/integrations/tests/test_grok_benchmark.py -q
+    pytest ops/integrations/benchmarks/tests/test_grok_benchmark.py -q
   - Or run all integration tests:
-    pytest ops/integrations -q
+    pytest ops/integrations/benchmarks/tests -q
 
 Run summary:
 - Command:
-    pytest ops/integrations/tests/test_grok_benchmark.py -q
+    pytest ops/integrations/benchmarks/tests/test_grok_benchmark.py -q
 - Results:
     [PASTE TEST OUTPUT HERE]
 
 Notes:
 - Ensure pytest and project dependencies are installed:
-    pip install -r requirements.txt
+    pip install -r bridges/requirements.txt
 - Update this file with the actual pytest output after running the tests.
