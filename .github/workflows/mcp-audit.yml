@@ -1,0 +1,23 @@
+name: MCP Audit
+
+on:
+  pull_request:
+    branches: [ "main", "develop", "feat/**", "feature/**", "copilot/**", "agent/**" ]
+
+jobs:
+  mcp-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure script perms
+        run: chmod +x scripts/check-mcp-logging.sh || true
+
+      - name: Validate MCP logs
+        run: |
+          if [ -f scripts/check-mcp-logging.sh ]; then
+            bash scripts/check-mcp-logging.sh
+          else
+            echo "INFO: check-mcp-logging.sh not found; skipping"
+          fi
