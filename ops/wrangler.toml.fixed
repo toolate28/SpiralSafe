@@ -1,0 +1,83 @@
+# ═══════════════════════════════════════════════════════════════
+# SpiralSafe Operations API
+# Cloudflare Worker Configuration
+# ═══════════════════════════════════════════════════════════════
+
+name = "spiralsafe-api"
+main = "api/spiralsafe-worker.ts"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+# account_id set via CLOUDFLARE_ACCOUNT_ID env var
+
+# Production route
+routes = [
+  { pattern = "api.spiralsafe.org/*", zone_name = "spiralsafe.org" }
+]
+
+# Development
+[env.dev]
+name = "spiralsafe-api-dev"
+routes = [
+  { pattern = "api-dev.spiralsafe.org/*", zone_name = "spiralsafe.org" }
+]
+
+# ═══════════════════════════════════════════════════════════════
+# D1 Database Bindings
+# ═══════════════════════════════════════════════════════════════
+
+# Commented out until resources are created
+# [[d1_databases]]
+# binding = "SPIRALSAFE_DB"
+# database_name = "spiralsafe-ops"
+# database_id = "" # Fill after: wrangler d1 create spiralsafe-ops
+
+# [env.dev.d1_databases]
+# binding = "SPIRALSAFE_DB"
+# database_name = "spiralsafe-ops-dev"
+# database_id = "" # Fill after: wrangler d1 create spiralsafe-ops-dev
+
+# ═══════════════════════════════════════════════════════════════
+# KV Namespace Bindings
+# ═══════════════════════════════════════════════════════════════
+
+# Commented out until resources are created
+# [[kv_namespaces]]
+# binding = "SPIRALSAFE_KV"
+# id = "" # Fill after: wrangler kv:namespace create SPIRALSAFE_KV
+
+# [env.dev.kv_namespaces]
+# binding = "SPIRALSAFE_KV"
+# id = "" # Fill after: wrangler kv:namespace create SPIRALSAFE_KV --preview
+
+# ═══════════════════════════════════════════════════════════════
+# R2 Bucket Bindings
+# ═══════════════════════════════════════════════════════════════
+
+# Commented out until resources are created
+# [[r2_buckets]]
+# binding = "SPIRALSAFE_R2"
+# bucket_name = "spiralsafe-contexts"
+
+# [env.dev.r2_buckets]
+# binding = "SPIRALSAFE_R2"
+# bucket_name = "spiralsafe-contexts-dev"
+
+# ═══════════════════════════════════════════════════════════════
+# Build Configuration
+# ═══════════════════════════════════════════════════════════════
+
+[build]
+command = "npm run build"
+
+# Note: build.upload removed - wrangler 3.x infers format automatically
+
+# ═══════════════════════════════════════════════════════════════
+# Observability
+# ═══════════════════════════════════════════════════════════════
+
+[observability]
+enabled = true
+
+# Tail workers for logging
+# [[tail_consumers]]
+# service = "spiralsafe-logger"

@@ -28,6 +28,12 @@ Run the MCP healthcheck script first:
 
 This validates:
 - Docker availability
+
+---
+
+## Related Documentation
+
+This guide supplements [../guides/TROUBLESHOOTING.md](../guides/TROUBLESHOOTING.md).
 - Node.js/npx setup
 - Environment variables
 - MCP configuration validity
@@ -266,7 +272,7 @@ curl -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" \
 **Update environment:**
 ```bash
 # Add to shell profile (~/.bashrc, ~/.zshrc)
-export GITHUB_PERSONAL_ACCESS_TOKEN="ghp_new_token_here"
+export GITHUB_PERSONAL_ACCESS_TOKEN="your_github_pat_here"
 
 # Reload shell
 source ~/.bashrc  # or ~/.zshrc
@@ -447,7 +453,7 @@ docker build -t mcp/github .
 
 ## Integration with Existing Troubleshooting
 
-This guide supplements [../TROUBLESHOOTING.md](../TROUBLESHOOTING.md).
+This guide supplements [../guides/TROUBLESHOOTING.md](../guides/TROUBLESHOOTING.md).
 
 ### When to Use Which Guide
 

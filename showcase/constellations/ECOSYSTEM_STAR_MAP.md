@@ -276,6 +276,8 @@ The trail is the teacher
 4. Draw Constellations → Pattern recognition
 5. Point to Evenstar → Frame questions
 
+**Teaching tip:** Explore the Museum of Computation and the curated mapping (see `docs/quantum-minecraft-map.md`) for guided Minecraft builds, quantum circuit generators, and integration notes.
+
 ---
 
 ## 🎨 Visual ASCII Art Gallery

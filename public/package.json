@@ -1,0 +1,8 @@
+{
+  "name": "spiralsafe-public",
+  "version": "3.0.0",
+  "scripts": {
+    "deploy": "wrangler pages deploy . --project-name spiralsafe"
+  },
+  "description": "SpiralSafe Public Landing Page - H&&S:WAVE Protocol Showcase"
+}

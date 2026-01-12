@@ -1,0 +1,22 @@
+# Environment variables (contains secrets)
+.dev.vars
+
+# Node modules
+node_modules/
+
+# Build output
+dist/
+.wrangler/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+.DS_Store
