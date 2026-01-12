@@ -11,9 +11,10 @@ Run summary:
 - Command:
     pytest ops/integrations/benchmarks/tests/test_grok_benchmark.py -q
 - Results:
-    [PASTE TEST OUTPUT HERE]
+    ..                                                                                                               [100%]
+    2 passed in 0.05s
 
 Notes:
 - Ensure pytest and project dependencies are installed:
-    pip install -r bridges/requirements.txt
-- Update this file with the actual pytest output after running the tests.
+    pip install -r requirements.txt
+- This file contains the latest pytest output. Re-run the tests and update this file if the test suite or results change.
