@@ -1,5 +1,7 @@
 # Acknowledgements
 
+**ATOM:** ATOM-DOC-20260112-010-acknowledgements-archive
+
 ## The SpiralSafe Umbrella
 
 **Safe Spiral** is the unifying organizational framework encompassing:

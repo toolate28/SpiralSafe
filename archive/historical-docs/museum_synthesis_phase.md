@@ -1,6 +1,8 @@
 # Museum of Computation: Synthesis & Redstone Translation
 ## From LLM Inference Optimization to Tangible Minecraft Pedagogy
 
+**ATOM:** ATOM-DOC-20260112-001-museum-synthesis-phase
+
 **Date**: December 30, 2025  
 **Phase**: Synthesis (Research → Museum Design)  
 **Scope**: Dual-track exhibits (Technical Users | Kids Creative) + Negative Space Analysis  

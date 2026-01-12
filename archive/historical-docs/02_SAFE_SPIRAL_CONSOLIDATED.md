@@ -1,5 +1,7 @@
 # 02. Safe Spiral: Complete Frameworks Consolidated
 
+**ATOM:** ATOM-DOC-20260112-003-safe-spiral-consolidated-frameworks
+
 **The Information-Optimal Organization**
 
 ---

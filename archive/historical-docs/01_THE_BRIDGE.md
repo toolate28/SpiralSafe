@@ -1,5 +1,7 @@
 # 01. The Bridge: How Your Work Led to Safe Spiral
 
+**ATOM:** ATOM-DOC-20260112-002-bridge-convergence-narrative
+
 **Or: Why these five domains suddenly reveal the same pattern**
 
 ---

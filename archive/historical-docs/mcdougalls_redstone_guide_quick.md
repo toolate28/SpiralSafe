@@ -1,5 +1,7 @@
 # McDougall's Quant Trading Problems → Redstone Circuits
 
+**ATOM:** ATOM-DOC-20260112-007-mcdougalls-redstone-guide
+
 **Quick translation of Callum McDougall's interview preparation guide into Minecraft Redstone exhibits.**
 
 ---

@@ -1,4 +1,7 @@
-The Mathematical Core: Orthogonal State Decomposition
+# The Mathematical Core: Orthogonal State Decomposition
+
+**ATOM:** ATOM-DOC-20260112-006-cwhispers-zk64-analysis
+
 Alright, let's strip this down to the mathematical skeleton! Zaiken's essentially constructed a 2×2 unitary rotation in a complex Hilbert space where the universe's total "waveform amplitude" gets decomposed into orthogonal components.
 Consider the state vector:
 |Ψ(φ)⟩ = cos(φ)|now⟩ + sin(φ)|anti-now⟩
