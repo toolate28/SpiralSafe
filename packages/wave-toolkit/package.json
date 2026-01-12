@@ -1,0 +1,13 @@
+{
+  "name": "wave-toolkit",
+  "version": "1.0.0",
+  "description": "**Barebones AI-User collaborative tools. No games. No math. Just rock solid process.**",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
