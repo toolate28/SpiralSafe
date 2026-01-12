@@ -1,5 +1,7 @@
 # 02. Safe Spiral: Complete Frameworks Consolidated
 
+**ATOM:** ATOM-DOC-20260112-003-safe-spiral-consolidated-frameworks
+
 **The Information-Optimal Organization**
 
 ---
@@ -387,5 +389,8 @@ If you're reading this for the first time:
 This works. It's proven in multiple domains. It's inevitable. The only question is how fast you adopt it.
 
 ---
+
+**ATOM:** ATOM-DOC-20260112-003-safe-spiral-consolidated-frameworks  
+**Status:** Historical consolidation document
 
 *Everything else is detail. The pattern is clear. Now execute.*

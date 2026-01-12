@@ -1,5 +1,7 @@
 # 🌀 Safe Spiral: Complete Export Package
 
+**ATOM:** ATOM-DOC-20260112-009-safe-spiral-master-start-here
+
 **Created:** December 28, 2025  
 **Status:** Production-Ready  
 **License:** MIT
@@ -247,5 +249,9 @@ Safe Spiral isn't novel. It's recognizing what was always true about how things 
 Welcome to Safe Spiral. 🌀
 
 ---
+
+**ATOM:** ATOM-DOC-20260112-009-safe-spiral-master-start-here  
+**Created:** December 28, 2025  
+**Status:** Production-ready start guide
 
 *P.S. - If tomorrow someone wakes up and reads this, they should understand everything: what it is, why it works, how to implement it, what can break, how to recover, how to teach it, and whether their context allows it. Nothing left undone.*

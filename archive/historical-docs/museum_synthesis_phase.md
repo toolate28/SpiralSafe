@@ -1,6 +1,8 @@
 # Museum of Computation: Synthesis & Redstone Translation
 ## From LLM Inference Optimization to Tangible Minecraft Pedagogy
 
+**ATOM:** ATOM-DOC-20260112-001-museum-synthesis-phase
+
 **Date**: December 30, 2025  
 **Phase**: Synthesis (Research → Museum Design)  
 **Scope**: Dual-track exhibits (Technical Users | Kids Creative) + Negative Space Analysis  
@@ -254,12 +256,12 @@ Signal strength degradation. Redstone signal travels 15 blocks. But if you compr
 #### Exhibit 3C: Context Window Trade-offs
 **The Truth Table:**
 
-| Technique | Speed ↑ | Accuracy ✓ | Context ✗ |
-|-----------|---------|-----------|-----------|
-| Speculate | 2-3× | Full | Same |
-| Sparse | 10× | Retrieval only | Same |
-| Prune KV | 8× | Full | Limited |
-| Quantize | 2× | Degraded | Same |
+| Technique | Speed ↑ | Accuracy ✓      | Context ✗|
+|-----------|---------|-----------------|-----------|
+| Speculate | 2-3×    | Full            | Same      |
+| Sparse    | 10×     | Retrieval only  | Same      |
+| Prune KV  | 8×      | Full            | Limited   |
+| Quantize  | 2×      | Degraded        | Same      |
 
 ❓ **Museum Question**: "Is there a free lunch?"  
 Answer: No. Every optimization has trade-offs visible in its failure cases.
@@ -367,5 +369,9 @@ Or separate Museums with bridges between them?
 **Principle**: Check negative space. Question assumptions. Make it tangible.
 
 ---
+
+**ATOM:** ATOM-DOC-20260112-001-museum-synthesis-phase  
+**Date:** December 30, 2025  
+**Status:** Ready to build
 
 *Keep dancing. No assumptions, only questions.*

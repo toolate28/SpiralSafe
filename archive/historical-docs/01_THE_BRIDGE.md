@@ -1,5 +1,7 @@
 # 01. The Bridge: How Your Work Led to Safe Spiral
 
+**ATOM:** ATOM-DOC-20260112-002-bridge-convergence-narrative
+
 **Or: Why these five domains suddenly reveal the same pattern**
 
 ---
@@ -320,5 +322,8 @@ Or jump to any section you need:
 The bridge is complete. Safe Spiral is proven. Everything else is execution.
 
 ---
+
+**ATOM:** ATOM-DOC-20260112-002-bridge-convergence-narrative  
+**Status:** Historical context - bridge document
 
 *This is the moment where scattered frameworks converge into one coherent system. Trust the pattern. It works.*
