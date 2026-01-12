@@ -1,0 +1,19 @@
+{
+  "model": "qwen2.5:7b",
+  "created_at": "2026-01-12T08:45:00Z",
+  "response": "I've performed a comprehensive wave coherence analysis on your documentation.\n\n## Analysis Results\n\n**Divergence Score**: 0.23 - Good\nThe document effectively addresses most questions it raises. A few open items remain in the API section.\n\n**Curl Score**: 0.05 - Excellent\nMinimal circular reasoning detected. Arguments flow logically from premises to conclusions.\n\n**Coherence Score**: 0.84 - Strong\nOverall documentation quality is high with clear structure.\n\n## Recommendations\n\n1. Add explicit conclusion to Section 4\n2. Include error handling examples in API documentation\n3. Cross-reference deployment guide\n\n## Wave Signature\n\nAnalysis complete. This is a soft handoff - H&&S:WAVE - review welcome.\n\nIn summary, the documentation demonstrates strong coherence with clear improvement paths.",
+  "done": true,
+  "context": [1, 2, 3, 4, 5],
+  "total_duration": 1125000000,
+  "load_duration": 100000000,
+  "prompt_eval_count": 55,
+  "prompt_eval_duration": 225000000,
+  "eval_count": 178,
+  "eval_duration": 800000000,
+  "spiralsafe_metadata": {
+    "provider": "opensource-edge",
+    "runtime": "ollama",
+    "quantization": "q4_K_M",
+    "offline_capable": true
+  }
+}
