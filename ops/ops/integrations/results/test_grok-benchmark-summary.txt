@@ -17,4 +17,4 @@ Run summary:
 Notes:
 - Ensure pytest and project dependencies are installed:
     pip install -r requirements.txt
-- Update this file with the actual pytest output after running the tests.
+- This file contains the latest pytest output. Re-run the tests and update this file if the test suite or results change.
