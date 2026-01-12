@@ -76,8 +76,12 @@ command = "npm run build"
 enabled = true
 
 # ═══════════════════════════════════════════════════════════════
-# Environment Variables  
+# Secrets Management
 # ═══════════════════════════════════════════════════════════════
-
-[vars]
-SPIRALSAFE_API_KEY = "ATOM-SECRETS-20260109-spiralsafe-prod-key"
+# 
+# IMPORTANT: Secrets should be set via: npx wrangler secret put <SECRET_NAME>
+# DO NOT hardcode secrets in this file. See ops/DEPLOYMENT_GUIDE.md for setup.
+#
+# Required secrets:
+#   - SPIRALSAFE_API_KEY: Primary API key for authentication
+#   - SPIRALSAFE_API_KEYS (optional): Comma-separated list of valid API keys
