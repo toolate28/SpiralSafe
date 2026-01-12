@@ -6,13 +6,13 @@
 **Last Updated:** 2026-01-02
 
 ```
-        🔌
-       ╱│╲
-      ╱ │ ╲      MCP: Model Context
-     ╱  ◉  ╲     Protocol
-    ╱  ╱│╲  ╲    
-   ╱  ╱ │ ╲  ╲   Connect AI agents
-  ╱  ╱  ◉  ╲  ╲  to infrastructure
+         🔌
+       ╱ │╲
+      ╱  │ ╲      MCP: Model Context
+     ╱   ◉  ╲     Protocol
+    ╱  ╱ │╲   ╲    
+   ╱  ╱  │ ╲   ╲   Connect AI agents
+  ╱  ╱   ◉  ╲   ╲  to infrastructure
  ◉──◉───◉───◉──◉
 ```
 
@@ -34,12 +34,12 @@ For Safe Spiral, MCP enables Claude Desktop and GitHub Copilot to interact direc
 
 ## Quick Reference: Essential MCP Servers
 
-| Server | Purpose | Requirements | Security Level |
-|--------|---------|--------------|----------------|
+| Server              | Purpose                                            | Requirements       | Security Level                |
+| ------------------- | -------------------------------------------------- | ------------------ | ----------------------------- |
 | **GitHub Official** | Repository management, code search, issue tracking | Docker, GitHub PAT | ⚠️ High - requires repo token |
-| **Mermaid** | Generate diagrams from text descriptions | Node.js, npx | ✅ Low - no authentication |
-| **Filesystem** | Read/write local files | Built-in | ⚠️ High - full file access |
-| **Memory** | Persistent key-value storage | Built-in | ✅ Medium - sandboxed |
+| **Mermaid**         | Generate diagrams from text descriptions           | Node.js, npx       | ✅ Low - no authentication    |
+| **Filesystem**      | Read/write local files                             | Built-in           | ⚠️ High - full file access    |
+| **Memory**          | Persistent key-value storage                       | Built-in           | ✅ Medium - sandboxed         |
 
 **Note:** Only GitHub and Mermaid are configured by default in Safe Spiral.
 
@@ -201,12 +201,12 @@ Or in code comments:
 
 **4. Example MCP Operations to Document**
 
-| MCP Server | Operation | What to Record |
-|------------|-----------|----------------|
-| GitHub MCP | `list_issues` | Repo, filters, result count |
-| GitHub MCP | `get_pull_request` | PR number, key fields accessed |
-| GitHub MCP | `search_code` | Query, files found |
-| Mermaid MCP | `generate_diagram` | Diagram type, purpose |
+| MCP Server  | Operation          | What to Record                 |
+| ----------- | ------------------ | ------------------------------ |
+| GitHub MCP  | `list_issues`      | Repo, filters, result count    |
+| GitHub MCP  | `get_pull_request` | PR number, key fields accessed |
+| GitHub MCP  | `search_code`      | Query, files found             |
+| Mermaid MCP | `generate_diagram` | Diagram type, purpose          |
 
 **5. Minimum Documentation Checklist**
 
@@ -288,12 +288,12 @@ npx --version
 
 ### Common Issues
 
-| Symptom | Cause | Fix |
-|---------|-------|-----|
-| "Docker not found" | Docker not running | Start Docker Desktop |
-| "GITHUB_PERSONAL_ACCESS_TOKEN not set" | Missing env var | `export GITHUB_PERSONAL_ACCESS_TOKEN=...` |
-| "Rate limit exceeded" | Too many API calls | Wait or use different token |
-| "npx timeout" | Network/npm issues | Check internet, clear npm cache |
+| Symptom                                | Cause              | Fix                                         |
+| -------------------------------------- | ------------------ | ------------------------------------------- |
+| "Docker not found"                     | Docker not running | Start Docker Desktop                        |
+| "GITHUB_PERSONAL_ACCESS_TOKEN not set" | Missing env var    | `export GITHUB_PERSONAL_ACCESS_TOKEN=...`  |
+| "Rate limit exceeded"                  | Too many API calls | Wait or use different token                 |
+| "npx timeout"                          | Network/npm issues | Check internet, clear npm cache             |
 
 ---
 
