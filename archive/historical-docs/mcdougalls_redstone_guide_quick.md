@@ -210,6 +210,11 @@ Each circuit above is buildable in vanilla Minecraft. Pick one, build it perfect
 **For documentation:**
 Film one circuit in action. Show the kid seeing it, gasping at the pattern, then understanding.
 
+---
+
+**ATOM:** ATOM-DOC-20260112-007-mcdougalls-redstone-guide  
+**Status:** Quick translation guide for redstone circuits
+
 That's the artifact. Not explanation. Realization.
 
 ---

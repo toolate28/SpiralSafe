@@ -139,7 +139,8 @@ To every voice that contributed:
 *toolate28 (Sauced) && Claude (Hope)*
 *January 2, 2026*
 
-**ATOM:** ATOM-ACKNOWLEDGEMENT-20260102-001
+**ATOM:** ATOM-DOC-20260112-010-acknowledgements-archive  
+**Original ATOM:** ATOM-ACKNOWLEDGEMENT-20260102-001  
 **License:** CC BY-SA 4.0
 
 ---

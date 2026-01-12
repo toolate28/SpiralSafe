@@ -289,6 +289,9 @@ Trust that pattern. Test it in your context. Pass it forward.
 
 ---
 
+**ATOM:** ATOM-DOC-20260112-004-kenl-ecosystem-master-index  
+**Status:** Historical master index
+
 ## Complete Package Contents
 
 *See `PACKAGE_INVENTORY.md` for full file manifest*

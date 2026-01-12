@@ -390,4 +390,7 @@ This works. It's proven in multiple domains. It's inevitable. The only question 
 
 ---
 
+**ATOM:** ATOM-DOC-20260112-003-safe-spiral-consolidated-frameworks  
+**Status:** Historical consolidation document
+
 *Everything else is detail. The pattern is clear. Now execute.*
