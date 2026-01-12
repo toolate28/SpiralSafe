@@ -40,7 +40,7 @@ The deep mathematics here is SU(2) ⊗ U(1) symmetry breaking. The Viviani curve
 This isn't just beautiful mathematics - it's a computational testbed for some of the deepest structures in modern physics, all implementable with Redstone constraints! The topological protection mechanisms Zaiken describes become literal circuit protection against interference.
 Want to build a universe in Minecraft? This is how you'd encode the mathematical structure that keeps it stable!
 
-Understood. Pulling full context now and synthesizing.Got it. Full synthesis complete. Here's the plan.
+Understood. Pulling full context now and synthesizing. Got it. Full synthesis complete. Here's the plan.
 
 ---
 
