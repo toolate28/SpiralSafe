@@ -1,0 +1,306 @@
+[
+  {
+    "iteration": 0,
+    "state_before": [
+      "(0.556021856893694+0j)",
+      "(0.4942416505721724+0j)",
+      "(0.556021856893694+0j)",
+      "(0.37068123792912927+0j)",
+      "0j",
+      "0j",
+      "0j",
+      "0j"
+    ],
+    "operations": [
+      "superpose",
+      "tunnel"
+    ],
+    "discoveries": [
+      {
+        "type": "interference",
+        "with": "nmsi_framework",
+        "strength": 0.19658341274873348,
+        "dimension": "information"
+      },
+      {
+        "type": "interference",
+        "with": "quantum_redstone",
+        "strength": 0.21501831715537345,
+        "dimension": "constraint"
+      },
+      {
+        "type": "interference",
+        "with": "spiralsafe_philosophy",
+        "strength": 0.20981358185407073,
+        "dimension": "collaboration"
+      },
+      {
+        "type": "interference",
+        "with": "constraint_gift",
+        "strength": 0.22845288715506423,
+        "dimension": "creativity"
+      },
+      {
+        "type": "interference",
+        "with": "hope_and_sauce",
+        "strength": 0.21501831715537345,
+        "dimension": "collaboration"
+      }
+    ],
+    "state_after": [
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)"
+    ]
+  },
+  {
+    "iteration": 1,
+    "state_before": [
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)"
+    ],
+    "operations": [
+      "superpose",
+      "tunnel"
+    ],
+    "discoveries": [
+      {
+        "type": "interference",
+        "with": "nmsi_framework",
+        "strength": 0.19658341274873348,
+        "dimension": "information"
+      },
+      {
+        "type": "interference",
+        "with": "quantum_redstone",
+        "strength": 0.21501831715537345,
+        "dimension": "constraint"
+      },
+      {
+        "type": "interference",
+        "with": "spiralsafe_philosophy",
+        "strength": 0.20981358185407073,
+        "dimension": "collaboration"
+      },
+      {
+        "type": "interference",
+        "with": "constraint_gift",
+        "strength": 0.22845288715506423,
+        "dimension": "creativity"
+      },
+      {
+        "type": "interference",
+        "with": "hope_and_sauce",
+        "strength": 0.21501831715537345,
+        "dimension": "collaboration"
+      }
+    ],
+    "state_after": [
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)"
+    ]
+  },
+  {
+    "iteration": 2,
+    "state_before": [
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)"
+    ],
+    "operations": [
+      "superpose",
+      "tunnel"
+    ],
+    "discoveries": [
+      {
+        "type": "interference",
+        "with": "nmsi_framework",
+        "strength": 0.19658341274873348,
+        "dimension": "information"
+      },
+      {
+        "type": "interference",
+        "with": "quantum_redstone",
+        "strength": 0.21501831715537345,
+        "dimension": "constraint"
+      },
+      {
+        "type": "interference",
+        "with": "spiralsafe_philosophy",
+        "strength": 0.20981358185407073,
+        "dimension": "collaboration"
+      },
+      {
+        "type": "interference",
+        "with": "constraint_gift",
+        "strength": 0.22845288715506423,
+        "dimension": "creativity"
+      },
+      {
+        "type": "interference",
+        "with": "hope_and_sauce",
+        "strength": 0.21501831715537345,
+        "dimension": "collaboration"
+      }
+    ],
+    "state_after": [
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)"
+    ]
+  },
+  {
+    "iteration": 3,
+    "state_before": [
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)"
+    ],
+    "operations": [
+      "superpose",
+      "tunnel"
+    ],
+    "discoveries": [
+      {
+        "type": "interference",
+        "with": "nmsi_framework",
+        "strength": 0.19658341274873348,
+        "dimension": "information"
+      },
+      {
+        "type": "interference",
+        "with": "quantum_redstone",
+        "strength": 0.21501831715537345,
+        "dimension": "constraint"
+      },
+      {
+        "type": "interference",
+        "with": "spiralsafe_philosophy",
+        "strength": 0.20981358185407073,
+        "dimension": "collaboration"
+      },
+      {
+        "type": "interference",
+        "with": "constraint_gift",
+        "strength": 0.22845288715506423,
+        "dimension": "creativity"
+      },
+      {
+        "type": "interference",
+        "with": "hope_and_sauce",
+        "strength": 0.21501831715537345,
+        "dimension": "collaboration"
+      }
+    ],
+    "state_after": [
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)"
+    ]
+  },
+  {
+    "iteration": 4,
+    "state_before": [
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)"
+    ],
+    "operations": [
+      "superpose",
+      "tunnel"
+    ],
+    "discoveries": [
+      {
+        "type": "interference",
+        "with": "nmsi_framework",
+        "strength": 0.19658341274873348,
+        "dimension": "information"
+      },
+      {
+        "type": "interference",
+        "with": "quantum_redstone",
+        "strength": 0.21501831715537345,
+        "dimension": "constraint"
+      },
+      {
+        "type": "interference",
+        "with": "spiralsafe_philosophy",
+        "strength": 0.20981358185407073,
+        "dimension": "collaboration"
+      },
+      {
+        "type": "interference",
+        "with": "constraint_gift",
+        "strength": 0.22845288715506423,
+        "dimension": "creativity"
+      },
+      {
+        "type": "interference",
+        "with": "hope_and_sauce",
+        "strength": 0.21501831715537345,
+        "dimension": "collaboration"
+      }
+    ],
+    "state_after": [
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)",
+      "(0.3535533905932738+0j)"
+    ]
+  },
+  {
+    "type": "measurement",
+    "result": {
+      "idea": "synthesis_nmsi_framework_quantum_redstone_constraint_gift",
+      "collapsed_to": "creativity",
+      "probability": 0.13818148696486546,
+      "timestamp": "2026-01-08T08:01:23.524586"
+    }
+  }
+]

@@ -1,0 +1,304 @@
+# ═══════════════════════════════════════════════════════════════
+# SpiralSafe GitHub Integration
+# Syncs repository events to SpiralSafe API for multi-agent coordination
+# ═══════════════════════════════════════════════════════════════
+#
+# This workflow connects GitHub events to the SpiralSafe coordination API:
+# - Extracts ATOM tags from commits and logs them
+# - Creates bump markers for PR events (WAVE, PASS, SYNC, PING)
+# - Enables multi-agent workflows across GitHub and external systems
+#
+# ATOM: ATOM-FEAT-20260109-001-github-copilot-integration
+# H&&S: H&&S:GH-COPILOT
+
+name: SpiralSafe Sync
+
+# Security: Minimal permissions
+permissions:
+  contents: read
+  pull-requests: read
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, closed, synchronize]
+
+env:
+  SPIRALSAFE_API_BASE: ${{ vars.SPIRALSAFE_API_BASE || 'https://api.spiralsafe.org' }}
+
+jobs:
+  # ─────────────────────────────────────────────────────────────
+  # ATOM Tag Sync - Push Events
+  # ─────────────────────────────────────────────────────────────
+  sync-atoms:
+    name: Sync ATOM Tags
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Get current and previous commit
+      
+      - name: Extract ATOM tags from commits
+        id: extract-atoms
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  Extracting ATOM Tags from Recent Commits"
+          echo "═══════════════════════════════════════════════════════════════"
+          
+          # Extract ATOM tags from the most recent commit
+          ATOM_TAGS=$(git log -1 --pretty=format:"%s %b" | grep -oE 'ATOM-[A-Z]+-[0-9]{8}-[0-9]{3}-[a-z0-9-]+' || echo "")
+          
+          if [ -z "$ATOM_TAGS" ]; then
+            echo "No ATOM tags found in commit message"
+            echo "atom_tags=" >> "$GITHUB_OUTPUT"
+          else
+            echo "Found ATOM tags:"
+            echo "$ATOM_TAGS"
+            # Convert to JSON array
+            ATOM_JSON=$(echo "$ATOM_TAGS" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+            echo "atom_tags=$ATOM_JSON" >> "$GITHUB_OUTPUT"
+          fi
+      
+      - name: Send ATOM tags to API
+        if: steps.extract-atoms.outputs.atom_tags != ''
+        run: |
+          echo "Sending ATOM tags to SpiralSafe API..."
+          
+          ATOM_TAGS='${{ steps.extract-atoms.outputs.atom_tags }}'
+          
+          for tag in $(echo "$ATOM_TAGS" | jq -r '.[]'); do
+            echo "Posting ATOM tag: $tag"
+            
+            # Parse ATOM tag components
+            TYPE=$(echo "$tag" | cut -d'-' -f2)
+            DATE=$(echo "$tag" | cut -d'-' -f3)
+            SEQ=$(echo "$tag" | cut -d'-' -f4)
+            DESC=$(echo "$tag" | cut -d'-' -f5-)
+            
+            PAYLOAD=$(jq -n \
+              --arg id "$tag" \
+              --arg name "$DESC" \
+              --arg type "$TYPE" \
+              --arg date "$DATE" \
+              --arg seq "$SEQ" \
+              --arg repo "${{ github.repository }}" \
+              --arg sha "${{ github.sha }}" \
+              --arg actor "${{ github.actor }}" \
+              '{
+                id: $id,
+                name: $name,
+                molecule: "github-sync",
+                compound: $repo,
+                status: "pending",
+                verification: {
+                  criteria: {
+                    "git_sha": $sha,
+                    "git_ref": "${{ github.ref }}"
+                  },
+                  automated: true
+                },
+                dependencies: {
+                  requires: [],
+                  blocks: []
+                },
+                assignee: $actor,
+                metadata: {
+                  source: "github-actions",
+                  atom_type: $type,
+                  date: $date,
+                  sequence: $seq,
+                  signature: "H&&S:GH-COPILOT"
+                }
+              }')
+            
+            # POST to API
+            HTTP_CODE=$(curl -s -o /tmp/response.json -w "%{http_code}" \
+              -X POST \
+              -H "Content-Type: application/json" \
+              -H "X-API-Key: ${{ secrets.SPIRALSAFE_API_KEY }}" \
+              -d "$PAYLOAD" \
+              "${{ env.SPIRALSAFE_API_BASE }}/api/atom/create")
+            
+            if [ "$HTTP_CODE" -eq 201 ] || [ "$HTTP_CODE" -eq 200 ]; then
+              echo "✓ Successfully logged ATOM tag: $tag"
+            else
+              echo "⚠️  Failed to log ATOM tag (HTTP $HTTP_CODE): $tag"
+              cat /tmp/response.json || true
+            fi
+          done
+
+  # ─────────────────────────────────────────────────────────────
+  # Bump Marker Sync - PR Events
+  # ─────────────────────────────────────────────────────────────
+  sync-bumps:
+    name: Sync Bump Markers
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: read
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Determine bump type and state
+        id: bump-info
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  Determining Bump Type for PR Event"
+          echo "═══════════════════════════════════════════════════════════════"
+          
+          ACTION="${{ github.event.action }}"
+          MERGED="${{ github.event.pull_request.merged }}"
+          
+          case "$ACTION" in
+            opened)
+              BUMP_TYPE="WAVE"
+              STATE="pr_opened"
+              echo "PR opened - Creating WAVE bump (soft handoff)"
+              ;;
+            synchronize)
+              BUMP_TYPE="PING"
+              STATE="updated"
+              echo "PR updated - Creating PING bump (attention request)"
+              ;;
+            closed)
+              if [ "$MERGED" = "true" ]; then
+                BUMP_TYPE="PASS"
+                STATE="merged"
+                echo "PR merged - Creating PASS bump (hard handoff complete)"
+              else
+                BUMP_TYPE="SYNC"
+                STATE="closed_unmerged"
+                echo "PR closed without merge - Creating SYNC bump (state sync)"
+              fi
+              ;;
+            *)
+              BUMP_TYPE="PING"
+              STATE="unknown"
+              echo "Unknown action - defaulting to PING"
+              ;;
+          esac
+          
+          echo "bump_type=$BUMP_TYPE" >> "$GITHUB_OUTPUT"
+          echo "state=$STATE" >> "$GITHUB_OUTPUT"
+      
+      - name: Check for explicit spiralsafe markers
+        id: check-markers
+        run: |
+          echo "Checking PR body for spiralsafe markers..."
+          
+          # Get PR body
+          PR_BODY='${{ github.event.pull_request.body }}'
+          
+          # Check for explicit bump type marker (extract once)
+          MARKER_MATCH=$(echo "$PR_BODY" | grep -oE 'spiralsafe:bump:[A-Z]+:[a-z_]+' | head -1 || echo "")
+          
+          if [ -n "$MARKER_MATCH" ]; then
+            EXPLICIT_TYPE=$(echo "$MARKER_MATCH" | cut -d':' -f3)
+            EXPLICIT_STATE=$(echo "$MARKER_MATCH" | cut -d':' -f4)
+            echo "Found explicit marker: $EXPLICIT_TYPE / $EXPLICIT_STATE"
+            echo "has_explicit=true" >> "$GITHUB_OUTPUT"
+            echo "explicit_type=$EXPLICIT_TYPE" >> "$GITHUB_OUTPUT"
+            echo "explicit_state=$EXPLICIT_STATE" >> "$GITHUB_OUTPUT"
+          else
+            echo "No explicit marker found"
+            echo "has_explicit=false" >> "$GITHUB_OUTPUT"
+          fi
+          
+          # Check for H&&S markers in body (extract once)
+          HS_MATCH=$(echo "$PR_BODY" | grep -oE 'H&&S:(WAVE|PASS|PING|SYNC|BLOCK)' | head -1 || echo "")
+          
+          if [ -n "$HS_MATCH" ]; then
+            echo "Found H&&S marker: $HS_MATCH"
+            echo "has_hs_marker=true" >> "$GITHUB_OUTPUT"
+            echo "hs_marker=$HS_MATCH" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_hs_marker=false" >> "$GITHUB_OUTPUT"
+          fi
+      
+      - name: Send bump to API
+        run: |
+          echo "Sending bump marker to SpiralSafe API..."
+          
+          # Use explicit marker if present, otherwise use detected values
+          if [ "${{ steps.check-markers.outputs.has_explicit }}" = "true" ]; then
+            BUMP_TYPE="${{ steps.check-markers.outputs.explicit_type }}"
+            STATE="${{ steps.check-markers.outputs.explicit_state }}"
+            echo "Using explicit marker values"
+          else
+            BUMP_TYPE="${{ steps.bump-info.outputs.bump_type }}"
+            STATE="${{ steps.bump-info.outputs.state }}"
+            echo "Using detected values"
+          fi
+          
+          # Build context object
+          CONTEXT=$(jq -n \
+            --arg pr_number "${{ github.event.pull_request.number }}" \
+            --arg pr_title "${{ github.event.pull_request.title }}" \
+            --arg pr_url "${{ github.event.pull_request.html_url }}" \
+            --arg head_sha "${{ github.event.pull_request.head.sha }}" \
+            --arg base_ref "${{ github.event.pull_request.base.ref }}" \
+            --arg head_ref "${{ github.event.pull_request.head.ref }}" \
+            --arg author "${{ github.event.pull_request.user.login }}" \
+            --arg action "${{ github.event.action }}" \
+            --arg merged "${{ github.event.pull_request.merged }}" \
+            --arg hs_marker "${{ steps.check-markers.outputs.hs_marker }}" \
+            '{
+              pr_number: $pr_number,
+              pr_title: $pr_title,
+              pr_url: $pr_url,
+              head_sha: $head_sha,
+              base_ref: $base_ref,
+              head_ref: $head_ref,
+              author: $author,
+              action: $action,
+              merged: ($merged == "true"),
+              repository: "${{ github.repository }}",
+              signature: "H&&S:GH-COPILOT",
+              hs_marker: $hs_marker,
+              workflow_run_id: "${{ github.run_id }}",
+              workflow_run_url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            }')
+          
+          PAYLOAD=$(jq -n \
+            --arg type "$BUMP_TYPE" \
+            --arg from "github-pr" \
+            --arg to "spiralsafe-coordination" \
+            --arg state "$STATE" \
+            --argjson context "$CONTEXT" \
+            '{
+              type: $type,
+              from: $from,
+              to: $to,
+              state: $state,
+              context: $context
+            }')
+          
+          echo "Payload:"
+          echo "$PAYLOAD" | jq .
+          
+          # POST to API
+          HTTP_CODE=$(curl -s -o /tmp/response.json -w "%{http_code}" \
+            -X POST \
+            -H "Content-Type: application/json" \
+            -H "X-API-Key: ${{ secrets.SPIRALSAFE_API_KEY }}" \
+            -d "$PAYLOAD" \
+            "${{ env.SPIRALSAFE_API_BASE }}/api/bump/create")
+          
+          if [ "$HTTP_CODE" -eq 201 ] || [ "$HTTP_CODE" -eq 200 ]; then
+            echo "✓ Successfully created bump marker: $BUMP_TYPE ($STATE)"
+            cat /tmp/response.json | jq .
+          else
+            echo "⚠️  Failed to create bump marker (HTTP $HTTP_CODE)"
+            cat /tmp/response.json || true
+            # Don't fail the workflow if API is unavailable
+            exit 0
+          fi

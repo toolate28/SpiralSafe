@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  signal-cli-rest-api:
+    image: bbernhard/signal-cli-rest-api:latest
+    container_name: signal-cli-rest-api
+    ports:
+      - "8080:8080"
+    volumes:
+      - signal-cli-config:/home/.local/share/signal-cli
+    environment:
+      - MODE=json-rpc  # or "normal" for REST mode
+    restart: unless-stopped
+    networks:
+      - signal-bridge
+
+volumes:
+  signal-cli-config:
+    driver: local
+
+networks:
+  signal-bridge:
+    driver: bridge

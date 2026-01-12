@@ -256,12 +256,12 @@ Signal strength degradation. Redstone signal travels 15 blocks. But if you compr
 #### Exhibit 3C: Context Window Trade-offs
 **The Truth Table:**
 
-| Technique | Speed ↑ | Accuracy ✓ | Context ✗ |
-|-----------|---------|-----------|-----------|
-| Speculate | 2-3× | Full | Same |
-| Sparse | 10× | Retrieval only | Same |
-| Prune KV | 8× | Full | Limited |
-| Quantize | 2× | Degraded | Same |
+| Technique | Speed ↑ | Accuracy ✓      | Context ✗|
+|-----------|---------|-----------------|-----------|
+| Speculate | 2-3×    | Full            | Same      |
+| Sparse    | 10×     | Retrieval only  | Same      |
+| Prune KV  | 8×      | Full            | Limited   |
+| Quantize  | 2×      | Degraded        | Same      |
 
 ❓ **Museum Question**: "Is there a free lunch?"  
 Answer: No. Every optimization has trade-offs visible in its failure cases.
