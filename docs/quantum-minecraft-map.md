@@ -281,14 +281,14 @@ Primary repository for:
 
 ## Implementation Status
 
-| Component | Status | Location | Notes |
-|-----------|--------|----------|-------|
-| Logic Gates | ✓ Complete | `museum/builds/logic-gates.json` | All 4 gates functional |
-| Binary Counter | ✓ Complete | `museum/builds/binary-counter.json` | Counts 0-15 reliably |
-| Stories | ✓ 2 of 5 | `showcase/stories/` | Fireflies, Binary complete |
-| Viviani Curve | Planned | quantum-redstone repo | Topology demonstration |
-| Entanglement Demo | Planned | Future build | Multi-qubit correlations |
-| Quantum Teleportation | Planned | Future build | Advanced concept |
+| Component             | Status     | Location                            | Notes                      |
+|-----------------------|------------|-------------------------------------|----------------------------|
+| Logic Gates           | ✓ Complete | `museum/builds/logic-gates.json`    | All 4 gates functional     |
+| Binary Counter        | ✓ Complete | `museum/builds/binary-counter.json` | Counts 0-15 reliably       |
+| Stories               | ✓ 2 of 5   | `showcase/stories/`                 | Fireflies, Binary complete |
+| Viviani Curve         | Planned    | quantum-redstone repo               | Topology demonstration     |
+| Entanglement Demo     | Planned    | Future build                        | Multi-qubit correlations   |
+| Quantum Teleportation | Planned    | Future build                        | Advanced concept           |
 
 ---
 
