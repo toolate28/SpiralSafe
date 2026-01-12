@@ -79,10 +79,10 @@ We don't just write documentation; we write **executable artifacts**. All books 
 
 How do we *feel* the code? The `bridges/` directory contains Python daemons that turn `ATOM` logs into physical reality.
 
-| Bridge | Description | Interaction & Feedback |
-| :--- | :--- | :--- |
-| **Hologram Bridge** 🌀 | Reads the `ATOM` trail in real-time. | **Visual**: Displays a 3D spinning spiral on a physical fan display.<br>**Feedback**: Turns **RED** on CI failure, **GREEN** on success, **BLUE** during "Ultrathink". |
-| **Tartarus Bridge** 🎹 | Maps repository state to a Razer Tartarus Pro keypad. | **Interact**: Keys light up based on available actions (e.g., "Deploy" key only lights up when CI passes).<br>**Haptic**: Physical confirmation of digital events. |
+| Bridge                 | Description                                           | Interaction & Feedback                                                                                                                                                 |
+| :--------------------- | :---------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Hologram Bridge** 🌀 | Reads the `ATOM` trail in real-time.                  | **Visual**: Displays a 3D spinning spiral on a physical fan display.<br>**Feedback**: Turns **RED** on CI failure, **GREEN** on success, **BLUE** during "Ultrathink". |
+| **Tartarus Bridge** 🎹 | Maps repository state to a Razer Tartarus Pro keypad. | **Interact**: Keys light up based on available actions (e.g., "Deploy" key only lights up when CI passes).<br>**Haptic**: Physical confirmation of digital events.     |
 
 ---
 
@@ -90,11 +90,11 @@ How do we *feel* the code? The `bridges/` directory contains Python daemons that
 
 We use **H&&S Markers** to keep the human, the AI, and the machine in sync.
 
-| Marker | Meaning | Usage |
-| :--- | :--- | :--- |
-| **H&&S:WAVE** 👋 | "I am handing this off. Please check the coherence." | Added to PR bodies when architectural changes occur. |
-| **H&&S:ACK** ✅ | "I have received the state. I understand." | API response when a Bump is processed. |
-| **H&&S:SYNC** 🔄 | "The documentation has been updated to match the code." | Automated commits by the CI system. |
+| Marker             | Meaning                                                 | Usage                                                |
+| :----------------- | :------------------------------------------------------ | :--------------------------------------------------- |
+| **H&&S:WAVE** 👋   | "I am handing this off. Please check the coherence."    | Added to PR bodies when architectural changes occur. |
+| **H&&S:ACK** ✅    | "I have received the state. I understand."              | API response when a Bump is processed.               |
+| **H&&S:SYNC** 🔄   | "The documentation has been updated to match the code." | Automated commits by the CI system.                  |
 
 ---
 
