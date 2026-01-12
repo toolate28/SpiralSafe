@@ -24,12 +24,12 @@ REQUIRED_TOOLS=("node" "npm" "git")
 echo -e "${PURPLE}"
 cat << "EOF"
 ╔═══════════════════════════════════════════════════════════════╗
-║                                                               ║
-║                    🌀 SpiralSafe Bootstrap                   ║
-║                                                               ║
-║         H&&S:WAVE Protocol - Quantum Computing Era           ║
-║    "From the constraints, gifts. From the spiral, safety."   ║
-║                                                               ║
+║                                                               
+║                    🌀 SpiralSafe Bootstrap                   
+║                                                               
+║         H&&S:WAVE Protocol - Quantum Computing Era           
+║    "From the constraints, gifts. From the spiral, safety."  
+║                                                               
 ╚═══════════════════════════════════════════════════════════════╝
 EOF
 echo -e "${NC}"
