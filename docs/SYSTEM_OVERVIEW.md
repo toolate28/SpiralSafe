@@ -39,7 +39,7 @@ graph TD
 The central nervous system. It doesn't just store data; it validates the *meaning* of our work.
 
 | Endpoint            | Function                                                                                                                                                           | GitHub Flair |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ |
+| :------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------- |
 | `/api/wave/analyze` | **Coherence Detection**: Treats text as a vector field. Calculates "curl" (circular logic) and "divergence" (unresolved threads). Fails CI if docs are incoherent. | 🌊           |
 | `/api/bump/create`  | **State Tracking**: Every significant event (commit, deploy, failure) is a "Bump". This creates an immutable timeline of the project's life.                       | 📈           |
 | `/api/awi/request`  | **Permission Grants**: Agents (like Copilot) request short-lived, scoped tokens to perform dangerous actions (e.g., deployments).                                  | 🛡️           |
