@@ -144,6 +144,16 @@ else
 fi
 echo ""
 
+echo "Test 8: MCP Log Format (if present)"
+echo "------------------------------------"
+if "$SCRIPT_DIR/check-mcp-logging.sh"; then
+  echo "✓ MCP log format valid or absent (acceptable)"
+else
+  echo "✗ MCP log validation failed"
+  EXIT_CODE=1
+fi
+echo ""
+
 echo "=== Integration Test Summary ==="
 if [ $EXIT_CODE -eq 0 ]; then
   echo "✓ All integration tests passed"

@@ -27,16 +27,16 @@ Minecraft Redstone provides a discrete, constraint-based environment where topol
 
 ## Conceptual Mapping Table
 
-| Quantum Concept | Minecraft Implementation | Museum Build | Story Reference |
-|-----------------|-------------------------|--------------|-----------------|
-| **Superposition** | Redstone signal can travel multiple paths simultaneously | Logic Gates (XOR) | [Fireflies and Logic](../showcase/stories/01-fireflies-and-logic.md) |
-| **Quantum Gates** | Logic gates (AND, OR, NOT, XOR) as foundational operators | `museum/builds/logic-gates.json` | Firefly light patterns |
-| **Binary States** | Powered/unpowered redstone | Binary Counter | [Binary Dancers](../showcase/stories/02-binary-dancers.md) |
-| **State Evolution** | Clock circuits driving counter progression | `museum/builds/binary-counter.json` | Four dancers (bits 1-2-4-8) |
-| **Measurement** | Redstone lamps (output observation collapses state) | All builds | Visual feedback |
-| **Entanglement** | Shared redstone lines (action at one point affects another) | Planned: multi-gate circuits | Coming in future builds |
-| **Interference** | Signal timing and phase (repeater delays) | Clock circuits | Timing synchronization |
-| **Topology Preservation** | Viviani curves in 3D space using structure blocks | Planned | Continuous curves in discrete substrate |
+| Quantum Concept           | Minecraft Implementation                                    | Museum Build                        | Story Reference                                                        |
+|---------------------------|-------------------------------------------------------------|-------------------------------------|------------------------------------------------------------------------|
+| **Superposition**         | Redstone signal can travel multiple paths simultaneously    | Logic Gates (XOR)                   | [Fireflies and Logic](../showcase/stories/01-fireflies-and-logic.md)   |
+| **Quantum Gates**         | Logic gates (AND, OR, NOT, XOR) as foundational operators   | `museum/builds/logic-gates.json`    | Firefly light patterns                                                 |
+| **Binary States**         | Powered/unpowered redstone                                  | Binary Counter                      | [Binary Dancers](../showcase/stories/02-binary-dancers.md)             |
+| **State Evolution**       | Clock circuits driving counter progression                  | `museum/builds/binary-counter.json` | Four dancers (bits 1-2-4-8)                                            |
+| **Measurement**           | Redstone lamps (output observation collapses state)         | All builds                          | Visual feedback                                                        |
+| **Entanglement**          | Shared redstone lines (action at one point affects another) | Planned: multi-gate circuits        | Coming in future builds                                                |
+| **Interference**          | Signal timing and phase (repeater delays)                   | Clock circuits                      | Timing synchronization                                                 |
+| **Topology Preservation** | Viviani curves in 3D space using structure blocks           | Planned                             | Continuous curves in discrete substrate                                |
 
 ---
 

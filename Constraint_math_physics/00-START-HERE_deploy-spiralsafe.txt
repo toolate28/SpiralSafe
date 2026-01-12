@@ -1,0 +1,127 @@
+```md
+## SpiralSafe Interface Enhancement Concept
+
+**Current**: Preview pane passive—requires manual load, context disappears when closed
+
+**Proposed**: Active collaboration state dashboard
+
+┌─────────────────────────┬──────────────────────────┐
+│                         │                          │
+│     Conversation        │    Collaboration State   │
+│                         │                          │
+│  Claude generating...   │  ╭──────────────────╮    │
+│                         │  │ 📄 spiralsafe-   │    │
+│  > wave analysis        │  │    worker.ts     │    │
+│    complete ✓           │  │    (live preview)│    │
+│                         │  ╰──────────────────╯    │
+│  > H&&S:WAVE → copilot  │                          │
+│    PR ready             │  ╭──────────────────╮    │
+│                         │  │ 🔔 Pending Bumps │    │
+│                         │  │ • WAVE → copilot │    │
+│                         │  │ • SYNC → prod    │    │
+│                         │  ╰──────────────────╯    │
+│                         │                          │
+│                         │  ╭──────────────────╮    │
+│                         │  │ 🔑 AWI Active    │    │
+│                         │  │ Level 2 • 47min  │    │
+│                         │  ╰──────────────────╯    │
+│                         │                          │
+└─────────────────────────┴──────────────────────────┘
+
+**Principles**:
+- Auto-surface artifacts on generation
+- Persistent bump/AWI status without prompting  
+- Interface reflects *collaboration state*, not just content
+```
+
+---
+
+**Claude Code CLI — Windows**
+
+```powershell
+claude @"
+Initialize SpiralSafe operations layer deployment.
+
+Environment: Windows 11 / PowerShell 7
+User context paths use: $env:USERPROFILE (resolves to C:\Users\<username>)
+
+Target repo: $env:USERPROFILE\Repos\SpiralSafe
+Archive:    $env:USERPROFILE\Downloads\spiralsafe-ops.tar.gz
+
+Sequence:
+1. Extract archive
+   tar -xzf "$env:USERPROFILE\Downloads\spiralsafe-ops.tar.gz" -C "$env:USERPROFILE\Repos\SpiralSafe"
+
+2. Create branch
+   Set-Location "$env:USERPROFILE\Repos\SpiralSafe"
+   git checkout -b ops/infrastructure-layer
+
+3. Verify structure exists:
+   ops\api\spiralsafe-worker.ts
+   ops\schemas\d1-schema.sql
+   ops\scripts\SpiralSafe.psm1
+   ops\integrations\README.md
+   .github\workflows\spiralsafe-ci.yml
+
+4. Stage, commit, push
+   git add -A
+   git commit -m "feat(ops): SpiralSafe infrastructure layer"
+   git push -u origin ops/infrastructure-layer
+
+5. Create PR
+   gh pr create --title "feat(ops): SpiralSafe infrastructure" --body "H&&S:WAVE → Ready for review"
+
+Verification checkpoints (GitHub Copilot):
+- [ ] ops\api\spiralsafe-worker.ts
+- [ ] ops\schemas\d1-schema.sql
+- [ ] ops\scripts\SpiralSafe.psm1
+- [ ] .github\workflows\spiralsafe-ci.yml
+- [ ] PR exists with H&&S:WAVE marker
+
+Begin with Get-ChildItem to confirm extracted structure.
+"@
+```
+
+---
+
+**Path Reference (Windows)**
+
+| Context | Variable | Example Resolution |
+|---------|----------|-------------------|
+| User home | `$env:USERPROFILE` | `C:\Users\toolated` |
+| App data | `$env:APPDATA` | `C:\Users\toolated\AppData\Roaming` |
+| Local data | `$env:LOCALAPPDATA` | `C:\Users\toolated\AppData\Local` |
+| Repos | `$env:USERPROFILE\Repos` | `C:\Users\toolated\Repos` |
+| Downloads | `$env:USERPROFILE\Downloads` | `C:\Users\toolated\Downloads` |
+
+**Agent context** (Claude Code working directory):
+```powershell
+# Agent operates from repo root after navigation
+Set-Location "$env:USERPROFILE\Repos\SpiralSafe"
+# All subsequent paths are relative: .\ops\api\...
+```
+
+---
+
+**Post-Merge: Backend Deployment**
+
+```powershell
+Set-Location "$env:USERPROFILE\Repos\SpiralSafe\ops"
+npm install
+npm run setup        # Creates Cloudflare D1, KV, R2
+npm run db:migrate   # Initializes schema
+npm run deploy       # Deploys to api.spiralsafe.org
+```
+
+**Local CLI Activation** (add to `$PROFILE`):
+
+```powershell
+# PowerShell profile location: $env:USERPROFILE\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
+$env:SPIRALSAFE_API_BASE = "https://api.spiralsafe.org"
+Import-Module "$env:USERPROFILE\Repos\SpiralSafe\ops\scripts\SpiralSafe.psm1"
+```
+
+**Verify**:
+```powershell
+ss-status
+```

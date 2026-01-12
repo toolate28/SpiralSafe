@@ -11,10 +11,10 @@ SpiralSafe comprises five architectural layers, each implementing the core insig
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                        MANIFESTATION                            │
-│         Quantum Valley  │  Museum of Computation  │  Production │
+│   Quantum Valley  │  Museum of Computation  │  Production       │
 ├─────────────────────────────────────────────────────────────────┤
 │                          PROTOCOL                               │
-│           wave-spec  │  bump-spec  │  .context.yaml  │  Dual-Format │
+│    wave-spec  │  bump-spec  │  .context.yaml  │  Dual-Format    │
 ├─────────────────────────────────────────────────────────────────┤
 │                        METHODOLOGY                              │
 │              ATOM  │  SAIF  │  KENL  │  Day Zero Design         │
