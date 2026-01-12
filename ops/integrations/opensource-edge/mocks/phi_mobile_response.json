@@ -1,0 +1,22 @@
+{
+  "model": "phi3:mini",
+  "created_at": "2026-01-12T08:50:00Z",
+  "response": "Wave analysis complete.\n\n**Quick Results:**\n- Divergence: 0.26\n- Curl: 0.07\n- Coherence: 0.81\n\n**Summary:**\nDocument shows good structure. Main recommendation: add conclusion section to reduce divergence.\n\nH&&S:WAVE handoff ready.",
+  "done": true,
+  "context": [1, 2, 3],
+  "total_duration": 450000000,
+  "load_duration": 50000000,
+  "prompt_eval_count": 32,
+  "prompt_eval_duration": 100000000,
+  "eval_count": 62,
+  "eval_duration": 300000000,
+  "spiralsafe_metadata": {
+    "provider": "opensource-edge",
+    "runtime": "ollama",
+    "model_type": "mobile",
+    "quantization": "q4_0",
+    "offline_capable": true,
+    "device_optimized": ["ios", "android"],
+    "memory_mb": 2048
+  }
+}

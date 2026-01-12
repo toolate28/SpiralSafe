@@ -1,0 +1,44 @@
+{
+  "extension": "spiralsafe",
+  "skill": "wave_analysis",
+  "version": "1.0.0",
+  "response": {
+    "status": "success",
+    "analysis": {
+      "document": "README.md",
+      "metrics": {
+        "curl": 0.08,
+        "divergence": 0.22,
+        "potential": 0.65,
+        "coherence_score": 0.82
+      },
+      "recommendations": [
+        {
+          "type": "reduce_divergence",
+          "location": "section:installation",
+          "suggestion": "Add conclusion summarizing installation steps"
+        },
+        {
+          "type": "improve_potential",
+          "location": "section:advanced",
+          "suggestion": "Consider expanding advanced configuration examples"
+        }
+      ],
+      "wave_signature": "H&&S:WAVE"
+    },
+    "metadata": {
+      "processing_time_ms": 145,
+      "model": "gpt-4o",
+      "tokens_used": 423
+    }
+  },
+  "handoff": {
+    "protocol": "H&&S:WAVE",
+    "from": "github-copilot",
+    "to": "human",
+    "context": {
+      "file_analyzed": "README.md",
+      "analysis_complete": true
+    }
+  }
+}
