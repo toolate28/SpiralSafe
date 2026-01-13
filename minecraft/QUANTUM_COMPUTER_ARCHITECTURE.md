@@ -1,4 +1,4 @@
-# 🔮 Building a Complete Quantum Computer in Minecraft
+present# 🔮 Building a Complete Quantum Computer in Minecraft
 
 **Version**: 2.0.0-vera-rubin-inspired
 **Inspiration**: NVIDIA Vera Rubin (220 trillion transistors) + Traditional Minecraft CPUs
@@ -65,9 +65,9 @@ Based on the [Minecraft Wiki's Redstone Computer Tutorial](https://minecraft.wik
 │  Quantum Core  │     │ Classical CPU  │     │Optical Network│
 │  (72 Qubits)   │     │  (Control)     │     │ (Beacon Grid) │
 └───────┬────────┘     └───────┬────────┘     └──────┬───────┘
-        │                       │                      │
-        │       ┌───────────────┴────────────┐        │
-        │       │                            │        │
+        │                       │                    │
+        │       ┌───────────────┴────────────┐       │
+        │       │                            │       │
 ┌───────▼───────▼────┐              ┌───────▼────────▼───┐
 │  Quantum ALU       │              │  Memory System     │
 │  (Gate Application)│              │  (Context Storage) │
