@@ -1,4 +1,4 @@
-"""
+ """
 Improved grok benchmark harness for xAI/Grok.
 - Adds CLI (iterations, output dir)
 - Writes a human-readable summary file that begins with a bulleted list of questions (one blank line), then a JSON payload
