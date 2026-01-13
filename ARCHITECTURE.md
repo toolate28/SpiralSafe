@@ -267,8 +267,10 @@ Each layer accepts new components that honor the layer's constraints:
 | Manifestation | Quantum Valley | [quantum-redstone](https://github.com/toolate28/quantum-redstone) |
 | Manifestation | Production | [SpiralSafe](https://github.com/toolate28/SpiralSafe) |
 | Protocol | Wave Protocol | [wave-toolkit](https://github.com/toolate28/wave-toolkit) |
+| Protocol | Coherence MCP | [coherence-mcp](https://github.com/toolate28/coherence-mcp) |
 | Methodology | KENL | [kenl](https://github.com/toolate28/kenl) |
 | Interface | ClaudeNPC | [ClaudeNPC-Server-Suite](https://github.com/toolate28/ClaudeNPC-Server-Suite) |
+| Interface | Cross-AI Collab | [coherence-mcp](https://github.com/toolate28/coherence-mcp) (@grok, multi-agent) |
 | Utilities | Claude Code tools | [claude-code-tools](https://github.com/toolate28/claude-code-tools) |
 
 ---
