@@ -277,11 +277,15 @@ jobs:
             }
             
             if (excellentFiles) {
+              const excellentFileLines = excellentFiles.split('\n');
+              const displayedExcellentCount = Math.min(excellentFileLines.length, excellentCount);
               comment += `<details>\n<summary>📚 Excellent Files (${excellentCount})</summary>\n\n`;
-              excellentFiles.split('\n').slice(0, 10).forEach(f => {
+              excellentFileLines.slice(0, displayedExcellentCount).forEach(f => {
                 if (f) comment += `- ${f}\n`;
               });
-              if (excellentCount > 10) comment += `- ... and ${excellentCount - 10} more\n`;
+              if (excellentCount > displayedExcellentCount) {
+                comment += `- ... and ${excellentCount - displayedExcellentCount} more\n`;
+              }
               comment += `\n</details>\n\n`;
             }
             
