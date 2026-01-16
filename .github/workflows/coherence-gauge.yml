@@ -314,10 +314,12 @@ jobs:
         continue-on-error: true
         env:
           API_BASE: ${{ vars.SPIRALSAFE_API_BASE }}
+          SPIRALSAFE_API_KEY: ${{ secrets.SPIRALSAFE_API_KEY }}
         run: |
           API_URL="${API_BASE:-https://api.spiralsafe.org}"
           curl -X POST "${API_URL}/api/wave/analyze" \
             -H "Content-Type: application/json" \
+            -H "X-API-Key: ${SPIRALSAFE_API_KEY}" \
             -d '{
               "content": "PR coherence analysis",
               "metadata": {
