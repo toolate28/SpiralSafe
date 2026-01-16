@@ -1,4 +1,11 @@
 # Meta LLaMA Integration Dependencies
+# Install: pip install -r ../../../requirements.txt -r requirements.txt
+#
+# Core dependencies (requests, pydantic) are in ../../../requirements.txt
+# This file only lists integration-specific additions
+
+# Testing tools (pytest, etc.) are provided via ../../../requirements-dev.txt
+# Developers should install that file separately for local testing.
 # H&&S:WAVE | Hope&&Sauced
 
 # Use root requirements for consistency

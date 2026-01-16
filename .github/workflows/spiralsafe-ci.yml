@@ -210,6 +210,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+            requirements-ml.txt
+
+      - name: Validate Python Dependencies
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  Python Dependency Validation"
+          echo "═══════════════════════════════════════════════════════════════"
+          python3 scripts/verify-dependencies.py
+
       - name: Install ShellCheck
         run: |
           sudo apt-get update && sudo apt-get install -y shellcheck || true
@@ -275,18 +292,21 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: Setup Python
+      - name: Setup Python (for optional scripts)
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.12'
           cache: 'pip'
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
 
-      - name: Install Python Dependencies (Core only)
+      - name: Install Python Core Dependencies
+        continue-on-error: true
         run: |
-          pip install -r requirements.txt
-          pip install -r requirements-dev.txt
+          pip install -r requirements.txt || echo "⚠ Python dependencies skipped (optional)"
 
-      - name: Install Node Dependencies
+      - name: Install Dependencies
         run: npm ci
 
       - name: Type Check

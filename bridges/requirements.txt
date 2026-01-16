@@ -1,5 +1,12 @@
 # SpiralSafe Hardware Integration Bridges
 # Python dependencies for ATOM trail streaming, hologram display, and Tartarus control
+# Install: pip install -r ../requirements.txt -r requirements.txt
+#
+# Note: Core dependencies are in ../requirements.txt
+# This file only lists bridge-specific additions
+
+# Core dependencies (asyncio-atexit, watchdog, psutil, pyserial, pyusb) 
+# are in ../requirements.txt
 #
 # Install: pip install -r requirements.txt
 # Or from repository root: pip install -r requirements.txt
@@ -22,6 +29,20 @@ asyncio-atexit==1.0.1
 # Note: Requires Razer Synapse installed
 # razer-chroma-sdk-python>=1.0.0  # Uncomment if using physical Razer devices on Windows
 
+# Optional: PIL for advanced text rendering on hologram (see ../requirements-ml.txt)
+# Pillow==10.2.0
+
+# Optional: numpy for advanced 3D rendering (see ../requirements-ml.txt)
+# numpy==1.26.3
+
+# Development dependencies are defined in ../requirements-dev.txt
+# Install from this directory with:
+#   pip install -r ../requirements-dev.txt
+# Or from the repository root with:
+#   pip install -r requirements-dev.txt
+
+# Documentation (in ../requirements.txt)
+# markdown==3.4.4
 # Optional: numpy for advanced 3D rendering
 # See requirements-ml.txt in root for ML dependencies
 # numpy>=1.24.0

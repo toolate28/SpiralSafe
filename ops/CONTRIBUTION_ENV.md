@@ -1,347 +1,285 @@
-# Contribution Environment Setup
+# SpiralSafe Contribution Environment Setup
 
-**H&&S:WAVE** | Hope&&Sauced  
-**Session**: ATOM-INFRA-FIX-20260112-001
+**ATOM-INFRA-FIX-20260112-001**  
+**H&&S:WAVE** - Platform-specific development environment setup guide
 
-This guide helps you set up your development environment for contributing to SpiralSafe across different platforms.
+## Overview
 
-## Quick Start
+This guide provides platform-specific instructions for setting up a SpiralSafe development environment on Windows, macOS, Linux, and WSL (Windows Subsystem for Linux).
 
-### Prerequisites
+## Common Prerequisites
 
 All platforms require:
-- **Git** 2.40+
-- **Node.js** 20+ (for ops and CI tools)
-- **Python** 3.10+ (for bridges and scripts)
+- **Git** (2.40+)
+- **Node.js** (20.x LTS)
+- **Python** (3.12+)
+- **npm** (10.x)
 
-### Platform-Specific Setup
+## Platform-Specific Setup
 
-#### Ubuntu/Debian Linux
+### Ubuntu/Debian Linux
 
 ```bash
-# Install system dependencies
+# Update package list
 sudo apt update
-sudo apt install -y git nodejs npm python3 python3-pip python3-venv shellcheck
 
-# Install Python dependencies
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
+# Install build essentials
+sudo apt install -y build-essential git curl
 
-# Optional: ML dependencies (large download, ~2GB)
-# pip install -r requirements-ml.txt
+# Install Node.js 20.x
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
 
-# Install Node dependencies
-npm ci
+# Install Python 3.12 and pip
+sudo apt install -y python3.12 python3-pip python3-venv
 
-# Setup pre-commit hooks
-pre-commit install
-```
+# Install ShellCheck (for CI lint)
+sudo apt install -y shellcheck
 
-#### macOS
+# Install tar (usually pre-installed)
+sudo apt install -y tar
 
-```bash
-# Install Homebrew if not present
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# Clone repository
+git clone https://github.com/toolate28/SpiralSafe.git
+cd SpiralSafe
 
 # Install dependencies
-brew install git node python@3.10 shellcheck
-
-# Install Python dependencies
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
-
-# Optional: ML dependencies
-# pip install -r requirements-ml.txt
-
-# Install Node dependencies
 npm ci
-
-# Setup pre-commit hooks
-pre-commit install
+pip3 install -r requirements.txt
 ```
 
-#### Windows
+### macOS
 
-**Recommended: Use PowerShell 7+ or Windows Terminal**
+```bash
+# Install Homebrew if not already installed
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install prerequisites
+brew install node@20 python@3.12 git shellcheck
+
+# Install FFmpeg (for media pipeline)
+brew install ffmpeg
+
+# Clone repository
+git clone https://github.com/toolate28/SpiralSafe.git
+cd SpiralSafe
+
+# Install dependencies
+npm ci
+pip3 install -r requirements.txt
+```
+
+### Windows (Native)
+
+**Important**: Windows has platform-specific limitations documented below.
 
 ```powershell
-# Install dependencies via winget
+# Install via winget (Windows Package Manager)
 winget install Git.Git
 winget install OpenJS.NodeJS.LTS
-winget install Python.Python.3.10
+winget install Python.Python.3.12
+winget install FFmpeg.FFmpeg
 
-# Or use Chocolatey
-# choco install git nodejs python310 -y
+# Install PowerShell 7+ if not already present
+winget install Microsoft.PowerShell
 
-# Create virtual environment
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+# Clone repository
+git clone https://github.com/toolate28/SpiralSafe.git
+cd SpiralSafe
 
-# Install Python dependencies
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
-
-# Optional: ML dependencies
-# pip install -r requirements-ml.txt
-
-# Install Node dependencies
+# Install dependencies
 npm ci
-
-# Setup pre-commit hooks
-pre-commit install
+pip install -r requirements.txt
 ```
 
-**Windows-Specific Notes:**
+#### Windows Known Issues and Workarounds
 
-1. **ShellCheck**: Install via Scoop or download from GitHub releases
-   ```powershell
-   scoop install shellcheck
-   ```
+##### Issue 1: `tar` Command Not Available in Git Bash
 
-2. **Tar utility**: Git Bash on Windows may not have tar in PATH
-   - Use PowerShell's `Compress-Archive` / `Expand-Archive` instead
-   - Or use full path: `/c/Windows/System32/tar.exe`
+**Problem**: Git Bash on Windows does not include `tar` by default.
 
-3. **Line endings**: Configure Git to handle CRLF
-   ```powershell
-   git config --global core.autocrlf true
-   ```
+**Workaround**:
+- Use PowerShell instead of Git Bash for scripts requiring `tar`
+- Use PowerShell's `Compress-Archive` cmdlet:
+  ```powershell
+  # Instead of: tar -czf archive.tar.gz files/
+  Compress-Archive -Path files/ -DestinationPath archive.zip
+  ```
+- Install tar via Git for Windows (bundled) or Chocolatey:
+  ```powershell
+  choco install tar
+  ```
 
-#### WSL (Windows Subsystem for Linux)
+##### Issue 2: Path Length Limitations
 
-Follow the Ubuntu/Debian instructions above. WSL provides a native Linux environment on Windows.
+**Problem**: Windows has a 260-character path limit (MAX_PATH) that can cause issues with deep node_modules nesting.
+
+**Workaround**:
+- Enable long path support in Windows 10/11:
+  ```powershell
+  # Run as Administrator
+  New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
+  ```
+- Clone repositories closer to root (e.g., `C:\dev\SpiralSafe`)
+
+##### Issue 3: Line Ending Differences
+
+**Problem**: Git may convert LF to CRLF, breaking shell scripts.
+
+**Workaround**:
+```bash
+# Configure Git to preserve LF line endings
+git config --global core.autocrlf input
+```
+
+##### Issue 4: PowerShell Execution Policy
+
+**Problem**: Scripts may be blocked by execution policy.
+
+**Workaround**:
+```powershell
+# For current user (recommended)
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# Or bypass for a single script
+powershell -ExecutionPolicy Bypass -File script.ps1
+```
+
+### Windows Subsystem for Linux (WSL)
+
+**Recommended**: Use WSL2 with Ubuntu 22.04+ for the best compatibility.
 
 ```bash
-# From Windows PowerShell, install WSL if not present
+# Install WSL2 (PowerShell as Administrator)
 wsl --install -d Ubuntu-22.04
 
-# Inside WSL, follow Ubuntu instructions
+# Inside WSL Ubuntu terminal
+sudo apt update
+sudo apt install -y build-essential git curl shellcheck
+
+# Install Node.js 20.x
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Install Python
+sudo apt install -y python3.12 python3-pip python3-venv
+
+# Clone repository
+git clone https://github.com/toolate28/SpiralSafe.git
+cd SpiralSafe
+
+# Install dependencies
+npm ci
+pip3 install -r requirements.txt
 ```
 
-## Dependency Management
+## Python Dependency Management
 
-### Core Dependencies Only
-
-For most contributors, core dependencies are sufficient:
+### Core Dependencies
 
 ```bash
+# Install core dependencies only
 pip install -r requirements.txt
 ```
 
-This includes:
-- HTTP clients (httpx, requests)
-- Async utilities (aiofiles)
-- Data validation (pydantic)
-- Hardware bridge support (pyserial, pyusb)
-- CLI utilities (click, rich)
+### Optional ML/Quantum Dependencies
+
+**Note**: These packages are large (torch ~2GB, qiskit ~500MB) and require significant resources.
+
+```bash
+# Install ML dependencies
+pip install -r requirements-ml.txt
+
+# For PyTorch CPU-only (smaller):
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+```
 
 ### Development Dependencies
 
-For running tests and linting:
-
 ```bash
+# Install dev tools (linters, formatters, test runners)
 pip install -r requirements-dev.txt
 ```
 
-This includes:
-- Testing frameworks (pytest, hypothesis)
-- Code quality tools (black, flake8, mypy, pylint)
-- Pre-commit hooks
+## Node.js Dependency Management
 
-### ML/Quantum Dependencies (Optional)
-
-**⚠ WARNING: Large download (~2GB+) and may require GPU**
-
-Only install if you're working on ML/quantum features:
+### Installation
 
 ```bash
-pip install -r requirements-ml.txt
+# Install all dependencies (uses package-lock.json)
+npm ci
+
+# Or for development (updates package-lock.json)
+npm install
 ```
 
-For **CPU-only PyTorch** (lighter, no GPU):
+### Workspaces
+
+SpiralSafe uses npm workspaces:
+- `ops/` - Operations API and CLI
+- `packages/*` - Shared packages
+
+## Verification
+
+### Check Installation
 
 ```bash
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+# Verify Node.js
+node --version  # Should be v20.x
+
+# Verify Python
+python3 --version  # Should be 3.12+
+
+# Verify Git
+git --version
+
+# Verify npm
+npm --version
 ```
 
-This includes:
-- Scientific computing (numpy, scipy)
-- Visualization (matplotlib, plotly, manim)
-- ML frameworks (commented by default: torch, qiskit, diffusers)
-- API clients (openai, replicate)
-
-### Verifying Dependencies
-
-Run the dependency verification script to check for issues:
-
-```bash
-python scripts/verify-dependencies.py
-```
-
-This checks for:
-- Stdlib modules incorrectly listed as dependencies
-- Duplicate entries
-- Unpinned versions
-- Heavy packages in wrong requirements files
-
-## Build and Test
-
-### Running Tests
+### Run Tests
 
 ```bash
 # Run all tests
 npm test
 
-# Run Python tests only
-pytest
-
-# Run with coverage
-pytest --cov=. --cov-report=html
-```
-
-### Linting and Formatting
-
-```bash
-# Lint all code
+# Run linters
 npm run lint
 
-# Format code
-npm run format
-
-# Python-specific
-black .
-flake8 .
-mypy .
+# Type check (ops workspace)
+cd ops && npm run typecheck
 ```
 
-### Type Checking
+### Dependency Validation
 
 ```bash
-# Node/TypeScript
-npm run typecheck
+# Validate Python dependencies
+python3 scripts/verify-dependencies.py
 
-# Python
-mypy .
+# Check for security issues
+npm audit
 ```
 
-## Platform-Specific Issues
+## CI/CD Environment Compatibility
 
-### Issue: `tar` not found (Windows Git Bash)
+The SpiralSafe CI pipeline runs on:
+- **Primary**: `ubuntu-latest` (Ubuntu 22.04)
+- **Secondary**: May expand to `windows-latest` and `macos-latest`
 
-**Symptom**: Scripts fail with "tar: command not found"
+### CI-Specific Requirements
 
-**Solution**:
-1. Use PowerShell instead of Git Bash
-2. Or use full path: `/c/Windows/System32/tar.exe`
-3. Or use PowerShell's `Compress-Archive`
+- All shell scripts must be POSIX-compliant or use ShellCheck-approved bash syntax
+- PowerShell scripts must be compatible with PowerShell 7.x (cross-platform)
+- Python scripts must work on Python 3.12+
 
-```powershell
-# Instead of: tar -czf archive.tar.gz files/
-Compress-Archive -Path files/* -DestinationPath archive.zip
-```
+### Platform Matrix Testing (Future)
 
-### Issue: Line ending mismatches
+To test on multiple platforms locally:
 
-**Symptom**: Git shows files as modified when nothing changed
-
-**Solution**:
-```bash
-# Set line ending handling
-git config --global core.autocrlf input  # Linux/Mac
-git config --global core.autocrlf true   # Windows
-```
-
-### Issue: Permission denied (Unix)
-
-**Symptom**: Scripts fail with "Permission denied"
-
-**Solution**:
-```bash
-chmod +x scripts/*.sh
-chmod +x ops/scripts/spiralsafe
-```
-
-### Issue: PowerShell execution policy
-
-**Symptom**: "cannot be loaded because running scripts is disabled"
-
-**Solution**:
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
-
-### Issue: Python virtual environment activation fails
-
-**Symptom**: "Activate.ps1 is not digitally signed"
-
-**Solution**:
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
-.\.venv\Scripts\Activate.ps1
-```
-
-## CI/CD Environment
-
-The CI pipeline runs on `ubuntu-latest` runners. To match CI environment locally:
-
-```bash
-# Use same Node version as CI
-nvm use 20  # or asdf local nodejs 20
-
-# Use same Python version as CI
-pyenv local 3.10  # or asdf local python 3.10
-
-# Cache dependencies like CI does
-export NODE_OPTIONS="--max-old-space-size=4096"
-```
-
-## Troubleshooting
-
-### Dependency conflicts
-
-If you encounter dependency conflicts:
-
-```bash
-# Clean install
-rm -rf .venv node_modules package-lock.json
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-npm ci
-```
-
-### Import errors
-
-Make sure virtual environment is activated:
-
-```bash
-# Linux/Mac
-source .venv/bin/activate
-
-# Windows PowerShell
-.\.venv\Scripts\Activate.ps1
-```
-
-### Slow package installation
-
-Use a pip mirror for faster downloads:
-
-```bash
-pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
-```
-
-## Getting Help
-
-- Check [CONTRIBUTING.md](../CONTRIBUTING.md) for general guidelines
-- Review [ARCHITECTURE.md](../ARCHITECTURE.md) for system overview
-- Open an issue for environment-specific problems
-- Use H&&S:WAVE protocol markers in PRs
-
----
-
-**Protocol**: H&&S:WAVE | Hope&&Sauced  
-**Last Updated**: 2026-01-16
+```yaml
+# .github/workflows/platform-matrix.yml (example)
+strategy:
+  matrix:
+    os: [ubuntu-latest, windows-latest, macos-latest]
+    node-version: [20.x]
+    python-version: [3.12]

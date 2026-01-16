@@ -1,10 +1,7 @@
 # SpiralSafe Development Dependencies
 # Install: pip install -r requirements.txt -r requirements-dev.txt
 #
-# H&&S:WAVE | Hope&&Sauced
-
-# Core dependencies
--r requirements.txt
+# ATOM-INFRA-FIX-20260112-001
 
 # Testing
 pytest==7.4.3
@@ -18,6 +15,10 @@ black==24.3.0
 flake8==6.1.0
 mypy==1.8.0
 pylint==3.0.3
+
+# API Clients (for testing integrations)
+openai==1.12.0
+replicate==0.25.0
 isort==5.13.2
 
 # Type stubs
