@@ -53,11 +53,11 @@ jobs:
             
             # ═══ Curl (Coherence) - measure of repeated/coherent patterns ═══
             # Count repeated phrases (proxy for conceptual coherence)
-            PHRASES=$(echo "$CONTENT" | tr '.' '\n' | sort | uniq -d | wc -l)
+            REPEATED_PHRASES=$(echo "$CONTENT" | tr '.' '\n' | sort | uniq -d | wc -l)
             TOTAL_PHRASES=$(echo "$CONTENT" | tr '.' '\n' | wc -l)
             
             if [ "$TOTAL_PHRASES" -gt 0 ]; then
-              CURL=$(echo "scale=4; $PHRASES / $TOTAL_PHRASES" | bc)
+              CURL=$(echo "scale=4; $REPEATED_PHRASES / $TOTAL_PHRASES" | bc)
             else
               CURL=0
             fi
