@@ -68,7 +68,15 @@ jobs:
             PLACEHOLDERS=$(echo "$CONTENT" | grep -ciE '\[(TODO|PLACEHOLDER|TBD)\]|\{.*\}|placeholder|tbd|coming soon' || echo 0)
             HAS_CONCLUSION=$(echo "$CONTENT" | grep -ciE 'therefore|thus|conclusion|summary|in summary' || echo 0)
             
-            # Calculate divergence based on incompleteness markers
+            # Calculate divergence based on incompleteness markers.
+            # Heuristic weighting:
+            #   - 0.15  : base divergence floor for any non-trivial doc (some inherent incompleteness)
+            #   - 0.02  : per-question penalty (open questions slightly increase divergence)
+            #   - 0.05  : per-TODO/FIXME/XXX/HACK penalty (explicitly unfinished work is more severe)
+            #   - 0.03  : per-placeholder penalty (e.g., "TBD", "coming soon", or bracketed stubs)
+            # These values are tuned to keep DIV within [0, 1] after the cap below and to make TODOs
+            # and placeholders weigh more heavily than simple questions. See methodology/atom.md for
+            # background on how divergence is interpreted in the coherence gauge.
             DIV=$(echo "scale=4; 0.15 + ($QUESTIONS * 0.02) + ($TODO_COUNT * 0.05) + ($PLACEHOLDERS * 0.03)" | bc)
             if [ "$HAS_CONCLUSION" -gt 0 ]; then
               DIV=$(echo "scale=4; $DIV * 0.7" | bc)  # Reduce divergence if conclusions exist
