@@ -3,9 +3,10 @@
 #
 # Core dependencies (requests, pydantic) are in ../../../requirements.txt
 # This file only lists integration-specific additions
-
-# Testing (in ../../../requirements-dev.txt)
-pytest==7.4.4
+#
+# Testing tools (pytest, etc.) are defined in ../../../requirements-dev.txt
+# Developers should also install that file for running tests:
+#   pip install -r ../../../requirements-dev.txt
 # H&&S:WAVE | Hope&&Sauced
 
 # Use root requirements for consistency
