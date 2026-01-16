@@ -29,6 +29,7 @@ jobs:
         env:
           ISSUE_TITLE: ${{ github.event.issue.title }}
           PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           # Determine type based on labels or title
           if [ "${{ github.event_name }}" = "issues" ]; then
@@ -60,7 +61,7 @@ jobs:
             ITEM_TYPE="issue"
           else
             TITLE="$PR_TITLE"
-            NUMBER="${{ github.event.pull_request.number }}"
+            NUMBER="$PR_NUMBER"
             TYPE="PR"
             ITEM_TYPE="pull_request"
           fi
