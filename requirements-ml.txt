@@ -1,0 +1,49 @@
+# SpiralSafe ML/Quantum Dependencies (Optional)
+# Install: pip install -r requirements.txt -r requirements-ml.txt
+#
+# WARNING: These packages are large (>1GB) and may require GPU support.
+# For CPU-only PyTorch: pip install torch --index-url https://download.pytorch.org/whl/cpu
+#
+# H&&S:WAVE | Hope&&Sauced
+
+# Core dependencies
+-r requirements.txt
+
+# Scientific computing
+numpy==1.26.2
+scipy==1.11.4
+
+# Visualization
+matplotlib==3.8.2
+plotly==5.18.0
+
+# Advanced visualization
+networkx==3.2.1
+sympy==1.12
+
+# Mathematical animations (large dependency)
+manim==0.18.0
+
+# Image processing
+opencv-python==4.9.0.80
+
+# Machine Learning (Optional - Large packages)
+# Uncomment only if ML features are needed
+# torch==2.1.2
+# torchvision==0.16.2
+# torchaudio==2.1.2
+
+# Quantum computing (Optional - Large package)
+# Uncomment only if quantum features are needed
+# qiskit==0.45.1
+# qiskit-aer==0.13.1
+
+# Generative AI (Optional - Large packages)
+# Uncomment only if local model support is needed
+# diffusers==0.25.1
+# transformers==4.36.2
+# accelerate==0.25.0
+
+# API Clients for external AI services
+openai==1.12.0
+replicate==0.25.0
