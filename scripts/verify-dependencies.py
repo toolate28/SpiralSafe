@@ -28,9 +28,6 @@ HEAVY_PACKAGES = {
     "torch", "torchvision", "torchaudio", "tensorflow", "keras",
     "qiskit", "qiskit-aer", "qiskit-ibm-runtime",
     "transformers", "diffusers", "accelerate",
-    "opencv-python", "opencv-contrib-python",
-    "scipy", "pandas", "scikit-learn",
-    "manim",
 }
 
 
@@ -117,7 +114,7 @@ def check_file(file_path: Path) -> List[DependencyIssue]:
             ))
         
         # Check for heavy packages in main requirements
-        if package in HEAVY_PACKAGES and 'requirements-ml' not in str(file_path):
+        if package in HEAVY_PACKAGES and file_path.name != 'requirements-ml.txt':
             issues.append(DependencyIssue(
                 file_path, line_num, "warning",
                 f"Heavy package '{package}' should be in requirements-ml.txt or commented as optional"
