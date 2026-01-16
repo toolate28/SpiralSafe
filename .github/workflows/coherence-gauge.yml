@@ -65,7 +65,7 @@ jobs:
             # ═══ Divergence (Incompleteness) - measure of unresolved content ═══
             QUESTIONS=$(echo "$CONTENT" | grep -c '?' || echo 0)
             TODO_COUNT=$(echo "$CONTENT" | grep -ciE 'todo|fixme|xxx|hack' || echo 0)
-            PLACEHOLDERS=$(echo "$CONTENT" | grep -ciE '\[.*\]|\{.*\}|placeholder|tbd|coming soon' || echo 0)
+            PLACEHOLDERS=$(echo "$CONTENT" | grep -ciE '\[(TODO|PLACEHOLDER|TBD)\]|\{.*\}|placeholder|tbd|coming soon' || echo 0)
             HAS_CONCLUSION=$(echo "$CONTENT" | grep -ciE 'therefore|thus|conclusion|summary|in summary' || echo 0)
             
             # Calculate divergence based on incompleteness markers
