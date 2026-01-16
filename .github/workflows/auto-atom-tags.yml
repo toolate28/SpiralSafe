@@ -32,9 +32,10 @@ jobs:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ' ') }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
           # Determine type based on labels or title
-          if [ "${{ github.event_name }}" = "issues" ]; then
+          if [ "$EVENT_NAME" = "issues" ]; then
             TITLE="$ISSUE_TITLE"
             NUMBER="$ISSUE_NUMBER"
             LABELS="$ISSUE_LABELS"
