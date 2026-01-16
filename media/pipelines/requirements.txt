@@ -8,7 +8,7 @@
 # This file only lists media pipeline-specific additions
 
 # Image Generation
-Pillow==10.2.0
+Pillow==10.3.0
 opencv-python==4.9.0.80
 
 # Scientific Visualization
