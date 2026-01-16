@@ -28,21 +28,9 @@ asyncio-atexit==1.0.1
 
 # Documentation
 markdown==3.4.4
-# Data validation
-pydantic==2.5.0
 
 # File system utilities
-Pillow==10.2.0
-
-# Serial/USB communication (for hardware bridges)
-pyserial==3.5.0
-pyusb==1.2.1
-
-# Monitoring and logging
-psutil==5.9.8
-
-# Documentation
-markdown==3.4.4
+Pillow==10.3.0
 
 # CLI utilities
 click==8.1.7

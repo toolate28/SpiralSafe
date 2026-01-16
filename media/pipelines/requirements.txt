@@ -7,28 +7,6 @@
 # Core packages are in ../../requirements.txt
 # This file only lists media pipeline-specific additions
 
-# Image Generation
-Pillow==10.3.0
-opencv-python==4.9.0.80
-
-# Scientific Visualization
-numpy==1.26.3
-scipy==1.12.0
-matplotlib==3.8.2
-plotly==5.18.0
-
-# Advanced Visualization
-# Note: manim is very heavy (~500MB+). Use requirements-ml.txt instead
-# manim==0.18.0  # Mathematical animations
-networkx==3.2.1  # Graph/network visualization
-sympy==1.12  # Symbolic mathematics
-# Install: pip install -r requirements.txt
-#
-# For ML-based media generation, also install:
-#   pip install -r ../../requirements-ml.txt
-#
-# H&&S:WAVE | Hope&&Sauced
-
 # Use root requirements + ML requirements for consistency
 -r ../../requirements.txt
 -r ../../requirements-ml.txt
