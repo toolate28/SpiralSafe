@@ -21,6 +21,10 @@ jobs:
         with:
           fetch-depth: 0
       
+      - name: Install bc calculator
+        run: |
+          sudo apt-get update && sudo apt-get install -y bc
+      
       - name: Calculate Enhanced Coherence Metrics
         id: metrics
         run: |
@@ -62,7 +66,7 @@ jobs:
             QUESTIONS=$(echo "$CONTENT" | grep -c '?' || echo 0)
             TODO_COUNT=$(echo "$CONTENT" | grep -ciE 'todo|fixme|xxx|hack' || echo 0)
             PLACEHOLDERS=$(echo "$CONTENT" | grep -ciE '\[.*\]|\{.*\}|placeholder|tbd|coming soon' || echo 0)
-            HAS_CONCLUSION=$(echo "$CONTENT" | grep -cE '(?i)(therefore|thus|conclusion|summary|in summary)' || echo 0)
+            HAS_CONCLUSION=$(echo "$CONTENT" | grep -ciE 'therefore|thus|conclusion|summary|in summary' || echo 0)
             
             # Calculate divergence based on incompleteness markers
             DIV=$(echo "scale=4; 0.15 + ($QUESTIONS * 0.02) + ($TODO_COUNT * 0.05) + ($PLACEHOLDERS * 0.03)" | bc)
@@ -165,8 +169,17 @@ jobs:
           echo "needs_attention=${#FAILED[@]}" >> $GITHUB_OUTPUT
           
           # Store file lists for comment
-          printf '%s\n' "${EXCELLENT[@]}" > excellent-files.txt || echo "" > excellent-files.txt
-          printf '%s\n' "${FAILED[@]}" > needs-attention-files.txt || echo "" > needs-attention-files.txt
+          if [ ${#EXCELLENT[@]} -gt 0 ]; then
+            printf '%s\n' "${EXCELLENT[@]}" > excellent-files.txt
+          else
+            touch excellent-files.txt
+          fi
+          
+          if [ ${#FAILED[@]} -gt 0 ]; then
+            printf '%s\n' "${FAILED[@]}" > needs-attention-files.txt
+          else
+            touch needs-attention-files.txt
+          fi
       
       - name: Create Visual Gauge Comment
         uses: actions/github-script@v7
@@ -299,8 +312,11 @@ jobs:
       - name: Report to API
         if: always()
         continue-on-error: true
+        env:
+          API_BASE: ${{ vars.SPIRALSAFE_API_BASE }}
         run: |
-          curl -X POST "${{ vars.SPIRALSAFE_API_BASE || 'https://api.spiralsafe.org' }}/api/wave/analyze" \
+          API_URL="${API_BASE:-https://api.spiralsafe.org}"
+          curl -X POST "${API_URL}/api/wave/analyze" \
             -H "Content-Type: application/json" \
             -d '{
               "content": "PR coherence analysis",
