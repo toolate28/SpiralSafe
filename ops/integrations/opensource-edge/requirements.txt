@@ -1,3 +1,7 @@
-pydantic>=1.10
-requests>=2.31
-pytest>=7.0
+# Open Source Edge Integration Dependencies
+# H&&S:WAVE | Hope&&Sauced
+
+# Use root requirements for consistency
+-r ../../../requirements.txt
+
+# No additional dependencies needed

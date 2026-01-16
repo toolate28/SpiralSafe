@@ -1,0 +1,36 @@
+# SpiralSafe Core Dependencies
+# Install: pip install -r requirements.txt
+#
+# For development: pip install -r requirements-dev.txt
+# For ML/quantum: pip install -r requirements-ml.txt
+#
+# H&&S:WAVE | Hope&&Sauced
+
+# Core async and file system
+aiofiles==24.1.0
+watchdog==3.0.0
+python-dotenv==1.0.0
+
+# HTTP client
+httpx==0.27.0
+requests==2.31.0
+
+# Data validation
+pydantic==2.5.0
+
+# File system utilities
+Pillow==10.2.0
+
+# Serial/USB communication (for hardware bridges)
+pyserial==3.5.0
+pyusb==1.2.1
+
+# Monitoring and logging
+psutil==5.9.8
+
+# Documentation
+markdown==3.4.4
+
+# CLI utilities
+click==8.1.7
+rich==13.7.0

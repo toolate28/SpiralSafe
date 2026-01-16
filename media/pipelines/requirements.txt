@@ -1,36 +1,17 @@
 # SpiralSafe Media Pipeline Dependencies
 # Install: pip install -r requirements.txt
+#
+# For ML-based media generation, also install:
+#   pip install -r ../../requirements-ml.txt
+#
+# H&&S:WAVE | Hope&&Sauced
 
-# Core
-httpx>=0.27.0
-aiofiles>=24.1.0
-python-dotenv>=1.0.0
-
-# Image Generation
-Pillow>=10.2.0
-opencv-python>=4.9.0
-
-# Scientific Visualization
-numpy>=1.26.0
-scipy>=1.12.0
-matplotlib>=3.8.0
-plotly>=5.18.0
-
-# Advanced Visualization
-manim>=0.18.0  # Mathematical animations
-networkx>=3.2.0  # Graph/network visualization
-sympy>=1.12.0  # Symbolic mathematics
+# Use root requirements + ML requirements for consistency
+-r ../../requirements.txt
+-r ../../requirements-ml.txt
 
 # Video Processing
-# Note: FFmpeg must be installed separately
+# Note: FFmpeg must be installed separately as a system dependency
 # Windows: winget install FFmpeg
 # Mac: brew install ffmpeg
 # Linux: apt install ffmpeg
-
-# Optional: Local AI Models
-# torch>=2.2.0  # Uncomment for local model support
-# diffusers>=0.27.0  # Uncomment for local Stable Diffusion
-
-# API Clients (optional based on providers used)
-openai>=1.12.0  # For DALL-E
-replicate>=0.25.0  # For Replicate models

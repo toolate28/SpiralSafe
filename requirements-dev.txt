@@ -1,0 +1,32 @@
+# SpiralSafe Development Dependencies
+# Install: pip install -r requirements.txt -r requirements-dev.txt
+#
+# H&&S:WAVE | Hope&&Sauced
+
+# Core dependencies
+-r requirements.txt
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+pytest-timeout==2.2.0
+hypothesis==6.92.1
+
+# Code quality
+black==23.12.1
+flake8==6.1.0
+mypy==1.8.0
+pylint==3.0.3
+isort==5.13.2
+
+# Type stubs
+types-requests==2.31.0.10
+
+# Pre-commit hooks
+pre-commit==3.6.0
+detect-secrets==1.4.0
+
+# Documentation generation
+mkdocs==1.5.3
+mkdocs-material==9.5.3
