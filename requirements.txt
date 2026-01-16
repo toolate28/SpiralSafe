@@ -16,7 +16,7 @@ pyusb==1.2.1
 
 # HTTP client
 httpx==0.27.0
-requests==2.31.0
+requests==2.32.4
 
 # Configuration and environment
 python-dotenv==1.0.1
