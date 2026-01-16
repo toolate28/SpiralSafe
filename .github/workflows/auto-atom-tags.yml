@@ -26,10 +26,13 @@ jobs:
       
       - name: Determine type and generate ATOM tag
         id: atom
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
           # Determine type based on labels or title
           if [ "${{ github.event_name }}" = "issues" ]; then
-            TITLE="${{ github.event.issue.title }}"
+            TITLE="$ISSUE_TITLE"
             NUMBER="${{ github.event.issue.number }}"
             LABELS="${{ join(github.event.issue.labels.*.name, ',') }}"
             
@@ -56,7 +59,7 @@ jobs:
             
             ITEM_TYPE="issue"
           else
-            TITLE="${{ github.event.pull_request.title }}"
+            TITLE="$PR_TITLE"
             NUMBER="${{ github.event.pull_request.number }}"
             TYPE="PR"
             ITEM_TYPE="pull_request"
