@@ -85,9 +85,11 @@ def check_requirements_file(filepath: Path) -> List[Dict[str, any]]:
         if package_name in STDLIB_MODULES:
             stdlib_packages.append((package_name, i))
         
-        # Check for unpinned versions (using >= or no version)
+        # Check for unpinned versions (using >= or > without exact pin)
+        # Accept patterns like: ==1.2.3 or ==1.2.3,<2.0
         if '>=' in full_line or '>' in full_line:
-            if not re.search(r'[<>=]=[0-9]', full_line):
+            # Check if there's an exact pin (== with version number)
+            if not re.search(r'==\d+(\.\d+)*', full_line):
                 unpinned_packages.append((package_name, i))
         
         # Check for heavy packages that should be optional

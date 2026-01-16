@@ -111,15 +111,29 @@ All dependencies use exact version pinning (e.g., `==1.2.3`) for reproducibility
 
 ### Updating Versions
 
-To update all dependencies to latest compatible versions:
+To update dependencies to latest compatible versions:
 
-```bash
-# Install pip-tools
-pip install pip-tools
+1. **Manual approach** (current):
+   ```bash
+   # Check for outdated packages
+   pip list --outdated
+   
+   # Update specific package
+   pip install --upgrade package-name
+   
+   # Update requirements file with new version
+   pip freeze | grep package-name
+   ```
 
-# Compile new pins (example)
-pip-compile --upgrade requirements.in -o requirements.txt
-```
+2. **Using pip-tools** (optional):
+   ```bash
+   # Install pip-tools
+   pip install pip-tools
+   
+   # Create .in file from existing requirements
+   # Then compile with latest versions
+   pip-compile --upgrade requirements.txt
+   ```
 
 ## Validation
 
