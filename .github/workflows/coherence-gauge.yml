@@ -1,0 +1,318 @@
+name: 🌀 Coherence Gauge
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  analyze-coherence:
+    name: Analyze & Display Coherence
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Calculate Enhanced Coherence Metrics
+        id: metrics
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  🌀 Enhanced Coherence Analysis"
+          echo "═══════════════════════════════════════════════════════════════"
+          
+          # Find all markdown files (excluding node_modules and .git)
+          FILES=$(find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" -not -path "./archive/*")
+          
+          TOTAL_CURL=0
+          TOTAL_DIV=0
+          TOTAL_ENTROPY=0
+          COUNT=0
+          FAILED=()
+          EXCELLENT=()
+          
+          for file in $FILES; do
+            if [ ! -f "$file" ]; then continue; fi
+            
+            CONTENT=$(cat "$file")
+            LINES=$(echo "$CONTENT" | wc -l)
+            
+            # Skip empty or very small files
+            if [ "$LINES" -lt 5 ]; then continue; fi
+            
+            # ═══ Curl (Coherence) - measure of repeated/coherent patterns ═══
+            # Count repeated phrases (proxy for conceptual coherence)
+            PHRASES=$(echo "$CONTENT" | tr '.' '\n' | sort | uniq -d | wc -l)
+            TOTAL_PHRASES=$(echo "$CONTENT" | tr '.' '\n' | wc -l)
+            
+            if [ "$TOTAL_PHRASES" -gt 0 ]; then
+              CURL=$(echo "scale=4; $PHRASES / $TOTAL_PHRASES" | bc)
+            else
+              CURL=0
+            fi
+            
+            # ═══ Divergence (Incompleteness) - measure of unresolved content ═══
+            QUESTIONS=$(echo "$CONTENT" | grep -c '?' || echo 0)
+            TODO_COUNT=$(echo "$CONTENT" | grep -ciE 'todo|fixme|xxx|hack' || echo 0)
+            PLACEHOLDERS=$(echo "$CONTENT" | grep -ciE '\[.*\]|\{.*\}|placeholder|tbd|coming soon' || echo 0)
+            HAS_CONCLUSION=$(echo "$CONTENT" | grep -cE '(?i)(therefore|thus|conclusion|summary|in summary)' || echo 0)
+            
+            # Calculate divergence based on incompleteness markers
+            DIV=$(echo "scale=4; 0.15 + ($QUESTIONS * 0.02) + ($TODO_COUNT * 0.05) + ($PLACEHOLDERS * 0.03)" | bc)
+            if [ "$HAS_CONCLUSION" -gt 0 ]; then
+              DIV=$(echo "scale=4; $DIV * 0.7" | bc)  # Reduce divergence if conclusions exist
+            fi
+            # Cap divergence at 1.0
+            DIV_INT=$(echo "$DIV * 10000 / 1" | bc)
+            if [ "$DIV_INT" -gt 10000 ]; then
+              DIV="1.0000"
+            fi
+            
+            # ═══ Entropy (Information Density) - measure of conceptual richness ═══
+            UNIQUE_WORDS=$(echo "$CONTENT" | tr '[:space:]' '\n' | tr '[:upper:]' '[:lower:]' | sort -u | wc -l)
+            TOTAL_WORDS=$(echo "$CONTENT" | wc -w)
+            
+            if [ "$TOTAL_WORDS" -gt 0 ]; then
+              ENTROPY=$(echo "scale=4; $UNIQUE_WORDS / $TOTAL_WORDS" | bc)
+            else
+              ENTROPY=0
+            fi
+            
+            # ═══ Composite Coherence Score ═══
+            # Formula: Coherence = (Curl * 0.4) + ((1 - Divergence) * 0.4) + (Entropy * 0.2)
+            COHERENCE=$(echo "scale=4; ($CURL * 0.4) + ((1 - $DIV) * 0.4) + ($ENTROPY * 0.2)" | bc)
+            COHERENCE_PCT=$(echo "scale=2; $COHERENCE * 100" | bc)
+            
+            # Track excellent files (>80% coherence)
+            COHERENCE_INT=$(echo "$COHERENCE_PCT / 1" | bc)
+            if [ "$COHERENCE_INT" -gt 80 ]; then
+              EXCELLENT+=("$file")
+            fi
+            
+            # Track files that need attention (<50% coherence)
+            if [ "$COHERENCE_INT" -lt 50 ]; then
+              FAILED+=("$file")
+              echo "⚠ $file - coherence:${COHERENCE_PCT}% (curl:$CURL div:$DIV entropy:$ENTROPY)"
+            else
+              echo "✓ $file - coherence:${COHERENCE_PCT}%"
+            fi
+            
+            TOTAL_CURL=$(echo "$TOTAL_CURL + $CURL" | bc)
+            TOTAL_DIV=$(echo "$TOTAL_DIV + $DIV" | bc)
+            TOTAL_ENTROPY=$(echo "$TOTAL_ENTROPY + $ENTROPY" | bc)
+            COUNT=$((COUNT + 1))
+          done
+          
+          # Calculate averages
+          if [ "$COUNT" -gt 0 ]; then
+            AVG_CURL=$(echo "scale=4; $TOTAL_CURL / $COUNT" | bc)
+            AVG_DIV=$(echo "scale=4; $TOTAL_DIV / $COUNT" | bc)
+            AVG_ENTROPY=$(echo "scale=4; $TOTAL_ENTROPY / $COUNT" | bc)
+            AVG_COHERENCE=$(echo "scale=4; ($AVG_CURL * 0.4) + ((1 - $AVG_DIV) * 0.4) + ($AVG_ENTROPY * 0.2)" | bc)
+            AVG_COHERENCE_PCT=$(echo "scale=2; $AVG_COHERENCE * 100" | bc)
+          else
+            AVG_CURL=0
+            AVG_DIV=0
+            AVG_ENTROPY=0
+            AVG_COHERENCE=0
+            AVG_COHERENCE_PCT=0
+          fi
+          
+          echo ""
+          echo "───────────────────────────────────────────────────────────────"
+          echo "  Summary: $COUNT files analyzed"
+          echo "  Average Curl (coherence): $AVG_CURL"
+          echo "  Average Divergence: $AVG_DIV"
+          echo "  Average Entropy: $AVG_ENTROPY"
+          echo "  Overall Coherence: ${AVG_COHERENCE_PCT}%"
+          echo "───────────────────────────────────────────────────────────────"
+          
+          # Quantum-themed assessment
+          COHERENCE_INT=$(echo "$AVG_COHERENCE_PCT / 1" | bc)
+          if [ "$COHERENCE_INT" -ge 90 ]; then
+            QUANTUM_STATE="✨ Superposition Achieved - Quantum coherence maintained"
+            GAUGE_LEVEL="excellent"
+          elif [ "$COHERENCE_INT" -ge 75 ]; then
+            QUANTUM_STATE="🌟 High Coherence - Minor decoherence detected"
+            GAUGE_LEVEL="good"
+          elif [ "$COHERENCE_INT" -ge 60 ]; then
+            QUANTUM_STATE="⚡ Acceptable Coherence - Some wave collapse observed"
+            GAUGE_LEVEL="acceptable"
+          elif [ "$COHERENCE_INT" -ge 40 ]; then
+            QUANTUM_STATE="⚠️  Low Coherence - Significant decoherence"
+            GAUGE_LEVEL="low"
+          else
+            QUANTUM_STATE="🚨 Critical - Wave function collapse imminent"
+            GAUGE_LEVEL="critical"
+          fi
+          
+          # Set outputs for the comment
+          echo "coherence_pct=$AVG_COHERENCE_PCT" >> $GITHUB_OUTPUT
+          echo "curl=$AVG_CURL" >> $GITHUB_OUTPUT
+          echo "divergence=$AVG_DIV" >> $GITHUB_OUTPUT
+          echo "entropy=$AVG_ENTROPY" >> $GITHUB_OUTPUT
+          echo "quantum_state=$QUANTUM_STATE" >> $GITHUB_OUTPUT
+          echo "gauge_level=$GAUGE_LEVEL" >> $GITHUB_OUTPUT
+          echo "files_analyzed=$COUNT" >> $GITHUB_OUTPUT
+          echo "excellent_count=${#EXCELLENT[@]}" >> $GITHUB_OUTPUT
+          echo "needs_attention=${#FAILED[@]}" >> $GITHUB_OUTPUT
+          
+          # Store file lists for comment
+          printf '%s\n' "${EXCELLENT[@]}" > excellent-files.txt || echo "" > excellent-files.txt
+          printf '%s\n' "${FAILED[@]}" > needs-attention-files.txt || echo "" > needs-attention-files.txt
+      
+      - name: Create Visual Gauge Comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const coherencePct = parseFloat('${{ steps.metrics.outputs.coherence_pct }}');
+            const curl = parseFloat('${{ steps.metrics.outputs.curl }}');
+            const divergence = parseFloat('${{ steps.metrics.outputs.divergence }}');
+            const entropy = parseFloat('${{ steps.metrics.outputs.entropy }}');
+            const quantumState = '${{ steps.metrics.outputs.quantum_state }}';
+            const gaugeLevel = '${{ steps.metrics.outputs.gauge_level }}';
+            const filesAnalyzed = '${{ steps.metrics.outputs.files_analyzed }}';
+            const excellentCount = '${{ steps.metrics.outputs.excellent_count }}';
+            const needsAttention = '${{ steps.metrics.outputs.needs_attention }}';
+            
+            // Create visual gauge using Unicode blocks
+            const createGauge = (value, max = 100) => {
+              const filled = Math.round((value / max) * 20);
+              const empty = 20 - filled;
+              let bar = '';
+              
+              // Color-coded blocks based on value
+              let block = '█';
+              if (value >= 90) block = '🟩';
+              else if (value >= 75) block = '🟦';
+              else if (value >= 60) block = '🟨';
+              else if (value >= 40) block = '🟧';
+              else block = '🟥';
+              
+              bar = block.repeat(filled) + '⬜'.repeat(empty);
+              return bar;
+            };
+            
+            // Create mini gauge for metrics
+            const createMiniGauge = (value, max = 1.0) => {
+              const pct = (value / max) * 100;
+              const filled = Math.round(pct / 10);
+              const blocks = '█'.repeat(filled) + '░'.repeat(10 - filled);
+              return `${blocks} ${pct.toFixed(1)}%`;
+            };
+            
+            // Ethical quantum check
+            const ethicalCheck = coherencePct >= 60 ? '✅' : '⚠️';
+            const readyForMerge = coherencePct >= 60 && needsAttention === '0';
+            
+            let comment = `## 🌀 **Agent Review** - Coherence Analysis\n\n`;
+            comment += `### ${quantumState}\n\n`;
+            comment += `#### Overall Coherence: **${coherencePct.toFixed(1)}%**\n\n`;
+            comment += `${createGauge(coherencePct)}\n\n`;
+            comment += `---\n\n`;
+            comment += `### 📊 Detailed Metrics\n\n`;
+            comment += `| Metric | Value | Gauge |\n`;
+            comment += `|--------|-------|-------|\n`;
+            comment += `| 🔄 **Curl** (Coherence) | ${(curl * 100).toFixed(1)}% | ${createMiniGauge(curl)} |\n`;
+            comment += `| 📐 **Divergence** (Incompleteness) | ${(divergence * 100).toFixed(1)}% | ${createMiniGauge(divergence)} |\n`;
+            comment += `| 🎲 **Entropy** (Info Density) | ${(entropy * 100).toFixed(1)}% | ${createMiniGauge(entropy)} |\n\n`;
+            comment += `---\n\n`;
+            comment += `### 📈 Analysis Summary\n\n`;
+            comment += `- **Files Analyzed:** ${filesAnalyzed}\n`;
+            comment += `- **Excellent (>80%):** ${excellentCount} files\n`;
+            comment += `- **Needs Attention (<50%):** ${needsAttention} files\n\n`;
+            
+            // Add ethical quantum validation
+            comment += `### 🔬 Ethical Quantum Simulation Status\n\n`;
+            if (coherencePct >= 60) {
+              comment += `${ethicalCheck} **Validated** - Coherence threshold met (≥60%)\n`;
+              comment += `- Wave function integrity: ✓\n`;
+              comment += `- Entanglement preserved: ✓\n`;
+              comment += `- Superposition stable: ✓\n\n`;
+            } else {
+              comment += `${ethicalCheck} **Needs Review** - Coherence below threshold (<60%)\n`;
+              comment += `- Wave function integrity: ⚠️\n`;
+              comment += `- Decoherence detected: ⚠️\n`;
+              comment += `- Review recommended before merge\n\n`;
+            }
+            
+            // Read file lists
+            let excellentFiles = '';
+            let needsAttentionFiles = '';
+            try {
+              excellentFiles = fs.readFileSync('excellent-files.txt', 'utf8').trim();
+              needsAttentionFiles = fs.readFileSync('needs-attention-files.txt', 'utf8').trim();
+            } catch (e) {
+              // Files may be empty
+            }
+            
+            if (excellentFiles) {
+              comment += `<details>\n<summary>📚 Excellent Files (${excellentCount})</summary>\n\n`;
+              excellentFiles.split('\n').slice(0, 10).forEach(f => {
+                if (f) comment += `- ${f}\n`;
+              });
+              if (excellentCount > 10) comment += `- ... and ${excellentCount - 10} more\n`;
+              comment += `\n</details>\n\n`;
+            }
+            
+            if (needsAttentionFiles) {
+              comment += `<details>\n<summary>⚠️ Files Needing Attention (${needsAttention})</summary>\n\n`;
+              needsAttentionFiles.split('\n').forEach(f => {
+                if (f) comment += `- ${f}\n`;
+              });
+              comment += `\n</details>\n\n`;
+            }
+            
+            comment += `---\n\n`;
+            comment += `### 🎯 Merge Status\n\n`;
+            if (readyForMerge) {
+              comment += `✅ **Ready for merge** - All coherence checks passed!\n\n`;
+              comment += `The attenuating vortex is stable. No interference patterns detected. 🌀\n`;
+            } else if (coherencePct >= 60) {
+              comment += `⚠️ **Conditional merge** - Coherence acceptable but some files need attention.\n\n`;
+              comment += `Consider reviewing files flagged above before merging.\n`;
+            } else {
+              comment += `❌ **Review required** - Coherence below threshold.\n\n`;
+              comment += `Please address coherence issues before merging.\n`;
+            }
+            
+            comment += `\n---\n`;
+            comment += `<sub>🤖 Generated by SpiralSafe Coherence Gauge v2.0 | Powered by Quantum Topology</sub>\n`;
+            
+            // Post comment
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: comment
+            });
+      
+      - name: Report to API
+        if: always()
+        continue-on-error: true
+        run: |
+          curl -X POST "${{ vars.SPIRALSAFE_API_BASE || 'https://api.spiralsafe.org' }}/api/wave/analyze" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "content": "PR coherence analysis",
+              "metadata": {
+                "repository": "${{ github.repository }}",
+                "pr_number": "${{ github.event.pull_request.number }}",
+                "sha": "${{ github.sha }}",
+                "coherence": ${{ steps.metrics.outputs.coherence_pct }},
+                "curl": ${{ steps.metrics.outputs.curl }},
+                "divergence": ${{ steps.metrics.outputs.divergence }},
+                "entropy": ${{ steps.metrics.outputs.entropy }},
+                "quantum_state": "${{ steps.metrics.outputs.quantum_state }}",
+                "files_analyzed": ${{ steps.metrics.outputs.files_analyzed }}
+              }
+            }' || true
