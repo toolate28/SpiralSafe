@@ -13,13 +13,13 @@ python-dotenv==1.0.0
 
 # HTTP client
 httpx==0.27.0
-requests==2.31.0
+requests==2.32.4
 
 # Data validation
 pydantic==2.5.0
 
 # File system utilities
-Pillow==10.2.0
+Pillow==10.3.0
 
 # Serial/USB communication (for hardware bridges)
 pyserial==3.5.0
