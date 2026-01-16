@@ -88,7 +88,7 @@ jobs:
             fi
             
             # ═══ Entropy (Information Density) - measure of conceptual richness ═══
-            UNIQUE_WORDS=$(echo "$CONTENT" | tr '[:space:]' '\n' | tr '[:upper:]' '[:lower:]' | sort -u | wc -l)
+            UNIQUE_WORDS=$(echo "$CONTENT" | tr '[:space:]' '\n' | tr '[:upper:]' '[:lower:]' | grep -v '^$' | sort -u | wc -l)
             TOTAL_WORDS=$(echo "$CONTENT" | wc -w)
             
             if [ "$TOTAL_WORDS" -gt 0 ]; then
