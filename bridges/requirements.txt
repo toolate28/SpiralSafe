@@ -7,6 +7,18 @@
 
 # Core dependencies (asyncio-atexit, watchdog, psutil, pyserial, pyusb) 
 # are in ../requirements.txt
+#
+# Install: pip install -r requirements.txt
+# Or from repository root: pip install -r requirements.txt
+#
+# H&&S:WAVE | Hope&&Sauced
+
+# Use root requirements for consistency
+-r ../requirements.txt
+
+# Additional bridge-specific dependencies
+# (asyncio-atexit is for cleanup handlers, NOT the asyncio stdlib module)
+asyncio-atexit==1.0.1
 
 # Razer Chroma SDK support (Linux)
 # Note: On Linux, install OpenRazer:
@@ -32,3 +44,6 @@ mypy==1.8.0
 
 # Documentation (in ../requirements.txt)
 # markdown==3.4.4
+# Optional: numpy for advanced 3D rendering
+# See requirements-ml.txt in root for ML dependencies
+# numpy>=1.24.0

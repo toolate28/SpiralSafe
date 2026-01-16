@@ -6,3 +6,10 @@
 
 # Testing (in ../../../requirements-dev.txt)
 pytest==7.4.4
+# H&&S:WAVE | Hope&&Sauced
+
+# Use root requirements for consistency
+-r ../../../requirements.txt
+
+# OpenAI SDK already included in requirements-ml.txt
+# No additional dependencies needed

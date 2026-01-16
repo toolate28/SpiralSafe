@@ -1,214 +1,206 @@
 #!/usr/bin/env python3
 """
-Dependency Verification Script for SpiralSafe
+Dependency Verification Script
 Validates Python requirements files for common issues.
 
+H&&S:WAVE | Hope&&Sauced
 ATOM-INFRA-FIX-20260112-001
 """
+
 import re
 import sys
 from pathlib import Path
 from typing import List, Dict, Set, Tuple
 
-# Python standard library modules that should not be in requirements
+# Stdlib modules that should never be in requirements
 STDLIB_MODULES = {
-    'asyncio', 'os', 'sys', 'json', 're', 'pathlib', 'typing', 'datetime',
-    'collections', 'itertools', 'functools', 'io', 'time', 'unittest',
-    'logging', 'subprocess', 'tempfile', 'shutil', 'copy', 'pickle',
-    'warnings', 'abc', 'enum', 'dataclasses', 'contextlib', 'traceback'
+    "asyncio", "typing", "json", "os", "sys", "pathlib", "datetime",
+    "collections", "itertools", "functools", "re", "subprocess", "threading",
+    "multiprocessing", "queue", "socket", "urllib", "http", "email", "xml",
+    "sqlite3", "csv", "tempfile", "shutil", "glob", "pickle", "hashlib",
+    "base64", "uuid", "random", "time", "math", "statistics", "decimal",
+    "fractions", "struct", "codecs", "io", "argparse", "logging", "unittest",
+    "enum", "dataclasses", "abc", "contextlib", "weakref", "copy", "pprint",
 }
 
-# Heavy ML/quantum packages that should be optional
+# Heavy packages that should be optional
 HEAVY_PACKAGES = {
-    'torch', 'tensorflow', 'qiskit', 'jax', 'transformers', 'diffusers',
-    'manim'  # Heavy mathematical animation library
+    "torch", "torchvision", "torchaudio", "tensorflow", "keras",
+    "qiskit", "qiskit-aer", "qiskit-ibm-runtime",
+    "transformers", "diffusers", "accelerate",
 }
+
+
+class DependencyIssue:
+    """Represents a dependency validation issue."""
+    
+    def __init__(self, file: Path, line_num: int, severity: str, message: str):
+        self.file = file
+        self.line_num = line_num
+        self.severity = severity
+        self.message = message
+    
+    def __str__(self):
+        return f"{self.severity.upper()}: {self.file}:{self.line_num} - {self.message}"
 
 
 def parse_requirement_line(line: str) -> Tuple[str, str]:
     """Parse a requirement line to extract package name and version spec."""
     line = line.strip()
+    
+    # Skip comments and empty lines
     if not line or line.startswith('#'):
-        return '', ''
+        return None, None
     
-    # Handle inline comments
-    if '#' in line:
-        line = line.split('#')[0].strip()
+    # Skip -r includes
+    if line.startswith('-r '):
+        return None, None
     
-    # Extract package name (before version specifier)
-    match = re.match(r'^([a-zA-Z0-9_-]+)', line)
+    # Extract package name (handle ==, >=, <=, ~=, !=, <, >)
+    match = re.match(r'^([a-zA-Z0-9][a-zA-Z0-9._-]*)', line)
     if match:
-        return match.group(1).lower(), line
-    return '', ''
+        package = match.group(1).lower()
+        version_spec = line[len(match.group(1)):].strip()
+        return package, version_spec
+    
+    return None, None
 
 
-def check_requirements_file(filepath: Path) -> List[Dict[str, any]]:
-    """Check a requirements file for common issues."""
+def check_file(file_path: Path) -> List[DependencyIssue]:
+    """Check a single requirements file for issues."""
     issues = []
     
-    if not filepath.exists():
+    if not file_path.exists():
         return issues
     
     try:
-        content = filepath.read_text()
-        lines = content.split('\n')
+        content = file_path.read_text(encoding='utf-8')
+        lines = content.splitlines()
     except Exception as e:
-        issues.append({
-            'type': 'error',
-            'file': str(filepath),
-            'message': f'Failed to read file: {e}'
-        })
+        issues.append(DependencyIssue(
+            file_path, 0, "error", f"Failed to read file: {e}"
+        ))
         return issues
     
-    seen_packages = {}  # package_name -> line_number
-    unpinned_packages = []
-    heavy_packages_found = []
-    stdlib_packages = []
+    seen_packages = {}
     
-    for i, line in enumerate(lines, 1):
-        package_name, full_line = parse_requirement_line(line)
-        if not package_name:
+    for line_num, line in enumerate(lines, 1):
+        package, version_spec = parse_requirement_line(line)
+        
+        if package is None:
             continue
         
-        # Check for duplicate entries
-        if package_name in seen_packages:
-            issues.append({
-                'type': 'error',
-                'file': str(filepath),
-                'line': i,
-                'message': f'Duplicate package "{package_name}" (also on line {seen_packages[package_name]})'
-            })
-        else:
-            seen_packages[package_name] = i
-        
         # Check for stdlib modules
-        if package_name in STDLIB_MODULES:
-            stdlib_packages.append((package_name, i))
+        if package in STDLIB_MODULES:
+            issues.append(DependencyIssue(
+                file_path, line_num, "error",
+                f"'{package}' is a Python stdlib module and should not be in requirements"
+            ))
         
-        # Check for unpinned versions (using >= or > without exact pin)
-        # Accept patterns like: ==1.2.3 or ==1.2.3,<2.0
-        if '>=' in full_line or '>' in full_line:
-            # Check if there's an exact pin (== with version number)
-            if not re.search(r'==\d+(\.\d+)*', full_line):
-                unpinned_packages.append((package_name, i))
+        # Check for duplicates
+        if package in seen_packages:
+            issues.append(DependencyIssue(
+                file_path, line_num, "error",
+                f"Duplicate entry for '{package}' (first seen at line {seen_packages[package]})"
+            ))
+        else:
+            seen_packages[package] = line_num
         
-        # Check for heavy packages that should be optional
-        if package_name in HEAVY_PACKAGES and not line.strip().startswith('#'):
-            heavy_packages_found.append((package_name, i))
-    
-    # Report stdlib modules
-    for package, line_num in stdlib_packages:
-        issues.append({
-            'type': 'error',
-            'file': str(filepath),
-            'line': line_num,
-            'message': f'"{package}" is a Python stdlib module and should not be in requirements'
-        })
-    
-    # Report unpinned versions as warnings
-    for package, line_num in unpinned_packages:
-        issues.append({
-            'type': 'warning',
-            'file': str(filepath),
-            'line': line_num,
-            'message': f'"{package}" uses relaxed version constraint (consider pinning for reproducibility)'
-        })
-    
-    # Report heavy packages (unless already in requirements-ml.txt)
-    is_ml_file = 'ml' in str(filepath).lower()
-    for package, line_num in heavy_packages_found:
-        if not is_ml_file:
-            issues.append({
-                'type': 'warning',
-                'file': str(filepath),
-                'line': line_num,
-                'message': f'Heavy package "{package}" should be optional or in separate requirements-ml.txt'
-            })
+        # Check for unpinned versions
+        if not version_spec or version_spec.startswith('>='):
+            issues.append(DependencyIssue(
+                file_path, line_num, "warning",
+                f"'{package}' should use pinned version (==) for reproducibility"
+            ))
+        
+        # Check for heavy packages in main requirements
+        if package in HEAVY_PACKAGES and file_path.name != 'requirements-ml.txt':
+            issues.append(DependencyIssue(
+                file_path, line_num, "warning",
+                f"Heavy package '{package}' should be in requirements-ml.txt or commented as optional"
+            ))
     
     return issues
 
 
-def find_requirements_files(root_dir: Path) -> List[Path]:
+def find_requirement_files(root: Path) -> List[Path]:
     """Find all requirements*.txt files in the repository."""
-    requirements_files = set()
+    files = []
     
-    # Common patterns for requirements files
-    patterns = ['requirements*.txt', '*requirements.txt']
+    # Root level requirements
+    for pattern in ['requirements*.txt', '*requirements.txt']:
+        files.extend(root.glob(pattern))
     
-    for pattern in patterns:
-        requirements_files.update(root_dir.rglob(pattern))
+    # Subdirectory requirements
+    for pattern in ['**/requirements*.txt', '**/*requirements.txt']:
+        files.extend(root.glob(pattern))
     
-    # Filter out node_modules and .git directories, convert back to list
-    return sorted([
-        f for f in requirements_files
-        if 'node_modules' not in str(f) and '.git' not in str(f)
-    ])
+    # Filter out node_modules, .git, etc.
+    filtered = []
+    for f in files:
+        parts = f.parts
+        if not any(skip in parts for skip in ['node_modules', '.git', 'dist', 'build', '__pycache__']):
+            filtered.append(f)
+    
+    return sorted(set(filtered))
 
 
 def main():
     """Main entry point."""
-    root_dir = Path(__file__).parent.parent
-    print("=" * 70)
-    print("SpiralSafe Dependency Verification")
-    print("=" * 70)
+    repo_root = Path(__file__).parent.parent
+    
+    print("═" * 70)
+    print("  SpiralSafe Dependency Verification")
+    print("  H&&S:WAVE | Hope&&Sauced")
+    print("═" * 70)
     print()
     
-    requirements_files = find_requirements_files(root_dir)
-    
-    if not requirements_files:
-        print("✓ No requirements files found")
-        return 0
-    
-    print(f"Found {len(requirements_files)} requirements file(s):")
-    for f in requirements_files:
-        print(f"  - {f.relative_to(root_dir)}")
+    # Find all requirements files
+    req_files = find_requirement_files(repo_root)
+    print(f"Found {len(req_files)} requirements file(s):\n")
+    for f in req_files:
+        print(f"  • {f.relative_to(repo_root)}")
     print()
     
+    # Check each file
     all_issues = []
-    for req_file in requirements_files:
-        issues = check_requirements_file(req_file)
+    for req_file in req_files:
+        issues = check_file(req_file)
         all_issues.extend(issues)
     
-    # Group and display issues
-    errors = [i for i in all_issues if i['type'] == 'error']
-    warnings = [i for i in all_issues if i['type'] == 'warning']
+    # Report results
+    if not all_issues:
+        print("✓ All requirements files passed validation!")
+        print()
+        return 0
+    
+    # Group by severity
+    errors = [i for i in all_issues if i.severity == "error"]
+    warnings = [i for i in all_issues if i.severity == "warning"]
     
     if errors:
-        print(f"❌ Found {len(errors)} error(s):")
-        print()
+        print(f"⚠ Found {len(errors)} ERROR(S):\n")
         for issue in errors:
-            rel_path = Path(issue['file']).relative_to(root_dir)
-            if 'line' in issue:
-                print(f"  {rel_path}:{issue['line']}")
-            else:
-                print(f"  {rel_path}")
-            print(f"    {issue['message']}")
+            rel_path = issue.file.relative_to(repo_root)
+            print(f"  {rel_path}:{issue.line_num}")
+            print(f"    {issue.message}")
             print()
     
     if warnings:
-        print(f"⚠️  Found {len(warnings)} warning(s):")
-        print()
+        print(f"ℹ Found {len(warnings)} WARNING(S):\n")
         for issue in warnings:
-            rel_path = Path(issue['file']).relative_to(root_dir)
-            if 'line' in issue:
-                print(f"  {rel_path}:{issue['line']}")
-            else:
-                print(f"  {rel_path}")
-            print(f"    {issue['message']}")
+            rel_path = issue.file.relative_to(repo_root)
+            print(f"  {rel_path}:{issue.line_num}")
+            print(f"    {issue.message}")
             print()
     
-    if not all_issues:
-        print("✓ No issues found!")
-        print()
-        return 0
-    
-    print("=" * 70)
-    print(f"Summary: {len(errors)} error(s), {len(warnings)} warning(s)")
-    print("=" * 70)
+    print("─" * 70)
+    print(f"Total: {len(errors)} error(s), {len(warnings)} warning(s)")
+    print()
     
     # Exit with error code if there are errors
     return 1 if errors else 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

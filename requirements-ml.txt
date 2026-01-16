@@ -1,34 +1,49 @@
-# SpiralSafe Optional ML/Quantum Dependencies
-# These are heavy packages and optional for most use cases
+# SpiralSafe ML/Quantum Dependencies (Optional)
 # Install: pip install -r requirements.txt -r requirements-ml.txt
 #
-# ATOM-INFRA-FIX-20260112-001
+# WARNING: These packages are large (>1GB) and may require GPU support.
+# For CPU-only PyTorch: pip install torch --index-url https://download.pytorch.org/whl/cpu
+#
+# H&&S:WAVE | Hope&&Sauced
 
-# Image Processing and Computer Vision
-Pillow==10.3.0
-opencv-python==4.9.0.80
+# Core dependencies
+-r requirements.txt
 
-# Scientific Computing
-numpy==1.26.3
-scipy==1.12.0
+# Scientific computing
+numpy==1.26.2
+scipy==1.11.4
+
+# Visualization
 matplotlib==3.8.2
 plotly==5.18.0
 
-# Network/Graph Visualization
+# Advanced visualization
 networkx==3.2.1
 sympy==1.12
 
-# Mathematical Animations (very heavy)
+# Mathematical animations (large dependency)
 manim==0.18.0
 
-# Machine Learning (CPU-only by default)
-# For GPU support, see: https://pytorch.org/get-started/locally/
-# torch==2.2.0
-# diffusers==0.27.0
+# Image processing
+opencv-python==4.9.0.80
 
-# Quantum Computing
-# qiskit==0.45.0
-# qiskit-aer==0.13.0
+# Machine Learning (Optional - Large packages)
+# Uncomment only if ML features are needed
+# torch==2.1.2
+# torchvision==0.16.2
+# torchaudio==2.1.2
 
-# Note: Install PyTorch CPU-only to reduce size:
-#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+# Quantum computing (Optional - Large package)
+# Uncomment only if quantum features are needed
+# qiskit==0.45.1
+# qiskit-aer==0.13.1
+
+# Generative AI (Optional - Large packages)
+# Uncomment only if local model support is needed
+# diffusers==0.25.1
+# transformers==4.36.2
+# accelerate==0.25.0
+
+# API Clients for external AI services
+openai==1.12.0
+replicate==0.25.0

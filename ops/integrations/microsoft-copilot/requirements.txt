@@ -6,3 +6,9 @@
 
 # Testing (in ../../../requirements-dev.txt)
 pytest==7.4.4
+# H&&S:WAVE | Hope&&Sauced
+
+# Use root requirements for consistency
+-r ../../../requirements.txt
+
+# No additional dependencies needed

@@ -117,6 +117,29 @@ cd SpiralSafe
 
 All platforms are automatically detected and dependencies can be installed via `./install.sh --install-deps`.
 
+### Python Dependencies
+
+SpiralSafe uses a tiered dependency structure for reproducibility and platform compatibility:
+
+```bash
+# Core dependencies only (recommended for most contributors)
+pip install -r requirements.txt
+
+# Development tools (testing, linting, type checking)
+pip install -r requirements-dev.txt
+
+# ML/Quantum features (large download ~2GB, optional)
+pip install -r requirements-ml.txt
+
+# CPU-only PyTorch (lighter alternative)
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+
+# With constraints for reproducibility
+pip install -r requirements.txt -c constraints.txt
+```
+
+**Platform-specific setup**: See [`ops/CONTRIBUTION_ENV.md`](ops/CONTRIBUTION_ENV.md) for detailed platform-specific instructions (Windows, macOS, Linux, WSL).
+
 ### System Health Dashboard
 
 Monitor API endpoints and system health in real-time:

@@ -22,9 +22,19 @@ plotly==5.18.0
 # manim==0.18.0  # Mathematical animations
 networkx==3.2.1  # Graph/network visualization
 sympy==1.12  # Symbolic mathematics
+# Install: pip install -r requirements.txt
+#
+# For ML-based media generation, also install:
+#   pip install -r ../../requirements-ml.txt
+#
+# H&&S:WAVE | Hope&&Sauced
+
+# Use root requirements + ML requirements for consistency
+-r ../../requirements.txt
+-r ../../requirements-ml.txt
 
 # Video Processing
-# Note: FFmpeg must be installed separately
+# Note: FFmpeg must be installed separately as a system dependency
 # Windows: winget install FFmpeg
 # Mac: brew install ffmpeg
 # Linux: apt install ffmpeg
