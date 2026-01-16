@@ -29,12 +29,15 @@ jobs:
         env:
           ISSUE_TITLE: ${{ github.event.issue.title }}
           PR_TITLE: ${{ github.event.pull_request.title }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ',') }}
         run: |
           # Determine type based on labels or title
           if [ "${{ github.event_name }}" = "issues" ]; then
             TITLE="$ISSUE_TITLE"
-            NUMBER="${{ github.event.issue.number }}"
-            LABELS="${{ join(github.event.issue.labels.*.name, ',') }}"
+            NUMBER="$ISSUE_NUMBER"
+            LABELS="$ISSUE_LABELS"
             
             # Determine type from labels or title
             if echo "$LABELS" | grep -qi "bug"; then
@@ -60,7 +63,7 @@ jobs:
             ITEM_TYPE="issue"
           else
             TITLE="$PR_TITLE"
-            NUMBER="${{ github.event.pull_request.number }}"
+            NUMBER="$PR_NUMBER"
             TYPE="PR"
             ITEM_TYPE="pull_request"
           fi
