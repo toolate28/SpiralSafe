@@ -136,9 +136,9 @@ gh workflow run coherence-gauge.yml
 ### Metrics Calculation
 
 **Curl (Coherence)**:
-- Counts repeated sentence fragments
+- Splits text on periods (`.`) into fragments and counts repeated fragments (identical fragments that appear more than once)
 - Higher values = more coherent, connected content
-- Formula: `repeated_phrases / total_phrases`
+- Formula: `repeated_phrases / total_phrases`, where `total_phrases` is the number of period-delimited fragments and `repeated_phrases` is the count of fragments that occur more than once
 
 **Divergence (Incompleteness)**:
 - Counts questions, TODOs, placeholders
