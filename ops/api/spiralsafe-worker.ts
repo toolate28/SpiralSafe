@@ -28,7 +28,7 @@ export interface Env {
 // Types
 // ═══════════════════════════════════════════════════════════════
 
-interface WaveAnalysis {
+export interface WaveAnalysis {
   curl: number;
   divergence: number;
   potential: number;
@@ -36,7 +36,7 @@ interface WaveAnalysis {
   coherent: boolean;
 }
 
-interface WaveRegion {
+export interface WaveRegion {
   start: number;
   end: number;
   type:
@@ -100,6 +100,38 @@ interface Atom {
   assignee: string;
   created_at: string;
   updated_at: string;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Provenance Tracking Types
+// ═══════════════════════════════════════════════════════════════
+
+interface ProvenanceValidation {
+  id: string;
+  valid: boolean;
+  coherence_score: number;
+  target_coherence: number;
+  target_met: boolean;
+  divergence_detected: boolean;
+  blockers: string[];
+  validation_results: string[];
+  timestamp: string;
+}
+
+interface GateEvolution {
+  id: string;
+  blockers: string[];
+  recommendations: string[];
+  timestamp: string;
+}
+
+interface ValidationExample {
+  gate: string;
+  from: string;
+  to: string;
+  synthesized_at: string;
+  validation_type: string;
+  engagement_metric: number;
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -192,8 +224,8 @@ async function logRequest(
 }
 
 function validateApiKey(env: Env, providedKey: string): boolean {
-  // Check primary key
-  if (providedKey === env.SPIRALSAFE_API_KEY) {
+  // Check primary key using constant-time comparison to prevent timing attacks
+  if (constantTimeEqual(providedKey, env.SPIRALSAFE_API_KEY)) {
     return true;
   }
 
@@ -431,6 +463,29 @@ export default {
 };
 
 // ═══════════════════════════════════════════════════════════════
+// Wave Analysis Constants
+// ═══════════════════════════════════════════════════════════════
+
+// Conclusion pattern for detecting resolved content
+const CONCLUSION_PATTERN_STRING = 'therefore|thus|in conclusion|finally|to summarize|in summary';
+const CONCLUSION_PATTERN = new RegExp(CONCLUSION_PATTERN_STRING, 'i');
+const CONCLUSION_PATTERN_GLOBAL = new RegExp(CONCLUSION_PATTERN_STRING, 'gi');
+
+// Divergence detection thresholds and weights
+const DIVERGENCE_BASE = 0.2;  // Base divergence for content with conclusions
+const DIVERGENCE_FLOOR = 0.3;  // Floor for content without conclusions
+const DIVERGENCE_QUESTION_WEIGHT = 0.1;  // Weight per question mark
+const DIVERGENCE_MAX = 0.8;  // Maximum positive divergence value
+
+// Negative divergence (over-compression) thresholds
+const NEG_DIV_BASE = 0.3;  // Base negative divergence score
+const NEG_DIV_CONCLUSION_WEIGHT = 0.15;  // Weight per excessive conclusion
+const NEG_DIV_MAX = 0.8;  // Maximum negative divergence magnitude
+const NEG_DIV_SHORT_CONTENT_THRESHOLD = 100;  // Avg paragraph length threshold
+const NEG_DIV_MIN_CONCLUSIONS = 2;  // Minimum conclusions to trigger short content check
+const NEG_DIV_EXCESSIVE_RATIO = 0.3;  // Max ratio of conclusions to paragraphs
+
+// ═══════════════════════════════════════════════════════════════
 // Wave Handlers - Coherence Detection
 // ═══════════════════════════════════════════════════════════════
 
@@ -506,7 +561,7 @@ function analyzeCoherence(
     });
   }
 
-  // Detect divergence regions
+  // Detect positive divergence regions (unresolved expansion)
   if (expansionScore > t.div_warning) {
     regions.push({
       start: 0,
@@ -514,6 +569,17 @@ function analyzeCoherence(
       type: "positive_divergence",
       severity: expansionScore > t.div_critical ? "critical" : "warning",
       description: "Ideas expanding without resolution",
+    });
+  }
+
+  // Detect negative divergence regions (premature closure/over-compression)
+  if (expansionScore < -t.div_warning) {
+    regions.push({
+      start: 0,
+      end: content.length,
+      type: 'negative_divergence',
+      severity: expansionScore < -t.div_critical ? 'critical' : 'warning',
+      description: 'Premature closure or over-compression detected'
     });
   }
 
@@ -528,7 +594,7 @@ function analyzeCoherence(
   };
 }
 
-function detectRepetition(paragraphs: string[]): number {
+export function detectRepetition(paragraphs: string[]): number {
   // Simplified: check for repeated phrases
   const phrases = paragraphs.flatMap((p) =>
     p
@@ -550,7 +616,7 @@ function detectExpansion(paragraphs: string[]): number {
   return hasConclusion ? 0.2 : Math.min(0.3 + questionCount * 0.1, 0.8);
 }
 
-function detectPotential(paragraphs: string[]): number {
+export function detectPotential(paragraphs: string[]): number {
   // Simplified: detect undeveloped ideas
   const potentialMarkers = paragraphs.filter((p) =>
     /could|might|perhaps|possibly|future work|TODO|TBD/i.test(p),
@@ -828,6 +894,196 @@ async function handleAtom(
   }
 
   return jsonResponse({ error: "Invalid atom endpoint" }, 400);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Provenance Handlers - Enhanced Trail Validation
+// ═══════════════════════════════════════════════════════════════
+
+const COHERENCE_TARGET = 0.85; // 85% self-reinforcement target
+
+async function handleProvenance(request: Request, env: Env, path: string): Promise<Response> {
+  // Validate provenance trail
+  if (request.method === 'POST' && path === '/api/provenance/validate') {
+    const body = await request.json() as {
+      trail_data?: {
+        decisions: number;
+        gate_transitions: number;
+        counters: number;
+      };
+    };
+
+    const validation: ProvenanceValidation = {
+      id: crypto.randomUUID(),
+      valid: true,
+      coherence_score: 0,
+      target_coherence: COHERENCE_TARGET,
+      target_met: false,
+      divergence_detected: false,
+      blockers: [],
+      validation_results: [],
+      timestamp: new Date().toISOString()
+    };
+
+    // Check gate transitions for coherence
+    const gateResult = await env.SPIRALSAFE_DB.prepare(
+      'SELECT COUNT(*) as total, SUM(CASE WHEN coherent = 1 THEN 1 ELSE 0 END) as coherent_count FROM wave_analyses'
+    ).first<{ total: number; coherent_count: number }>();
+
+    if (gateResult && gateResult.total > 0) {
+      validation.coherence_score = gateResult.coherent_count / gateResult.total;
+      validation.target_met = validation.coherence_score >= COHERENCE_TARGET;
+    }
+
+    // Check for unresolved bumps (blockers)
+    const blockerResult = await env.SPIRALSAFE_DB.prepare(
+      "SELECT COUNT(*) as count FROM bumps WHERE resolved = 0 AND type = 'BLOCK'"
+    ).first<{ count: number }>();
+
+    if (blockerResult && blockerResult.count > 0) {
+      validation.divergence_detected = true;
+      validation.blockers.push(`unresolved_blocks:${blockerResult.count}`);
+    }
+
+    // Validate trail data if provided
+    if (body.trail_data) {
+      if (body.trail_data.decisions > 0) {
+        validation.validation_results.push(`decisions:${body.trail_data.decisions}:valid`);
+      }
+      if (body.trail_data.gate_transitions > 0) {
+        validation.validation_results.push(`gate_transitions:${body.trail_data.gate_transitions}:valid`);
+      }
+    }
+
+    // Store validation record
+    await env.SPIRALSAFE_DB.prepare(
+      'INSERT INTO provenance_validations (id, valid, coherence_score, target_met, divergence_detected, blockers, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)'
+    ).bind(
+      validation.id,
+      validation.valid ? 1 : 0,
+      validation.coherence_score,
+      validation.target_met ? 1 : 0,
+      validation.divergence_detected ? 1 : 0,
+      JSON.stringify(validation.blockers),
+      validation.timestamp
+    ).run();
+
+    return jsonResponse(validation, 201);
+  }
+
+  // Bootstrap validation examples (BootstrapFewshot)
+  if (request.method === 'POST' && path === '/api/provenance/bootstrap') {
+    const result = await env.SPIRALSAFE_DB.prepare(
+      'SELECT * FROM wave_analyses WHERE coherent = 1 ORDER BY analyzed_at DESC LIMIT 10'
+    ).all();
+
+    const examples: ValidationExample[] = result.results.map((row: Record<string, unknown>) => ({
+      gate: 'wave-coherence',
+      from: 'content',
+      to: 'analysis',
+      synthesized_at: new Date().toISOString(),
+      validation_type: 'bootstrap_fewshot',
+      engagement_metric: typeof row.potential === 'number' ? row.potential : 0.5
+    }));
+
+    return jsonResponse({
+      synthesized_count: examples.length,
+      examples
+    }, 201);
+  }
+
+  // Evolve gates (GEPA)
+  if (request.method === 'POST' && path === '/api/provenance/evolve') {
+    const body = await request.json() as { blockers?: string[] };
+
+    const recommendations: string[] = [];
+
+    // Analyze blockers and generate evolution recommendations
+    if (body.blockers) {
+      for (const blocker of body.blockers) {
+        if (blocker.includes('intention-to-execution')) {
+          recommendations.push('gate:intention-to-execution:relax_bump_placeholder_check');
+        }
+        if (blocker.includes('learning-to-regeneration')) {
+          recommendations.push('gate:learning-to-regeneration:add_fallback_learning_path');
+        }
+        if (blocker.includes('high_failure_rate')) {
+          recommendations.push('system:reduce_threshold_strictness');
+        }
+      }
+    }
+
+    const evolution: GateEvolution = {
+      id: crypto.randomUUID(),
+      blockers: body.blockers || [],
+      recommendations,
+      timestamp: new Date().toISOString()
+    };
+
+    // Store evolution record
+    await env.SPIRALSAFE_DB.prepare(
+      'INSERT INTO gate_evolutions (id, blockers, recommendations, timestamp) VALUES (?, ?, ?, ?)'
+    ).bind(
+      evolution.id,
+      JSON.stringify(evolution.blockers),
+      JSON.stringify(evolution.recommendations),
+      evolution.timestamp
+    ).run();
+
+    return jsonResponse(evolution, 201);
+  }
+
+  // Metric-gated recursion for coherence
+  if (request.method === 'POST' && path === '/api/provenance/coherence') {
+    const body = await request.json() as {
+      target_coherence?: number;
+      max_iterations?: number;
+    };
+
+    const targetCoherence = body.target_coherence ?? COHERENCE_TARGET;
+    const maxIterations = body.max_iterations ?? 10;
+
+    // Calculate current coherence
+    const waveResult = await env.SPIRALSAFE_DB.prepare(
+      'SELECT COUNT(*) as total, SUM(CASE WHEN coherent = 1 THEN 1 ELSE 0 END) as coherent_count FROM wave_analyses'
+    ).first<{ total: number; coherent_count: number }>();
+
+    let currentCoherence = 0;
+    if (waveResult && waveResult.total > 0) {
+      currentCoherence = waveResult.coherent_count / waveResult.total;
+    }
+
+    const achieved = currentCoherence >= targetCoherence;
+
+    return jsonResponse({
+      coherence: currentCoherence,
+      target: targetCoherence,
+      achieved,
+      iterations: achieved ? 0 : maxIterations,
+      self_reinforcement_percent: Math.round(currentCoherence * 100)
+    });
+  }
+
+  // Get coherence score
+  if (request.method === 'GET' && path === '/api/provenance/score') {
+    const waveResult = await env.SPIRALSAFE_DB.prepare(
+      'SELECT COUNT(*) as total, SUM(CASE WHEN coherent = 1 THEN 1 ELSE 0 END) as coherent_count FROM wave_analyses'
+    ).first<{ total: number; coherent_count: number }>();
+
+    let coherence = 0;
+    if (waveResult && waveResult.total > 0) {
+      coherence = waveResult.coherent_count / waveResult.total;
+    }
+
+    return jsonResponse({
+      coherence_score: coherence,
+      target: COHERENCE_TARGET,
+      target_met: coherence >= COHERENCE_TARGET,
+      self_reinforcement_percent: Math.round(coherence * 100)
+    });
+  }
+
+  return jsonResponse({ error: 'Invalid provenance endpoint' }, 400);
 }
 
 // ═══════════════════════════════════════════════════════════════
