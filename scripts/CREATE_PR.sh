@@ -37,14 +37,12 @@ echo ""
 # Try gh CLI first
 if command -v gh &> /dev/null; then
   echo -e "${BLUE}Creating PR via GitHub CLI...${NC}"
-  gh pr create \
+  if gh pr create \
     --base "$BASE" \
     --head "$BRANCH" \
     --title "$PR_TITLE" \
     --body-file PR_DESCRIPTION.md \
-    --assignee "@me"
-
-  if [ $? -eq 0 ]; then
+    --assignee "@me"; then
     echo -e "${GREEN}✓ PR created successfully!${NC}"
     gh pr view --web
     exit 0
