@@ -828,7 +828,7 @@ async function handleProvenance(request: Request, env: Env, path: string): Promi
       to: 'analysis',
       synthesized_at: new Date().toISOString(),
       validation_type: 'bootstrap_fewshot',
-      engagement_metric: row.potential as number || 0.5
+      engagement_metric: typeof row.potential === 'number' ? row.potential : 0.5
     }));
 
     return jsonResponse({

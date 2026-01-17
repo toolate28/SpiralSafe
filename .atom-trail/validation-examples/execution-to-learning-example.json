@@ -1,8 +1,0 @@
-{
-  "gate": "execution-to-learning",
-  "from": "ATOM",
-  "to": "SAIF",
-  "synthesized_at": "2026-01-17T16:58:50Z",
-  "validation_type": "bootstrap_fewshot",
-  "engagement_metric": 1.0
-}
