@@ -14,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install jq
         run: |
           sudo apt-get update && sudo apt-get install -y jq
-      
+
       - name: Validate bump.md
         run: |
           chmod +x scripts/validate-bump.sh
@@ -27,7 +27,7 @@ jobs:
           else
             echo "::warning::bump.md validation failed - may contain placeholders or be incomplete"
           fi
-      
+
       - name: Validate document state markers
         run: |
           chmod +x scripts/validate-document-state.sh
@@ -37,13 +37,13 @@ jobs:
             echo "::warning::Some documents are missing state markers"
             echo "This is expected during migration. Run scripts/validate-document-state.sh locally to see details."
           fi
-      
+
       - name: Check verification gates
         run: |
           chmod +x scripts/lib/verification-gate.sh
           source scripts/lib/verification-gate.sh
           echo "Verification gate library loaded successfully"
-      
+
       - name: Validate ATOM trail integrity
         run: |
           if [ -d ".atom-trail/decisions" ]; then
@@ -62,12 +62,12 @@ jobs:
     needs: validate-gates
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Calculate coherence metrics
         run: |
           echo "## Coherence Metrics" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           # Count decisions by freshness
           if [ -d ".atom-trail/decisions" ]; then
             FRESH=$(find .atom-trail/decisions -name "*.json" -exec grep -l '"freshness_level": "fresh"' {} + 2>/dev/null | wc -l)
@@ -80,7 +80,7 @@ jobs:
             echo "| Aging | $AGING |" >> $GITHUB_STEP_SUMMARY
             echo "| Settled | $SETTLED |" >> $GITHUB_STEP_SUMMARY
           fi
-          
+
           # Count gate transitions
           if [ -f ".atom-trail/gate-transitions.jsonl" ]; then
             PASSED=$(grep -c '"passed":true' .atom-trail/gate-transitions.jsonl 2>/dev/null || echo 0)

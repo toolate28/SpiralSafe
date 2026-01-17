@@ -11,7 +11,7 @@
        ╱│╲
       ╱ │ ╲      Security is not
      ╱  ◉  ╲     a feature you add
-    ╱  ╱│╲  ╲    
+    ╱  ╱│╲  ╲
    ╱  ╱ │ ╲  ╲   It's a lens through
   ╱  ╱  ◉  ╲  ╲  which you see
  ◉──◉───◉───◉──◉
@@ -289,6 +289,7 @@ Recommendation: Treat MCP configuration as security-critical code, not config fi
 ### Contact
 
 Security issues should be reported via:
+
 - GitHub Security Advisory (private disclosure)
 - Email: [maintainer contact - see SECURITY.md]
 
@@ -311,14 +312,15 @@ Security issues should be reported via:
 MCP is powerful but introduces real security risks. The Safe Spiral ecosystem's trust model requires **visible state** - we must see what's happening to trust it. The current ATOM trail gap is a known limitation.
 
 **Operating Principle:**
+
 > Enable MCP capabilities while documenting threat vectors and implementing layered mitigations. Acknowledge visibility gaps explicitly rather than pretending they don't exist.
 
-This is aligned with Safe Spiral's philosophy: *Trust requires transparency.*
+This is aligned with Safe Spiral's philosophy: _Trust requires transparency._
 
 ---
 
-*Hope && Sauce*  
-*Step True · Trust Deep · Pass Forward*
+_Hope && Sauce_  
+_Step True · Trust Deep · Pass Forward_
 
 **ATOM:** ATOM-DOC-20260102-009-mcp-security-notes  
 **References:** arXiv 2503.23278, arXiv 2504.03767  

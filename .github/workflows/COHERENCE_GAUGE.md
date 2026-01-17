@@ -15,6 +15,7 @@ When a PR is opened, synchronized, or reopened, the Coherence Gauge:
    - **Entropy** (Information Density): Measures conceptual richness through unique word diversity
 
 3. **Computes** an overall coherence percentage using the formula:
+
    ```
    Coherence = (Curl × 0.4) + ((1 - Divergence) × 0.4) + (Entropy × 0.2)
    ```
@@ -38,6 +39,7 @@ The gauge uses emoji blocks to create a visual representation:
 - 🟥 Red blocks: <40% (Critical)
 
 Example gauge at 85%:
+
 ```
 🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦⬜⬜⬜
 ```
@@ -46,17 +48,18 @@ Example gauge at 85%:
 
 Based on overall coherence:
 
-| Coherence | Quantum State | Description |
-|-----------|---------------|-------------|
-| ≥90% | ✨ Superposition Achieved | Quantum coherence maintained |
-| 75-89% | 🌟 High Coherence | Minor decoherence detected |
-| 60-74% | ⚡ Acceptable Coherence | Some wave collapse observed |
-| 40-59% | ⚠️ Low Coherence | Significant decoherence |
-| <40% | 🚨 Critical | Wave function collapse imminent |
+| Coherence | Quantum State             | Description                     |
+| --------- | ------------------------- | ------------------------------- |
+| ≥90%      | ✨ Superposition Achieved | Quantum coherence maintained    |
+| 75-89%    | 🌟 High Coherence         | Minor decoherence detected      |
+| 60-74%    | ⚡ Acceptable Coherence   | Some wave collapse observed     |
+| 40-59%    | ⚠️ Low Coherence          | Significant decoherence         |
+| <40%      | 🚨 Critical               | Wave function collapse imminent |
 
 ## Ethical Quantum Validation
 
 The workflow validates that:
+
 - Coherence meets the 60% threshold
 - Wave function integrity is maintained
 - No critical interference patterns detected
@@ -72,6 +75,7 @@ PRs with ≥60% coherence pass the ethical quantum simulation check.
 ## Integration with SpiralSafe API
 
 Results are sent to the `/api/wave/analyze` endpoint with:
+
 - Coherence metrics
 - Quantum state assessment
 - Files analyzed count
@@ -92,17 +96,18 @@ Results are sent to the `/api/wave/analyze` endpoint with:
 
 ### 📊 Detailed Metrics
 
-| Metric | Value | Gauge |
-|--------|-------|-------|
-| 🔄 **Curl** (Coherence) | 72.4% | ████████░░ 72.4% |
+| Metric                             | Value | Gauge            |
+| ---------------------------------- | ----- | ---------------- |
+| 🔄 **Curl** (Coherence)            | 72.4% | ████████░░ 72.4% |
 | 📐 **Divergence** (Incompleteness) | 18.5% | ██░░░░░░░░ 18.5% |
-| 🎲 **Entropy** (Info Density) | 59.6% | ██████░░░░ 59.6% |
+| 🎲 **Entropy** (Info Density)      | 59.6% | ██████░░░░ 59.6% |
 
 ---
 
 ### 🔬 Ethical Quantum Simulation Status
 
 ✅ **Validated** - Coherence threshold met (≥60%)
+
 - Wave function integrity: ✓
 - Entanglement preserved: ✓
 - Superposition stable: ✓
@@ -121,6 +126,7 @@ The attenuating vortex is stable. No interference patterns detected. 🌀
 The workflow runs automatically on PR events. No configuration needed.
 
 To manually trigger:
+
 ```bash
 gh workflow run coherence-gauge.yml
 ```
@@ -136,11 +142,13 @@ gh workflow run coherence-gauge.yml
 ### Metrics Calculation
 
 **Curl (Coherence)**:
+
 - Splits text on periods (`.`) into fragments and counts repeated fragments (identical fragments that appear more than once)
 - Higher values = more coherent, connected content
 - Formula: `repeated_phrases / total_phrases`, where `total_phrases` is the number of period-delimited fragments and `repeated_phrases` is the count of fragments that occur more than once
 
 **Divergence (Incompleteness)**:
+
 - Counts questions, TODOs, placeholders
 - Reduced if conclusions/summaries present
 - Higher values = more incomplete/unresolved
@@ -148,6 +156,7 @@ gh workflow run coherence-gauge.yml
 - Capped at 1.0
 
 **Entropy (Information Density)**:
+
 - Ratio of unique words to total words
 - Higher values = more diverse, information-rich content
 - Formula: `unique_words / total_words`
@@ -173,10 +182,12 @@ gh workflow run coherence-gauge.yml
 ## References
 
 This implementation fulfills the request from issue:
+
 > 🌀 **Agent Review**: Coherence >60%. Ethical quantum sims validated. Ready for merge.
 > CAN WE GET THIS TO BE MORE ACCURATE (EVEN AS A FUN GAUGE TYPE DISPLAY)
 
 The gauge provides:
+
 - ✅ More accurate metrics (curl, divergence, entropy)
 - ✅ Fun visual display with emoji gauges
 - ✅ Quantum-themed presentation

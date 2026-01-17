@@ -14,9 +14,9 @@
 
 ```yaml
 meta:
-  domain: string           # Knowledge domain
-  source: string           # Attribution
-  version: string          # Semantic version
+  domain: string # Knowledge domain
+  source: string # Attribution
+  version: string # Semantic version
   confidence: high|medium|low|experimental
 
 concepts:
@@ -29,10 +29,10 @@ concepts:
     counterexamples: []
 
 signals:
-  use_when: []             # Conditions favoring this knowledge
-  avoid_when: []           # Conditions where this doesn't apply
+  use_when: [] # Conditions favoring this knowledge
+  avoid_when: [] # Conditions where this doesn't apply
 
-invariants: []             # Conditions that must always hold
+invariants: [] # Conditions that must always hold
 ```
 
 ---
@@ -87,4 +87,4 @@ if ctx.should_use(current_conditions):
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_

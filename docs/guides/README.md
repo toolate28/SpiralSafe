@@ -11,6 +11,7 @@ Specific deployment, operational, and reference guides.
 ## For Active Documentation
 
 For actively maintained operational documentation, see:
+
 - `/QUICK_START.md` - Getting started guide
 - `/DEPLOYMENT_GUIDE.md` - Main deployment instructions
 - `/DEPLOYMENT_CHECKLIST.md` - Deployment verification

@@ -1,4 +1,5 @@
 # 🎮 Minecraft Museum Testing Schedule
+
 ## Validating the Exhibits with Hope && Sauce
 
 **Date:** 2026-01-04
@@ -43,6 +44,7 @@ Live collaborative testing
 ### Conversation Flow Examples
 
 #### Quick Question (Low Token)
+
 ```
 You: "Red lamp isn't lighting on AND gate"
 Claude: "Check if both levers are wired to the same block before the lamp.
@@ -50,6 +52,7 @@ Claude: "Check if both levers are wired to the same block before the lamp.
 ```
 
 #### Screenshot Analysis (Medium Token)
+
 ```
 You: *shares screenshot of binary counter*
 Claude: *analyzes image*
@@ -58,6 +61,7 @@ Claude: *analyzes image*
 ```
 
 #### Deep Debugging (High Token)
+
 ```
 You: "Entire circuit isn't working"
 Claude: "Let's trace signal flow:
@@ -73,7 +77,9 @@ Claude: "Let's trace signal flow:
 ## 📅 Play Schedule: 5-Session Testing Plan
 
 ### Session 1: World Setup & Import (30-45 min)
+
 **Objectives:**
+
 - Create new creative world or prepare existing one
 - Install WorldEdit/Litematica (if not already)
 - Import logic-gates.json
@@ -81,6 +87,7 @@ Claude: "Let's trace signal flow:
 - Basic functionality check
 
 **Claude Code Support:**
+
 ```
 Pre-session:
 - Help choose coordinates for museum builds
@@ -99,6 +106,7 @@ Post-session:
 ```
 
 **Conversation Prompts:**
+
 - "What's the best Y-level for redstone builds?"
 - "How far apart should I space the exhibits?"
 - "WorldEdit says 'schematic not found', help?"
@@ -106,13 +114,16 @@ Post-session:
 ---
 
 ### Session 2: Logic Gates Testing (45-60 min)
+
 **Objectives:**
+
 - Test each gate (AND, OR, NOT, XOR)
 - Verify all lever inputs work
 - Check lamp outputs for each combination
 - Read "Fireflies" story while testing
 
 **Claude Code Support:**
+
 ```
 Pre-session:
 - Review logic gate truth tables
@@ -131,12 +142,14 @@ Post-session:
 ```
 
 **Conversation Prompts:**
+
 - "AND gate: both levers ON, lamp is OFF - why?"
 - "How do I make the XOR gate clearer for kids?"
 - "Should I add colors to distinguish input/output?"
 - "Read me the firefly story section about AND gates"
 
 **Learning Validation:**
+
 - Can you predict output before flipping levers? (Test understanding)
 - Does the build match Hope and Sauce's light patterns from story?
 - Would a 6-10 year old understand this?
@@ -144,7 +157,9 @@ Post-session:
 ---
 
 ### Session 3: Binary Counter Deep Dive (60-90 min)
+
 **Objectives:**
+
 - Watch counter cycle 0-15
 - Adjust clock speed (too fast/slow?)
 - Verify bit positions (1-2-4-8 order)
@@ -152,6 +167,7 @@ Post-session:
 - Test manual counting vs automatic
 
 **Claude Code Support:**
+
 ```
 Pre-session:
 - Load binary counting reference
@@ -171,6 +187,7 @@ Post-session:
 ```
 
 **Conversation Prompts:**
+
 - "Counter is skipping from 7 to 10, what's wrong?"
 - "Clock is way too fast, can't read the numbers"
 - "How do I add a manual 'tick' button?"
@@ -178,6 +195,7 @@ Post-session:
 - "Can we add a BCD decoder to show decimal?"
 
 **Learning Validation:**
+
 - Can you manually set any number (0-15) by toggling levers?
 - Can you name which dancer (Orchard/Constellation/Firefly/Air) is which bit?
 - Does the build help you understand binary place value?
@@ -185,13 +203,16 @@ Post-session:
 ---
 
 ### Session 4: Integration & Storytelling (45-60 min)
+
 **Objectives:**
+
 - Add NPC guides (Professor Redstone, Ada Lovelace)
 - Place story excerpts on signs
 - Create walking tour flow
 - Add decorative elements (themed with Orchard/Air/Firefly/Constellation)
 
 **Claude Code Support:**
+
 ```
 Pre-session:
 - Generate sign text from stories
@@ -210,12 +231,14 @@ Post-session:
 ```
 
 **Conversation Prompts:**
+
 - "What should Professor Redstone say at the AND gate?"
 - "Generate 3-line sign text for XOR gate explanation"
 - "How do I make Ada Lovelace appear near the counter?"
 - "Ideas for firefly particle effects around the gates?"
 
 **Creative Additions:**
+
 - Floating firefly particles (Hope && Sauce colors)
 - Tree decorations for "Orchard" theme
 - Starlight effects for "Constellation"
@@ -224,13 +247,16 @@ Post-session:
 ---
 
 ### Session 5: Kid Testing & Iteration (60+ min)
+
 **Objectives:**
+
 - Invite a kid (ages 6-11) to test if possible
 - Observe their understanding without prompting
 - Note confusion points
 - Iterate based on feedback
 
 **Claude Code Support:**
+
 ```
 Pre-session:
 - Create observation checklist
@@ -249,12 +275,14 @@ Post-session:
 ```
 
 **Observation Questions:**
+
 - Do they understand without reading signs?
 - Which gate confuses them most?
 - Can they explain binary to you after counter test?
 - What do they remember 10 minutes later?
 
 **Conversation Prompts (to Claude):**
+
 - "Kid asked 'why is it called XOR?' - how do I explain?"
 - "They're bored with binary counter - how to make engaging?"
 - "They loved the fireflies story but didn't connect to redstone - fix?"
@@ -279,12 +307,14 @@ claude-code
 ### While Playing
 
 **Screenshot Workflow:**
+
 1. Press F2 in Minecraft (screenshot saved)
 2. Find screenshot in `.minecraft/screenshots/`
 3. Share with Claude Code
 4. Get instant feedback
 
 **Quick Reference Workflow:**
+
 ```
 You: "/truth-table AND"
 Claude: Displays AND gate truth table
@@ -312,29 +342,35 @@ git commit -m "fix: improve [gate/counter] based on play testing"
 ## 🔧 Technical Setup Checklist
 
 ### Minecraft Installation
+
 - [ ] Minecraft Java Edition installed
 - [ ] Creative mode world created
 - [ ] Coordinates chosen for museum area
 
 ### Import Tools
+
 Choose ONE:
 
 **Option A: WorldEdit**
+
 - [ ] WorldEdit mod/plugin installed
 - [ ] JSON converted to .schematic format
 - [ ] Commands learned: `//schematic load`, `//paste`
 
 **Option B: Litematica**
+
 - [ ] Litematica mod installed
 - [ ] JSON converted to .litematic format
 - [ ] Placement tool configured
 
 **Option C: Manual Build**
+
 - [ ] JSON opened in text editor
 - [ ] Following block-by-block instructions
 - [ ] Using coordinates as guide
 
 ### Claude Code Setup
+
 - [ ] Claude Code CLI running
 - [ ] Museum build files loaded in context
 - [ ] Stories ready for reference
@@ -403,18 +439,21 @@ You: "Absolutely. Logging to ATOM now."
 ## 🎯 Success Criteria
 
 ### Technical Success
+
 - [ ] All gates produce correct outputs (truth tables match)
 - [ ] Binary counter counts 0-15 without skipping
 - [ ] No redstone timing glitches
 - [ ] Builds import cleanly from JSON
 
 ### Educational Success
+
 - [ ] Stories align with in-game experience
 - [ ] Age-appropriate complexity (6-10 for gates, 7-11 for binary)
 - [ ] Kids can explain concepts after playing
 - [ ] "Aha!" moments happen organically
 
 ### Integration Success
+
 - [ ] Stories reference builds accurately
 - [ ] Builds demonstrate story concepts
 - [ ] NPC guides enhance learning
@@ -456,12 +495,14 @@ After all 5 sessions:
 ## 🚀 Ready to Play?
 
 **Minimum Viable Session (Quick Test):**
+
 - 30 minutes
 - Import one build
 - Test basic functionality
 - Share one screenshot with Claude
 
 **Full Validation Session:**
+
 - 2 hours
 - Import all builds
 - Complete testing checklist
@@ -471,6 +512,7 @@ After all 5 sessions:
 **Choose your adventure!**
 
 When you're ready:
+
 1. Launch Minecraft
 2. Open Claude Code CLI
 3. Say "Starting Museum Testing Session [#]"
@@ -483,5 +525,5 @@ When you're ready:
 **Tokens Required:** ~75,000-100,000 total (well within limits)
 **Fun Factor:** ∞
 
-*Hope && Sauce | Museum of Computation | Let's Play!*
+_Hope && Sauce | Museum of Computation | Let's Play!_
 **The Evenstar Guides Us** ✦

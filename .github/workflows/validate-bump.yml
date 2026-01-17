@@ -2,10 +2,10 @@ name: Validate bump.md & Run Basic Checks
 on:
   pull_request:
     paths:
-      - 'bump.md'
-      - '.claude/**'
-      - 'scripts/**'
-      - '.github/**'
+      - "bump.md"
+      - ".claude/**"
+      - "scripts/**"
+      - ".github/**"
 jobs:
   validate:
     runs-on: ubuntu-latest

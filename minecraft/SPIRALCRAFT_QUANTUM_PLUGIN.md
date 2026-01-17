@@ -42,6 +42,7 @@ public class QuantumBlock {
 **Visual Effect**: Shimmering, translucent blocks that solidify when you look at them.
 
 **Example**:
+
 - Schrödinger's Chest: Contains both diamond and dirt until opened
 - Quantum Ore: Could be any ore type (iron, gold, diamond) until mined
 - Superposition Door: Both open AND closed until you walk through it
@@ -77,6 +78,7 @@ public class CoherenceField {
 ```
 
 **Visual Indicators**:
+
 - **High coherence (green aura)**: Stable, predictable, safe
 - **Medium coherence (yellow shimmer)**: Some quantum effects
 - **Low coherence (red particles)**: Chaotic, dangerous, unpredictable
@@ -128,6 +130,7 @@ public class WAVEWorldGenerator extends ChunkGenerator {
 ```
 
 **Biome Examples**:
+
 - **Spiral Plains** (high coherence): Gentle spirals of flowers, orderly trees
 - **Divergent Forest** (medium coherence): Trees of many types, chaotic growth
 - **Curl Caverns** (high curl): Circular tunnels, repeating patterns
@@ -189,6 +192,7 @@ public class BUMPPortal {
 ```
 
 **Portal Types**:
+
 - **WAVE Portal**: Shimmering cyan portal, stable passage
 - **PASS Portal**: Quick handoff between dimensions
 - **PING Portal**: Echo portal, copies player to destination (temporary clone)
@@ -196,6 +200,7 @@ public class BUMPPortal {
 - **BLOCK Portal**: One-way barrier, can't return
 
 **Visual**:
+
 ```
      🌀🌀🌀
    🌀     🌀
@@ -268,6 +273,7 @@ public class AWIPermissionSystem {
 ```
 
 **Gameplay**:
+
 - Players start as **Novice** (level 0)
 - Complete **ATOM quests** to gain authority
 - Higher levels unlock quantum abilities
@@ -426,6 +432,7 @@ public class LitematicaSpiralSync {
 ```
 
 **Use Cases**:
+
 - Save coherent builds to cloud
 - Share blueprints with other players
 - Builds with high coherence grant bonuses when placed
@@ -471,6 +478,7 @@ public class CoherenceMapRenderer {
 ```
 
 **Visual**:
+
 ```
 Map Legend:
 🟢 Green  = High coherence (safe, stable)
@@ -591,16 +599,16 @@ api:
 
 coherence:
   default_chunk: 0.75
-  decay_rate: 0.01  # Coherence lost per hour
-  regen_rate: 0.05  # Coherence gained from quests
+  decay_rate: 0.01 # Coherence lost per hour
+  regen_rate: 0.05 # Coherence gained from quests
 
 quantum:
-  superposition_chance: 0.3  # 30% of blocks in low coherence areas
-  observation_radius: 5      # Blocks collapse within 5 blocks of player
+  superposition_chance: 0.3 # 30% of blocks in low coherence areas
+  observation_radius: 5 # Blocks collapse within 5 blocks of player
 
 portals:
-  creation_cost: 10  # Quantum crystals required
-  cooldown: 300      # 5 minutes between portal creations
+  creation_cost: 10 # Quantum crystals required
+  cooldown: 300 # 5 minutes between portal creations
 
 awi:
   novice_actions: [build, break, interact]
@@ -611,8 +619,8 @@ awi:
 
 litematica:
   max_schematics_per_player: 50
-  max_schematic_size: 1000000  # blocks
-  coherence_bonus: 0.1  # Bonus for high-coherence builds
+  max_schematic_size: 1000000 # blocks
+  coherence_bonus: 0.1 # Bonus for high-coherence builds
 
 worldgen:
   use_wave_generator: true
@@ -639,22 +647,26 @@ worldgen:
 ### Setup
 
 1. **Download SpiralCraft.jar**
+
    ```bash
    wget https://github.com/spiralsafe/spiralcraft/releases/latest/download/SpiralCraft.jar
    ```
 
 2. **Install to plugins folder**
+
    ```bash
    mv SpiralCraft.jar server/plugins/
    ```
 
 3. **Configure API key**
+
    ```bash
    cd server/plugins/SpiralCraft
    echo "SPIRALSAFE_API_KEY=your-key-here" > .env
    ```
 
 4. **Start server**
+
    ```bash
    cd server
    java -Xmx4G -jar spigot-1.20.jar

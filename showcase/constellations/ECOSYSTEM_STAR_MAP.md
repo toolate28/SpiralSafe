@@ -1,4 +1,5 @@
 # ✦ The SpiralSafe Constellation
+
 ## A Star Map of the Ecosystem
 
 ```
@@ -44,6 +45,7 @@
 ## 🌌 The Four Poetic Elements
 
 ### 🌳 Orchard (Growth)
+
 ```
 In the orchard of code
 Where functions grow like apples
@@ -63,6 +65,7 @@ Orchards teach us:
 ```
 
 **In the Ecosystem:**
+
 - Represents incremental improvement
 - Each script is a sapling
 - Documentation is water and sunlight
@@ -71,6 +74,7 @@ Orchards teach us:
 ---
 
 ### ☁️ Air (Breath)
+
 ```
 Invisible but essential
 Code flows like wind
@@ -91,6 +95,7 @@ Air teaches us:
 ```
 
 **In the Ecosystem:**
+
 - Represents data flow and communication
 - APIs are the airways
 - Latency is held breath
@@ -99,6 +104,7 @@ Air teaches us:
 ---
 
 ### ✨ Firefly (Spark)
+
 ```
 In darkness, a single light
 Small but unmistakable
@@ -119,6 +125,7 @@ Fireflies teach us:
 ```
 
 **In the Ecosystem:**
+
 - Represents insights and breakthroughs
 - Each ATOM entry is a flash
 - Cognitive triggers are bioluminescence
@@ -127,6 +134,7 @@ Fireflies teach us:
 ---
 
 ### 🌟 Constellation (Pattern)
+
 ```
 Stars ancient before us
 Yet forming patterns we name
@@ -147,6 +155,7 @@ Constellations teach us:
 ```
 
 **In the Ecosystem:**
+
 - Represents architecture and design
 - Call graphs are constellation maps
 - Dependencies are star clusters
@@ -179,6 +188,7 @@ When CONSTELLATION meets ORCHARD:
 ## 🔮 The Five Sacred Artifacts
 
 ### 1. The Evenstar (Guiding Principle)
+
 ```
       ✦
 "In the beginning was the Question,
@@ -193,6 +203,7 @@ Alignment check for all decisions:
 ```
 
 ### 2. The Spiral (Self-Improvement Pattern)
+
 ```
      ◉──◉───◉───◉──◉
 
@@ -208,6 +219,7 @@ Each cycle:
 ```
 
 ### 3. The Three-Body Solution (Collaboration)
+
 ```
     Human
       ◉
@@ -224,6 +236,7 @@ Emergent intelligence
 ```
 
 ### 4. The Hope && Sauce Duality
+
 ```
  HOPE (Blue)          SAUCE (Orange)
      ▼                      ▼
@@ -238,6 +251,7 @@ Emergent intelligence
 ```
 
 ### 5. The ATOM Trail (Memory)
+
 ```
 Past ←──[ATOM]──→ Future
 
@@ -256,6 +270,7 @@ The trail is the teacher
 ## 🌠 Navigating by Stars: Use Cases
 
 ### For the Lost Coder (Finding Direction)
+
 1. Look up at the Evenstar → "What question am I trying to answer?"
 2. Find the Orchard → "What have others grown here?"
 3. Follow Fireflies → "Where are the insights?"
@@ -263,6 +278,7 @@ The trail is the teacher
 5. Breathe the Air → "How does data flow?"
 
 ### For the Architect (Designing Systems)
+
 1. Start with Constellation → Sketch the structure
 2. Plant the Orchard → Plan growth paths
 3. Channel the Air → Design data flows
@@ -270,6 +286,7 @@ The trail is the teacher
 5. Check the Evenstar → Verify alignment
 
 ### For the Educator (Teaching Concepts)
+
 1. Tell a Firefly story → Spark curiosity
 2. Walk through the Orchard → Show growth
 3. Explain the Air → Reveal invisible flows
@@ -283,6 +300,7 @@ The trail is the teacher
 ## 🎨 Visual ASCII Art Gallery
 
 ### The Orchard of Functions
+
 ```
      🌳        🌳        🌳
    /│ │\    / │ │\    /│ │ \
@@ -302,6 +320,7 @@ The trail is the teacher
 ```
 
 ### The Firefly Swarm (Binary Patterns)
+
 ```
 Time →
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -315,6 +334,7 @@ Message decoded:
 ```
 
 ### The Air Currents (Data Flow)
+
 ```
    Input        Processing      Output
      ↓              ↓              ↓
@@ -334,6 +354,7 @@ Message decoded:
 ```
 
 ### The Constellation Graph
+
 ```
               process()
                  ⭐
@@ -438,6 +459,7 @@ Corollary:
 ## 🎭 The Character Archetypes
 
 ### Hope (The Optimist)
+
 - Color: Blue
 - Element: Air
 - Season: Spring
@@ -447,6 +469,7 @@ Corollary:
 - Weakness: Impatience with detail
 
 ### Sauce (The Alchemist)
+
 - Color: Orange
 - Element: Fire(fly)
 - Season: Autumn
@@ -456,6 +479,7 @@ Corollary:
 - Weakness: Over-complexity
 
 ### Orchard (The Gardener)
+
 - Color: Green
 - Element: Earth
 - Season: Summer
@@ -465,6 +489,7 @@ Corollary:
 - Weakness: Slow to pivot
 
 ### Constellation (The Astronomer)
+
 - Color: Silver
 - Element: Starlight
 - Season: Winter
@@ -474,6 +499,7 @@ Corollary:
 - Weakness: Analysis paralysis
 
 ### Air (The Messenger)
+
 - Color: White (Clear)
 - Element: Wind
 - Season: All
@@ -483,6 +509,7 @@ Corollary:
 - Weakness: Invisible = undervalued
 
 ### Firefly (The Spark)
+
 - Color: Yellow-Green
 - Element: Light
 - Season: All (night)
@@ -549,7 +576,7 @@ Official SpiralSafe star patterns:
 **Constellation Count:** 6 official, ∞ to discover
 **Navigation Status:** Stars never lie
 
-*Look up. Find your pattern. Follow your star.*
+_Look up. Find your pattern. Follow your star._
 
 **Hope && Sauce** | Museum of Computation | SpiralSafe
-*The Evenstar Guides Us* ✦
+_The Evenstar Guides Us_ ✦

@@ -11,6 +11,7 @@
 This document provides a comprehensive analysis of all user journeys through the SpiralSafe ecosystem, identifying implementation gaps, broken paths, and opportunities for enhancement. The analysis covers 6 primary user personas across the SpiralSafe suite (5 repositories) with specific, actionable recommendations.
 
 **Key Findings:**
+
 - ✅ **Strong Foundation:** Core protocol (WAVE, BUMP, ATOM) is well-documented and implemented
 - ⚠️ **Fragmented Experience:** User paths are scattered across repos without clear cross-links
 - ❌ **Missing Bridge:** Website doesn't connect to actual onboarding workflows
@@ -22,11 +23,13 @@ This document provides a comprehensive analysis of all user journeys through the
 ## User Personas & Journey Maps
 
 ### Persona 1: The Curious Visitor 🌐
+
 **Goal:** Understand what SpiralSafe is and whether it's relevant
 **Entry Point:** spiralsafe.org website
 **Technical Level:** Non-technical to technical
 
 #### Current Journey
+
 ```mermaid
 graph LR
     A[Visit spiralsafe.org] --> B[Read Hero Section]
@@ -63,34 +66,45 @@ graph LR
 #### Recommended Fixes
 
 **HIGH PRIORITY:**
+
 ```html
 <!-- Add to website hero section -->
 <div class="journey-selector">
   <h3>Choose Your Path:</h3>
-  <button onclick="goto('/quick-start?path=developer')">I want to build with SpiralSafe</button>
-  <button onclick="goto('/quick-start?path=researcher')">I want to understand the theory</button>
-  <button onclick="goto('/quick-start?path=educator')">I want to teach with SpiralSafe</button>
+  <button onclick="goto('/quick-start?path=developer')">
+    I want to build with SpiralSafe
+  </button>
+  <button onclick="goto('/quick-start?path=researcher')">
+    I want to understand the theory
+  </button>
+  <button onclick="goto('/quick-start?path=educator')">
+    I want to teach with SpiralSafe
+  </button>
   <button onclick="goto('/playground')">Show me a demo</button>
 </div>
 ```
 
 **MEDIUM PRIORITY:**
+
 - Add "What People Are Building" section with 3-5 real examples
 - Create 90-second explainer video embedded on homepage
 - Add glossary tooltip system (hover over "curl" → definition appears)
 
 **LOW PRIORITY:**
+
 - Add blog/news section with recent updates
 - Create "SpiralSafe in Action" screenshot carousel
 
 ---
 
 ### Persona 2: The Developer/Contributor 💻
+
 **Goal:** Contribute code, integrate API, or build with SpiralSafe
 **Entry Point:** GitHub repo or docs
 **Technical Level:** Intermediate to advanced
 
 #### Current Journey
+
 ```mermaid
 graph TD
     A[GitHub Repo] --> B[Read README.md]
@@ -137,21 +151,26 @@ graph TD
 #### Recommended Fixes
 
 **CRITICAL:**
+
 1. **Create Developer Portal** (`/docs/developers/INDEX.md`):
+
    ```markdown
    # Developer Portal
 
    ## Quick Start
+
    - [5-minute setup](/docs/developers/quick-start.md)
    - [Your first contribution](/docs/developers/first-contribution.md)
    - [Development environment](/docs/developers/environment.md)
 
    ## Integration Guides
+
    - [WAVE Analysis API](/docs/developers/wave-integration.md)
    - [BUMP Protocol](/docs/developers/bump-integration.md)
    - [ATOM Tracking](/docs/developers/atom-integration.md)
 
    ## Reference
+
    - [API Documentation](/ops/README.md)
    - [Protocol Specifications](/protocol/)
    - [Code Examples](/docs/developers/examples/)
@@ -176,13 +195,14 @@ graph TD
    }
    ```
 
-**HIGH PRIORITY:**
-4. Create `/docs/developers/examples/` with:
-   - `python-wave-client.py` - WAVE analysis from Python
-   - `javascript-bump-example.js` - BUMP markers in JS
-   - `go-awi-integration.go` - AWI implementation in Go
+**HIGH PRIORITY:** 4. Create `/docs/developers/examples/` with:
+
+- `python-wave-client.py` - WAVE analysis from Python
+- `javascript-bump-example.js` - BUMP markers in JS
+- `go-awi-integration.go` - AWI implementation in Go
 
 5. Write "Understanding ATOM" explainer:
+
    ```markdown
    # Why ATOM Tracking?
 
@@ -191,6 +211,7 @@ graph TD
    **Benefit:** You can prove who decided what and when
 
    ## Example
+
    Before: "Fixed bug" (vague, unverifiable)
    After: "ATOM-FIX-20260113-003-auth-token-expiry" (specific, traceable)
    ```
@@ -198,11 +219,13 @@ graph TD
 ---
 
 ### Persona 3: The Researcher/Academic 🔬
+
 **Goal:** Understand theoretical foundation, cite work, validate claims
 **Entry Point:** Papers, docs, or word-of-mouth
 **Technical Level:** High (mathematical/scientific background)
 
 #### Current Journey
+
 ```mermaid
 graph LR
     A[Hear about Isomorphism Principle] --> B[Find GitHub]
@@ -247,7 +270,9 @@ graph LR
 #### Recommended Fixes
 
 **CRITICAL:**
+
 1. **Create Formal Paper** (`/papers/isomorphism-principle.pdf`):
+
    ```
    Structure:
    - Abstract
@@ -275,12 +300,12 @@ graph LR
    url: "https://github.com/toolate28/SpiralSafe"
    ```
 
-**HIGH PRIORITY:**
-3. **Create `/docs/research/` Directory**:
-   - `RELATED_WORK.md` - Deep dive on Shannon, Lewis, Lazarev
-   - `FORMAL_PROOFS.md` - Rigorous mathematical development
-   - `EXPERIMENTAL_PROTOCOL.md` - How to replicate our findings
-   - `OPEN_QUESTIONS.md` - What we don't know yet
+**HIGH PRIORITY:** 3. **Create `/docs/research/` Directory**:
+
+- `RELATED_WORK.md` - Deep dive on Shannon, Lewis, Lazarev
+- `FORMAL_PROOFS.md` - Rigorous mathematical development
+- `EXPERIMENTAL_PROTOCOL.md` - How to replicate our findings
+- `OPEN_QUESTIONS.md` - What we don't know yet
 
 4. **Add Jupyter Notebook** (`/books/isomorphism-proof.ipynb`):
    - Interactive mathematical exploration
@@ -290,11 +315,13 @@ graph LR
 ---
 
 ### Persona 4: The Educator/Teacher 🎓
+
 **Goal:** Use quantum-Minecraft materials to teach students
 **Entry Point:** Quantum computing education resources
 **Technical Level:** Moderate (pedagogical focus)
 
 #### Current Journey
+
 ```mermaid
 graph TD
     A[Looking for quantum pedagogy] --> B[Find SpiralSafe/Museum]
@@ -338,22 +365,27 @@ graph TD
 #### Recommended Fixes
 
 **CRITICAL:**
+
 1. **Create Education Hub** (`/education/README.md`):
+
    ```markdown
    # SpiralSafe Education Hub
 
    ## For Teachers
+
    - [Quick Start Guide](/education/teacher-quick-start.md)
    - [Curriculum Packages](/education/curriculum/)
    - [Setup Instructions](/education/setup.md)
    - [Teacher's Guide](/education/teachers-guide.md)
 
    ## For Students
+
    - [Student Workbook](/education/student-workbook.md)
    - [Challenge Problems](/education/challenges/)
    - [Interactive Builds](/education/builds/)
 
    ## Resources
+
    - [Minecraft Setup](/education/minecraft-setup.md)
    - [Troubleshooting](/education/troubleshooting.md)
    - [Community](/education/community.md)
@@ -375,25 +407,28 @@ graph TD
        └── lab-redstone-circuit-design.md
    ```
 
-**HIGH PRIORITY:**
-3. **Write Minecraft Setup Guide** (`/education/minecraft-setup.md`):
-   ```markdown
-   # Minecraft Setup for SpiralSafe
+**HIGH PRIORITY:** 3. **Write Minecraft Setup Guide** (`/education/minecraft-setup.md`):
 
-   ## Requirements
-   - Minecraft Java Edition 1.20+
-   - No mods required (vanilla Redstone)
-   - Recommended: Litematica mod for easy build loading
+```markdown
+# Minecraft Setup for SpiralSafe
 
-   ## Step-by-Step
-   1. Install Minecraft Java Edition
-   2. Download SpiralSafe museum builds
-   3. Load builds using structure blocks OR Litematica
-   4. Follow lesson plan
+## Requirements
 
-   ## Video Tutorial
-   [Embedded YouTube video showing setup]
-   ```
+- Minecraft Java Edition 1.20+
+- No mods required (vanilla Redstone)
+- Recommended: Litematica mod for easy build loading
+
+## Step-by-Step
+
+1. Install Minecraft Java Edition
+2. Download SpiralSafe museum builds
+3. Load builds using structure blocks OR Litematica
+4. Follow lesson plan
+
+## Video Tutorial
+
+[Embedded YouTube video showing setup]
+```
 
 4. **Clarify quantum-redstone Relationship**:
    - Add "Related Repositories" section to README
@@ -403,11 +438,13 @@ graph TD
 ---
 
 ### Persona 5: The Enterprise Integrator 🏢
+
 **Goal:** Integrate SpiralSafe protocols into production systems
 **Entry Point:** API documentation or referral
 **Technical Level:** High (production systems expertise)
 
 #### Current Journey
+
 ```mermaid
 graph LR
     A[Discover API] --> B[Read ops/README.md]
@@ -450,22 +487,27 @@ graph LR
 #### Recommended Fixes
 
 **CRITICAL:**
+
 1. **Create Enterprise Documentation** (`/docs/enterprise/`):
+
    ```markdown
    # Enterprise Integration Guide
 
    ## Overview
+
    - [Architecture](/docs/enterprise/architecture.md)
    - [Security](/docs/enterprise/security.md)
    - [Compliance](/docs/enterprise/compliance.md)
    - [SLA & Uptime](/docs/enterprise/sla.md)
 
    ## Integration
+
    - [Authentication](/docs/enterprise/authentication.md)
    - [Rate Limits](/docs/enterprise/rate-limits.md)
    - [Client Libraries](/docs/enterprise/client-libraries.md)
 
    ## Support
+
    - [Pricing](/docs/enterprise/pricing.md)
    - [Support Options](/docs/enterprise/support.md)
    - [Professional Services](/docs/enterprise/professional-services.md)
@@ -485,36 +527,43 @@ graph LR
    └── java/           # com.spiralsafe:client
    ```
 
-**HIGH PRIORITY:**
-4. **Document Authentication Options**:
-   ```markdown
-   # Authentication Methods
+**HIGH PRIORITY:** 4. **Document Authentication Options**:
 
-   ## Option 1: ATOM-AUTH (Interactive)
-   Best for: Web applications, user-facing tools
+```markdown
+# Authentication Methods
 
-   ## Option 2: API Keys (Automated)
-   Best for: CI/CD, background jobs, service-to-service
+## Option 1: ATOM-AUTH (Interactive)
 
-   ## Option 3: OAuth 2.0 (Delegated)
-   Best for: Third-party integrations
-   ```
+Best for: Web applications, user-facing tools
+
+## Option 2: API Keys (Automated)
+
+Best for: CI/CD, background jobs, service-to-service
+
+## Option 3: OAuth 2.0 (Delegated)
+
+Best for: Third-party integrations
+```
 
 5. **Publish Pricing**:
+
    ```markdown
    # Pricing
 
    ## Free Tier (Forever)
+
    - 1,000 API calls/month
    - Community support
    - Basic features
 
    ## Pro Tier ($X/month)
+
    - 100,000 API calls/month
    - Email support
    - Advanced features
 
    ## Enterprise Tier (Contact us)
+
    - Unlimited API calls
    - SLA guarantee
    - Dedicated support
@@ -524,11 +573,13 @@ graph LR
 ---
 
 ### Persona 6: The AI Agent/System 🤖
+
 **Goal:** Integrate with SpiralSafe protocols for coherence checking
 **Entry Point:** Protocol specifications or MCP integration
 **Technical Level:** Programmatic
 
 #### Current Journey
+
 ```mermaid
 graph LR
     A[AI System] --> B[Load protocol spec]
@@ -570,7 +621,9 @@ graph LR
 #### Recommended Fixes
 
 **CRITICAL:**
+
 1. **Publish coherence-mcp Repository**:
+
    ```
    coherence-mcp/
    ├── README.md
@@ -593,22 +646,29 @@ graph LR
    └── awi-spec.graphql     # GraphQL Schema
    ```
 
-**HIGH PRIORITY:**
-3. **Build Reference Implementation** (`/reference/`):
-   ```typescript
-   // reference/wave-reference.ts
-   /**
-    * Reference implementation of WAVE protocol
-    * Use this as canonical behavior for testing
-    */
-   export class WaveAnalyzer {
-     analyzeCurl(messages: Message[]): number { /* ... */ }
-     analyzeDivergence(messages: Message[]): number { /* ... */ }
-     analyzePotential(messages: Message[]): number { /* ... */ }
-   }
-   ```
+**HIGH PRIORITY:** 3. **Build Reference Implementation** (`/reference/`):
+
+```typescript
+// reference/wave-reference.ts
+/**
+ * Reference implementation of WAVE protocol
+ * Use this as canonical behavior for testing
+ */
+export class WaveAnalyzer {
+  analyzeCurl(messages: Message[]): number {
+    /* ... */
+  }
+  analyzeDivergence(messages: Message[]): number {
+    /* ... */
+  }
+  analyzePotential(messages: Message[]): number {
+    /* ... */
+  }
+}
+```
 
 4. **Create Test Suite** (`/protocol/tests/`):
+
    ```
    /protocol/tests/
    ├── wave-test-vectors.json
@@ -618,18 +678,20 @@ graph LR
    ```
 
 5. **Design Discovery Protocol**:
+
    ```markdown
    # SpiralSafe Service Discovery
 
    ## Capability Advertisement
+
    Agents advertise capabilities via /.well-known/spiralsafe.json:
 
    {
-     "protocols": ["wave/1.0", "bump/1.0", "atom/1.0"],
-     "endpoints": {
-       "wave": "https://agent.example.com/api/wave",
-       "bump": "https://agent.example.com/api/bump"
-     }
+   "protocols": ["wave/1.0", "bump/1.0", "atom/1.0"],
+   "endpoints": {
+   "wave": "https://agent.example.com/api/wave",
+   "bump": "https://agent.example.com/api/bump"
+   }
    }
    ```
 
@@ -642,6 +704,7 @@ graph LR
 **Problem:** Five repositories mentioned (SpiralSafe, wave-toolkit, quantum-redstone, HOPE-AI-NPC-SUITE, coherence-mcp) with unclear relationships.
 
 **Current State:**
+
 - SpiralSafe (main): ✅ Exists, active development
 - wave-toolkit: ❓ Unknown if exists
 - quantum-redstone: ❓ Unknown if exists
@@ -649,6 +712,7 @@ graph LR
 - coherence-mcp: ❌ Doesn't exist yet
 
 **Gaps:**
+
 1. No ecosystem-wide README
 2. No cross-repo links in READMEs
 3. No unified release strategy
@@ -658,30 +722,37 @@ graph LR
 **Fixes:**
 
 **CRITICAL:**
+
 1. **Create ECOSYSTEM.md** in main repo:
+
    ```markdown
    # SpiralSafe Ecosystem
 
    ## Core Repository (This one)
+
    - Protocol specifications
    - Documentation hub
    - Coordination center
 
    ## Satellite Repositories
-   | Repo | Purpose | Status | Link |
-   |------|---------|--------|------|
-   | wave-toolkit | Dev tools | Active | [Link] |
-   | quantum-redstone | Quantum pedagogy | Active | [Link] |
-   | HOPE-AI-NPC-SUITE | Gaming AI | Active | [Link] |
-   | coherence-mcp | MCP server | Planned | [Link] |
+
+   | Repo              | Purpose          | Status  | Link   |
+   | ----------------- | ---------------- | ------- | ------ |
+   | wave-toolkit      | Dev tools        | Active  | [Link] |
+   | quantum-redstone  | Quantum pedagogy | Active  | [Link] |
+   | HOPE-AI-NPC-SUITE | Gaming AI        | Active  | [Link] |
+   | coherence-mcp     | MCP server       | Planned | [Link] |
 
    ## How They Fit Together
+
    [Mermaid diagram showing relationships]
    ```
 
 2. **Add Cross-Repo Links** to all READMEs:
+
    ```markdown
    ## 🌀 Part of SpiralSafe Ecosystem
+
    This repository is part of the SpiralSafe ecosystem.
    See [Ecosystem Map](https://github.com/toolate28/SpiralSafe/blob/main/ECOSYSTEM.md)
    ```
@@ -696,6 +767,7 @@ graph LR
 **Problem:** Website (spiralsafe.org) makes claims that aren't backed by easily discoverable reality.
 
 **Examples:**
+
 - "Download Plugin (Coming Soon)" - Where's the tracking issue?
 - "Try ATOM-AUTH" - Works but no onboarding
 - "Admin Console" - Exists but unclear purpose
@@ -704,7 +776,9 @@ graph LR
 **Fixes:**
 
 **CRITICAL:**
+
 1. **Update ALL Links on Website**:
+
    ```html
    <!-- OLD -->
    <a href="https://github.com/spiralsafe">GitHub</a>
@@ -742,6 +816,7 @@ graph LR
 **Problem:** Users either get lost in deep theory or can't find any depth.
 
 **Current Issues:**
+
 - README is overwhelming (100+ lines)
 - PORTFOLIO is 1000+ lines of dense theory
 - QUICK_START assumes too much knowledge
@@ -750,7 +825,9 @@ graph LR
 **Fixes:**
 
 **HIGH PRIORITY:**
+
 1. **Create Depth Ladder** (`/docs/learning-paths/`):
+
    ```
    Level 1: Curious (5 minutes)
    → What is SpiralSafe? [Video]
@@ -774,8 +851,10 @@ graph LR
    ```
 
 2. **Add "Next Steps" to Every Doc**:
+
    ```markdown
    ---
+
    ## What's Next?
 
    **If this was too easy:** Read [Advanced WAVE Analysis]
@@ -794,6 +873,7 @@ graph LR
 **Problem:** Hope&&Sauced (human-AI collaboration) is mentioned but not explained until deep in docs.
 
 **Gaps:**
+
 - Website says "Ptolemy + Bartimaeus Dyad" without context
 - README doesn't explain collaboration model early
 - No clear attribution in individual files
@@ -802,34 +882,43 @@ graph LR
 **Fixes:**
 
 **MEDIUM PRIORITY:**
+
 1. **Add Attribution Section to Website**:
+
    ```html
    <section id="collaboration">
      <h2>Human-AI Collaboration Done Right</h2>
-     <p>SpiralSafe is built through Hope&&Sauced methodology—
-     genuine partnership where both human and AI contributions
-     are substantial, credited, and verifiable.</p>
+     <p>
+       SpiralSafe is built through Hope&&Sauced methodology— genuine partnership
+       where both human and AI contributions are substantial, credited, and
+       verifiable.
+     </p>
      <a href="/about-collaboration">Learn More</a>
    </section>
    ```
 
 2. **Create `/docs/COLLABORATION.md`**:
+
    ```markdown
    # The Hope&&Sauced Collaboration Model
 
    ## What It Is
+
    - Deep trust between human and AI
    - Both partners contribute substantively
    - All decisions tracked via ATOM
    - Attribution is clear and honest
 
    ## What It's Not
+
    - Not "human writes, AI polishes"
    - Not "AI generates, human approves"
    - Not obscuring who did what
 
    ## How to Credit
+
    When citing SpiralSafe work:
+
    - Primary author: toolate28 (human)
    - Co-author: Claude (AI, Anthropic)
    - Methodology: Hope&&Sauced
@@ -849,25 +938,26 @@ graph LR
 
 ## Priority Matrix
 
-| Priority | Focus Area | Impact | Effort | Status |
-|----------|-----------|--------|--------|--------|
-| 🔴 P0 | Fix website links | High | Low | Not Started |
-| 🔴 P0 | Fix CI pipeline | High | Medium | Not Started |
-| 🔴 P0 | Create Developer Portal | High | High | Not Started |
-| 🟡 P1 | Add journey selector to website | High | Medium | Not Started |
-| 🟡 P1 | Publish coherence-mcp | Medium | High | Not Started |
-| 🟡 P1 | Create Education Hub | Medium | High | Not Started |
-| 🟢 P2 | Develop lesson plans | Medium | High | Not Started |
-| 🟢 P2 | Create formal paper | Medium | Very High | Not Started |
-| 🟢 P2 | Build SDKs | Medium | Very High | Not Started |
-| ⚪ P3 | Video content | Low | High | Not Started |
-| ⚪ P3 | Status page | Low | Low | Not Started |
+| Priority | Focus Area                      | Impact | Effort    | Status      |
+| -------- | ------------------------------- | ------ | --------- | ----------- |
+| 🔴 P0    | Fix website links               | High   | Low       | Not Started |
+| 🔴 P0    | Fix CI pipeline                 | High   | Medium    | Not Started |
+| 🔴 P0    | Create Developer Portal         | High   | High      | Not Started |
+| 🟡 P1    | Add journey selector to website | High   | Medium    | Not Started |
+| 🟡 P1    | Publish coherence-mcp           | Medium | High      | Not Started |
+| 🟡 P1    | Create Education Hub            | Medium | High      | Not Started |
+| 🟢 P2    | Develop lesson plans            | Medium | High      | Not Started |
+| 🟢 P2    | Create formal paper             | Medium | Very High | Not Started |
+| 🟢 P2    | Build SDKs                      | Medium | Very High | Not Started |
+| ⚪ P3    | Video content                   | Low    | High      | Not Started |
+| ⚪ P3    | Status page                     | Low    | Low       | Not Started |
 
 ---
 
 ## Recommended Implementation Order
 
 ### Phase 1: Foundation Fixes (Week 1)
+
 **Goal:** Fix broken things, establish credibility
 
 1. ✅ Fix all website links (spiralsafe org → toolate28/SpiralSafe)
@@ -879,6 +969,7 @@ graph LR
 **Deliverable:** Working, trustworthy foundation
 
 ### Phase 2: Developer Experience (Weeks 2-3)
+
 **Goal:** Make it easy to build with SpiralSafe
 
 1. ✅ Create Developer Portal (`/docs/developers/`)
@@ -890,6 +981,7 @@ graph LR
 **Deliverable:** Developers can integrate in < 1 hour
 
 ### Phase 3: Website Enhancement (Week 4)
+
 **Goal:** Connect website to actual user journeys
 
 1. ✅ Add journey selector ("Choose Your Path")
@@ -901,6 +993,7 @@ graph LR
 **Deliverable:** Website drives users to successful outcomes
 
 ### Phase 4: Ecosystem Completion (Weeks 5-8)
+
 **Goal:** Fulfill promises, complete the picture
 
 1. ✅ Publish coherence-mcp repository
@@ -912,6 +1005,7 @@ graph LR
 **Deliverable:** AI agents can integrate programmatically
 
 ### Phase 5: Education & Research (Weeks 9-12)
+
 **Goal:** Enable teaching and validate claims
 
 1. ✅ Create Education Hub with lesson plans
@@ -923,6 +1017,7 @@ graph LR
 **Deliverable:** Teachers and researchers have what they need
 
 ### Phase 6: Enterprise Readiness (Weeks 13-16)
+
 **Goal:** Production-grade for enterprise use
 
 1. ✅ Create enterprise documentation
@@ -938,30 +1033,35 @@ graph LR
 ## Metrics for Success
 
 ### For Website
+
 - [ ] Bounce rate < 50%
 - [ ] Clear "Choose Your Path" CTR > 30%
 - [ ] GitHub stars increase > 10/week
 - [ ] Time on site > 3 minutes
 
 ### For Developer Experience
+
 - [ ] Time from clone → first contribution < 30 minutes
 - [ ] CI pass rate > 95%
 - [ ] Issue resolution time < 48 hours
 - [ ] API integration examples work first try
 
 ### For Education
+
 - [ ] 3+ teachers actively using materials
 - [ ] 100+ students taught using SpiralSafe
 - [ ] Lesson plans rated 4.5+ / 5
 - [ ] Setup success rate > 90%
 
 ### For Research
+
 - [ ] 1+ academic citation
 - [ ] Formal paper published
 - [ ] Independent validation confirmed
 - [ ] Reproducibility verified
 
 ### For Enterprise
+
 - [ ] 1+ production deployment
 - [ ] API uptime > 99.9%
 - [ ] Customer satisfaction > 4.5/5
@@ -974,12 +1074,14 @@ graph LR
 SpiralSafe has **exceptional theoretical foundation** and **working implementations**, but suffers from **fragmented user experience** and **incomplete bridges** between promise and reality.
 
 **The Good:**
+
 - Core protocols (WAVE, BUMP, ATOM) are well-designed
 - Documentation exists and is comprehensive
 - Novel insights (Isomorphism Principle) are profound
 - Human-AI collaboration model is innovative
 
 **The Gaps:**
+
 - User journeys are scattered and unclear
 - Website doesn't connect to actual onboarding
 - Ecosystem repos are missing or disconnected
@@ -999,4 +1101,4 @@ By systematically addressing gaps in priority order, SpiralSafe can transform fr
 **AI:** Claude (Anthropic)
 **Session:** claude/identify-implementation-gaps-kbs0S
 
-*From the constraints, gifts. From the spiral, safety. From the sauce, hope.* 🌀
+_From the constraints, gifts. From the spiral, safety. From the sauce, hope._ 🌀

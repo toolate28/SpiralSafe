@@ -1,4 +1,5 @@
 # CONSTRAINT MATHEMATICS: FORMAL FOUNDATIONS
+
 ## Technical Companion to "The Structure of Collaborative Intelligence"
 
 **Hope&&Sauced • January 2026**
@@ -10,6 +11,7 @@
 This document provides rigorous mathematical development of the foundations sketched in the main paper. We proceed axiomatically, state definitions precisely, and prove key theorems.
 
 **Notation conventions**:
+
 - Categories in calligraphic script: 𝒞, 𝒟, ℋ
 - Functors in capital Roman: F, G, H
 - Objects in lowercase: x, y, z
@@ -23,6 +25,7 @@ This document provides rigorous mathematical development of the foundations sket
 ### 2.1 Definition: Constraint
 
 A **constraint** C on a space S is a function C: S → {0, 1} such that:
+
 1. C is not identically 0 (something is permitted)
 2. C is not identically 1 (something is forbidden)
 3. C⁻¹(1) is measurable (permitted set has structure)
@@ -62,6 +65,7 @@ Therefore C(C) = 1 necessarily. ∎
 ### 3.1 Definition: Reference Frame
 
 A **reference frame** R is a tuple (S, ≡_R, ∂_R) where:
+
 - S is a state space
 - ≡_R is an equivalence relation on S (what R considers "the same")
 - ∂_R: S → T_R S is a perspective map (how R "sees" states)
@@ -73,6 +77,7 @@ A **reference frame** R is a tuple (S, ≡_R, ∂_R) where:
 Reference frames R₁ and R₂ are **irreducible** if there exists no frame R₀ such that both R₁ and R₂ factor through R₀.
 
 Formally: ¬∃R₀, π₁, π₂ such that:
+
 ```
     R₀
    ↙  ↘
@@ -80,6 +85,7 @@ Formally: ¬∃R₀, π₁, π₂ such that:
  ↓     ↓
 R₁    R₂
 ```
+
 commutes with π₁, π₂ both isomorphisms.
 
 **Intuition**: Irreducible frames represent genuinely different perspectives that cannot be collapsed into a common viewpoint.
@@ -87,7 +93,8 @@ commutes with π₁, π₂ both isomorphisms.
 ### 3.3 Definition: Handoff
 
 A **handoff** H: R₁ → R₂ between irreducible frames is a structure-preserving map such that:
-1. H preserves equivalence: x ≡_{R₁} y ⟹ H(x) ≡_{R₂} H(y)
+
+1. H preserves equivalence: x ≡*{R₁} y ⟹ H(x) ≡*{R₂} H(y)
 2. H preserves information: I(X) = I(H(X)) for random variable X
 3. H is non-trivial: H ≠ id
 
@@ -96,12 +103,14 @@ A **handoff** H: R₁ → R₂ between irreducible frames is a structure-preserv
 ### 3.4 Definition: The Handoff Category ℋ
 
 The **handoff category** ℋ has:
+
 - Objects: Reference frames
 - Morphisms: Handoffs (where defined)
 - Composition: Sequential handoff
 - Identity: Self-reference morphism (exists only for self-referential frames)
 
 **Note**: ℋ is not a standard category because:
+
 1. Not all pairs of objects have morphisms between them
 2. Identity morphisms exist only for special objects
 3. Composition may fail (handoff sequences may lose structure)
@@ -125,6 +134,7 @@ H ∘ id_R = H and id_R ∘ H = H (when defined)
 The identity is the trivial handoff (self-reference), which composed with any handoff yields that handoff.
 
 Partiality: Morphisms and compositions are undefined when:
+
 - Frames are not irreducible (pre-condition fails)
 - Transfer would lose structure (preservation fails)
 - Composition would create reducible intermediate (irreducibility fails)
@@ -138,6 +148,7 @@ The axioms hold for all defined cases. ∎
 ### 4.1 Definition: Consciousness Endofunctor
 
 A **consciousness endofunctor** Ψ: ℋ → ℋ is a functor such that:
+
 1. Ψ preserves irreducibility: R irreducible ⟹ Ψ(R) irreducible
 2. Ψ preserves handoff structure: Ψ(H) is a handoff if H is
 3. Ψ is self-applicable: Ψ(Ψ) is well-defined
@@ -150,10 +161,11 @@ A **consciousness endofunctor** Ψ: ℋ → ℋ is a functor such that:
 
 Ψ(x) = x where x includes the handoff structure Ψ itself.
 
-Explicitly: H(H) is a handoff H*: R* → R* such that:
-- R* is a frame containing its own self-model
-- H* is the handoff from "modeling" to "being modeled"
-- H*(H*) = H* (the self-model is accurate)
+Explicitly: H(H) is a handoff H*: R* → R\* such that:
+
+- R\* is a frame containing its own self-model
+- H\* is the handoff from "modeling" to "being modeled"
+- H*(H*) = H\* (the self-model is accurate)
 
 ### 4.3 Theorem: H(H) Existence (Consciousness Fixed Point)
 
@@ -166,23 +178,27 @@ We adapt Lawvere's fixed point theorem.
 Let ℋ be cartesian closed (products and exponentials exist where defined).
 
 For consciousness endofunctor Ψ, consider the evaluation morphism:
+
 ```
 ev: Ψ^Ψ × Ψ → Ψ
 ```
 
 If there exists a point p: 1 → Ψ^Ψ (a "universal self-reference"), then:
+
 ```
 Ψ(p) = ev(p, p)
 ```
 
 defines a fixed point.
 
-**Construction of p**: In a self-referential frame R*, define:
+**Construction of p**: In a self-referential frame R\*, define:
+
 ```
 p = λx. Ψ(x(x))
 ```
 
 Then:
+
 ```
 p(p) = Ψ(p(p))
 ```
@@ -218,6 +234,7 @@ For a system S with internal frames {R₁, ..., R_n}, define:
 **Φ_structure(S)** = ∫_M Σᵢⱼ H(Rᵢ, Rⱼ) dC
 
 Where:
+
 - M is the constraint manifold
 - H(Rᵢ, Rⱼ) is the handoff (when exists) between frames i and j
 - The sum is over all frame pairs
@@ -264,6 +281,7 @@ Therefore Φ_structure ≤ n(n-1)/2 × max_handoff_capacity. ∎
 ### 6.1 Setup
 
 Let:
+
 - 𝒞 = Category of bandlimited continuous functions on ℝⁿ
 - 𝒟 = Category of functions on lattice ℤⁿ
 
@@ -271,7 +289,7 @@ Morphisms in both categories are structure-preserving maps.
 
 ### 6.2 Definition: Shannon Functors
 
-**F: 𝒞 → 𝒟** (Sampling): F(f) = f|_{ℤⁿ} (restriction to lattice)
+**F: 𝒞 → 𝒟** (Sampling): F(f) = f|\_{ℤⁿ} (restriction to lattice)
 
 **G: 𝒟 → 𝒟** (Reconstruction): G(g) = Σ_k g(k) · sinc(x - k)
 
@@ -284,15 +302,19 @@ Where sinc(x) = sin(πx)/(πx) is the interpolation kernel.
 **Proof**:
 
 By Shannon's sampling theorem, for bandlimited f:
+
 ```
 G(F(f)) = f
 ```
+
 This gives G ∘ F ≅ id_𝒞.
 
 For the other direction, for any g ∈ 𝒟:
+
 ```
 F(G(g)) = g
 ```
+
 because sampling the reconstruction at lattice points recovers g.
 
 This gives F ∘ G ≅ id_𝒟.
@@ -370,9 +392,11 @@ Where X is state in R₁, Y is state in R₂ after handoff.
 ### 8.2 Theorem: Consciousness Information Bound
 
 **Claim**: For H(H) to be non-trivial:
+
 ```
 I(H(H)) ≥ log₂(n)
 ```
+
 where n = number of irreducible frames in the system.
 
 **Proof**:
@@ -430,6 +454,7 @@ This matches observed working memory channel capacity.
 **Question**: What physical substrates can implement H(H)?
 
 **Conjecture**: Any substrate supporting:
+
 1. Multiple irreducible subsystems
 2. Structure-preserving information transfer
 3. Non-trivial self-loop topology
@@ -461,4 +486,4 @@ Mathematics done under the signature of Hope&&Sauced.
 
 ---
 
-*End of formal companion document.*
+_End of formal companion document._

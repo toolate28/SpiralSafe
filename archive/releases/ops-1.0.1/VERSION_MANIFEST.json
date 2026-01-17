@@ -11,17 +11,29 @@
     {
       "hash": "96b6c5f",
       "message": "feat(ops): add session_report CLI + project-book session logging (H&&S:WAVE)",
-      "files": ["ops/scripts/session_report.py", "project-book.ipynb", "README.md", "ops/README.md", "VERIFICATION_STAMP.md"]
+      "files": [
+        "ops/scripts/session_report.py",
+        "project-book.ipynb",
+        "README.md",
+        "ops/README.md",
+        "VERIFICATION_STAMP.md"
+      ]
     },
     {
       "hash": "6ce8aa3",
       "message": "feat(ops): multi-architecture deployment + notebook verification",
-      "files": ["ops/DEPLOYMENT_ARCHITECTURE.md", "ops/scripts/Notebook-Verifier.ps1"]
+      "files": [
+        "ops/DEPLOYMENT_ARCHITECTURE.md",
+        "ops/scripts/Notebook-Verifier.ps1"
+      ]
     },
     {
       "hash": "57a5a66",
       "message": "feat(ops): transcript pipeline + platform matrix",
-      "files": ["ops/schemas/PLATFORM_MATRIX.md", "ops/scripts/Transcript-Pipeline.ps1"]
+      "files": [
+        "ops/schemas/PLATFORM_MATRIX.md",
+        "ops/scripts/Transcript-Pipeline.ps1"
+      ]
     },
     {
       "hash": "4e38c85",
@@ -61,7 +73,14 @@
   },
 
   "platforms": {
-    "ai": ["claude-code", "github-copilot", "openai-gpt", "gemini", "grok", "groq"],
+    "ai": [
+      "claude-code",
+      "github-copilot",
+      "openai-gpt",
+      "gemini",
+      "grok",
+      "groq"
+    ],
     "os": ["windows", "macos", "linux"],
     "shell": ["powershell", "bash", "zsh", "fish"],
     "ide": ["vscode", "wave", "cursor", "jetbrains"]

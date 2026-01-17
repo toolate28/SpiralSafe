@@ -22,6 +22,7 @@
 ```
 
 **What This Gives You**:
+
 - ✅ Public landing page showcasing H&&S:WAVE protocol
 - ✅ Production API with authentication & rate limiting
 - ✅ Admin console with ATOM-AUTH login
@@ -33,12 +34,14 @@
 ## 📋 Prerequisites
 
 ### Required
+
 - **Cloudflare Account** (free tier works!)
 - **GitHub Account**
 - **Terminal** (bash, zsh, PowerShell, whatever)
 - **Node.js 18+** (for wrangler CLI)
 
 ### Optional
+
 - **Minecraft Java Edition 1.20+** (for SpiralCraft plugin)
 - **Custom Domain** (can use workers.dev subdomain for free)
 
@@ -75,6 +78,7 @@ npx wrangler r2 bucket create spiralsafe-contexts
 ```
 
 **Copy the IDs from output and update `ops/wrangler.toml`**:
+
 ```toml
 [[d1_databases]]
 database_id = "YOUR_D1_ID_HERE"
@@ -264,12 +268,14 @@ EOF
 ### Environment Variables
 
 **Required**:
+
 ```bash
 SPIRALSAFE_API_KEY          # Your main API key
 CLOUDFLARE_ACCOUNT_ID       # From dashboard
 ```
 
 **Optional** (with defaults):
+
 ```bash
 RATE_LIMIT_REQUESTS=100     # Max requests per IP per window
 RATE_LIMIT_WINDOW=60        # Time window in seconds
@@ -315,6 +321,7 @@ ADMIN_JWT_EXPIRATION=86400  # 24 hours
 ### Set Up Health Monitoring (5 min)
 
 **UptimeRobot** (free, recommended):
+
 1. Sign up at https://uptimerobot.com
 2. Add HTTP(s) monitor
 3. URL: `https://api.yourdomain.com/api/health`
@@ -427,7 +434,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Install dependencies
         run: |
@@ -443,10 +450,11 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          workingDirectory: 'ops'
+          workingDirectory: "ops"
 ```
 
 **For others to deploy**:
+
 1. Fork repository
 2. Add `CLOUDFLARE_API_TOKEN` to GitHub Secrets
 3. Push to main → Auto-deploys! 🚀
@@ -561,6 +569,7 @@ fi
 ```
 
 Make it executable:
+
 ```bash
 chmod +x setup.sh
 ./setup.sh
@@ -614,6 +623,7 @@ docker run -p 8787:8787 spiralsafe:latest
 After deployment, you should see:
 
 ### Health Dashboard
+
 ```
 ✅ API Status: Healthy
 ✅ D1 Database: Connected
@@ -625,6 +635,7 @@ After deployment, you should see:
 ```
 
 ### Test All Endpoints
+
 ```bash
 # Run comprehensive test suite
 cd ops
@@ -646,22 +657,27 @@ cd ops
 ## 🆘 Troubleshooting
 
 ### "Cannot read properties of undefined (reading 'prepare')"
+
 **Cause**: D1 binding not configured
 **Fix**: Check `wrangler.toml` has correct `database_id`
 
 ### "Invalid API key"
+
 **Cause**: Secret not set or wrong key used
 **Fix**: `npx wrangler secret put SPIRALSAFE_API_KEY`
 
 ### "Rate limit exceeded"
+
 **Cause**: Too many requests from same IP
 **Fix**: Wait 60 seconds or adjust rate limits
 
 ### "Workers.dev subdomain disabled"
+
 **Cause**: Cloudflare free tier limit
 **Fix**: Use custom domain or upgrade plan
 
 ### "Build failed"
+
 **Cause**: Dependencies not installed
 **Fix**: `cd ops && npm install`
 
@@ -680,6 +696,7 @@ cd ops
 ## 🎉 You're Live!
 
 Congratulations! You've deployed:
+
 - ✅ Production API with security
 - ✅ Public landing page
 - ✅ Admin console (optional)
@@ -687,12 +704,14 @@ Congratulations! You've deployed:
 - ✅ Monitoring & alerts
 
 **Next Steps**:
+
 1. Share your deployment with the world!
 2. Join the SpiralSafe community
 3. Build something amazing with H&&S:WAVE
 4. Contribute back to the project
 
 **Remember**:
+
 > From the constraints, gifts.
 > From the spiral, safety.
 > From the sauce, hope.

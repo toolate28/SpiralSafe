@@ -6,13 +6,13 @@
 
 ## Repository Map
 
-| Repo | Layer | Purpose | Status |
-|------|-------|---------|--------|
-| [SpiralSafe](https://github.com/toolate28/SpiralSafe) | Core | Protocol specs, coordination, theory | Active |
-| [coherence-mcp](https://github.com/toolate28/coherence-mcp) | Interface | MCP server for Claude Code integration | Active |
-| [ClaudeNPC-Server-Suite](https://github.com/toolate28/ClaudeNPC-Server-Suite) | Interface | Minecraft AI agent framework | Active |
-| [wave-toolkit](https://github.com/toolate28/wave-toolkit) | Protocol | WAVE analysis dev tools | Active |
-| [quantum-redstone](https://github.com/toolate28/quantum-redstone) | Manifestation | Quantum concepts in Minecraft | Active |
+| Repo                                                                          | Layer         | Purpose                                | Status |
+| ----------------------------------------------------------------------------- | ------------- | -------------------------------------- | ------ |
+| [SpiralSafe](https://github.com/toolate28/SpiralSafe)                         | Core          | Protocol specs, coordination, theory   | Active |
+| [coherence-mcp](https://github.com/toolate28/coherence-mcp)                   | Interface     | MCP server for Claude Code integration | Active |
+| [ClaudeNPC-Server-Suite](https://github.com/toolate28/ClaudeNPC-Server-Suite) | Interface     | Minecraft AI agent framework           | Active |
+| [wave-toolkit](https://github.com/toolate28/wave-toolkit)                     | Protocol      | WAVE analysis dev tools                | Active |
+| [quantum-redstone](https://github.com/toolate28/quantum-redstone)             | Manifestation | Quantum concepts in Minecraft          | Active |
 
 ---
 
@@ -55,6 +55,7 @@ All repos build on one proven principle:
 **Proof**: [ISOMORPHISM_FORMAL_PROOF.md](./research/ISOMORPHISM_FORMAL_PROOF.md)
 
 **Implications**:
+
 - Minecraft Redstone = valid quantum computing pedagogy
 - Constraints = architectural gifts (not limitations)
 - AI alignment through structure, not just rules
@@ -103,10 +104,10 @@ cd SpiralSafe/education/curriculum/quantum-minecraft-bridge
 
 All repos coordinate versions for compatibility:
 
-| Version | Notes |
-|---------|-------|
-| v2.x | Current active development |
-| v1.x | Legacy (pre-isomorphism proof) |
+| Version | Notes                          |
+| ------- | ------------------------------ |
+| v2.x    | Current active development     |
+| v1.x    | Legacy (pre-isomorphism proof) |
 
 Check CHANGELOG in each repo for specifics.
 

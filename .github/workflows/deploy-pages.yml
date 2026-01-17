@@ -2,16 +2,16 @@ name: Deploy to Cloudflare Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - '**.md'
-      - 'docs/**'
-      - '.github/workflows/deploy-pages.yml'
+      - "**.md"
+      - "docs/**"
+      - ".github/workflows/deploy-pages.yml"
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - '**.md'
-      - 'docs/**'
+      - "**.md"
+      - "docs/**"
 
 jobs:
   build-and-deploy:
@@ -20,26 +20,26 @@ jobs:
       contents: read
       deployments: write
       pull-requests: write
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      
+          node-version: "20"
+
       - name: Install dependencies
         run: |
           npm install markdown-it markdown-it-anchor markdown-it-toc-done-right
-      
+
       - name: Build static site
         run: |
           mkdir -p dist
-          
+
           # Create index.html with Safe Spiral branding
           cat > dist/index.html <<'EOF'
           <!DOCTYPE html>
@@ -234,7 +234,7 @@ jobs:
           </body>
           </html>
           EOF
-          
+
           # Convert markdown files to HTML
           node <<'EOF'
           const fs = require('fs');
@@ -245,7 +245,7 @@ jobs:
             linkify: true,
             typographer: true
           });
-          
+
           const template = (title, content) => `
           <!DOCTYPE html>
           <html lang="en">
@@ -325,29 +325,29 @@ jobs:
           </body>
           </html>
           `;
-          
+
           // Convert README
           const readme = fs.readFileSync('README.md', 'utf8');
           fs.writeFileSync('dist/README.html', template('README', md.render(readme)));
-          
+
           // Convert SECURITY
           if (fs.existsSync('SECURITY.md')) {
             const security = fs.readFileSync('SECURITY.md', 'utf8');
             fs.writeFileSync('dist/SECURITY.html', template('Security', md.render(security)));
           }
-          
+
           // Convert TROUBLESHOOTING
           if (fs.existsSync('TROUBLESHOOTING.md')) {
             const troubleshooting = fs.readFileSync('TROUBLESHOOTING.md', 'utf8');
             fs.writeFileSync('dist/TROUBLESHOOTING.html', template('Troubleshooting', md.render(troubleshooting)));
           }
-          
+
           // Convert CONTRIBUTING
           if (fs.existsSync('CONTRIBUTING.md')) {
             const contributing = fs.readFileSync('CONTRIBUTING.md', 'utf8');
             fs.writeFileSync('dist/CONTRIBUTING.html', template('Contributing', md.render(contributing)));
           }
-          
+
           // Convert docs/
           if (fs.existsSync('docs')) {
             fs.mkdirSync('dist/docs', { recursive: true });
@@ -360,10 +360,10 @@ jobs:
             });
           }
           EOF
-          
+
           echo "✓ Static site built in dist/"
           ls -la dist/
-      
+
       - name: Deploy to Cloudflare Pages (Production)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: cloudflare/pages-action@v1
@@ -374,7 +374,7 @@ jobs:
           directory: dist
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           branch: main
-      
+
       - name: Deploy to Cloudflare Pages (Preview)
         if: github.event_name == 'pull_request'
         uses: cloudflare/pages-action@v1
@@ -385,7 +385,7 @@ jobs:
           directory: dist
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.head_ref }}
-      
+
       - name: Comment PR with preview URL
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
@@ -398,19 +398,19 @@ jobs:
               .replace(/[^a-z0-9-]/g, '-')
               .replace(/^-+|-+$/g, '')  // Remove leading/trailing hyphens
               .substring(0, 63);  // DNS subdomain max length
-            
+
             // Fallback if branch name becomes empty after sanitization
             if (!branchName) {
               branchName = `pr-${prNumber}`;
             }
-            
+
             // Ensure DNS label does not start with a digit (RFC 1123)
             if (/^[0-9]/.test(branchName)) {
               branchName = `b-${branchName}`;
             }
-            
+
             const previewUrl = `https://${branchName}.spiralsafe.pages.dev`;
-            
+
             github.rest.issues.createComment({
               issue_number: prNumber,
               owner: context.repo.owner,

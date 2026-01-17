@@ -7,6 +7,7 @@
 ## Overview
 
 The Sorting Hat is a deterministic classifier that maps targets to one of four archetypal "houses" using:
+
 1. **Feature extraction** from target metadata
 2. **Axis projection** to a 2D space
 3. **Quantum encoding** via rotation angles
@@ -28,12 +29,12 @@ Location: `scripts/sorting_hat.py`
 
 Four houses corresponding to 2-bit measurement outcomes:
 
-| Key | Bits | Name | Symbol | Archetype |
-|-----|------|------|--------|-----------|
-| rubin | 00 | House Rubin | 🔭 | Data-driven, observatory, rigorous |
-| shannon | 01 | House Shannon | 📡 | Structure, protocols, communication |
-| noether | 10 | House Noether | 🔮 | Invariants, symmetry, deep theory |
-| firefly | 11 | House Firefly | 🌟 | Play, exploration, pedagogy |
+| Key     | Bits | Name          | Symbol | Archetype                           |
+| ------- | ---- | ------------- | ------ | ----------------------------------- |
+| rubin   | 00   | House Rubin   | 🔭     | Data-driven, observatory, rigorous  |
+| shannon | 01   | House Shannon | 📡     | Structure, protocols, communication |
+| noether | 10   | House Noether | 🔮     | Invariants, symmetry, deep theory   |
+| firefly | 11   | House Firefly | 🌟     | Play, exploration, pedagogy         |
 
 ### House Strengths
 
@@ -49,12 +50,12 @@ Four houses corresponding to 2-bit measurement outcomes:
 
 ## Target Types
 
-| Kind | Description | Feature Sources |
-|------|-------------|-----------------|
-| repo | Git repository | Commit history, structure, docs |
-| agent | AI agent | Behavior patterns, style, responses |
-| user | Human collaborator | Interaction history, preferences |
-| system | Local filesystem | Directory structure, file types |
+| Kind   | Description        | Feature Sources                     |
+| ------ | ------------------ | ----------------------------------- |
+| repo   | Git repository     | Commit history, structure, docs     |
+| agent  | AI agent           | Behavior patterns, style, responses |
+| user   | Human collaborator | Interaction history, preferences    |
+| system | Local filesystem   | Directory structure, file types     |
 
 ---
 
@@ -63,20 +64,22 @@ Four houses corresponding to 2-bit measurement outcomes:
 Eight normalized features (0.0 to 1.0):
 
 ### Repo/System Features
-| Feature | Meaning |
-|---------|---------|
-| doc_code_coherence | How well documentation matches code |
-| ci_health | Reliability of CI, test coverage |
-| change_entropy | Burstiness of changes |
+
+| Feature               | Meaning                                        |
+| --------------------- | ---------------------------------------------- |
+| doc_code_coherence    | How well documentation matches code            |
+| ci_health             | Reliability of CI, test coverage               |
+| change_entropy        | Burstiness of changes                          |
 | contributor_diversity | Number of contributors (low = high bus factor) |
 
 ### Agent/User Features
-| Feature | Meaning |
-|---------|---------|
+
+| Feature       | Meaning                                   |
+| ------------- | ----------------------------------------- |
 | risk_appetite | Willingness to explore, take bold actions |
-| style_entropy | Stylistic variation in outputs |
-| latency | Speed vs. deliberateness |
-| coherence | Internal consistency of outputs |
+| style_entropy | Stylistic variation in outputs            |
+| latency       | Speed vs. deliberateness                  |
+| coherence     | Internal consistency of outputs           |
 
 ---
 
@@ -85,6 +88,7 @@ Eight normalized features (0.0 to 1.0):
 Features project to two compact axes:
 
 ### Rigor ↔ Play Axis
+
 ```python
 rigor_play = (
     0.3 * doc_code_coherence +
@@ -96,6 +100,7 @@ rigor_play = (
 ```
 
 ### Structure ↔ Chaos Axis
+
 ```python
 structure_chaos = (
     0.3 * (1 - change_entropy) +
@@ -164,19 +169,20 @@ For hardware: use actual measurement outcome
 
 When `--path` is provided, real filesystem analysis:
 
-| Signal | Detection | Feature Impact |
-|--------|-----------|----------------|
-| README exists | `README.md` or `README.rst` | +doc_code_coherence |
-| Docs folder | `docs/` or `doc/` | +doc_code_coherence |
-| CI config | `.github/` or `.gitlab-ci.yml` | +ci_health |
-| Tests exist | `tests/` or `test/` | +ci_health |
-| CONTRIBUTING.md | File exists | +contributor_diversity |
+| Signal          | Detection                      | Feature Impact         |
+| --------------- | ------------------------------ | ---------------------- |
+| README exists   | `README.md` or `README.rst`    | +doc_code_coherence    |
+| Docs folder     | `docs/` or `doc/`              | +doc_code_coherence    |
+| CI config       | `.github/` or `.gitlab-ci.yml` | +ci_health             |
+| Tests exist     | `tests/` or `test/`            | +ci_health             |
+| CONTRIBUTING.md | File exists                    | +contributor_diversity |
 
 ---
 
 ## Output Formats
 
 ### Terminal (Static)
+
 ```
 ╔════════════════════════════════════════════════════════════╗
 ║                     SORTING HAT RESULT                     ║
@@ -187,6 +193,7 @@ When `--path` is provided, real filesystem analysis:
 ```
 
 ### JSON (API Integration)
+
 ```json
 {
   "version": "0.2.0",
@@ -226,15 +233,19 @@ python -m scripts.sorting_hat sort-house --kind user --name iamto --static
 ## Integration Points
 
 ### Minecraft Plugin
+
 Parse QASm output, execute on Vera-Rubin circuit board, trigger house reveal.
 
 ### ClaudeNPC
+
 Narrate house assignment with personality-appropriate flair.
 
 ### ATOM System
+
 Log house assignments as coherence trail events.
 
 ### Wave Toolkit
+
 Use house probabilities as coherence signals.
 
 ---
@@ -264,7 +275,9 @@ def my_axes(features: FeatureVector) -> CompactAxes:
 ## Verification
 
 ### Determinism Check
+
 Same inputs must produce same outputs:
+
 ```bash
 for i in {1..10}; do
   python -m scripts.sorting_hat sort-house --kind repo --name Test --json
@@ -273,6 +286,7 @@ done | uniq | wc -l
 ```
 
 ### Probability Normalization
+
 All house probabilities must sum to 1.0.
 
 ---
@@ -285,9 +299,11 @@ All house probabilities must sum to 1.0.
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_
 
 <!-- H&&S:WAVE -->
+
 Sorting Hat protocol specification complete.
 Compliant with SpiralSafe QASm v0.2.
+
 <!-- /H&&S:WAVE -->

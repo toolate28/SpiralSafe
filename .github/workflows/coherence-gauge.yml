@@ -14,34 +14,34 @@ jobs:
   analyze-coherence:
     name: Analyze & Display Coherence
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Install bc calculator
         run: |
           sudo apt-get update && sudo apt-get install -y bc
-      
+
       - name: Calculate Enhanced Coherence Metrics
         id: metrics
         run: |
           echo "═══════════════════════════════════════════════════════════════"
           echo "  🌀 Enhanced Coherence Analysis"
           echo "═══════════════════════════════════════════════════════════════"
-          
+
           # Find all markdown files (excluding node_modules and .git)
           FILES=$(find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" -not -path "./archive/*")
-          
+
           TOTAL_CURL=0
           TOTAL_DIV=0
           TOTAL_ENTROPY=0
           COUNT=0
           FAILED=()
           EXCELLENT=()
-          
+
           for file in $FILES; do
             if [ ! -f "$file" ]; then continue; fi
             
@@ -121,7 +121,7 @@ jobs:
             TOTAL_ENTROPY=$(echo "$TOTAL_ENTROPY + $ENTROPY" | bc)
             COUNT=$((COUNT + 1))
           done
-          
+
           # Calculate averages
           if [ "$COUNT" -gt 0 ]; then
             AVG_CURL=$(echo "scale=4; $TOTAL_CURL / $COUNT" | bc)
@@ -136,7 +136,7 @@ jobs:
             AVG_COHERENCE=0
             AVG_COHERENCE_PCT=0
           fi
-          
+
           echo ""
           echo "───────────────────────────────────────────────────────────────"
           echo "  Summary: $COUNT files analyzed"
@@ -145,7 +145,7 @@ jobs:
           echo "  Average Entropy: $AVG_ENTROPY"
           echo "  Overall Coherence: ${AVG_COHERENCE_PCT}%"
           echo "───────────────────────────────────────────────────────────────"
-          
+
           # Quantum-themed assessment
           COHERENCE_INT=$(echo "$AVG_COHERENCE_PCT / 1" | bc)
           if [ "$COHERENCE_INT" -ge 90 ]; then
@@ -164,7 +164,7 @@ jobs:
             QUANTUM_STATE="🚨 Critical - Wave function collapse imminent"
             GAUGE_LEVEL="critical"
           fi
-          
+
           # Set outputs for the comment
           echo "coherence_pct=$AVG_COHERENCE_PCT" >> $GITHUB_OUTPUT
           echo "curl=$AVG_CURL" >> $GITHUB_OUTPUT
@@ -175,20 +175,20 @@ jobs:
           echo "files_analyzed=$COUNT" >> $GITHUB_OUTPUT
           echo "excellent_count=${#EXCELLENT[@]}" >> $GITHUB_OUTPUT
           echo "needs_attention=${#FAILED[@]}" >> $GITHUB_OUTPUT
-          
+
           # Store file lists for comment
           if [ ${#EXCELLENT[@]} -gt 0 ]; then
             printf '%s\n' "${EXCELLENT[@]}" > excellent-files.txt
           else
             touch excellent-files.txt
           fi
-          
+
           if [ ${#FAILED[@]} -gt 0 ]; then
             printf '%s\n' "${FAILED[@]}" > needs-attention-files.txt
           else
             touch needs-attention-files.txt
           fi
-      
+
       - name: Create Visual Gauge Comment
         uses: actions/github-script@v7
         with:
@@ -204,7 +204,7 @@ jobs:
             const filesAnalyzed = '${{ steps.metrics.outputs.files_analyzed }}';
             const excellentCount = '${{ steps.metrics.outputs.excellent_count }}';
             const needsAttention = '${{ steps.metrics.outputs.needs_attention }}';
-            
+
             // Create visual gauge using Unicode blocks
             const createGauge = (value, max = 100) => {
               const filled = Math.round((value / max) * 20);
@@ -222,7 +222,7 @@ jobs:
               bar = block.repeat(filled) + '⬜'.repeat(empty);
               return bar;
             };
-            
+
             // Create mini gauge for metrics
             const createMiniGauge = (value, max = 1.0) => {
               const pct = (value / max) * 100;
@@ -230,11 +230,11 @@ jobs:
               const blocks = '█'.repeat(filled) + '░'.repeat(10 - filled);
               return `${blocks} ${pct.toFixed(1)}%`;
             };
-            
+
             // Ethical quantum check
             const ethicalCheck = coherencePct >= 60 ? '✅' : '⚠️';
             const readyForMerge = coherencePct >= 60 && needsAttention === '0';
-            
+
             let comment = `## 🌀 **Agent Review** - Coherence Analysis\n\n`;
             comment += `### ${quantumState}\n\n`;
             comment += `#### Overall Coherence: **${coherencePct.toFixed(1)}%**\n\n`;
@@ -251,7 +251,7 @@ jobs:
             comment += `- **Files Analyzed:** ${filesAnalyzed}\n`;
             comment += `- **Excellent (>80%):** ${excellentCount} files\n`;
             comment += `- **Needs Attention (<50%):** ${needsAttention} files\n\n`;
-            
+
             // Add ethical quantum validation
             comment += `### 🔬 Ethical Quantum Simulation Status\n\n`;
             if (coherencePct >= 60) {
@@ -265,7 +265,7 @@ jobs:
               comment += `- Decoherence detected: ⚠️\n`;
               comment += `- Review recommended before merge\n\n`;
             }
-            
+
             // Read file lists
             let excellentFiles = '';
             let needsAttentionFiles = '';
@@ -275,7 +275,7 @@ jobs:
             } catch (e) {
               // Files may be empty
             }
-            
+
             if (excellentFiles) {
               const excellentFileLines = excellentFiles.split('\n');
               const displayedExcellentCount = Math.min(excellentFileLines.length, excellentCount);
@@ -288,7 +288,7 @@ jobs:
               }
               comment += `\n</details>\n\n`;
             }
-            
+
             if (needsAttentionFiles) {
               comment += `<details>\n<summary>⚠️ Files Needing Attention (${needsAttention})</summary>\n\n`;
               needsAttentionFiles.split('\n').forEach(f => {
@@ -296,7 +296,7 @@ jobs:
               });
               comment += `\n</details>\n\n`;
             }
-            
+
             comment += `---\n\n`;
             comment += `### 🎯 Merge Status\n\n`;
             if (readyForMerge) {
@@ -309,10 +309,10 @@ jobs:
               comment += `❌ **Review required** - Coherence below threshold.\n\n`;
               comment += `Please address coherence issues before merging.\n`;
             }
-            
+
             comment += `\n---\n`;
             comment += `<sub>🤖 Generated by SpiralSafe Coherence Gauge v2.0 | Powered by Quantum Topology</sub>\n`;
-            
+
             // Post comment only if triggered by a pull_request event
             if (context.issue.number) {
               await github.rest.issues.createComment({
@@ -324,7 +324,7 @@ jobs:
             } else {
               console.log('Skipping PR comment - workflow was not triggered by a pull_request event');
             }
-      
+
       - name: Report to API
         if: always()
         continue-on-error: true

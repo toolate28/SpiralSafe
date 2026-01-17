@@ -27,16 +27,19 @@ The field $\vec{F}: D \rightarrow \mathbb{R}^n$ maps document positions to seman
 ### Coherence Measures
 
 **Curl** ($\nabla \times \vec{F}$): Measures rotational tendency. High curl indicates:
+
 - Arguments that loop back on themselves
 - Definitions that depend on the term being defined
 - Code paths that cycle without progress
 
 **Divergence** ($\nabla \cdot \vec{F}$): Measures expansion/contraction. Positive divergence indicates:
+
 - Topics introduced without resolution
 - Scope creep
 - Functions that spawn but don't return
 
 Negative divergence indicates:
+
 - Premature closure
 - Over-compression
 - Ideas resolved before fully developed
@@ -50,6 +53,7 @@ Negative divergence indicates:
 ### Segmentation
 
 Divide document into units:
+
 - **Prose**: Sentences or paragraphs
 - **Code**: Functions, blocks, or statements
 - **Conversation**: Turns or exchanges
@@ -57,6 +61,7 @@ Divide document into units:
 ### Embedding
 
 Map each unit to a vector using semantic embedding:
+
 - Sentence transformers for prose
 - Code2Vec or similar for code
 - Conversation-specific models for dialogue
@@ -88,6 +93,7 @@ def divergence(F, x, y, h=0.01):
 ### Reporting
 
 Generate coherence report identifying:
+
 - High-curl regions (flag for circular reasoning)
 - Positive-divergence regions (flag for unresolved expansion)
 - High-potential regions (flag for development opportunity)
@@ -98,11 +104,11 @@ Generate coherence report identifying:
 
 Default thresholds (adjustable per domain):
 
-| Measure | Warning | Critical |
-|---------|---------|----------|
-| Curl magnitude | > 0.3 | > 0.6 |
-| Positive divergence | > 0.4 | > 0.7 |
-| Negative divergence | < -0.4 | < -0.7 |
+| Measure             | Warning | Critical |
+| ------------------- | ------- | -------- |
+| Curl magnitude      | > 0.3   | > 0.6    |
+| Positive divergence | > 0.4   | > 0.7    |
+| Negative divergence | < -0.4  | < -0.7   |
 
 These are normalized values. Calibrate against corpus of known-good documents in your domain.
 
@@ -175,12 +181,15 @@ print(report.development_opportunities)
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_
 
 ---
+
 <!-- H&&S:WAVE -->
+
 Structural work complete. @copilot please review for:
-- Markdown formatting consistency  
+
+- Markdown formatting consistency
 - Link validation
 - Badge syntax standardization
 - Typo detection

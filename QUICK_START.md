@@ -1,15 +1,15 @@
 # Quick Start Guide
 
 ═══════════════════════════════════════════════════════════════════════════
-║                                                                         ║
-║              ✦ THE SWIFT PATHS OF THE ROHIRRIM ✦                       ║
-║                                                                         ║
-║    Get up and running in 2 minutes ⚡                                   ║
-║                                                                         ║
-║    🐎 When speed is needed, the riders of Rohan answer                 ║
-║    🌳 When growth is sought, the White Tree provides                   ║
-║    ✦ When hope is required, the Evenstar shines                        ║
-║                                                                         ║
+║ ║
+║ ✦ THE SWIFT PATHS OF THE ROHIRRIM ✦ ║
+║ ║
+║ Get up and running in 2 minutes ⚡ ║
+║ ║
+║ 🐎 When speed is needed, the riders of Rohan answer ║
+║ 🌳 When growth is sought, the White Tree provides ║
+║ ✦ When hope is required, the Evenstar shines ║
+║ ║
 ═══════════════════════════════════════════════════════════════════════════
 
 **Get up and running in 2 minutes** ⚡
@@ -63,7 +63,6 @@ cat .atom-trail/gate-transitions.jsonl | \
 
 ## For New Contributors (60 seconds)
 
-
 ```mermaid
 graph LR
     Start([🐎 Begin]) --> Clone[1. Clone Repo]
@@ -71,7 +70,7 @@ graph LR
     Verify --> Test[3. Test Scripts]
     Test --> ATOM[4. Create ATOM Tag]
     ATOM --> Ready([✦ Ready!])
-    
+
     style Start fill:#c8e6c9
     style Ready fill:#fff9c4
 ```
@@ -112,7 +111,7 @@ graph TD
     Pass -->|Yes| Commit[Commit with ATOM]
     Commit --> Push[Push & Create PR]
     Push --> Done([✦ PR Created!])
-    
+
     style Start fill:#c8e6c9
     style Edit fill:#fff9c4
     style Done fill:#e1f5fe
@@ -149,6 +148,7 @@ gh pr create  # Or use GitHub web UI
 ## For Explorers (2 minutes)
 
 ### Understand the structure:
+
 ```bash
 # Key documents
 cat README.md                              # Main overview
@@ -173,6 +173,7 @@ ls .atom-trail/decisions/                 # View decision history
 ## Common Tasks
 
 ### Create an Issue
+
 ```bash
 # Via CLI
 gh issue create --title "Bug: something broken" --body "Details..."
@@ -182,7 +183,9 @@ gh issue create --title "Bug: something broken" --body "Details..."
 ```
 
 ### Ask Claude for Help
+
 In any PR or issue:
+
 ```markdown
 @claude please explain how ATOM tracking works
 @claude review this PR for security issues
@@ -190,6 +193,7 @@ In any PR or issue:
 ```
 
 ### Run Full Test Suite
+
 ```bash
 ./scripts/test-scripts.sh          # Shell scripts
 ./scripts/test-powershell.sh       # PowerShell (if installed)
@@ -200,6 +204,7 @@ In any PR or issue:
 ```
 
 ### Update Documentation
+
 ```bash
 # 1. Edit the doc
 vim SOME_DOC.md
@@ -221,6 +226,7 @@ git commit -am "$(cat .claude/last_atom): Update SOME_DOC"
 **Something not working?** See [TROUBLESHOOTING.md](docs/guides/TROUBLESHOOTING.md)
 
 **Quick fixes:**
+
 ```bash
 # Scripts not executable
 chmod +x scripts/*.sh
@@ -241,17 +247,20 @@ rm -rf /tmp/spiralsafe-*
 ## What's Next?
 
 ### Learn the Frameworks
+
 - **ATOM** - Decision tracking → `scripts/atom-track.sh --help`
 - **Five Principles** - See `README.md`
 - **Safe Spiral** - Read `SAFE_SPIRAL_MASTER_INDEX.md`
 
 ### Explore Features
+
 - **Claude Integration** - Try `@claude` in PRs
 - **Automated Workflows** - Check `.github/workflows/`
 - **Security** - Read `.github/SECRETS.md`
 - **Rulesets** - See `.github/RULESETS.md`
 
 ### Make an Impact
+
 1. Pick an issue labeled `good-first-issue`
 2. Read the issue template
 3. Follow the contribution workflow
@@ -285,19 +294,19 @@ Every contribution should align with these principles.
 
 **That's it!** You're ready to contribute.
 
-*Information enriches through relay* 🌀
+_Information enriches through relay_ 🌀
 
 ═══════════════════════════════════════════════════════════════════════════
-║                                                                         ║
-║              ✦ THE EVENING STAR LIGHTS YOUR PATH ✦                     ║
-║                                                                         ║
-║  You have taken the first steps on the spiral path.                    ║
-║  May your journey be swift as the riders of Rohan,                     ║
-║  May your work endure like the White Tree of Gondor,                   ║
-║  May your contributions shine like the Evenstar above.                 ║
-║                                                                         ║
-║  Step True · Trust Deep · Pass Forward                                 ║
-║                                                                         ║
+║ ║
+║ ✦ THE EVENING STAR LIGHTS YOUR PATH ✦ ║
+║ ║
+║ You have taken the first steps on the spiral path. ║
+║ May your journey be swift as the riders of Rohan, ║
+║ May your work endure like the White Tree of Gondor, ║
+║ May your contributions shine like the Evenstar above. ║
+║ ║
+║ Step True · Trust Deep · Pass Forward ║
+║ ║
 ═══════════════════════════════════════════════════════════════════════════
 
 ---
@@ -306,7 +315,7 @@ Every contribution should align with these principles.
 **Last Updated:** 2026-01-02
 
 ══════════════════════════════════════════════════════════════
-   ✦ Gil-Estel, the Star of High Hope ✦
-   🌳 Telperion and Laurelin, Trees of Light 🌳
-   🐎 Shadowfax, swiftest of steeds 🐎
+✦ Gil-Estel, the Star of High Hope ✦
+🌳 Telperion and Laurelin, Trees of Light 🌳
+🐎 Shadowfax, swiftest of steeds 🐎
 ══════════════════════════════════════════════════════════════

@@ -17,6 +17,7 @@ Core discipline: **gather evidence before intervening**.
 ## Phase 1: Symptom Documentation
 
 Capture what's wrong without interpretation:
+
 - What is observed vs. expected?
 - When did this start?
 - Is it reproducible?
@@ -26,6 +27,7 @@ Capture what's wrong without interpretation:
 ## Phase 2: Analysis
 
 Gather evidence:
+
 - **Logs**: Error messages, stack traces
 - **Metrics**: Performance data, timing
 - **History**: Recent changes, patterns
@@ -36,6 +38,7 @@ Gather evidence:
 ## Phase 3: Hypothesis Generation
 
 Propose explanations ranked by:
+
 - Consistency with all evidence
 - Testability with available tools
 - Specificity for intervention
@@ -77,4 +80,4 @@ Propose explanations ranked by:
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_

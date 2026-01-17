@@ -1,15 +1,15 @@
 # Troubleshooting Guide
 
 ═══════════════════════════════════════════════════════════════════════════
-║                                                                         ║
-║          🐎 THE COUNSEL OF THE WISE - TROUBLESHOOTING 🐎                ║
-║                                                                         ║
-║    When paths grow dark and obstacles appear,                          ║
-║    The Fellowship does not despair but seeks solutions.                ║
-║                                                                         ║
-║    🌳 Even the mightiest tree weathered storms to grow                 ║
-║    ✦ Even the darkest night yields to the Evenstar                     ║
-║                                                                         ║
+║ ║
+║ 🐎 THE COUNSEL OF THE WISE - TROUBLESHOOTING 🐎 ║
+║ ║
+║ When paths grow dark and obstacles appear, ║
+║ The Fellowship does not despair but seeks solutions. ║
+║ ║
+║ 🌳 Even the mightiest tree weathered storms to grow ║
+║ ✦ Even the darkest night yields to the Evenstar ║
+║ ║
 ═══════════════════════════════════════════════════════════════════════════
 
 **ATOM:** ATOM-DOC-20260102-008-troubleshooting-guide  
@@ -25,17 +25,17 @@ graph TD
     Diagnose --> Verify[./scripts/verify-environment.sh]
     Diagnose --> Test[./scripts/test-scripts.sh]
     Diagnose --> ATOM[Check ATOM Trail]
-    
+
     Verify --> Result{Issue Found?}
     Test --> Result
     ATOM --> Result
-    
+
     Result -->|Yes| Fix[Apply Fix Below]
     Result -->|No| Escalate[Seek Further Help]
-    
+
     Fix --> Retest[Test Again]
     Retest --> Success([✦ Resolved!])
-    
+
     style Issue fill:#ffccbc
     style Success fill:#c8e6c9
 ```
@@ -57,11 +57,13 @@ cat .claude/last_atom
 ### 1. Script Fails: "Permission denied"
 
 **Symptom:**
+
 ```
 bash: ./scripts/script-name.sh: Permission denied
 ```
 
 **Solution:**
+
 ```bash
 chmod +x scripts/*.sh
 # Or specific script:
@@ -75,6 +77,7 @@ chmod +x scripts/script-name.sh
 ### 2. Shellcheck Not Found
 
 **Symptom:**
+
 ```
 ⚠ shellcheck not available (install recommended)
 ```
@@ -82,16 +85,19 @@ chmod +x scripts/script-name.sh
 **Solution:**
 
 **Ubuntu/Debian:**
+
 ```bash
 sudo apt-get update && sudo apt-get install -y shellcheck
 ```
 
 **macOS:**
+
 ```bash
 brew install shellcheck
 ```
 
 **Windows (WSL):**
+
 ```bash
 sudo apt-get update && sudo apt-get install -y shellcheck
 ```
@@ -103,16 +109,19 @@ sudo apt-get update && sudo apt-get install -y shellcheck
 ### 3. ATOM Tag Generation Fails
 
 **Symptom:**
+
 ```
 ERROR: Could not create ATOM tag
 ```
 
 **Causes:**
+
 1. `.atom-trail/` directory doesn't exist
 2. Counter file corrupted
 3. Date command issues
 
 **Solution:**
+
 ```bash
 # Recreate directories
 mkdir -p .atom-trail/decisions
@@ -127,6 +136,7 @@ cat .claude/last_atom
 ```
 
 **Recovery:** If counters are corrupted, delete the counter file:
+
 ```bash
 rm .atom-trail/counters/TYPE-YYYYMMDD.count
 # Next run will start fresh
@@ -137,16 +147,19 @@ rm .atom-trail/counters/TYPE-YYYYMMDD.count
 ### 4. Freshness Update Hangs
 
 **Symptom:**
+
 ```
 update-freshness.sh appears stuck
 ```
 
 **Causes:**
+
 1. Too many decision files (>1000)
 2. sed performance issues
 3. Corrupted JSON
 
 **Solution:**
+
 ```bash
 # Check number of decisions
 ls -1 .atom-trail/decisions/*.json | wc -l
@@ -162,6 +175,7 @@ done
 ```
 
 **Workaround:** Move old decisions to bedrock manually:
+
 ```bash
 mv .atom-trail/decisions/ATOM-*-2025*.json .atom-trail/bedrock/
 ```
@@ -171,6 +185,7 @@ mv .atom-trail/decisions/ATOM-*-2025*.json .atom-trail/bedrock/
 ### 5. Secrets Scanner False Positives
 
 **Symptom:**
+
 ```
 ⚠️ FOUND: Potential API Keys detected
 ./.github/SECRETS.md:61:API_KEY=example_key
@@ -179,6 +194,7 @@ mv .atom-trail/decisions/ATOM-*-2025*.json .atom-trail/bedrock/
 **Explanation:** Documentation files contain examples. This is expected.
 
 **Fix examples:**
+
 ```bash
 # Add # nosecret comment
 API_KEY=example_key  # nosecret
@@ -188,6 +204,7 @@ API_KEY=your_api_key_here  # Automatically excluded
 ```
 
 **Real secrets:** If you find actual secrets, immediately:
+
 1. Revoke the secret
 2. Remove from git history
 3. See `.github/SECRETS.md` for recovery
@@ -200,6 +217,7 @@ API_KEY=your_api_key_here  # Automatically excluded
 GitHub Actions workflow shows red X.
 
 **Diagnosis:**
+
 1. Go to Actions tab
 2. Click failed workflow
 3. Expand failed step
@@ -207,6 +225,7 @@ GitHub Actions workflow shows red X.
 **Common causes:**
 
 **Missing dependency:**
+
 ```yaml
 # Add to workflow if missing:
 - name: Install dependencies
@@ -215,6 +234,7 @@ GitHub Actions workflow shows red X.
 ```
 
 **Permission issues:**
+
 ```yaml
 # Add required permissions:
 permissions:
@@ -223,6 +243,7 @@ permissions:
 ```
 
 **Script not executable:**
+
 ```bash
 # In workflow:
 chmod +x scripts/*.sh
@@ -233,6 +254,7 @@ chmod +x scripts/*.sh
 ### 7. PowerShell Script Issues
 
 **Symptom:**
+
 ```
 Bootstrap.ps1 fails on Windows/macOS
 ```
@@ -240,17 +262,20 @@ Bootstrap.ps1 fails on Windows/macOS
 **Solutions:**
 
 **Execution Policy (Windows):**
+
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
 **PowerShell version:**
+
 ```powershell
 $PSVersionTable.PSVersion
 # Need 5.1+ (Windows) or 7+ (cross-platform)
 ```
 
 **Path issues:**
+
 ```powershell
 # Use absolute paths
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -261,6 +286,7 @@ $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 ### 8. Markdown Linting Errors
 
 **Symptom:**
+
 ```
 ✗ Some markdown files have issues
 ```
@@ -274,6 +300,7 @@ Disabled in `.markdownlint.json` - ignore if you see this.
 Disabled for README badges and diagrams.
 
 **Fix real issues:**
+
 ```bash
 # Install markdownlint
 npm install -g markdownlint-cli
@@ -290,6 +317,7 @@ markdownlint README.md
 ### 9. Git Workflow Issues
 
 **Symptom:**
+
 ```
 error: failed to push some refs
 ```
@@ -297,6 +325,7 @@ error: failed to push some refs
 **Solutions:**
 
 **Diverged branches:**
+
 ```bash
 git fetch origin
 git rebase origin/main
@@ -305,9 +334,11 @@ git push
 ```
 
 **Protected branch:**
+
 ```
 Can't push to main directly
 ```
+
 Solution: Create PR instead.
 
 ---
@@ -315,6 +346,7 @@ Solution: Create PR instead.
 ### 10. Environment Verification Fails
 
 **Symptom:**
+
 ```
 ERROR: python3 not found
 ERROR: .claude/logs not writable
@@ -323,6 +355,7 @@ ERROR: .claude/logs not writable
 **Solutions:**
 
 **Missing Python:**
+
 ```bash
 # Ubuntu/Debian
 sudo apt-get install python3
@@ -332,6 +365,7 @@ brew install python3
 ```
 
 **Permission issues:**
+
 ```bash
 # Fix permissions
 chmod 755 .claude
@@ -349,6 +383,7 @@ mkdir -p .claude/logs
 ### ATOM Trail Corruption
 
 **Symptoms:**
+
 - Counters out of sequence
 - Missing decision files
 - Duplicate ATOM tags
@@ -356,11 +391,13 @@ mkdir -p .claude/logs
 **Recovery:**
 
 1. **Backup current state:**
+
 ```bash
 cp -r .atom-trail .atom-trail.backup.$(date +%Y%m%d)
 ```
 
 2. **Audit trail:**
+
 ```bash
 # Check for duplicates
 ls .atom-trail/decisions/ | sort | uniq -d
@@ -374,6 +411,7 @@ done
 ```
 
 3. **Rebuild counters:**
+
 ```bash
 # Remove corrupted counters
 rm .atom-trail/counters/*.count
@@ -387,6 +425,7 @@ rm .atom-trail/counters/*.count
 ### Script Hangs
 
 **Diagnosis:**
+
 ```bash
 # Run with debug
 bash -x ./scripts/script-name.sh
@@ -397,6 +436,7 @@ kill <PID>
 ```
 
 **Common causes:**
+
 - Waiting for input (stdin)
 - Network timeout
 - Large file processing
@@ -408,6 +448,7 @@ kill <PID>
 **Large repositories:**
 
 **ATOM trail with >1000 decisions:**
+
 ```bash
 # Current: update-freshness.sh processes all
 # Workaround: Run less frequently
@@ -415,6 +456,7 @@ kill <PID>
 ```
 
 **Many markdown files:**
+
 ```bash
 # Lint specific directories
 markdownlint docs/*.md
@@ -434,6 +476,7 @@ markdownlint docs/*.md
    - `docs/reports/implementation/IMPLEMENTATION_SUMMARY.md` - System overview
 
 2. **Search issues:**
+
    ```bash
    gh issue list --search "your error message"
    ```
@@ -480,11 +523,13 @@ See `.github/SECRETS.md` section "Accidentally Committed a Secret?"
 ### Lost ATOM Trail
 
 1. Check backups:
+
    ```bash
    ls .atom-trail.backup.*
    ```
 
 2. Restore from backup:
+
    ```bash
    rm -rf .atom-trail
    cp -r .atom-trail.backup.YYYYMMDD .atom-trail
@@ -510,7 +555,7 @@ graph LR
     Verify --> ATOM[4. Create ATOM Tag]
     ATOM --> Commit[5. Commit Changes]
     Commit --> Done([✦ Complete!])
-    
+
     style Start fill:#c8e6c9
     style Done fill:#fff9c4
 ```
@@ -535,25 +580,28 @@ git commit -m "ATOM-TYPE-YYYYMMDD-NNN: description"
 ### Regular Maintenance
 
 **Weekly:**
+
 - Review open PRs
 - Update ATOM freshness
 
 **Monthly:**
+
 - Clean stale branches
 - Review ATOM trail metrics
 - Update dependencies
 
 ══════════════════════════════════════════════════════════════
-   🐎 Swift diagnosis, like the riders of Rohan
-   🌳 Patient care, like the gardeners of Gondor
-   ✦ Clear guidance, like the Evenstar above
-   
-   May your problems be swiftly solved
-   May your code run true
-   May your path be clear
+🐎 Swift diagnosis, like the riders of Rohan
+🌳 Patient care, like the gardeners of Gondor
+✦ Clear guidance, like the Evenstar above
+
+May your problems be swiftly solved
+May your code run true
+May your path be clear
 ══════════════════════════════════════════════════════════════
 
 **Quarterly:**
+
 - Backup ATOM trail
 - Review and refine rulesets
 - Update documentation

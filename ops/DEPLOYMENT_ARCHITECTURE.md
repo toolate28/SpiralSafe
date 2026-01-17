@@ -30,14 +30,14 @@
 
 ## 1. AI Platform Integration
 
-| Platform | Integration Method | Status | Notes |
-|----------|-------------------|--------|-------|
-| **Claude Code** | Native CLI + SDK | ✓ Primary | Direct Opus 4.5 integration |
-| **GitHub Copilot** | Extensions + Chat | ✓ Ready | Verification via H&&S markers |
-| **OpenAI GPT** | API + Assistants | ○ Planned | Tool calling support |
-| **Gemini** | Vertex AI + Extensions | ○ Planned | Google Cloud integration |
-| **Grok** | X API (future) | ◐ Research | Real-time context potential |
-| **Groq** | High-speed inference | ○ Planned | Low-latency operations |
+| Platform           | Integration Method     | Status     | Notes                         |
+| ------------------ | ---------------------- | ---------- | ----------------------------- |
+| **Claude Code**    | Native CLI + SDK       | ✓ Primary  | Direct Opus 4.5 integration   |
+| **GitHub Copilot** | Extensions + Chat      | ✓ Ready    | Verification via H&&S markers |
+| **OpenAI GPT**     | API + Assistants       | ○ Planned  | Tool calling support          |
+| **Gemini**         | Vertex AI + Extensions | ○ Planned  | Google Cloud integration      |
+| **Grok**           | X API (future)         | ◐ Research | Real-time context potential   |
+| **Groq**           | High-speed inference   | ○ Planned  | Low-latency operations        |
 
 ### AI Context Handoff Protocol
 
@@ -59,13 +59,13 @@ spiralsafe:
 
 ### Build Matrix
 
-| OS | Version | Shell | Package Manager | Crypto Backend |
-|----|---------|-------|-----------------|----------------|
-| **Windows** | 10/11 | PowerShell 7+ | winget/scoop | DPAPI/CNG |
-| **macOS** | 12+ | zsh/bash | Homebrew | Keychain/SecureEnclave |
-| **Linux (Ubuntu)** | 22.04+ | bash/zsh | apt | GPG/libsodium |
-| **Linux (RHEL)** | 8+ | bash | dnf | GPG/OpenSSL |
-| **Linux (Alpine)** | 3.18+ | ash/bash | apk | LibreSSL |
+| OS                 | Version | Shell         | Package Manager | Crypto Backend         |
+| ------------------ | ------- | ------------- | --------------- | ---------------------- |
+| **Windows**        | 10/11   | PowerShell 7+ | winget/scoop    | DPAPI/CNG              |
+| **macOS**          | 12+     | zsh/bash      | Homebrew        | Keychain/SecureEnclave |
+| **Linux (Ubuntu)** | 22.04+  | bash/zsh      | apt             | GPG/libsodium          |
+| **Linux (RHEL)**   | 8+      | bash          | dnf             | GPG/OpenSSL            |
+| **Linux (Alpine)** | 3.18+   | ash/bash      | apk             | LibreSSL               |
 
 ### OS-Specific Deployment Scripts
 
@@ -87,14 +87,14 @@ docker compose -f ops/docker-compose.yml up -d
 
 ## 3. Shell Environment Matrix
 
-| Shell | Config File | Activation | Notes |
-|-------|------------|------------|-------|
-| **PowerShell 7** | `$PROFILE` | `Import-Module SpiralSafe` | Windows primary |
-| **PowerShell 5.1** | `$PROFILE` | `Import-Module SpiralSafe` | Windows legacy |
-| **Bash** | `.bashrc` / `.bash_profile` | `source spiralsafe.sh` | Linux/macOS |
-| **Zsh** | `.zshrc` | `source spiralsafe.zsh` | macOS default |
-| **Fish** | `config.fish` | `source spiralsafe.fish` | Alternative |
-| **Nushell** | `config.nu` | `use spiralsafe.nu` | Modern shell |
+| Shell              | Config File                 | Activation                 | Notes           |
+| ------------------ | --------------------------- | -------------------------- | --------------- |
+| **PowerShell 7**   | `$PROFILE`                  | `Import-Module SpiralSafe` | Windows primary |
+| **PowerShell 5.1** | `$PROFILE`                  | `Import-Module SpiralSafe` | Windows legacy  |
+| **Bash**           | `.bashrc` / `.bash_profile` | `source spiralsafe.sh`     | Linux/macOS     |
+| **Zsh**            | `.zshrc`                    | `source spiralsafe.zsh`    | macOS default   |
+| **Fish**           | `config.fish`               | `source spiralsafe.fish`   | Alternative     |
+| **Nushell**        | `config.nu`                 | `use spiralsafe.nu`        | Modern shell    |
 
 ### Shell Detection & Auto-Config
 
@@ -111,15 +111,15 @@ esac
 
 ## 4. IDE Integrations
 
-| IDE | Extension | Features | Status |
-|-----|-----------|----------|--------|
-| **VS Code** | `spiralsafe.vscode` | Inline H&&S markers, WAVE status | ✓ Ready |
-| **Wave Terminal** | Native | Full SpiralSafe integration | ✓ Primary |
-| **Cursor** | Fork-compatible | Claude integration | ✓ Ready |
-| **JetBrains** | `spiralsafe-intellij` | Multi-language support | ○ Planned |
-| **Neovim** | `spiralsafe.nvim` | Lua plugin | ○ Planned |
-| **Emacs** | `spiralsafe.el` | Elisp package | ○ Planned |
-| **Zed** | Extension | Rust-native | ◐ Research |
+| IDE               | Extension             | Features                         | Status     |
+| ----------------- | --------------------- | -------------------------------- | ---------- |
+| **VS Code**       | `spiralsafe.vscode`   | Inline H&&S markers, WAVE status | ✓ Ready    |
+| **Wave Terminal** | Native                | Full SpiralSafe integration      | ✓ Primary  |
+| **Cursor**        | Fork-compatible       | Claude integration               | ✓ Ready    |
+| **JetBrains**     | `spiralsafe-intellij` | Multi-language support           | ○ Planned  |
+| **Neovim**        | `spiralsafe.nvim`     | Lua plugin                       | ○ Planned  |
+| **Emacs**         | `spiralsafe.el`       | Elisp package                    | ○ Planned  |
+| **Zed**           | Extension             | Rust-native                      | ◐ Research |
 
 ### VS Code Extension Manifest
 
@@ -136,7 +136,10 @@ esac
     "commands": [
       { "command": "spiralsafe.bump", "title": "SpiralSafe: Create Bump" },
       { "command": "spiralsafe.wave", "title": "SpiralSafe: Send WAVE" },
-      { "command": "spiralsafe.verify", "title": "SpiralSafe: Verify Signature" }
+      {
+        "command": "spiralsafe.verify",
+        "title": "SpiralSafe: Verify Signature"
+      }
     ],
     "statusBarItems": [
       { "id": "spiralsafe.status", "alignment": "right", "priority": 100 }
@@ -286,14 +289,14 @@ jobs:
 
 ## 7. Unified Command Interface
 
-| Command | PowerShell | Bash | Description |
-|---------|-----------|------|-------------|
-| Status | `ss-status` | `ss status` | Show connection/registry status |
-| Verify | `ss-verify <path>` | `ss verify <path>` | Verify H&&S signature |
-| Hash | `ss-hash <path>` | `ss hash <path>` | Generate SHA-256 |
-| Register | `ss-register <path>` | `ss register <path>` | Add to verification registry |
-| Bump | `ss-bump <agent>` | `ss bump <agent>` | Create context bump |
-| Wave | `ss-wave <target>` | `ss wave <target>` | Send WAVE signal |
+| Command  | PowerShell           | Bash                 | Description                     |
+| -------- | -------------------- | -------------------- | ------------------------------- |
+| Status   | `ss-status`          | `ss status`          | Show connection/registry status |
+| Verify   | `ss-verify <path>`   | `ss verify <path>`   | Verify H&&S signature           |
+| Hash     | `ss-hash <path>`     | `ss hash <path>`     | Generate SHA-256                |
+| Register | `ss-register <path>` | `ss register <path>` | Add to verification registry    |
+| Bump     | `ss-bump <agent>`    | `ss bump <agent>`    | Create context bump             |
+| Wave     | `ss-wave <target>`   | `ss wave <target>`   | Send WAVE signal                |
 
 ---
 
@@ -362,4 +365,4 @@ jobs:
 ---
 
 **H&&S:WAVE** | Hope&&Sauced
-*Multi-Architecture • Cross-Platform • Verified*
+_Multi-Architecture • Cross-Platform • Verified_
