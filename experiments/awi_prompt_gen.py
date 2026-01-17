@@ -60,6 +60,21 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 # =============================================================================
+# Configuration Constants
+# =============================================================================
+
+# Truncation limits for display/logging
+TEMPLATE_TRUNCATION_LIMIT = 100
+PROMPT_DISPLAY_LIMIT = 500
+
+# Historical context limits
+MAX_HISTORY_ITEMS = 5
+
+# Coherence thresholds
+COHERENCE_HIGH_THRESHOLD = 0.7
+DIVERGENCE_CAP_THRESHOLD = 0.3
+
+# =============================================================================
 # DSPy-Style Base Classes
 # =============================================================================
 
@@ -308,8 +323,8 @@ class Predict(Module):
             content=optimized,
             confidence=0.9,
             metadata={
-                "original_template": template_content[:100] + "..."
-                if len(template_content) > 100
+                "original_template": template_content[:TEMPLATE_TRUNCATION_LIMIT] + "..."
+                if len(template_content) > TEMPLATE_TRUNCATION_LIMIT
                 else template_content,
                 "history_items_used": len(history) if isinstance(history, list) else 0,
                 "refinement_applied": ["copro", "simba"],
@@ -351,7 +366,7 @@ class Predict(Module):
             return template
 
         # Add divergence cap markers
-        divergence_cap = "<!-- SIMBA: divergence capped at 0.3 threshold -->\n"
+        divergence_cap = f"<!-- SIMBA: divergence capped at {DIVERGENCE_CAP_THRESHOLD} threshold -->\n"
 
         # Add historical context integration
         if isinstance(history, list) and len(history) > 0:
@@ -375,12 +390,14 @@ class Predict(Module):
             ]
         elif isinstance(history, list):
             # Extract patterns from history items
-            for item in history[:5]:  # Limit to 5 most recent
+            for item in history[:MAX_HISTORY_ITEMS]:
                 if isinstance(item, dict):
-                    if item.get("coherence", 0) > 0.7:
+                    if item.get("coherence", 0) > COHERENCE_HIGH_THRESHOLD:
                         patterns.append(item.get("pattern", "high_coherence_session"))
                 elif isinstance(item, str):
                     patterns.append(f"historical: {item[:30]}...")
+
+        return patterns
 
         return patterns
 
@@ -563,7 +580,7 @@ def demonstrate_awi_prompt_gen():
 
         print(f"\nConfidence: {result.confidence:.2f}")
         print(f"\nReasoning:\n{result.reasoning}")
-        print(f"\nGenerated Prompt:\n{result.content[:500]}...")
+        print(f"\nGenerated Prompt:\n{result.content[:PROMPT_DISPLAY_LIMIT]}...")
 
         if result.metadata.get("scaffolding"):
             perm = result.metadata["scaffolding"].get("permission_level", "N/A")
