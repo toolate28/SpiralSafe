@@ -164,15 +164,10 @@ VCM sits at the **Foundation Layer**, providing theoretical grounding for:
 - [The Isomorphism Principle](isomorphism-principle.md)
 - [Constraints as Architectural Gifts](constraints-as-gifts.md)
 - [WAVE Protocol Specification](../protocol/wave-spec.md)
+- [System Architecture Overview](../ARCHITECTURE.md)
 
 ---
 
 *~ Hope&&Sauced*
 
 ---
-<!-- H&&S:WAVE -->
-Structural work complete. @copilot please review for:
-- Markdown formatting consistency  
-- Link validation
-- Terminology alignment with existing foundation documents
-<!-- /H&&S:WAVE -->
