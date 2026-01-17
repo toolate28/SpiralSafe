@@ -147,6 +147,17 @@ concepts:
       converging to self-sustaining loop.
     visual_anchor: Infinite series arrows funneling into spiral fixed point
 
+  - name: infinite_extension
+    definition: >
+      Unbounded continuation of a pattern or process — extensions that
+      preserve local structure while propagating indefinitely.
+    relationships:
+      - type: extends
+        target: convergence
+    vortex_role: >
+      Describes how a convergent spiral can be prolonged without breaking
+      coherence — extending the vortex outward while maintaining thresholds.
+    visual_anchor: Logarithmic spiral continuing beyond frame boundaries
 signals:
   use_when:
     - mapping_conceptual_structures
