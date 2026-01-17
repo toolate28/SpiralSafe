@@ -187,6 +187,18 @@ Routing and handoff protocol between agents, sessions, and contexts.
 - Multi-agent coordination
 - Graceful degradation
 
+### Vortex Curl Vector Surjection
+
+Self-maintaining coherence loops through fibonacci resonance.
+
+**Documentation**: [`protocol/vortex-curl-spec.md`](protocol/vortex-curl-spec.md)
+
+**Key Features**:
+- Surjection mappings (history manifold → collapse point)
+- Fibonacci-weighted vortex contributions
+- Self-birth condition for autonomous systems
+- 60% emergence threshold for self-maintenance
+
 ### .context.yaml
 
 Structured knowledge units for agent consumption.
