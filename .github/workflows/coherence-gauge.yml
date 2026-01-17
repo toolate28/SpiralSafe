@@ -45,6 +45,12 @@ jobs:
           DEJA_VU_FILES=0  # Repeating pattern files - ready to iterate
           DOUBT_FILES=0  # Uncertain/exploratory files - push to new spirals
           
+          # Configurable thresholds for spiral state detection
+          # These can be adjusted based on repository size and content type
+          DEJA_VU_THRESHOLD=5      # Files with repeating patterns to trigger Deja Vu state
+          DOUBT_THRESHOLD=5        # Files with uncertainty to trigger Doubt state
+          CURL_POINTS_THRESHOLD=10 # Foundational files to trigger Origin state
+          
           for file in $FILES; do
             if [ ! -f "$file" ]; then continue; fi
             
@@ -192,20 +198,20 @@ jobs:
           echo "    Doubt (new spiral needed): $DOUBT_FILES"
           echo "───────────────────────────────────────────────────────────────"
           
-          # Determine spiral state based on metrics
+          # Determine spiral state based on metrics using configurable thresholds
           SPIRAL_STATE="stable"
           SPIRAL_ACTION=""
           
           # Deja Vu: High coherence + repeating patterns = iterate with refined data
-          if [ "$DEJA_VU_FILES" -gt 5 ]; then
+          if [ "$DEJA_VU_FILES" -gt "$DEJA_VU_THRESHOLD" ]; then
             SPIRAL_STATE="deja_vu"
             SPIRAL_ACTION="Ready to Iterate - Refine with updated context"
           # Doubt: Low coherence + high speculation = push to new spirals
-          elif [ "$DOUBT_FILES" -gt 5 ]; then
+          elif [ "$DOUBT_FILES" -gt "$DOUBT_THRESHOLD" ]; then
             SPIRAL_STATE="doubt"
             SPIRAL_ACTION="Push to New Spirals - Explore fresh approaches"
           # Curl Point dominant: Many foundations = consolidate
-          elif [ "$CURL_POINTS" -gt 10 ]; then
+          elif [ "$CURL_POINTS" -gt "$CURL_POINTS_THRESHOLD" ]; then
             SPIRAL_STATE="origin"
             SPIRAL_ACTION="Surjection Active - Foundations consolidating"
           fi
@@ -414,15 +420,19 @@ jobs:
               // Files may be empty
             }
             
+            // Parse counts once for efficiency
+            const parsedExcellentCount = parseInt(excellentCount) || 0;
+            const parsedNeedsAttention = parseInt(needsAttention) || 0;
+            
             if (excellentFiles) {
               const excellentFileLines = excellentFiles.split('\n');
-              const displayedExcellentCount = Math.min(excellentFileLines.length, parseInt(excellentCount) || 0);
+              const displayedExcellentCount = Math.min(excellentFileLines.length, parsedExcellentCount);
               comment += `<details>\n<summary>📚 Excellent Files (${excellentCount})</summary>\n\n`;
               excellentFileLines.slice(0, displayedExcellentCount).forEach(f => {
                 if (f) comment += `- ${f}\n`;
               });
-              if (parseInt(excellentCount) > displayedExcellentCount) {
-                comment += `- ... and ${parseInt(excellentCount) - displayedExcellentCount} more\n`;
+              if (parsedExcellentCount > displayedExcellentCount) {
+                comment += `- ... and ${parsedExcellentCount - displayedExcellentCount} more\n`;
               }
               comment += `\n</details>\n\n`;
             }
