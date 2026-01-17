@@ -1,56 +1,70 @@
 # SPHINX Protocol Specification
 
-## Overview
-The SPHINX protocol is designed to facilitate secure and efficient communication between various systems while maintaining data integrity and authenticity.
-
 ## Gate Types
-The protocol comprises five primary gate types:
-1. **ORIGIN**: Defines the source of the data.
-2. **INTENT**: Represents the purpose behind the data transmission.
-3. **COHERENCE**: Ensures that the information shared is consistent and aligns with predefined rules.
-4. **IDENTITY**: Verifies the identity of the participants in the communication.
-5. **PASSAGE**: Facilitates the movement of data from one point to another while adhering to the specified attributes.
 
-## Syntax Examples
-- **ORIGIN**: `origin(data_source)`
-- **INTENT**: `intent(desired_outcome)`
-- **COHERENCE**: `coherence(rules)`
-- **IDENTITY**: `identity(participant)`
-- **PASSAGE**: `passage(data)`
+### 1. ORIGIN
+The ORIGIN gate is responsible for establishing the initial parameters and constraints for the communication within the SPHINX protocol. It serves as the starting point for any interaction between nodes.
 
-## Integration Flow with WAVE, BUMP, and ATOM
-The SPHINX protocol integrates seamlessly with the WAVE/BUMP/ATOM systems via the following flow:
-1. Initial data creation through the ORIGIN gate.
-2. Intent declaration using the INTENT gate.
-3. Data coherence validation through the COHERENCE gate.
-4. Identity verification via the IDENTITY gate.
-5. Data passage through the PASSAGE gate.
+### 2. INTENT
+The INTENT gate defines the purpose behind the communication. It articulates the goals of the interaction and what outcome the parties involved wish to achieve.
 
-## Self-Sustaining Loop Termination Rules
-1. All conditions for each gate type must be satisfied.
-2. A termination signal must be generated once the intended data operations are completed.
+### 3. COHERENCE
+The COHERENCE gate ensures that the information exchanged maintains a logical consistency throughout the communication process. This gate validates that all messages are aligned with the defined intent and origin.
 
-## Python Implementation Reference
+### 4. IDENTITY
+The IDENTITY gate verifies the authenticity of the communicating parties. It ensures that each participant is who they claim to be, fostering trust within the network.
+
+### 5. PASSAGE
+The PASSAGE gate facilitates the flow of messages through the network, ensuring that they reach their intended recipients without loss or corruption.
+
+### 6. ESCALATE
+The ESCALATE gate allows for elevating the level of concern or the complexity of the communication, signaling that an issue requires more attention or different handling procedures.
+
+## Python Implementation
+
 ```python
 class SphinxProtocol:
-    def __init__(self, data_source, intent):
-        self.data_source = data_source
+    def __init__(self):
+        # Initialize parameters
+        self.origin = None
+        self.intent = None
+        self.coherence = True
+        self.identity = None
+
+    def set_origin(self, origin):
+        self.origin = origin
+
+    def set_intent(self, intent):
         self.intent = intent
 
-    def validate_coherence(self, rules):
-        # Logic to validate coherence
+    def verify_identity(self, id):
+        # Verify the identity of the node
+        self.identity = id
+
+    def check_coherence(self):
+        # Implement coherence checks
+        return self.coherence
+
+    def send_message(self, message):
+        # Logic for sending a message through the PASSAGE gate
         pass
 
-    def verify_identity(self, participant):
-        # Logic to verify identity
-        pass
-
-    def passage(self, data):
-        # Logic for data passage
+    def escalate_issue(self, issue):
+        # Logic to escalate issues through the ESCALATE gate
         pass
 ```
 
-## Acceptance Criteria
-- Each gate type must be operational and correctly implement its function.
-- The protocol must integrate without issues with existing systems.
-- The Python implementation should be fully functional with appropriate error handling.
+## Integration Flow
+
+1. **Initialization**: Nodes initialize their SPHINX protocol layer setting origin, intent, and identity.
+2. **Verification**: The nodes verify each other's identities before communication.
+3. **Message Sending**: Messages are sent through the PASSAGE gate with coherence checks in place.
+4. **Escalation**: If an issue arises, it is escalated through the ESCALATE gate.
+5. **Finalization**: Upon completion, all nodes confirm the coherence of the transaction and acknowledgment of receipt.
+
+## Self-Sustaining Loop Rules
+
+1. **Feedback Loop**: Ensure that each communication results in feedback, which is evaluated for coherence.
+2. **Continuous Validation**: Each node must continuously validate its identity and intent in every communication round.
+3. **Automatic Escalation**: Issues that cannot be resolved within a defined threshold must trigger the escalation gate automatically.
+4. **Documenting History**: All interactions should maintain a log for reference and audits.
