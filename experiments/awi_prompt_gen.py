@@ -146,6 +146,11 @@ class ChainOfThought(Module):
         """
         self.signature = signature
         parts = signature.split("->")
+        if len(parts) < 2:
+            raise ValueError(
+                f"Invalid signature format: {signature!r}. "
+                "Expected format like 'input_field1, input_field2 -> output_field'."
+            )
         self.input_fields = [p.strip() for p in parts[0].split(",")]
         self.output_fields = [p.strip() for p in parts[1].split(",")]
 
