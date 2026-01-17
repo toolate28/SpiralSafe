@@ -33,9 +33,8 @@ Protocol: H&&S:WAVE
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional, Callable, Tuple
-from pathlib import Path
 import json
-import hashlib
+import math
 from datetime import datetime
 import random
 import re
@@ -326,8 +325,15 @@ class CoherenceAnalyzer:
         return min(repetition_ratio * CURL_REPETITION_MULTIPLIER, 1.0)
     
     def _compute_divergence(self, paragraphs: List[str]) -> float:
-        """Detect unresolved expansion."""
+        """
+        Detect divergence (expansion/compression) in content.
+        
+        Per Wave protocol spec:
+        - Positive divergence: unresolved expansion, scope creep
+        - Negative divergence: premature closure, over-compression
+        """
         text = " ".join(paragraphs)
+        word_count = len(text.split())
         
         # Check for concluding markers
         conclusion_markers = [
@@ -336,14 +342,39 @@ class CoherenceAnalyzer:
         ]
         has_conclusion = any(marker in text.lower() for marker in conclusion_markers)
         
-        # Count open questions/topics
+        # Check for premature closure indicators (negative divergence)
+        premature_closure_markers = [
+            "obviously", "clearly", "simply put", "needless to say",
+            "as everyone knows", "it goes without saying"
+        ]
+        has_premature_closure = any(marker in text.lower() for marker in premature_closure_markers)
+        
+        # Count open questions/topics (positive divergence indicators)
         question_count = text.count("?")
         todo_count = len(re.findall(r'\bTODO\b|\bTBD\b|\bFIXME\b', text, re.IGNORECASE))
         
-        base_divergence = 0.3 if not has_conclusion else 0.1
-        divergence = base_divergence + (question_count * 0.05) + (todo_count * 0.1)
+        # Calculate positive divergence (unresolved expansion)
+        positive_indicators = (question_count * 0.05) + (todo_count * 0.1)
+        if not has_conclusion:
+            positive_indicators += 0.2
         
-        return min(divergence, 1.0)
+        # Calculate negative divergence (premature closure, over-compression)
+        negative_indicators = 0.0
+        if has_premature_closure:
+            negative_indicators += 0.3
+        # Short content with conclusions may indicate over-compression
+        if has_conclusion and word_count < 100:
+            negative_indicators += 0.2
+        # High conclusion-to-content ratio suggests over-compression
+        conclusion_count = sum(1 for m in conclusion_markers if m in text.lower())
+        if conclusion_count > 1 and word_count < 200:
+            negative_indicators += 0.2
+        
+        # Net divergence: positive - negative (can be negative)
+        divergence = positive_indicators - negative_indicators
+        
+        # Clamp to [-1.0, 1.0] range
+        return max(-1.0, min(divergence, 1.0))
     
     def _compute_potential(self, paragraphs: List[str]) -> float:
         """Detect development opportunities."""
@@ -432,7 +463,7 @@ class TeleprompterBase(ABC):
             
             # Acceptance criteria (simulated annealing)
             delta = candidate_score - current_score
-            if delta > 0 or random.random() < pow(2.718, delta / temperature):
+            if delta > 0 or random.random() < math.exp(delta / temperature):
                 current_prompt = candidate
                 current_score = candidate_score
                 
