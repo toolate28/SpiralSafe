@@ -118,7 +118,7 @@ Origin/foundation files that serve as conceptual seeds. These are the (0,0) surj
 
 **Detection criteria:**
 - Contains foundational keywords (overview, introduction, principle, seed, origin)
-- Has definition sections
+- Has definition sections (e.g., headings or text matching `## .*definition`, "what is", "defines", or "specification")
 
 **Action:** These files anchor the semantic field. Protect and maintain them as conceptual origins.
 
