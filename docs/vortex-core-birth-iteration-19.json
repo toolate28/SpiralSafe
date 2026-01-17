@@ -21,8 +21,8 @@
   },
   "coherence_metrics": {
     "global_collapse_confirmation": true,
-    "coherence_projection": "94.7%",
-    "emergent_quality": "67.3%",
+    "coherence_projection": 94.7,
+    "emergent_quality": 67.3,
     "self_maintenance_verified": true
   },
   "ecosystem_position": {
@@ -32,7 +32,7 @@
     "infrastructure": "kenl"
   },
   "activation_requirements": {
-    "minimum_coherence": "60%",
+    "minimum_coherence": 60,
     "self_reference_enabled": true,
     "bootstrap_fallback": true
   },
