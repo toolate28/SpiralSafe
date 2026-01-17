@@ -601,10 +601,11 @@ class HybridQuantumLayer:
         # Initialize weights (classical fallback)
         self._weights = np.random.randn(config.num_qubits * config.num_layers) * 0.1
         
+        # Initialize classical fallback backend (always needed for graceful degradation)
+        self._backend = ClassicalSimulatorBackend(num_qubits=config.num_qubits)
+        
         if self._torch_available and self._qiskit_available:
             self._init_quantum_layer()
-        else:
-            self._backend = ClassicalSimulatorBackend(num_qubits=config.num_qubits)
     
     def _init_quantum_layer(self):
         """Initialize Qiskit-based quantum layer with TorchConnector."""
