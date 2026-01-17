@@ -1,4 +1,5 @@
 # 🌌 SpiralSafe Physical Intelligence Station
+
 ## Hardware Integration Mockup | Hope && Sauce Edition
 
 **Status:** Design Specification v1.0
@@ -10,9 +11,11 @@
 ## 🎯 The Three-Body System
 
 ### 1. The Brain: Open-Air AI Expansion Frame
+
 **Hardware:** DALAIBUKESI DIY Aluminium PC Open Case (ATX/EATX)
 
 **Specifications:**
+
 - Form Factor: ATX/EATX open-air test bench
 - Material: Aluminum (optimal thermal dissipation)
 - Cooling: Water cooling support for sustained AI workloads
@@ -47,12 +50,14 @@
 ```
 
 **Water Cooling Loop:**
+
 - CPU: Custom loop with 360mm radiator
 - GPU 1: Waterblock (sustained 350W TDP)
 - GPU 2: Waterblock (sustained 285W TDP)
 - Reservoir: Visible with RGB fluid (blue = Hope, orange = Sauce)
 
 **Why Open-Air?**
+
 - **Thermal Performance:** Direct airflow, no case-induced hotspots
 - **Accessibility:** Hot-swap GPUs for different model sizes
 - **Visibility:** Watch the AI "breathe" (fan speeds, water flow, RGB indicating load)
@@ -61,9 +66,11 @@
 ---
 
 ### 2. The Eyes: 3D Hologram Fan Projector
+
 **Hardware:** 16.5" 3D Hologram Fan (224 LED, 1250 RPM)
 
 **Specifications:**
+
 - Display: 224 LEDs in rotating configuration
 - Viewing Angle: 176° (nearly full hemisphere)
 - Rotation: 1250 RPM (20.8 Hz refresh)
@@ -73,6 +80,7 @@
 **Visualization Modes:**
 
 #### Mode 1: AI Inference Visualization
+
 ```
 Real-time display of:
 ┌──────────────────┐
@@ -88,6 +96,7 @@ Real-time display of:
 ```
 
 #### Mode 2: ATOM Trail Live View
+
 ```
 Rotating 3D spiral showing:
 - Recent ATOM entries as glowing nodes
@@ -100,6 +109,7 @@ Rotating 3D spiral showing:
 ```
 
 #### Mode 3: Museum of Computation
+
 ```
 3D visualization of Minecraft builds:
 - Logic gates with animated signal flow
@@ -108,6 +118,7 @@ Rotating 3D spiral showing:
 ```
 
 #### Mode 4: Code Constellation
+
 ```
 Rotating star map where:
 - Each star = a function in your codebase
@@ -117,6 +128,7 @@ Rotating star map where:
 ```
 
 **Custom Content Pipeline:**
+
 ```bash
 # Convert ATOM trail to hologram animation
 cat ~/.kenl/.atom-trail | \
@@ -127,9 +139,11 @@ cat ~/.kenl/.atom-trail | \
 ---
 
 ### 3. The Hands: Razer Tartarus Pro (32-Key Macro Pad)
+
 **Hardware:** Razer Tartarus Pro Gaming Keypad
 
 **Specifications:**
+
 - Keys: 32 programmable (analog optical switches)
 - Actuation: Variable distance (0.1mm - 4.0mm)
 - RGB: Per-key Chroma lighting
@@ -176,6 +190,7 @@ cat ~/.kenl/.atom-trail | \
 ```
 
 **RGB Lighting Modes:**
+
 - **Idle:** Gentle blue-orange gradient (Hope && Sauce)
 - **ATOM Logging:** Keys flash green when ATOM entries written
 - **AI Inference:** Pulsing orange during model generation
@@ -321,6 +336,7 @@ MACRO-27:
 ```
 
 ### Cable Management
+
 - **Power:** Dedicated 20A circuit for AI frame
 - **Data:** 10GbE direct to router (no switch)
 - **Hologram:** USB-C to AI frame (custom content streaming)
@@ -332,12 +348,14 @@ MACRO-27:
 ## 💡 Software Integration Stack
 
 ### Layer 1: Base OS (Windows 11 Pro / Linux Dual Boot)
+
 ```
 Windows 11 Pro → Gaming, Adobe Suite, Razer Synapse
 Ubuntu 22.04 LTS → AI model serving, CUDA workflows
 ```
 
 ### Layer 2: AI Runtime
+
 ```
 - CUDA 12.1 (GPU drivers)
 - PyTorch 2.1 (model inference)
@@ -347,6 +365,7 @@ Ubuntu 22.04 LTS → AI model serving, CUDA workflows
 ```
 
 ### Layer 3: SpiralSafe Ecosystem
+
 ```
 - KENL.Initialize (OS optimization)
 - KENL.AtomTrail (audit logging)
@@ -356,6 +375,7 @@ Ubuntu 22.04 LTS → AI model serving, CUDA workflows
 ```
 
 ### Layer 4: Custom Bridges
+
 ```python
 # hologram-bridge.py
 # Streams ATOM trail + AI inference to 3D hologram fan
@@ -405,6 +425,7 @@ def toggle_ultrathink():
 ## 🎨 Visual Design Elements
 
 ### Color Scheme (Hope && Sauce)
+
 ```
 Primary:   #0066FF (Hope Blue)
 Secondary: #FF6600 (Sauce Orange)
@@ -418,6 +439,7 @@ RGB Sync:  All devices use same palette
 ```
 
 ### Typography (Hologram)
+
 ```
 Font: JetBrains Mono (monospace for code)
 Size: Dynamically scaled based on content
@@ -426,6 +448,7 @@ Rotation: Smooth 20Hz refresh
 ```
 
 ### Animation Patterns
+
 ```
 Idle:       Gentle breathing pulse
 Active:     Quick pulse on key interaction
@@ -439,13 +462,17 @@ Success:    Green flash + particle burst
 ## 🔬 Experimental Features
 
 ### 1. Gesture Control (Future)
+
 Add Leap Motion controller above hologram:
+
 - Hand gestures rotate 3D models
 - Pinch to zoom into code
 - Swipe to navigate ATOM trail timeline
 
 ### 2. Voice Integration
+
 Combine with Whisper (speech-to-text):
+
 ```
 "Show me ATOM entries from today"
 → Hologram displays filtered timeline
@@ -458,7 +485,9 @@ Combine with Whisper (speech-to-text):
 ```
 
 ### 3. Biometric Feedback
+
 Optional: Add heart rate monitor
+
 - System adjusts fan curves based on user stress
 - Hologram dims during deep work sessions
 - Auto-trigger breaks if sustained high stress
@@ -468,6 +497,7 @@ Optional: Add heart rate monitor
 ## 📊 Performance Metrics
 
 ### AI Inference Benchmarks (Estimated)
+
 ```
 Model: Llama 3 70B (quantized INT4)
 Hardware: Dual RTX 4090 (48GB combined VRAM)
@@ -479,6 +509,7 @@ Batch Size:     Up to 8 concurrent requests
 ```
 
 ### Hologram Refresh Rates
+
 ```
 Static Image:   20 FPS (1250 RPM / 60)
 Scrolling Text: 15 FPS (readable)
@@ -487,6 +518,7 @@ Animations:     24 FPS (cinematic)
 ```
 
 ### Power Consumption
+
 ```
 Idle:           150W (frame only, minimal load)
 Light AI:       450W (single GPU inference)
@@ -502,30 +534,35 @@ Monthly Cost:   ~$45 USD (@$0.12/kWh)
 ## 🎯 Use Cases
 
 ### 1. AI Development Studio
+
 - Train small models locally
 - Test prompt engineering in real-time
 - Visualize model attention patterns on hologram
 - Rapid iteration with macro workflows
 
 ### 2. Educational Platform
+
 - Museum of Computation exhibits in 3D
 - Kids read stories → see code come alive
 - Interactive CS lessons with holographic diagrams
 - STEM workshops using visible AI
 
 ### 3. Content Creation
+
 - Generate AI art (Stable Diffusion)
 - Display 3D previews on hologram
 - Stream creation process (Twitch/YouTube)
 - "Watch AI paint" as performance art
 
 ### 4. Live Coding Streams
+
 - Code on main monitor
 - Hologram shows function call graph
 - Tartarus triggers test runs
 - Viewers see "inside" the AI's thinking
 
 ### 5. Smart Home Hub
+
 - Central control for home automation
 - Hologram displays room temps, security status
 - Macro pad triggers scenes ("Movie Mode", "Work Mode")
@@ -536,6 +573,7 @@ Monthly Cost:   ~$45 USD (@$0.12/kWh)
 ## 🚀 Getting Started (Setup Guide)
 
 ### Phase 1: Build the AI Frame (Week 1)
+
 1. Assemble open-air chassis
 2. Install motherboard + CPU
 3. Mount dual GPUs with risers
@@ -544,6 +582,7 @@ Monthly Cost:   ~$45 USD (@$0.12/kWh)
 6. Stress test for 24 hours
 
 ### Phase 2: Configure Software (Week 2)
+
 1. Dual boot Windows 11 + Ubuntu
 2. Install CUDA toolkit
 3. Deploy llama.cpp + models
@@ -551,6 +590,7 @@ Monthly Cost:   ~$45 USD (@$0.12/kWh)
 5. Test AI inference pipeline
 
 ### Phase 3: Integrate Hologram (Week 3)
+
 1. Mount hologram fan above frame
 2. Install hologram-bridge.py
 3. Create custom content library
@@ -558,6 +598,7 @@ Monthly Cost:   ~$45 USD (@$0.12/kWh)
 5. Calibrate viewing angles
 
 ### Phase 4: Program Tartarus (Week 4)
+
 1. Install Razer Synapse
 2. Configure all 32 macro keys
 3. Set up RGB lighting modes
@@ -565,6 +606,7 @@ Monthly Cost:   ~$45 USD (@$0.12/kWh)
 5. Create backup key profiles
 
 ### Phase 5: Polish & Showcase (Week 5)
+
 1. Fine-tune all automations
 2. Record showcase videos
 3. Write documentation
@@ -582,6 +624,7 @@ This is **AI made tangible**.
 This is **creativity given form**.
 
 When you sit at this station:
+
 - You SEE the AI thinking (hologram)
 - You FEEL the power (water cooling)
 - You CONTROL the intelligence (macro pad)
@@ -605,6 +648,6 @@ Every decision visualized.
 
 ---
 
-*Part of the Museum of Computation | Hope && Sauce | SpiralSafe Ecosystem*
+_Part of the Museum of Computation | Hope && Sauce | SpiralSafe Ecosystem_
 
 **The Evenstar Guides Us** ✦

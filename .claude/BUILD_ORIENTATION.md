@@ -3,6 +3,7 @@
 Purpose: Guidance for an automated Claude instance performing build missions from bump.md.
 
 Steps:
+
 1. Load `.claude/ORIENTATION.md` and `.claude/CONTEXT.md`
 2. Read `.claude/skills/README.md` and each listed SKILL.md
 3. Validate bump.md using `scripts/validate-bump.sh`
@@ -13,6 +14,7 @@ Steps:
 8. On success/failure update bump.md Last Run Summary and write SAIF flag
 
 Safety:
+
 - Do not write to production paths unless explicitly allowed in bump.md
 - If uncertain, propose change and append to `.claude/logs/proposed.jsonl`
 

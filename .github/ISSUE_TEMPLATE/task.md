@@ -1,15 +1,17 @@
 ---
 name: Task / Chore
 about: General task, maintenance, or refactoring work
-title: '[TASK] '
+title: "[TASK] "
 labels: task, needs-atom-tag
-assignees: ''
+assignees: ""
 ---
 
 ## ATOM Tag
+
 **ATOM:** `ATOM-TASK-[DATE]-[NUM]-[description]`
 
 _Create with:_
+
 ```bash
 ./scripts/atom-track.sh TASK "Task description" "issue-#N"
 ```
@@ -17,9 +19,11 @@ _Create with:_
 ---
 
 ## Summary
+
 Brief description of the task or maintenance work.
 
 ## Task Type
+
 - [ ] Refactoring (improve code without changing behavior)
 - [ ] Maintenance (updates, cleanup, deprecation)
 - [ ] Dependency update
@@ -29,16 +33,19 @@ Brief description of the task or maintenance work.
 - [ ] Other: [describe]
 
 ## Current State
+
 **What exists now?**
 
 Describe the current state of what needs work.
 
 ## Desired End State
+
 **What should exist after this task?**
 
 Describe the target state clearly.
 
 ## Steps / Subtasks
+
 Break down the work into actionable steps:
 
 - [ ] Step 1: [specific action]
@@ -46,6 +53,7 @@ Break down the work into actionable steps:
 - [ ] Step 3: [specific action]
 
 ## Affected Components
+
 **What will this task touch?**
 
 - Files: `path/to/file1`, `path/to/file2`
@@ -54,6 +62,7 @@ Break down the work into actionable steps:
 - Dependencies: [list any package updates]
 
 ## Risk Assessment
+
 **What could go wrong?**
 
 - [ ] Low risk - Isolated change
@@ -61,10 +70,12 @@ Break down the work into actionable steps:
 - [ ] High risk - Critical path or production impact
 
 **Mitigation:**
+
 - Backup/rollback plan: [describe]
 - Testing approach: [describe]
 
 ## Dependencies
+
 **What needs to happen first?**
 
 - Depends on: Issue #XXX
@@ -72,6 +83,7 @@ Break down the work into actionable steps:
 - Related ATOM: `ATOM-XXX-YYYYMMDD-NNN`
 
 ## Testing / Verification
+
 **How to verify this task is complete:**
 
 ```bash
@@ -81,12 +93,14 @@ Break down the work into actionable steps:
 ```
 
 **Acceptance criteria:**
+
 - [ ] All tests pass
 - [ ] No regressions introduced
 - [ ] Documentation updated
 - [ ] ATOM tag logged
 
 ## Rollback Plan
+
 **If this breaks, how to undo:**
 
 ```bash
@@ -96,11 +110,13 @@ git revert <commit>
 ```
 
 ## Timeline
+
 - **Estimated effort:** [hours/days]
 - **Target completion:** [date]
 - **Priority:** [Low/Medium/High/Urgent]
 
 ## Related Items
+
 - Issue: #XXX
 - PR: #YYY
 - ATOM: `ATOM-XXX-YYYYMMDD-NNN`
@@ -108,6 +124,7 @@ git revert <commit>
 ---
 
 ## Checklist
+
 - [ ] Task is clearly defined
 - [ ] Steps are actionable
 - [ ] Verification method specified

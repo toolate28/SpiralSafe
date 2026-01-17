@@ -10,6 +10,7 @@ This guide provides platform-specific instructions for setting up a SpiralSafe d
 ## Common Prerequisites
 
 All platforms require:
+
 - **Git** (2.40+)
 - **Node.js** (20.x LTS)
 - **Python** (3.12+)
@@ -99,6 +100,7 @@ pip install -r requirements.txt
 **Problem**: Git Bash on Windows does not include `tar` by default.
 
 **Workaround**:
+
 - Use PowerShell instead of Git Bash for scripts requiring `tar`
 - Use PowerShell's `Compress-Archive` cmdlet:
   ```powershell
@@ -115,6 +117,7 @@ pip install -r requirements.txt
 **Problem**: Windows has a 260-character path limit (MAX_PATH) that can cause issues with deep node_modules nesting.
 
 **Workaround**:
+
 - Enable long path support in Windows 10/11:
   ```powershell
   # Run as Administrator
@@ -127,6 +130,7 @@ pip install -r requirements.txt
 **Problem**: Git may convert LF to CRLF, breaking shell scripts.
 
 **Workaround**:
+
 ```bash
 # Configure Git to preserve LF line endings
 git config --global core.autocrlf input
@@ -137,6 +141,7 @@ git config --global core.autocrlf input
 **Problem**: Scripts may be blocked by execution policy.
 
 **Workaround**:
+
 ```powershell
 # For current user (recommended)
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
@@ -216,6 +221,7 @@ npm install
 ### Workspaces
 
 SpiralSafe uses npm workspaces:
+
 - `ops/` - Operations API and CLI
 - `packages/*` - Shared packages
 
@@ -263,6 +269,7 @@ npm audit
 ## CI/CD Environment Compatibility
 
 The SpiralSafe CI pipeline runs on:
+
 - **Primary**: `ubuntu-latest` (Ubuntu 22.04)
 - **Secondary**: May expand to `windows-latest` and `macos-latest`
 
@@ -283,3 +290,4 @@ strategy:
     os: [ubuntu-latest, windows-latest, macos-latest]
     node-version: [20.x]
     python-version: [3.12]
+```

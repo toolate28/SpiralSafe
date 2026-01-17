@@ -12,11 +12,13 @@ Workflows added:
 - `.github/workflows/markdown-and-linkcheck.yml` — Runs `markdownlint` and `markdown-link-check` on pushes, PRs for Markdown files, and daily on a schedule to catch broken links and style issues.
 
 Security & required secrets
+
 - `GITHUB_TOKEN` — automatically provided to workflows; sufficient for commit/push/PR within the same repository. No action needed.
 - If you want workflows to push as a different bot account or access other repos, provide a Personal Access Token with `repo` and `workflow` scopes as a repo secret (e.g. `REPO_PAT`).
 - External services (optional): `CLOUDFLARE_API_TOKEN`, `DOCKERHUB_TOKEN`, etc. Add as repo secrets if you intend to enable automated deploy steps.
 
 Safety defaults
+
 - Every workflow defaults to dry-run behaviour. `apply` must be explicitly passed as workflow input or via a manual run to enable write operations.
 - `journey-sim.yml` is intended for self-hosted runners to avoid exposing host-level operations on GitHub-hosted runners.
 
@@ -38,6 +40,7 @@ gh workflow run docs-reorg.yml -f apply=true -f target_branch=docs/cleanup/root-
 ```
 
 Self-hosted runner notes
+
 - To run `journey-sim.yml` with `apply=true`, register a self-hosted runner on a machine you control and give it the `self-hosted, Windows` labels. The workflow will then be able to perform copy/restore simulation on that host.
 
 Next steps you can provide me to further automate

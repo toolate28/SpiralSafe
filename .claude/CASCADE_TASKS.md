@@ -1,5 +1,7 @@
 # Cascade Tasks for Parallel Workers
+
 ## Leading Tasker: Claude Opus (Primary Session)
+
 ## Generated: 2026-01-10T09:45:00Z
 
 ---
@@ -42,12 +44,14 @@ PRIMARY SESSION (Orchestrator)
 **Claimable by:** Any parallel worker
 
 ### Tasks
+
 1. [ ] Review all `.md` files in SpiralSafe/foundation/
 2. [ ] Cross-reference THE_ISO_PRINCIPLE.md with FP2_ALGEBRAIC_QUANTUM.md
 3. [ ] Create summary document: `ISO_FP2_SYNTHESIS.md`
 4. [ ] Update README.md with F_p² reference
 
 ### Completion BUMP
+
 ```json
 {
   "type": "PASS",
@@ -68,6 +72,7 @@ PRIMARY SESSION (Orchestrator)
 **Claimable by:** Any parallel worker
 
 ### Tasks
+
 1. [ ] Navigate to ClaudeNPC-Server-Suite/
 2. [ ] Run: `.\test-core-modules.ps1`
 3. [ ] Run: `.\test-syntax.ps1`
@@ -75,6 +80,7 @@ PRIMARY SESSION (Orchestrator)
 5. [ ] Check INSTALL.ps1 for broken paths
 
 ### Completion BUMP
+
 ```json
 {
   "type": "PASS",
@@ -95,6 +101,7 @@ PRIMARY SESSION (Orchestrator)
 **Claimable by:** Any parallel worker
 
 ### Tasks
+
 1. [ ] Create directory: SpiralSafe/packages/wave-toolkit/
 2. [ ] Copy protocol docs (wave, bump, awi, atom specs)
 3. [ ] Copy template files (.context.yaml, etc.)
@@ -102,6 +109,7 @@ PRIMARY SESSION (Orchestrator)
 5. [ ] Verify no game/math content included
 
 ### Completion BUMP
+
 ```json
 {
   "type": "PASS",
@@ -117,14 +125,14 @@ PRIMARY SESSION (Orchestrator)
 
 ## Timing Schedule
 
-| Time | Primary Session | Parallel Workers |
-|------|-----------------|------------------|
-| T+0 | Create cascade tasks | Read CASCADE_TASKS.md |
-| T+5 | Begin orchestration | Claim cascade A/B/C |
-| T+15 | Monitor progress | Work on claimed tasks |
+| Time | Primary Session           | Parallel Workers        |
+| ---- | ------------------------- | ----------------------- |
+| T+0  | Create cascade tasks      | Read CASCADE_TASKS.md   |
+| T+5  | Begin orchestration       | Claim cascade A/B/C     |
+| T+15 | Monitor progress          | Work on claimed tasks   |
 | T+25 | Review completed cascades | Submit completion BUMPs |
-| T+35 | Integrate all work | Await sign-off |
-| T+40 | Session sign-off | Session complete |
+| T+35 | Integrate all work        | Await sign-off          |
+| T+40 | Session sign-off          | Session complete        |
 
 ---
 
@@ -142,6 +150,7 @@ If a worker finishes early, check these for additional work:
 ## Claiming Protocol
 
 To claim a cascade:
+
 1. Read this file
 2. Check if cascade is unclaimed
 3. Create file: `.claude/CLAIM_{CASCADE_LETTER}.md` with your worker ID
@@ -160,4 +169,4 @@ To claim a cascade:
 
 ---
 
-*H&&S:WAVE | The primary session finishes last.*
+_H&&S:WAVE | The primary session finishes last._

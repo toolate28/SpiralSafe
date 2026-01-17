@@ -7,6 +7,7 @@
 ## Problem Statement
 
 The SpiralSafe CI pipeline was experiencing failures due to:
+
 - Heavy ML packages (torch, qiskit) without optional gating
 - Missing lockfiles for reproducibility
 - No dependency validation in CI
@@ -27,6 +28,7 @@ constraints.txt           # Pinned versions for reproducibility
 ```
 
 All dependencies are now:
+
 - ✅ Pinned to specific versions (e.g., `==2.5.0` instead of `>=2.5.0`)
 - ✅ Organized by use case
 - ✅ Referenced consistently across subdirectories
@@ -35,12 +37,14 @@ All dependencies are now:
 ### 2. Dependency Verification
 
 Created `scripts/verify-dependencies.py` which checks for:
+
 - ❌ Python stdlib modules incorrectly listed as dependencies
 - ❌ Duplicate entries across files
 - ⚠️ Unpinned versions that reduce reproducibility
 - ⚠️ Heavy packages in wrong requirements files
 
 Usage:
+
 ```bash
 python scripts/verify-dependencies.py
 ```
@@ -48,12 +52,14 @@ python scripts/verify-dependencies.py
 ### 3. CI Workflow Enhancements
 
 Updated `.github/workflows/spiralsafe-ci.yml`:
+
 - Added `validate-deps` job that runs before build
 - Added pip and npm caching for faster builds
 - Added safety security scanning for known vulnerabilities
 - Proper job ordering: coherence → validate-deps → lint → build
 
 Created `.github/workflows/ml-dependencies-test.yml`:
+
 - Optional workflow for testing heavy ML dependencies
 - Can be triggered manually or by PR label `test-ml`
 - Uses CPU-only PyTorch to avoid GPU requirements
@@ -62,12 +68,14 @@ Created `.github/workflows/ml-dependencies-test.yml`:
 ### 4. Platform Documentation
 
 Created `ops/CONTRIBUTION_ENV.md` with:
+
 - Platform-specific setup instructions (Ubuntu, macOS, Windows, WSL)
 - Common troubleshooting scenarios
 - Workarounds for known issues (tar on Windows, line endings, etc.)
 - Links to detailed setup guides
 
 Updated `README.md` with:
+
 - Python dependency structure explanation
 - Quick installation commands
 - CPU-only PyTorch instructions
@@ -82,6 +90,7 @@ Updated `README.md` with:
 ## Testing & Validation
 
 ### Local Testing
+
 ✅ Dependency verification script passes  
 ✅ Core dependencies install successfully  
 ✅ Node.js build process works  
@@ -90,6 +99,7 @@ Updated `README.md` with:
 ✅ CodeQL security scan passed (0 alerts)
 
 ### CI Testing
+
 - Dependency validation runs before build
 - Pip caching works correctly
 - Safety scanning detects known vulnerabilities
@@ -98,24 +108,28 @@ Updated `README.md` with:
 ## Platform Compatibility
 
 ### Ubuntu/Debian
+
 ```bash
 pip install -r requirements.txt
 npm ci
 ```
 
 ### macOS
+
 ```bash
 pip install -r requirements.txt
 npm ci
 ```
 
 ### Windows
+
 ```powershell
 pip install -r requirements.txt
 npm ci
 ```
 
 ### WSL
+
 Follow Ubuntu instructions inside WSL environment.
 
 ## Benefits
@@ -132,6 +146,7 @@ Follow Ubuntu instructions inside WSL environment.
 ### For contributors
 
 Update your local environment:
+
 ```bash
 # Remove old dependencies
 rm -rf .venv node_modules
@@ -156,6 +171,7 @@ The CI workflow automatically handles the new structure. No manual intervention 
 ### For downstream projects
 
 Update your imports to reference root requirements:
+
 ```python
 # Instead of:
 # -r ../bridges/requirements.txt
@@ -179,11 +195,12 @@ Update your imports to reference root requirements:
 ✅ Heavy ML dependencies are optional and documented  
 ✅ Reproducible builds with lockfiles  
 ✅ Platform-specific issues documented with workarounds  
-✅ Verification script detects dependency issues automatically  
+✅ Verification script detects dependency issues automatically
 
 ## Files Modified
 
 ### Created
+
 - `requirements.txt` - Core dependencies
 - `requirements-dev.txt` - Development tools
 - `requirements-ml.txt` - Optional ML/quantum
@@ -193,6 +210,7 @@ Update your imports to reference root requirements:
 - `.github/workflows/ml-dependencies-test.yml` - Optional ML tests
 
 ### Updated
+
 - `README.md` - Added Python dependency section
 - `.github/workflows/spiralsafe-ci.yml` - Added validation and caching
 - `bridges/requirements.txt` - References root requirements

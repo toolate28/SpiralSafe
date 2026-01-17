@@ -16,6 +16,7 @@ archive/
 ## Archiving Policy
 
 Documents are archived when they:
+
 1. Are release-specific (not latest) - moved to `archive/releases/{version}/`
 2. Are historical or narrative in nature - moved to `archive/historical-docs/`
 3. Contain outdated information or references to old filenames
@@ -28,6 +29,7 @@ Documents are archived when they:
 ## Active Documents (in root)
 
 System-critical and actively maintained documents:
+
 - `README.md` - Main entry point
 - `LICENSE` - Legal requirement
 - `SECURITY.md` - Security policy
@@ -43,14 +45,17 @@ System-critical and actively maintained documents:
 ### Recent Additions (2026-01-08)
 
 **Mission Artifacts:**
+
 - `mission-accomplished-v3.0.0.txt` - Complete v3.0.0 quantum implementation milestone (originally `B&&P`)
 
 **One-time Scripts:**
+
 - `apply-docs-reorg-full_Version1.ps1` - Completed documentation reorganization script
 
 ### Release v2.0.0 (2026-01-07)
 
 Moved to `archive/releases/v2.0.0/`:
+
 - `RELEASE_NOTES_v2.0.0.md` - Release notes for v2.0.0
 - `PR_SUMMARY_v2.0.0.md` - Pull request summary
 - `IMPLEMENTATION_COMPLETE.md` - Implementation completion status
@@ -61,6 +66,7 @@ Moved to `archive/releases/v2.0.0/`:
 ### Historical Documentation (2026-01-07)
 
 Moved to `archive/historical-docs/`:
+
 - `THE_AINULINDALE_OF_HOPE_AND_SAUCE.md` - Creation story/narrative
 - `THE_COMPLETION_SONG.md` - Completion narrative
 - `THE_ONE_PATH.md` - Philosophical narrative
@@ -79,20 +85,21 @@ Moved to `archive/historical-docs/`:
 
 ### Earlier Archives
 
-| Document | Archived Date | Reason | Notes |
-|----------|---------------|--------|-------|
-| `00_SAFE_SPIRAL_MASTER_START_HERE.md` | 2026-01-02 | Superseded by README.md | Historical "start here" guide |
-| `00_INVENTORY_AND_NAVIGATION_COMPLETE.md` | 2026-01-02 | Working draft | Pre-release navigation |
-| `01_THE_BRIDGE.md` | 2026-01-02 | Historical context | Bridge document, valuable context |
-| `02_SAFE_SPIRAL_CONSOLIDATED.md` | 2026-01-02 | Consolidated elsewhere | Merged into master docs |
-| `KENL_ECOSYSTEM_MASTER_INDEX.md` | 2026-01-02 | Alternative index | Similar to SAFE_SPIRAL_MASTER_INDEX.md |
-| `PART_3_OBJECTIVE_ANALYSIS.md` | 2026-01-02 | Has spiral-specific version | Use docs/reports/analysis/PART_3_OBJECTIVE_ANALYSIS_SPIRAL.md |
-| `PACKAGE_INVENTORY_COMPLETE.md` | 2026-01-02 | Superseded by PUBLICATION_MANIFEST | Package inventory |
-| `ACKNOWLEDGEMENTS.md` | 2026-01-02 | Can be integrated elsewhere | Credits and acknowledgements |
+| Document                                  | Archived Date | Reason                             | Notes                                                         |
+| ----------------------------------------- | ------------- | ---------------------------------- | ------------------------------------------------------------- |
+| `00_SAFE_SPIRAL_MASTER_START_HERE.md`     | 2026-01-02    | Superseded by README.md            | Historical "start here" guide                                 |
+| `00_INVENTORY_AND_NAVIGATION_COMPLETE.md` | 2026-01-02    | Working draft                      | Pre-release navigation                                        |
+| `01_THE_BRIDGE.md`                        | 2026-01-02    | Historical context                 | Bridge document, valuable context                             |
+| `02_SAFE_SPIRAL_CONSOLIDATED.md`          | 2026-01-02    | Consolidated elsewhere             | Merged into master docs                                       |
+| `KENL_ECOSYSTEM_MASTER_INDEX.md`          | 2026-01-02    | Alternative index                  | Similar to SAFE_SPIRAL_MASTER_INDEX.md                        |
+| `PART_3_OBJECTIVE_ANALYSIS.md`            | 2026-01-02    | Has spiral-specific version        | Use docs/reports/analysis/PART_3_OBJECTIVE_ANALYSIS_SPIRAL.md |
+| `PACKAGE_INVENTORY_COMPLETE.md`           | 2026-01-02    | Superseded by PUBLICATION_MANIFEST | Package inventory                                             |
+| `ACKNOWLEDGEMENTS.md`                     | 2026-01-02    | Can be integrated elsewhere        | Credits and acknowledgements                                  |
 
 ## Restoration
 
 To restore an archived document:
+
 ```bash
 # Move back to root
 mv archive/historical-docs/FILENAME.md ./
@@ -105,6 +112,7 @@ mv archive/historical-docs/FILENAME.md ./
 ## ATOM Tracking
 
 All archiving decisions are logged with ATOM tags:
+
 - Type: `DOC` or `ARCHIVE`
 - Decision files in: `.atom-trail/decisions/`
 

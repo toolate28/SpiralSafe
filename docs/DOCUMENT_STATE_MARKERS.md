@@ -17,6 +17,7 @@ Document state markers are YAML frontmatter blocks that provide metadata about t
 ## Problem Solved
 
 **Anti-Wave Pattern**: Documentation Archaeology
+
 - Without state markers, users can't tell if a document is current guidance or historical record
 - Aspirational designs look identical to production reality
 - Stale documentation creates confusion and wasted effort
@@ -28,6 +29,7 @@ Document state markers are YAML frontmatter blocks that provide metadata about t
 All markdown documents must include:
 
 ### status
+
 **Values**: `active | aspirational | historical | archived`
 
 - **active**: Current, authoritative documentation
@@ -36,9 +38,11 @@ All markdown documents must include:
 - **archived**: Deprecated, moved to archive directory
 
 ### coherence_phase
+
 **Values**: `understanding | knowledge | intention | execution | learning`
 
 Indicates which phase of the coherence cycle this document supports:
+
 - **understanding**: wave.md excavation, problem analysis
 - **knowledge**: KENL patterns, knowledge relay
 - **intention**: AWI rules, bump.md templates
@@ -46,14 +50,17 @@ Indicates which phase of the coherence cycle this document supports:
 - **learning**: SAIF reports, retrospectives
 
 ### last_verified
+
 **Format**: `YYYY-MM-DD`
 
 Date when the document was last verified as accurate.
 
 ### atom_tags
+
 **Format**: Array of ATOM tags
 
 Links document to specific ATOM decisions:
+
 ```yaml
 atom_tags:
   - ATOM-DOC-20260103-001-document-created
@@ -63,18 +70,23 @@ atom_tags:
 ## Optional Fields
 
 ### last_verified_by
+
 ATOM tag or identifier of who/what verified the document.
 
 ### verification_method
+
 **Values**: `automated | manual | survey`
 
 How the document was verified.
 
 ### intent
+
 One-sentence explanation of why this document exists.
 
 ### dependencies
+
 Documents this one references or is referenced by:
+
 ```yaml
 dependencies:
   - document: VERIFICATION_GATES.md
@@ -86,7 +98,9 @@ dependencies:
 **Relationship types**: `informs | implements | validates | supersedes`
 
 ### verification_checklist
+
 Optional checklist for document verification:
+
 ```yaml
 verification_checklist:
   - all_examples_tested: pending
@@ -116,7 +130,6 @@ verification_checklist:
   - all_code_examples_tested: complete
   - usage_patterns_documented: complete
 ---
-
 # Document Title
 
 Content begins here...
@@ -131,6 +144,7 @@ Use the validation script to check all documents:
 ```
 
 This script:
+
 - Finds all markdown files (excluding node_modules, archive)
 - Checks for YAML frontmatter
 - Validates required fields are present
@@ -194,6 +208,7 @@ To add state markers to existing documents:
 ## Relationship to ATOM Trail
 
 Document state markers complement the ATOM trail by:
+
 - Linking documentation to decisions via atom_tags
 - Tracking when documentation was verified
 - Showing which coherence phase each document serves

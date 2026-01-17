@@ -10,6 +10,7 @@ Working templates for the SpiralSafe protocol files.
 ## Protocol Specifications
 
 For the authoritative protocol specifications, see:
+
 - `/protocol/bump-spec.md` - BUMP protocol specification
 - `/protocol/wave-spec.md` - WAVE protocol specification
 - `/protocol/context-yaml-spec.md` - Context YAML specification

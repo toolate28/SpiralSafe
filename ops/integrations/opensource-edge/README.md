@@ -44,35 +44,35 @@ This integration connects SpiralSafe with open-source AI models optimized for ed
 
 ### Tier 1: Production Ready
 
-| Model | Parameters | Use Case | Platform |
-|-------|------------|----------|----------|
-| Qwen2.5 | 0.5B-72B | General, Code | Ollama, vLLM |
-| Mistral | 7B-22B | EU-compliant | Ollama, API |
-| DeepSeek-V3 | 37B-671B | Code, Math | Ollama, API |
-| Gemma 2 | 2B-27B | Mobile, Edge | Ollama, MLX |
-| Phi-3/4 | 3.8B-14B | Phone, Edge | Ollama, ONNX |
+| Model       | Parameters | Use Case      | Platform     |
+| ----------- | ---------- | ------------- | ------------ |
+| Qwen2.5     | 0.5B-72B   | General, Code | Ollama, vLLM |
+| Mistral     | 7B-22B     | EU-compliant  | Ollama, API  |
+| DeepSeek-V3 | 37B-671B   | Code, Math    | Ollama, API  |
+| Gemma 2     | 2B-27B     | Mobile, Edge  | Ollama, MLX  |
+| Phi-3/4     | 3.8B-14B   | Phone, Edge   | Ollama, ONNX |
 
 ### Tier 2: Cutting Edge
 
-| Model | Parameters | Specialty | Notes |
-|-------|------------|-----------|-------|
-| Yi-Lightning | 6B-34B | Multilingual | Chinese + English |
-| Command R+ | 35B-104B | RAG, Search | Cohere-backed |
-| Mixtral-8x22B | 141B | MoE Efficiency | 8 experts |
-| SmolLM2 | 135M-1.7B | Ultra-light | Phone-first |
+| Model         | Parameters | Specialty      | Notes             |
+| ------------- | ---------- | -------------- | ----------------- |
+| Yi-Lightning  | 6B-34B     | Multilingual   | Chinese + English |
+| Command R+    | 35B-104B   | RAG, Search    | Cohere-backed     |
+| Mixtral-8x22B | 141B       | MoE Efficiency | 8 experts         |
+| SmolLM2       | 135M-1.7B  | Ultra-light    | Phone-first       |
 
 ---
 
 ## Features
 
-| Feature | Status | Description |
-|---------|--------|-------------|
-| Ollama Runtime | ✓ Ready | Local model serving via unified API |
-| Qwen Integration | ✓ Ready | Alibaba's leading OSS model |
-| Mobile Deployment | ✓ Ready | iOS/Android via ONNX/MLX |
-| Quantization | ✓ Ready | 4-bit, 8-bit for efficiency |
-| Offline Mode | ✓ Ready | No internet required |
-| Multi-model | ✓ Ready | Run multiple models simultaneously |
+| Feature           | Status  | Description                         |
+| ----------------- | ------- | ----------------------------------- |
+| Ollama Runtime    | ✓ Ready | Local model serving via unified API |
+| Qwen Integration  | ✓ Ready | Alibaba's leading OSS model         |
+| Mobile Deployment | ✓ Ready | iOS/Android via ONNX/MLX            |
+| Quantization      | ✓ Ready | 4-bit, 8-bit for efficiency         |
+| Offline Mode      | ✓ Ready | No internet required                |
+| Multi-model       | ✓ Ready | Run multiple models simultaneously  |
 
 ---
 
@@ -227,21 +227,21 @@ response = generate(model, tokenizer, prompt, max_tokens=500)
 
 ### By Hardware
 
-| Device | RAM | Recommended Models |
-|--------|-----|--------------------|
-| iPhone/Android | 4-6GB | Phi-3-mini, SmolLM2 |
-| MacBook M1/M2 | 8-16GB | Qwen2.5:7b, Mistral:7b |
-| Desktop GPU | 16-24GB | Qwen2.5:14b, DeepSeek-coder |
-| Server | 48GB+ | Qwen2.5:72b, Mixtral-8x22B |
+| Device         | RAM     | Recommended Models          |
+| -------------- | ------- | --------------------------- |
+| iPhone/Android | 4-6GB   | Phi-3-mini, SmolLM2         |
+| MacBook M1/M2  | 8-16GB  | Qwen2.5:7b, Mistral:7b      |
+| Desktop GPU    | 16-24GB | Qwen2.5:14b, DeepSeek-coder |
+| Server         | 48GB+   | Qwen2.5:72b, Mixtral-8x22B  |
 
 ### By Use Case
 
-| Task | Best Models |
-|------|-------------|
-| Wave Analysis | Qwen2.5, Mistral |
-| Code Review | DeepSeek-coder, Qwen-coder |
-| Documentation | Phi-3, Gemma-2 |
-| Quick Response | SmolLM2, Phi-mini |
+| Task           | Best Models                |
+| -------------- | -------------------------- |
+| Wave Analysis  | Qwen2.5, Mistral           |
+| Code Review    | DeepSeek-coder, Qwen-coder |
+| Documentation  | Phi-3, Gemma-2             |
+| Quick Response | SmolLM2, Phi-mini          |
 
 ---
 
@@ -262,6 +262,7 @@ response = generate(model, tokenizer, prompt, max_tokens=500)
 ## Cutting-Edge Updates (2026)
 
 Recent models to watch:
+
 - **Qwen2.5**: State-of-the-art at every size tier
 - **DeepSeek-V3**: Best open-source reasoning
 - **Phi-4**: Microsoft's latest small model
@@ -271,4 +272,4 @@ Recent models to watch:
 ---
 
 **H&&S:WAVE** | Hope&&Sauced
-*Open Source AI Integration Through Protocol*
+_Open Source AI Integration Through Protocol_

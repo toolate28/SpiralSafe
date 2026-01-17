@@ -18,6 +18,7 @@ Major release with production readiness verification.
 ## Key Highlights
 
 This release marked a significant milestone in SpiralSafe's development, including:
+
 - Production readiness verification
 - Comprehensive system testing
 - Documentation consolidation

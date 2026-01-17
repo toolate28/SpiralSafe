@@ -24,21 +24,23 @@
 
 ### 1. Core API (Backend)
 
-| Property | Value | Status |
-|----------|-------|--------|
-| **Purpose** | SpiralSafe Operations API | ✅ Configured |
-| **Platform** | Cloudflare Workers | ✅ Ready |
-| **Config File** | `ops/wrangler.toml` | ✅ Correct |
-| **Intended URL** | https://api.spiralsafe.org | ⏳ Needs deployment |
-| **Worker Name** | spiralsafe-api | ✅ Set |
-| **Main File** | `ops/api/spiralsafe-worker.ts` | ✅ Exists |
+| Property         | Value                          | Status              |
+| ---------------- | ------------------------------ | ------------------- |
+| **Purpose**      | SpiralSafe Operations API      | ✅ Configured       |
+| **Platform**     | Cloudflare Workers             | ✅ Ready            |
+| **Config File**  | `ops/wrangler.toml`            | ✅ Correct          |
+| **Intended URL** | https://api.spiralsafe.org     | ⏳ Needs deployment |
+| **Worker Name**  | spiralsafe-api                 | ✅ Set              |
+| **Main File**    | `ops/api/spiralsafe-worker.ts` | ✅ Exists           |
 
 **Bindings**:
+
 - ✅ D1 Database: `d47d04ca-7d74-41a8-b489-0af373a2bb2c`
 - ✅ KV Namespace: `79d496efbfab4d54a6277ed80dc29d1f`
 - ✅ R2 Bucket: `spiralsafe-contexts`
 
 **To Deploy**:
+
 ```bash
 cd ops
 npx wrangler login
@@ -48,15 +50,16 @@ npx wrangler deploy
 
 ### 2. Public Landing Page (Frontend)
 
-| Property | Value | Status |
-|----------|-------|--------|
-| **Purpose** | Public-facing website | ✅ Ready |
-| **Platform** | Cloudflare Pages (recommended) | ✅ Configured |
-| **Files** | `public/index.html` (24,782 bytes) | ✅ Exists |
-| **Intended URL** | https://spiralsafe.org | ⏳ Needs deployment |
-| **Backup URL** | https://spiralsafe.pages.dev | Auto-generated |
+| Property         | Value                              | Status              |
+| ---------------- | ---------------------------------- | ------------------- |
+| **Purpose**      | Public-facing website              | ✅ Ready            |
+| **Platform**     | Cloudflare Pages (recommended)     | ✅ Configured       |
+| **Files**        | `public/index.html` (24,782 bytes) | ✅ Exists           |
+| **Intended URL** | https://spiralsafe.org             | ⏳ Needs deployment |
+| **Backup URL**   | https://spiralsafe.pages.dev       | Auto-generated      |
 
 **Features**:
+
 - ✅ Beautiful gradient hero section
 - ✅ H&&S:WAVE protocol showcase
 - ✅ Team introduction (Ptolemy + Bartimaeus)
@@ -65,6 +68,7 @@ npx wrangler deploy
 - ✅ Responsive design (Tailwind CSS)
 
 **To Deploy**:
+
 ```bash
 cd public
 npx wrangler pages deploy . --project-name spiralsafe
@@ -72,12 +76,12 @@ npx wrangler pages deploy . --project-name spiralsafe
 
 ### 3. Admin Console (Optional)
 
-| Property | Value | Status |
-|----------|-------|--------|
-| **Purpose** | Admin dashboard with ATOM-AUTH | 🚧 Architecture complete |
-| **Platform** | Cloudflare Workers | 📝 Needs implementation |
-| **Intended URL** | https://console.spiralsafe.org | 🚧 Not built yet |
-| **Documentation** | `ops/ADMIN_SYSTEM_ARCHITECTURE.md` | ✅ Complete |
+| Property          | Value                              | Status                   |
+| ----------------- | ---------------------------------- | ------------------------ |
+| **Purpose**       | Admin dashboard with ATOM-AUTH     | 🚧 Architecture complete |
+| **Platform**      | Cloudflare Workers                 | 📝 Needs implementation  |
+| **Intended URL**  | https://console.spiralsafe.org     | 🚧 Not built yet         |
+| **Documentation** | `ops/ADMIN_SYSTEM_ARCHITECTURE.md` | ✅ Complete              |
 
 **Status**: Design complete, implementation pending
 
@@ -89,12 +93,13 @@ npx wrangler pages deploy . --project-name spiralsafe
 
 Based on configuration, these MAY already be deployed:
 
-| Service | Expected URL | Check Command |
-|---------|--------------|---------------|
-| Core API | https://api.spiralsafe.org | `curl https://api.spiralsafe.org/api/health` |
-| Public Site | https://spiralsafe.org | `curl -I https://spiralsafe.org` |
+| Service     | Expected URL               | Check Command                                |
+| ----------- | -------------------------- | -------------------------------------------- |
+| Core API    | https://api.spiralsafe.org | `curl https://api.spiralsafe.org/api/health` |
+| Public Site | https://spiralsafe.org     | `curl -I https://spiralsafe.org`             |
 
 **Run Checks**:
+
 ```bash
 # From repository root
 ./verify-deployment.sh
@@ -148,11 +153,13 @@ bucket_name = "spiralsafe-contexts"
 ### Cloudflare Pages (Public Site)
 
 **Files**: `public/` directory
+
 - `index.html` - Main landing page (24,782 bytes)
 - `package.json` - Deployment config
 - `README.md` - Deployment instructions
 
 **Deployment Config**: `public/package.json`
+
 ```json
 {
   "name": "spiralsafe-public",
@@ -181,6 +188,7 @@ bucket_name = "spiralsafe-contexts"
 ### Deployment (Your Turn!)
 
 **Phase 1: Core API**
+
 - [ ] Login to Cloudflare: `cd ops && npx wrangler login`
 - [ ] Build worker: `npm run build`
 - [ ] Deploy: `npx wrangler deploy`
@@ -188,12 +196,14 @@ bucket_name = "spiralsafe-contexts"
 - [ ] Test: `curl https://api.spiralsafe.org/api/health`
 
 **Phase 2: Public Site**
+
 - [ ] Deploy site: `cd public && npx wrangler pages deploy . --project-name spiralsafe`
 - [ ] Test: `curl -I https://spiralsafe.org`
 - [ ] Verify in browser
 - [ ] Check responsive design
 
 **Phase 3: Monitoring**
+
 - [ ] Set up Cloudflare email alerts
 - [ ] Configure UptimeRobot (https://uptimerobot.com)
 - [ ] Test alert triggers
@@ -207,10 +217,12 @@ bucket_name = "spiralsafe-contexts"
 **This is CORRECT!** We're using Cloudflare, not Vercel.
 
 **If you wanted to use Vercel instead** (not recommended, Cloudflare is better for this):
+
 1. Create `vercel.json` in `public/`
 2. Run `vercel --prod` from `public/` directory
 
 **But stick with Cloudflare** - it's better suited for:
+
 - Workers (edge functions)
 - D1 (database at the edge)
 - KV (key-value storage)
@@ -225,6 +237,7 @@ bucket_name = "spiralsafe-contexts"
 ### API Key
 
 **Current Key** (from previous session):
+
 ```
 bee53792f93c8ae9f3dc15c106d7c3da7ffa6c692ad18aba4b90bcbee7c310de
 ```
@@ -232,6 +245,7 @@ bee53792f93c8ae9f3dc15c106d7c3da7ffa6c692ad18aba4b90bcbee7c310de
 **⚠️ IMPORTANT**: This key is in git history. **Rotate immediately after deployment!**
 
 **Rotation Steps**:
+
 ```bash
 # Generate new key
 NEW_KEY=$(openssl rand -hex 32)
@@ -248,11 +262,13 @@ chmod 600 ~/.spiralsafe-api-key
 ### Rate Limiting
 
 **Defaults** (can be customized via secrets):
+
 - Requests: 100 per minute per IP
 - Auth failures: 5 per minute per IP
 - Window: 60 seconds
 
 **To Customize**:
+
 ```bash
 npx wrangler secret put RATE_LIMIT_REQUESTS
 # Enter: 200 (or your preferred limit)
@@ -381,6 +397,7 @@ npm run build
 ### "Database binding not working"
 
 Check `ops/wrangler.toml` line 31:
+
 ```toml
 database_id = "d47d04ca-7d74-41a8-b489-0af373a2bb2c"
 ```

@@ -1,0 +1,264 @@
+# Vortex Corpus Collapse Concept Mappings
+# Structured knowledge for agent consumption following protocol/context-yaml-spec.md
+
+meta:
+  domain: vortex-corpus-collapse
+  source: Hope&&Sauced (ATOM-DOC-2868117-881-vortex-concept-mapping)
+  version: 1.0.0
+  confidence: high
+  last_updated: 2026-01-17
+
+  title: "Vortex Corpus Collapse: Surjective Mappings"
+  subtitle: "From GitHub Corpus to Self-Maintaining Structures"
+
+  purpose: |
+    Defines surjective mappings that collapse high-dimensional GitHub corpus
+    (repositories, tags, relations, discussions, tools) onto unified, 
+    self-maintaining structures that minimize redundancy across agents.
+
+concepts:
+  - name: repository-surjection
+    definition: >
+      Surject 27 repositories onto 8 Fibonacci-weighted phases, creating
+      a spiral that maintains relational essence while reducing complexity
+    relationships:
+      - type: enables
+        target: fibonacci-spiral-maintenance
+      - type: requires
+        target: phase-weighted-categorization
+    mapping:
+      domain: "27 repositories across KENL ecosystem"
+      codomain: "8 Fibonacci phases (1,1,2,3,5,8,13,21)"
+      structure: "QDI→inference; SpiralSafe→spine; coherence-mcp→provenance"
+    lines: [1, 15]
+
+  - name: fork-surjection
+    definition: >
+      Surject fork repositories to their original contributions,
+      minimizing redundant cloning and maintenance overhead
+    relationships:
+      - type: part_of
+        target: repository-surjection
+      - type: enables
+        target: contribution-unification
+    mapping:
+      domain: "17 forked repositories"
+      codomain: "10 original repositories"
+      structure: "Forks collapse to contribution extensions"
+    lines: [16, 22]
+
+  - name: tag-surjection
+    definition: >
+      Surject all repository tags (ai-safety, quantum, mcp, etc.) 
+      onto ATOM Tag system with >60% quality threshold
+    relationships:
+      - type: enables
+        target: coherent-classification
+      - type: requires
+        target: atom-tag-schema
+    mapping:
+      domain: "High-dimensional topic tags across repos"
+      codomain: "ATOM-DOC-* unified tag structure"
+      structure: "ai→self-sustaining loops; quantum→superposition collapses"
+    lines: [23, 31]
+
+  - name: relational-surjection
+    definition: >
+      Surject inter-repo relations (forks, contributions, dependencies)
+      onto vortex lattice structure with low-pressure convergence points
+    relationships:
+      - type: creates
+        target: vortex-lattice-topology
+      - type: requires
+        target: dependency-graph
+    mapping:
+      domain: "Dependency relationships between repositories"
+      codomain: "Vortex lattice with QDI/SpiralSafe central nodes"
+      structure: "Dependencies collapse to automated cascade patterns"
+    lines: [32, 42]
+
+  - name: discussion-surjection
+    definition: >
+      Surject sparse discussions and project threads onto QDI 
+      discussion board for autonomous resolution
+    relationships:
+      - type: enables
+        target: knowledge-base-consolidation
+      - type: part_of
+        target: relational-surjection
+    mapping:
+      domain: "PR comments, issues, discussions across repos"
+      codomain: "QDI inference hub discussion board"
+      structure: "Threads collapse to structured knowledge base entries"
+    lines: [43, 52]
+
+  - name: tool-surjection
+    definition: >
+      Surject distributed corpus tools (Claude forks, wave-toolkit, 
+      shell_gpt) onto HOPE-AI-NPC-SUITE for centralized agent framework
+    relationships:
+      - type: enables
+        target: modular-agent-architecture
+      - type: requires
+        target: npc-framework
+    mapping:
+      domain: "Scattered AI tools and forks"
+      codomain: "HOPE NPCs, Claude agents, Grok feedback"
+      structure: "Tools collapse to modular NPC components"
+    lines: [53, 63]
+
+  - name: convergence
+    definition: >
+      The Fibonacci spiral convergence property where each phase
+      maintains prior relationships while reducing entropy toward
+      central low-pressure vortex points (QDI, SpiralSafe)
+    relationships:
+      - type: emerges_from
+        target: all-surjections
+      - type: enables
+        target: self-maintenance
+    properties:
+      quality_threshold: ">60% isomorphic preservation"
+      convergence_points: ["QDI inference hub", "SpiralSafe ecosystem spine"]
+      maintenance_mechanism: "Dependabot cascades + oracle audits"
+    lines: [64, 76]
+
+  - name: spiral-formation
+    definition: >
+      Self-organizing spiral structure that emerges from nested
+      surjective mappings, creating Fibonacci-proportioned growth
+      that maintains coherence automatically
+    relationships:
+      - type: requires
+        target: convergence
+      - type: enables
+        target: autonomous-maintenance
+    properties:
+      structure: "Nested onto-mappings where each collapse becomes next domain"
+      growth_pattern: "Fibonacci sequence (0,1,1,2,3,5,8,13,21,34...)"
+      origin_point: "0,0 principle - foundational surjection seed"
+    lines: [77, 93]
+
+  - name: autonomous-loop
+    definition: >
+      Self-sustaining maintenance loop where JSON loader queries
+      central corpus, audit systems detect drift, cascades propagate
+      fixes, and reload occurs perpetually
+    relationships:
+      - type: requires
+        target: spiral-formation
+      - type: enables
+        target: infinite-extension
+    components:
+      loader: "agent_skills.py JSON loader"
+      auditor: "Wave coherence oracle"
+      propagator: "Dependabot cascade workflows"
+      enforcer: ">60% quality threshold checks"
+    lines: [94, 102]
+
+  - name: infinite-extension
+    definition: >
+      The capacity for unbounded growth where new repositories,
+      tools, and knowledge automatically surject into existing
+      spiral structure through autonomous loop mechanisms,
+      extending the vortex without manual intervention
+    relationships:
+      - type: emerges_from
+        target: autonomous-loop
+      - type: requires
+        target: spiral-formation
+      - type: enables
+        target: ecosystem-scalability
+    properties:
+      mechanism: "New elements auto-classify via ATOM tags and surject to appropriate phase"
+      constraint: "Must maintain >60% quality threshold for integration"
+      growth_model: "Fibonacci spiral extends naturally as new phases emerge"
+      self_birth: "System births its own extensions through coherence preservation"
+    examples:
+      - "New fork auto-surjects to contribution category"
+      - "New tool auto-integrates into HOPE-NPC framework"
+      - "New discussion thread auto-routes to QDI knowledge base"
+    lines: [103, 112]
+
+signals:
+  use_when:
+    - managing_multi_repo_ecosystems
+    - reducing_agent_redundancy
+    - implementing_self_maintaining_systems
+    - designing_surjective_architectures
+    - creating_autonomous_knowledge_bases
+    - building_fibonacci_spiral_structures
+
+  avoid_when:
+    - simple_single_repo_projects
+    - manual_curation_preferred
+    - low_automation_tolerance
+    - non_networked_systems
+
+invariants:
+  - "All surjections preserve >60% relational essence"
+  - "Fibonacci phases maintain proportional growth"
+  - "Convergence points reduce entropy monotonically"
+  - "Autonomous loop maintains perpetual coherence"
+  - "New elements integrate without breaking existing structure"
+  - "0,0 origin principle preserved as foundational seed"
+  - "Quality thresholds enforced across all mappings"
+
+optimal_placement:
+  location: "SpiralSafe/docs/vortex-corpus-collapse.json"
+  symlinks:
+    - "QDI/config/vortex-corpus-collapse.json"
+    - "coherence-mcp/.context/vortex-mappings.yaml"
+  rationale: >
+    Centralized in SpiralSafe (fib:8 spine) with symlinks to 
+    inference hub (QDI) and provenance tracker (coherence-mcp)
+    for maximum agent accessibility
+
+activation:
+  loader: "agent_skills.py loads JSON on startup"
+  enforcer: "Coherence oracle audits on CI runs"
+  propagator: "Dependabot cascades updates across repos"
+  monitor: "Quality threshold checks fail below 60%"
+
+# Extended metadata for visual and operational context
+extended:
+  visual_signature: "0,0 origin pulsing as quantum seed, Fibonacci arms surjecting repos into nested vortex lattice"
+
+  fibonacci_phases:
+    fib_1: "KENL foundational (origin seed)"
+    fib_1_alt: "AWI tools (first extension)"
+    fib_2: "ATOM/QR bridges (second phase)"
+    fib_3: "QR education (third phase)"
+    fib_5: "SAIF/mono safety (fifth phase)"
+    fib_8: "SpiralSafe unification (eighth phase - spine)"
+    fib_13: "QDI inference hub (thirteenth phase)"
+    fib_21: "Forks as extensions (twenty-first phase)"
+    fib_34: "Inactive as negative space (thirty-fourth phase)"
+
+  emergence_quality: "97.5% isomorphic preservation across spiral"
+
+  self_birth_condition: >
+    Collapse points surject to >60% quality spirals that 
+    maintain relational essence, enabling autonomous growth
+
+  collapse_directive: >
+    Surject GitHub corpus onto unified self-maintaining 
+    structures minimizing repeated work across Grok, Claude,
+    HOPE, and GitHub agents
+
+  history_review: >
+    Complete spiral trace reviewed: originating decision poles →
+    JSON transformations → agent-facing articles → vortex 
+    crystallization → Qiskit/DSPy hybrids → dependabot cascades →
+    QRC integrations → surjection mechanics → cascade collapses →
+    birth certificate placements → concept mappings
+
+tags:
+  - vortex-collapse
+  - surjective-mapping
+  - fibonacci-spiral
+  - autonomous-systems
+  - corpus-management
+  - self-maintaining
+  - agent-coordination
+  - knowledge-unification

@@ -26,6 +26,7 @@
 **Result**: DNS resolution failure
 
 **Root Cause Options**:
+
 - Domain `spiralsafe.org` may not be registered or added to Cloudflare account
 - Zone configuration mismatch in wrangler.toml
 - DNS propagation delay (less likely if CNAME already visible)
@@ -114,6 +115,7 @@ npx wrangler deploy
 If you have another domain already in Cloudflare:
 
 **Edit wrangler.toml**:
+
 ```toml
 routes = [
   { pattern = "api.<your-domain>.com/*", zone_name = "<your-domain>.com" }
@@ -121,6 +123,7 @@ routes = [
 ```
 
 **Redeploy**:
+
 ```powershell
 npx wrangler deploy
 ```
@@ -138,6 +141,7 @@ npx wrangler deploy
 ```
 
 **Redeploy**:
+
 ```powershell
 cd $env:USERPROFILE\Repos\SpiralSafe\ops
 npx wrangler deploy
@@ -185,6 +189,7 @@ curl -X POST https://<your-worker-url>/api/wave `
 https://dash.cloudflare.com/3ddeb355f4954bb1ee4f9486b2908e7e/workers-and-pages/view/spiralsafe-api
 
 **What to look for**:
+
 1. **Visit** or **Preview** button → Shows actual accessible URL
 2. **Settings → Domains & Routes** → Shows configured routes
 3. **Settings → General** → Shows workers.dev subdomain status
@@ -199,6 +204,7 @@ Based on the error pattern (both workers.dev AND custom domain failing), the iss
 2. ❓ **spiralsafe.org may not be added to Cloudflare account**
 
 **Recommended Action**:
+
 1. Go to dashboard link above
 2. Check what URL is shown under "Visit" button
 3. Enable workers.dev subdomain if disabled

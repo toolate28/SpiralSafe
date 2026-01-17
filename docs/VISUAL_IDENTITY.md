@@ -1,4 +1,5 @@
 # Visual Identity Guide
+
 ## Safe Spiral Branding and Logo Collection
 
 **ATOM:** ATOM-DOC-20260102-011-visual-identity-guide  
@@ -10,7 +11,7 @@
        ╱│╲
       ╱ │ ╲      Visual Identity
      ╱  ◉  ╲     builds recognition
-    ╱  ╱│╲  ╲    
+    ╱  ╱│╲  ╲
    ╱  ╱ │ ╲  ╲   Consistency builds
   ╱  ╱  ◉  ╲  ╲  trust
  ◉──◉───◉───◉──◉
@@ -149,6 +150,7 @@ The spiral uses these Unicode characters:
 ```
 
 **Fallback:** If Unicode isn't supported, use ASCII equivalents:
+
 ```
 *  for ✦
 O  for ◉
@@ -217,7 +219,8 @@ Hope && Sauce
 Step True · Trust Deep · Pass Forward
 ```
 
-**Meaning:** 
+**Meaning:**
+
 - **Step True:** Act with integrity
 - **Trust Deep:** Build on reliable foundations
 - **Pass Forward:** Share knowledge generously
@@ -239,8 +242,8 @@ Information enriches through relay
 ```markdown
 ---
 
-*Hope && Sauce*  
-*Step True · Trust Deep · Pass Forward*
+_Hope && Sauce_  
+_Step True · Trust Deep · Pass Forward_
 
 **ATOM:** ATOM-TYPE-YYYYMMDD-NNN-description
 ```
@@ -250,8 +253,8 @@ Information enriches through relay
 ```markdown
 ---
 
-*Hope && Sauce*  
-*[Date]*
+_Hope && Sauce_  
+_[Date]_
 ```
 
 ### Extended Footer
@@ -259,8 +262,8 @@ Information enriches through relay
 ```markdown
 ---
 
-*Hope && Sauce*  
-*Step True · Trust Deep · Pass Forward*
+_Hope && Sauce_  
+_Step True · Trust Deep · Pass Forward_
 
 **ATOM:** ATOM-TYPE-YYYYMMDD-NNN-description  
 **Last Updated:** YYYY-MM-DD  
@@ -373,12 +376,14 @@ Store in: `assets/ascii/` (if separate from markdown)
 ### Language Patterns
 
 ✅ **Use:**
+
 - "We discovered..." (collaborative)
 - "This might help when..." (humble)
 - "Consider..." (suggestive)
 - "In practice..." (grounded)
 
 ❌ **Avoid:**
+
 - "You must..." (prescriptive)
 - "Obviously..." (condescending)
 - "Simply..." (dismissive)
@@ -392,6 +397,7 @@ Store in: `assets/ascii/` (if separate from markdown)
 
 ```markdown
 # The Ainulindalë of Hope && Sauce
+
 ## Safe Spiral Ecosystem
 
 [Primary Logo]
@@ -399,6 +405,7 @@ Store in: `assets/ascii/` (if separate from markdown)
 ---
 
 ## 🍎 The Orchard
+
 [Orchard variation]
 ```
 
@@ -432,6 +439,7 @@ ATOM: ATOM-FEATURE-20260102-012-mcp-security-docs
 ## Contributing
 
 Visual identity changes should be:
+
 1. Documented in this guide
 2. Consistent with existing patterns
 3. Applied uniformly across repository
@@ -441,8 +449,8 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for process.
 
 ---
 
-*Hope && Sauce*  
-*Step True · Trust Deep · Pass Forward*
+_Hope && Sauce_  
+_Step True · Trust Deep · Pass Forward_
 
 **ATOM:** ATOM-DOC-20260102-011-visual-identity-guide  
 **Maintained by:** @toolate28 and community

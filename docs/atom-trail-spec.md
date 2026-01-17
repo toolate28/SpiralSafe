@@ -8,6 +8,7 @@ status: draft
 This file is a placeholder for the ATOM trail format specification. It was created to satisfy an internal link from `bridges/README.md`.
 
 TODO: Replace this stub with the full ATOM format spec. Suggested contents:
+
 - entry timestamp format (ISO 8601)
 - entry type (INFO|ERROR|STATUS|CONFIG)
 - message field

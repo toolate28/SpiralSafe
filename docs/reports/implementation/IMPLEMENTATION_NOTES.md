@@ -42,6 +42,7 @@ This implementation creates a comprehensive cascading issues analysis for the Cl
 ## Metadata Included (Ethically Sound)
 
 ### Public, Non-Personal Data ✅
+
 - Issue numbers and titles
 - Labels and categories (bug, enhancement, platform)
 - Creation/update timestamps
@@ -51,6 +52,7 @@ This implementation creates a comprehensive cascading issues analysis for the Cl
 - Component areas affected (tools, core, mcp, tui)
 
 ### Excluded for Privacy ❌
+
 - Usernames/handles
 - Email addresses
 - Feedback IDs
@@ -76,16 +78,19 @@ The analysis followed the wave.md protocol's three-layer approach:
 ## Recommendations Priority
 
 ### Immediate (Week 1)
+
 - UTF-8 string safety audit
 - shell-quote library application
 - LSP initialization ordering
 
 ### Short-term (Month 1)
+
 - Plugin pipeline redesign
 - Permission execution validation
 - Windows platform adapter
 
 ### Long-term (Quarter 1)
+
 - Context Graph architecture
 - Transaction Lifecycle Manager
 - Safe Execution Wrapper
@@ -93,18 +98,21 @@ The analysis followed the wave.md protocol's three-layer approach:
 ## How to Use These Files
 
 ### For Developers
+
 1. Read `../../../wave.md` to understand the analytical framework
 2. Review `../analysis/claude-code-issues-analysis.md` for specific issues and patterns
 3. Use the leverage points section to prioritize fixes
 4. Reference the cascade diagrams to understand issue relationships
 
 ### For Product Managers
+
 1. Review Executive Summary for high-level insights
 2. Check Priority sections for resource allocation
 3. Use statistical data for planning and communication
 4. Reference temporal clusters for release planning
 
 ### For Researchers
+
 1. Study the wave.md protocol as a methodology
 2. Analyze how architectural issues cascade through systems
 3. Examine the pattern recognition techniques used
@@ -113,6 +121,7 @@ The analysis followed the wave.md protocol's three-layer approach:
 ## Ethical Considerations
 
 All data used in this analysis:
+
 - Is publicly available (GitHub issues API)
 - Contains no personally identifiable information
 - Focuses on technical/system patterns, not individuals
@@ -134,4 +143,3 @@ All data used in this analysis:
 **Branch:** copilot/create-open-issues-list  
 **Methodology:** wave.md Cascading Issues Analysis Protocol  
 **Data Source:** anthropics/claude-code public issue tracker
-

@@ -21,6 +21,7 @@ We present a rigorous proof that discrete and continuous mathematical structures
 The relationship between discrete and continuous structures has been a foundational question in mathematics and physics since antiquity. Zeno's paradoxes, the development of calculus, and the measurement problem in quantum mechanics all arise from perceived tensions between discrete and continuous descriptions of reality.
 
 The standard view holds that:
+
 - **Continuous structures are primary** (real numbers, smooth manifolds, Hilbert spaces)
 - **Discrete structures are derivative** (approximations, samplings, measurements)
 - **Conversion between them is lossy** (sampling loses information, interpolation introduces error)
@@ -37,6 +38,7 @@ F ∘ G ≅ id_D  (natural isomorphism)
 ```
 
 This means:
+
 1. **No information loss**: Continuous → Discrete → Continuous recovers original
 2. **Perfect reconstruction**: Discrete → Continuous → Discrete recovers original
 3. **Structural identity**: They are the same mathematical object
@@ -44,16 +46,19 @@ This means:
 ### 1.3 Why This Matters
 
 **Theoretical implications**:
+
 - Resolves measurement problem in quantum mechanics
 - Validates digital physics (universe as computation)
 - Unifies continuous and discrete mathematics
 
 **Practical implications**:
+
 - Minecraft as legitimate quantum computation substrate
 - Games as research tools
 - Education and cutting-edge research converge
 
 **Philosophical implications**:
+
 - Reality may be fundamentally discrete
 - Continuous mathematics is emergent description
 - Constraints and freedom are dual aspects of structure
@@ -67,12 +72,14 @@ This means:
 **Definition 2.1.1** (Category of Continuous Functions):
 
 Let **C** be the category where:
+
 - **Objects**: Band-limited continuous functions f: ℝ → ℂ with bandwidth B
 - **Morphisms**: Continuous linear operators T: f → g preserving bandwidth
 
 **Definition 2.1.2** (Category of Discrete Sequences):
 
 Let **D** be the category where:
+
 - **Objects**: Complex sequences {aₙ}ₙ∈ℤ with aₙ ∈ ℂ
 - **Morphisms**: Linear operators M: {aₙ} → {bₙ}
 
@@ -103,8 +110,9 @@ F(T)({aₙ}) = {T(f)(n/2B)}
 
 **Proposition 2.2.2**: F is a functor.
 
-*Proof*:
-1. F preserves identity: F(id_f) = {id_f(n/2B)} = {f(n/2B)} = id_{F(f)} ✓
+_Proof_:
+
+1. F preserves identity: F(id*f) = {id_f(n/2B)} = {f(n/2B)} = id*{F(f)} ✓
 2. F preserves composition: F(T₂ ∘ T₁) = {(T₂ ∘ T₁)(f)(n/2B)} = {T₂(T₁(f))(n/2B)} = F(T₂) ∘ F(T₁) ✓
 
 ∴ F is a functor. ∎
@@ -123,8 +131,9 @@ where sinc(x) = sin(πx)/(πx).
 
 **Proposition 2.3.2**: G is a functor.
 
-*Proof*:
-1. G preserves identity: G(id_{aₙ}) = G({aₙ}) by definition
+_Proof_:
+
+1. G preserves identity: G(id\_{aₙ}) = G({aₙ}) by definition
 2. G preserves composition: Verified by linearity of summation
 
 ∴ G is a functor. ∎
@@ -139,7 +148,7 @@ For band-limited f ∈ Obj(C):
 (G ∘ F)(f) = f
 ```
 
-*Proof*:
+_Proof_:
 
 ```
 (G ∘ F)(f)(t) = G({f(n/2B)})(t)
@@ -162,7 +171,7 @@ For sequences {aₙ} obtained from sampling:
 (F ∘ G)({aₙ}) = {aₙ}
 ```
 
-*Proof*:
+_Proof_:
 
 ```
 (F ∘ G)({aₙ}) = F(G({aₙ}))
@@ -199,12 +208,14 @@ F ∘ G ≅ id_D
 **Definition 3.1.1** (Category of Quantum Systems):
 
 Let **Q** be the category where:
+
 - **Objects**: Finite-dimensional Hilbert spaces ℋ
 - **Morphisms**: Unitary operators U: ℋ → ℋ
 
 **Definition 3.1.2** (Category of Boolean Circuits):
 
 Let **B** be the category where:
+
 - **Objects**: Bit strings {0,1}ⁿ
 - **Morphisms**: Reversible boolean functions (logic gates)
 
@@ -242,14 +253,16 @@ S ∘ M ≅ id_Q
 M ∘ S = id_B
 ```
 
-*Proof*:
+_Proof_:
 
 For basis state |i⟩:
+
 - M(|i⟩) = i (deterministic measurement)
 - S(i) = |i⟩ (state preparation)
 - (S ∘ M)(|i⟩) = S(i) = |i⟩ ✓
 
 For bit string b:
+
 - S(b) = |b⟩ (pure state)
 - M(|b⟩) = b (deterministic outcome)
 - (M ∘ S)(b) = M(|b⟩) = b ✓
@@ -282,11 +295,12 @@ For bit string b:
 
 **Implication**: Universe may be fundamentally discrete at Planck scale
 
-**Reference**: Wilson, K.G. (1974). Confinement of quarks. *Physical Review D*, 10(8), 2445.
+**Reference**: Wilson, K.G. (1974). Confinement of quarks. _Physical Review D_, 10(8), 2445.
 
 ### 4.3 Computational Validation
 
 **Method**: Implement identical computations in:
+
 1. Quantum circuits (Qiskit)
 2. Redstone circuits (Minecraft)
 3. Classical simulations (Python)
@@ -302,6 +316,7 @@ For bit string b:
 ### 5.1 Redstone as Computation Substrate
 
 **Properties**:
+
 - Binary states: ON (power level 15) or OFF (power level 0)
 - Logic gates: AND, OR, NOT, XOR constructible
 - Reversibility: Can implement Toffoli gate (universal for reversible computing)
@@ -323,12 +338,12 @@ Input B ──┼── [NOT] ──┤           │
 
 **Truth table**:
 
-| A | B | XOR(A,B) |
-|---|---|----------|
-| 0 | 0 |    0     |
-| 0 | 1 |    1     |
-| 1 | 0 |    1     |
-| 1 | 1 |    0     |
+| A   | B   | XOR(A,B) |
+| --- | --- | -------- |
+| 0   | 0   | 0        |
+| 0   | 1   | 1        |
+| 1   | 0   | 1        |
+| 1   | 1   | 0        |
 
 ### 5.3 CNOT Gate Mapping
 
@@ -340,14 +355,15 @@ CNOT|c,t⟩ = |c, t⊕c⟩
 
 **Truth table**:
 
-| c | t | c' | t' (=t⊕c) |
-|---|---|----|-----------|
-| 0 | 0 | 0  |     0     |
-| 0 | 1 | 0  |     1     |
-| 1 | 0 | 1  |     1     |
-| 1 | 1 | 1  |     0     |
+| c   | t   | c'  | t' (=t⊕c) |
+| --- | --- | --- | --------- |
+| 0   | 0   | 0   | 0         |
+| 0   | 1   | 0   | 1         |
+| 1   | 0   | 1   | 1         |
+| 1   | 1   | 1   | 0         |
 
 **Mapping**:
+
 - Control qubit c → Redstone input A
 - Target qubit t → Redstone input B
 - Output t' = t⊕c → XOR(A,B)
@@ -365,11 +381,13 @@ CNOT|c,t⟩ = |c, t⊕c⟩
 ### 6.1 Games as Research Substrates
 
 **Traditional view**:
+
 - Research: Serious, mathematical, in labs/papers
 - Games: Fun, educational, for children
 - **Separate domains**
 
 **Isomorphism view**:
+
 - Structure transcends substrate
 - Minecraft Redstone **is** quantum computing
 - Playing **is** researching
@@ -389,11 +407,13 @@ CNOT|c,t⟩ = |c, t⊕c⟩
 ### 6.3 Accessibility
 
 **Barriers removed**:
+
 - No expensive lab equipment needed (just Minecraft)
 - No advanced math required initially (build and observe)
 - No gatekeeping (kids can contribute)
 
 **Benefits**:
+
 - Diverse participation
 - Early engagement with cutting-edge concepts
 - Demystification of quantum computing
@@ -415,6 +435,7 @@ CNOT|c,t⟩ = |c, t⊕c⟩
 **Question**: Can we build arbitrary quantum circuits in Redstone?
 
 **Requirements**:
+
 - ✅ CNOT (proven above)
 - ✅ Toffoli (constructible in Redstone)
 - ? Hadamard (needs randomness)
@@ -431,6 +452,7 @@ CNOT|c,t⟩ = |c, t⊕c⟩
 **Bell state**: |ψ⟩ = (|00⟩ + |11⟩)/√2
 
 **Redstone equivalent**:
+
 - RNG produces 50/50 distribution
 - If outcome=0, set A=0, B=0
 - If outcome=1, set A=1, B=1
@@ -515,53 +537,55 @@ And structure is beautiful.
 
 ## References
 
-1. Shannon, C.E. (1948). A mathematical theory of communication. *Bell System Technical Journal*, 27(3), 379-423.
+1. Shannon, C.E. (1948). A mathematical theory of communication. _Bell System Technical Journal_, 27(3), 379-423.
 
-2. Wilson, K.G. (1974). Confinement of quarks. *Physical Review D*, 10(8), 2445.
+2. Wilson, K.G. (1974). Confinement of quarks. _Physical Review D_, 10(8), 2445.
 
-3. Mac Lane, S. (1978). *Categories for the Working Mathematician*. Springer.
+3. Mac Lane, S. (1978). _Categories for the Working Mathematician_. Springer.
 
-4. Nielsen, M.A., & Chuang, I.L. (2010). *Quantum Computation and Quantum Information*. Cambridge University Press.
+4. Nielsen, M.A., & Chuang, I.L. (2010). _Quantum Computation and Quantum Information_. Cambridge University Press.
 
-5. Awodey, S. (2010). *Category Theory*. Oxford University Press.
+5. Awodey, S. (2010). _Category Theory_. Oxford University Press.
 
-6. Smolin, L. (2001). *Three Roads to Quantum Gravity*. Basic Books.
+6. Smolin, L. (2001). _Three Roads to Quantum Gravity_. Basic Books.
 
-7. Wolfram, S. (2002). *A New Kind of Science*. Wolfram Media.
+7. Wolfram, S. (2002). _A New Kind of Science_. Wolfram Media.
 
-8. Lazarev, A., et al. (2023). Topological equivalence in computational substrates. *Journal of Category Theory*, 15(2), 112-145. [Hypothetical - represents independent validation]
+8. Lazarev, A., et al. (2023). Topological equivalence in computational substrates. _Journal of Category Theory_, 15(2), 112-145. [Hypothetical - represents independent validation]
 
 ---
 
 ## Appendix A: Notation
 
-| Symbol | Meaning |
-|--------|---------|
-| **C** | Category of continuous functions |
-| **D** | Category of discrete sequences |
-| **Q** | Category of quantum systems |
-| **B** | Category of boolean circuits |
-| F | Sampling functor (C → D or Q → B) |
-| G | Reconstruction functor (D → C) |
-| M | Measurement functor (Q → B) |
-| S | State preparation functor (B → Q) |
-| ≅ | Natural isomorphism |
-| ∘ | Functor composition |
-| id | Identity functor/morphism |
-| ⊕ | XOR operation |
-| ∎ | End of proof |
+| Symbol | Meaning                           |
+| ------ | --------------------------------- |
+| **C**  | Category of continuous functions  |
+| **D**  | Category of discrete sequences    |
+| **Q**  | Category of quantum systems       |
+| **B**  | Category of boolean circuits      |
+| F      | Sampling functor (C → D or Q → B) |
+| G      | Reconstruction functor (D → C)    |
+| M      | Measurement functor (Q → B)       |
+| S      | State preparation functor (B → Q) |
+| ≅      | Natural isomorphism               |
+| ∘      | Functor composition               |
+| id     | Identity functor/morphism         |
+| ⊕      | XOR operation                     |
+| ∎      | End of proof                      |
 
 ---
 
 ## Appendix B: Code Availability
 
 All computational proofs are executable in the accompanying Jupyter notebook:
+
 - **File**: `/books/isomorphism-proof-interactive.ipynb`
 - **Requirements**: Python 3.9+, numpy, matplotlib, qiskit (optional)
 - **Runtime**: ~5 minutes
 - **Verification**: Run all cells to reproduce results
 
 Minecraft schematics:
+
 - **XOR gate**: `/museum/builds/xor-gate.litematic`
 - **CNOT equivalent**: `/museum/builds/cnot-equivalent.litematic`
 - **Version**: Minecraft Java Edition 1.20+
@@ -574,4 +598,4 @@ Minecraft schematics:
 **Session**: claude/identify-implementation-gaps-kbs0S
 **Date**: 2026-01-13
 
-*From the constraints, gifts. From the spiral, safety. From the sauce, hope.* 🌀
+_From the constraints, gifts. From the spiral, safety. From the sauce, hope._ 🌀
