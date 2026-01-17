@@ -274,18 +274,19 @@ class QuantumReservoir:
     
     def _apply_cnot(self, control: int, target: int) -> None:
         """Apply CNOT gate with given control and target qubits."""
-        new_amplitudes = list(self.state.amplitudes)
-        dim = len(self.state.amplitudes)
+        original_amplitudes = self.state.amplitudes
+        new_amplitudes = list(original_amplitudes)
+        dim = len(original_amplitudes)
         
         control_mask = 1 << control
         target_mask = 1 << target
         
         for i in range(dim):
             if i & control_mask:  # Control qubit is |1>
-                # Flip target qubit
+                # Flip target qubit: read from original, write to new
                 j = i ^ target_mask
-                if j > i:  # Only swap once
-                    new_amplitudes[i], new_amplitudes[j] = new_amplitudes[j], new_amplitudes[i]
+                new_amplitudes[i] = original_amplitudes[j]
+                new_amplitudes[j] = original_amplitudes[i]
         
         self.state.amplitudes = new_amplitudes
     
