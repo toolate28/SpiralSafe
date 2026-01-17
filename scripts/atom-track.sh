@@ -12,6 +12,8 @@ if [ -z "$TYPE" ] || [ -z "$DESC" ]; then
   echo "Examples:"
   echo "  $0 DECISION \"Added CI workflow\" .github/workflows/ci.yml"
   echo "  $0 DOC \"Updated README\" issue-#42"
+  echo "  $0 FEATURE \"New feature\" #123"
+  echo "  $0 FIX \"Bug fix\" GH-456"
   exit 1
 fi
 
@@ -20,7 +22,8 @@ TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 PREFIX="ATOM-${TYPE}-${DATE}-"
 
 # Pattern for detecting issue references
-ISSUE_PATTERN="^issue-#[0-9]+$"
+# Matches: issue-#123, #123, issue-123, GH-123
+ISSUE_PATTERN="^(issue-#|#|issue-|GH-)[0-9]+$"
 
 # Create directories if they don't exist
 mkdir -p .atom-trail/decisions
@@ -56,9 +59,10 @@ FILE=""
 if [ -n "$FILE_OR_ISSUE" ]; then
   if [[ "$FILE_OR_ISSUE" =~ $ISSUE_PATTERN ]]; then
     ISSUE="$FILE_OR_ISSUE"
-  else
+  elif [ "$FILE_OR_ISSUE" != "none" ]; then
     FILE="$FILE_OR_ISSUE"
   fi
+  # If FILE_OR_ISSUE is "none", both ISSUE and FILE remain empty
 fi
 
 # Common metadata for JSON output
@@ -84,20 +88,38 @@ EOF
   echo "{\"atom_tag\":\"${ATOM_TAG}\",\"type\":\"${TYPE}\",\"description\":\"${DESC}\",\"timestamp\":\"${TIMESTAMP}\",\"issue\":\"${ISSUE}\"}" >> .claude/logs/atom-trail.jsonl
 else
   # File path or no reference format
-  cat > "$DECISION_FILE" <<EOF
+  if [ -n "$FILE" ]; then
+    # Has a file path
+    cat > "$DECISION_FILE" <<EOF
 {
   "atom_tag": "${ATOM_TAG}",
   "type": "${TYPE}",
   "description": "${DESC}",
   "timestamp": "${TIMESTAMP}",
-  "file": "${FILE:-none}",
+  "file": "${FILE}",
   "freshness_level": "fresh",
   "bedrock_eligible": false,
   "created_epoch": ${CREATED_EPOCH}
 }
 EOF
-  # Log to JSONL for easy parsing
-  echo "{\"atom_tag\":\"${ATOM_TAG}\",\"type\":\"${TYPE}\",\"description\":\"${DESC}\",\"timestamp\":\"${TIMESTAMP}\",\"file\":\"${FILE:-none}\"}" >> .claude/logs/atom-trail.jsonl
+    # Log to JSONL for easy parsing
+    echo "{\"atom_tag\":\"${ATOM_TAG}\",\"type\":\"${TYPE}\",\"description\":\"${DESC}\",\"timestamp\":\"${TIMESTAMP}\",\"file\":\"${FILE}\"}" >> .claude/logs/atom-trail.jsonl
+  else
+    # No file or issue reference (omit the field entirely for cleaner JSON)
+    cat > "$DECISION_FILE" <<EOF
+{
+  "atom_tag": "${ATOM_TAG}",
+  "type": "${TYPE}",
+  "description": "${DESC}",
+  "timestamp": "${TIMESTAMP}",
+  "freshness_level": "fresh",
+  "bedrock_eligible": false,
+  "created_epoch": ${CREATED_EPOCH}
+}
+EOF
+    # Log to JSONL for easy parsing
+    echo "{\"atom_tag\":\"${ATOM_TAG}\",\"type\":\"${TYPE}\",\"description\":\"${DESC}\",\"timestamp\":\"${TIMESTAMP}\"}" >> .claude/logs/atom-trail.jsonl
+  fi
 fi
 
 echo "${ATOM_TAG}"
