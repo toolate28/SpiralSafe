@@ -37,10 +37,18 @@ jobs:
           
           TOTAL_CURL=0
           TOTAL_DIV=0
-          TOTAL_ENTROPY=0
-          COUNT=0
-          FAILED=()
-          EXCELLENT=()
+           TOTAL_ENTROPY=0
+           COUNT=0
+           FAILED=()
+           EXCELLENT=()
+           
+           sanitize_number() {
+             if echo "$1" | grep -Eq '^-?[0-9]*\.?[0-9]+$'; then
+               echo "$1"
+             else
+               echo "0"
+             fi
+           }
           
           for file in $FILES; do
             if [ ! -f "$file" ]; then continue; fi
@@ -138,13 +146,13 @@ jobs:
           fi
           
           echo ""
-          echo "───────────────────────────────────────────────────────────────"
-          echo "  Summary: $COUNT files analyzed"
-          echo "  Average Curl (coherence): $AVG_CURL"
-          echo "  Average Divergence: $AVG_DIV"
-          echo "  Average Entropy: $AVG_ENTROPY"
-          echo "  Overall Coherence: ${AVG_COHERENCE_PCT}%"
-          echo "───────────────────────────────────────────────────────────────"
+           echo "───────────────────────────────────────────────────────────────"
+           echo "  Summary: $COUNT files analyzed"
+           echo "  Average Curl (coherence): $(sanitize_number "$AVG_CURL")"
+           echo "  Average Divergence: $(sanitize_number "$AVG_DIV")"
+           echo "  Average Entropy: $(sanitize_number "$AVG_ENTROPY")"
+           echo "  Overall Coherence: $(sanitize_number "$AVG_COHERENCE_PCT")%"
+           echo "───────────────────────────────────────────────────────────────"
           
           # Quantum-themed assessment
           COHERENCE_INT=$(echo "$AVG_COHERENCE_PCT / 1" | bc)
@@ -166,10 +174,10 @@ jobs:
           fi
           
           # Set outputs for the comment
-          echo "coherence_pct=$AVG_COHERENCE_PCT" >> $GITHUB_OUTPUT
-          echo "curl=$AVG_CURL" >> $GITHUB_OUTPUT
-          echo "divergence=$AVG_DIV" >> $GITHUB_OUTPUT
-          echo "entropy=$AVG_ENTROPY" >> $GITHUB_OUTPUT
+           echo "coherence_pct=$(sanitize_number "$AVG_COHERENCE_PCT")" >> $GITHUB_OUTPUT
+           echo "curl=$(sanitize_number "$AVG_CURL")" >> $GITHUB_OUTPUT
+           echo "divergence=$(sanitize_number "$AVG_DIV")" >> $GITHUB_OUTPUT
+           echo "entropy=$(sanitize_number "$AVG_ENTROPY")" >> $GITHUB_OUTPUT
           echo "quantum_state=$QUANTUM_STATE" >> $GITHUB_OUTPUT
           echo "gauge_level=$GAUGE_LEVEL" >> $GITHUB_OUTPUT
           echo "files_analyzed=$COUNT" >> $GITHUB_OUTPUT
