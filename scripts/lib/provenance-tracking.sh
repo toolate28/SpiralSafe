@@ -24,6 +24,14 @@ COHERENCE_TARGET=0.85  # 85% self-reinforcement target
 GATE_EVOLUTION_LOG=".atom-trail/gate-evolution.jsonl"
 
 # ═══════════════════════════════════════════════════════════════
+# Coherence Analysis Constants
+# ═══════════════════════════════════════════════════════════════
+
+DIVERGENCE_BASE=0.30
+DIVERGENCE_QUESTION_WEIGHT=0.05
+POTENTIAL_WEIGHT=0.15
+
+# ═══════════════════════════════════════════════════════════════
 # DSPy-Style Governance Primitives
 # ═══════════════════════════════════════════════════════════════
 
@@ -47,15 +55,15 @@ dspy_analyze_wave() {
         
         # Simplified coherence analysis (production would use embeddings)
         local question_count
-        question_count=$(echo "$content" | grep -o '?' | wc -l || echo 0)
+        question_count=$(grep -o '?' <<< "$content" | wc -l || echo 0)
         local conclusion_markers
-        conclusion_markers=$(echo "$content" | grep -ciE 'therefore|thus|in conclusion|finally|to summarize' || echo 0)
+        conclusion_markers=$(grep -ciE 'therefore|thus|in conclusion|finally|to summarize' <<< "$content" || echo 0)
         
         # Calculate curl (repetition/circularity)
         local unique_sentences
-        unique_sentences=$(echo "$content" | tr '.' '\n' | sort -u | wc -l)
+        unique_sentences=$(tr '.' '\n' <<< "$content" | sort -u | wc -l)
         local total_sentences
-        total_sentences=$(echo "$content" | tr '.' '\n' | wc -l)
+        total_sentences=$(tr '.' '\n' <<< "$content" | wc -l)
         if [ "$total_sentences" -gt 0 ]; then
             curl_score=$(echo "scale=2; 1 - ($unique_sentences / $total_sentences)" | bc)
         fi
@@ -64,13 +72,13 @@ dspy_analyze_wave() {
         if [ "$conclusion_markers" -gt 0 ]; then
             divergence_score="0.20"
         else
-            divergence_score=$(echo "scale=2; 0.30 + ($question_count * 0.05)" | bc)
+            divergence_score=$(echo "scale=2; $DIVERGENCE_BASE + ($question_count * $DIVERGENCE_QUESTION_WEIGHT)" | bc)
         fi
         
         # Calculate potential (development opportunities)
         local potential_markers
-        potential_markers=$(echo "$content" | grep -ciE 'could|might|perhaps|possibly|future|TODO|TBD' || echo 0)
-        potential_score=$(echo "scale=2; $potential_markers * 0.15" | bc)
+        potential_markers=$(grep -ciE 'could|might|perhaps|possibly|future|TODO|TBD' <<< "$content" || echo 0)
+        potential_score=$(echo "scale=2; $potential_markers * $POTENTIAL_WEIGHT" | bc)
         
         # Clamp to 0-1 range
         potential_score=$(echo "scale=2; if($potential_score > 1) 1 else $potential_score" | bc)
@@ -314,12 +322,19 @@ validate_provenance_trail() {
         if [ "$decision_count" -gt 0 ]; then
             validation_results+=("decisions:$decision_count:valid")
             
-            # Validate JSON integrity
+            # Validate JSON integrity using jq (fallback to python if available)
             for f in "$trail_dir/decisions"/*.json; do
                 if [ -f "$f" ]; then
-                    if ! python3 -c "import json, sys; json.load(open(sys.argv[1]))" "$f" 2>/dev/null; then
-                        validation_results+=("invalid_json:$f")
-                        all_valid=false
+                    if command -v jq &> /dev/null; then
+                        if ! jq empty "$f" 2>/dev/null; then
+                            validation_results+=("invalid_json:$f")
+                            all_valid=false
+                        fi
+                    elif command -v python3 &> /dev/null; then
+                        if ! python3 -c "import json, sys; json.load(open(sys.argv[1]))" "$f" 2>/dev/null; then
+                            validation_results+=("invalid_json:$f")
+                            all_valid=false
+                        fi
                     fi
                 fi
             done
