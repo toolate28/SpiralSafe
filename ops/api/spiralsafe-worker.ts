@@ -406,8 +406,9 @@ export default {
 // ═══════════════════════════════════════════════════════════════
 
 // Conclusion pattern for detecting resolved content
-const CONCLUSION_PATTERN = /therefore|thus|in conclusion|finally|to summarize|in summary/i;
-const CONCLUSION_PATTERN_GLOBAL = /therefore|thus|in conclusion|finally|to summarize|in summary/gi;
+const CONCLUSION_PATTERN_STRING = 'therefore|thus|in conclusion|finally|to summarize|in summary';
+const CONCLUSION_PATTERN = new RegExp(CONCLUSION_PATTERN_STRING, 'i');
+const CONCLUSION_PATTERN_GLOBAL = new RegExp(CONCLUSION_PATTERN_STRING, 'gi');
 
 // Divergence detection thresholds and weights
 const DIVERGENCE_BASE = 0.2;  // Base divergence for content with conclusions
@@ -535,7 +536,8 @@ export function detectExpansion(paragraphs: string[]): number {
   
   // Negative divergence indicators: premature closure / over-compression
   const conclusionCount = (text.match(CONCLUSION_PATTERN_GLOBAL) || []).length;
-  const avgParagraphLength = text.length / Math.max(paragraphs.length, 1);
+  // Calculate average paragraph length excluding separators for accuracy
+  const avgParagraphLength = paragraphs.reduce((sum, p) => sum + p.length, 0) / Math.max(paragraphs.length, 1);
   const hasMultipleConclusionsShortContent = conclusionCount >= NEG_DIV_MIN_CONCLUSIONS && avgParagraphLength < NEG_DIV_SHORT_CONTENT_THRESHOLD;
   const excessiveSummarization = conclusionCount > paragraphs.length * NEG_DIV_EXCESSIVE_RATIO;
   
