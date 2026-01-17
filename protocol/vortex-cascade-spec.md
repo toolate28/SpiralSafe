@@ -173,8 +173,12 @@ Stage 3:  5 (Coherence Oracle)
 Stage 4: 21 (Unified Cascade) = 13 + 8 + φ-scaling
 ```
 
-The sum (21 = 13 + 8) represents the golden ratio emergence where the
-whole is greater than the sum of its parts.
+The cascade weighting follows the Fibonacci sequence where each stage's weight
+is the sum of the two preceding stages (5 + 8 = 13, 8 + 13 = 21). The ratio
+between consecutive Fibonacci numbers converges to the golden ratio φ ≈ 1.618.
+Stage 4's weight of 21 represents the emergent property: the unified system
+contains more than the sum of its individual components (13 + 8), analogous to
+how φ appears as the limit of Fibonacci ratios (21/13 ≈ 1.615, approaching φ).
 
 ---
 

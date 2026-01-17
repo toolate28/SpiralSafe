@@ -72,6 +72,16 @@ jobs:
           echo "Coherence threshold: $THRESHOLD"
           echo ""
           
+          # ─────────────────────────────────────────────────────────────
+          # Oracle Constants (calibrated per wave-spec.md)
+          # ─────────────────────────────────────────────────────────────
+          CURL_FLAG_THRESHOLD=0.3      # Flag documents with curl > 0.3
+          DIV_FLAG_THRESHOLD=0.4       # Flag documents with divergence > 0.4
+          DIV_DEFAULT=0.15             # Default divergence for files with no questions
+          DIV_SCALE=0.5                # Scale factor for divergence calculation
+          QUALITY_COHERENCE_WEIGHT=0.7 # Weight for coherence in emergent quality
+          QUALITY_STRUCT_WEIGHT=0.3    # Weight for structure in emergent quality
+          
           # Initialize counters
           TOTAL_COHERENCE=0
           FILE_COUNT=0
@@ -103,12 +113,14 @@ jobs:
                 fi
                 
                 # Calculate curl (repetition detection)
-                SENTENCES=$(echo "$CONTENT" | tr '.' '\n' | grep -E '.{20,}' | sort)
-                UNIQUE_SENTENCES=$(echo "$SENTENCES" | uniq | wc -l)
-                TOTAL_SENTENCES=$(echo "$SENTENCES" | wc -l)
+                # Store sentences once to avoid redundant processing
+                ALL_SENTENCES=$(echo "$CONTENT" | tr '.' '\n' | grep -E '.{20,}' || true)
+                TOTAL_SENTENCES=$(echo "$ALL_SENTENCES" | wc -l)
+                UNIQUE_SENTENCES=$(echo "$ALL_SENTENCES" | sort -u | wc -l)
                 
-                if [ "$TOTAL_SENTENCES" -gt 0 ]; then
-                  CURL=$(echo "scale=3; 1 - ($UNIQUE_SENTENCES / $TOTAL_SENTENCES)" | bc)
+                if [ "$TOTAL_SENTENCES" -gt 0 ] && [ "$UNIQUE_SENTENCES" -gt 0 ]; then
+                  # Use awk for portable floating point (no bc dependency)
+                  CURL=$(awk "BEGIN {printf \"%.3f\", 1 - ($UNIQUE_SENTENCES / $TOTAL_SENTENCES)}")
                 else
                   CURL=0
                 fi
@@ -118,27 +130,24 @@ jobs:
                 RESOLVED=$(echo "$CONTENT" | grep -cE 'therefore|thus|conclusion|summary|answer|solution' || true)
                 
                 if [ "$QUESTIONS" -gt 0 ]; then
-                  DIV=$(echo "scale=3; ($QUESTIONS - $RESOLVED) / $QUESTIONS * 0.5" | bc)
-                  # Ensure non-negative
-                  if [ "$(echo "$DIV < 0" | bc)" -eq 1 ]; then
-                    DIV=0
-                  fi
+                  # Use awk for portable floating point arithmetic
+                  DIV=$(awk "BEGIN {v=($QUESTIONS - $RESOLVED) / $QUESTIONS * $DIV_SCALE; if (v < 0) v = 0; printf \"%.3f\", v}")
                 else
-                  DIV="0.15"
+                  DIV="$DIV_DEFAULT"
                 fi
                 
                 # Calculate file coherence
-                FILE_COHERENCE=$(echo "scale=3; 1 - (($CURL + $DIV) / 2)" | bc)
+                FILE_COHERENCE=$(awk "BEGIN {printf \"%.3f\", 1 - (($CURL + $DIV) / 2)}")
                 
                 # Track flagged documents
                 IS_FLAGGED="false"
                 
-                if [ "$(echo "$CURL > 0.3" | bc)" -eq 1 ]; then
+                if [ "$(awk "BEGIN {print ($CURL > $CURL_FLAG_THRESHOLD) ? 1 : 0}")" -eq 1 ]; then
                   HIGH_CURL_COUNT=$((HIGH_CURL_COUNT + 1))
                   IS_FLAGGED="true"
                 fi
                 
-                if [ "$(echo "$DIV > 0.4" | bc)" -eq 1 ]; then
+                if [ "$(awk "BEGIN {print ($DIV > $DIV_FLAG_THRESHOLD) ? 1 : 0}")" -eq 1 ]; then
                   HIGH_DIVERGENCE_COUNT=$((HIGH_DIVERGENCE_COUNT + 1))
                   IS_FLAGGED="true"
                 fi
@@ -147,7 +156,7 @@ jobs:
                   FLAGGED_DOCS="$FLAGGED_DOCS|$file:curl=$CURL,div=$DIV"
                 fi
                 
-                TOTAL_COHERENCE=$(echo "scale=3; $TOTAL_COHERENCE + $FILE_COHERENCE" | bc)
+                TOTAL_COHERENCE=$(awk "BEGIN {printf \"%.3f\", $TOTAL_COHERENCE + $FILE_COHERENCE}")
                 FILE_COUNT=$((FILE_COUNT + 1))
               fi
             done < <(find "$dir" -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" -not -path "./archive/*" 2>/dev/null)
@@ -155,14 +164,14 @@ jobs:
           
           # Calculate overall coherence
           if [ "$FILE_COUNT" -gt 0 ]; then
-            OVERALL_COHERENCE=$(echo "scale=3; $TOTAL_COHERENCE / $FILE_COUNT" | bc)
+            OVERALL_COHERENCE=$(awk "BEGIN {printf \"%.3f\", $TOTAL_COHERENCE / $FILE_COUNT}")
           else
             OVERALL_COHERENCE=1
           fi
           
           # Calculate emergent quality
-          # (weighted combination of coherence and structural integrity)
-          EMERGENT_QUALITY=$(echo "scale=3; $OVERALL_COHERENCE * 0.7 + (1 - $HIGH_CURL_COUNT / ($FILE_COUNT + 1)) * 0.3" | bc)
+          # Weighted combination of coherence (70%) and structural integrity (30%)
+          EMERGENT_QUALITY=$(awk "BEGIN {printf \"%.3f\", $OVERALL_COHERENCE * $QUALITY_COHERENCE_WEIGHT + (1 - $HIGH_CURL_COUNT / ($FILE_COUNT + 1)) * $QUALITY_STRUCT_WEIGHT}")
           
           echo "───────────────────────────────────────────────────────────────"
           echo "  Oracle Scan Results"

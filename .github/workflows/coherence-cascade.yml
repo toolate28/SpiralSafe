@@ -151,6 +151,19 @@ jobs:
           echo ""
           
           # Initialize metrics
+          # ─────────────────────────────────────────────────────────────
+          # Coherence Analysis Constants
+          # These thresholds are calibrated based on wave-spec.md
+          # ─────────────────────────────────────────────────────────────
+          # DIV_BASE: Base divergence when no conclusion markers found
+          DIV_BASE=0.3
+          # DIV_QUESTION_WEIGHT: Divergence increase per unresolved question
+          DIV_QUESTION_WEIGHT=0.02
+          # DIV_MAX: Maximum divergence cap
+          DIV_MAX=0.8
+          # DIV_WITH_CONCLUSION: Divergence when conclusion markers present
+          DIV_WITH_CONCLUSION=0.2
+          
           TOTAL_CURL=0
           TOTAL_DIV=0
           FILE_COUNT=0
@@ -161,11 +174,16 @@ jobs:
               CONTENT=$(cat "$file")
               
               # Calculate curl (repeated phrases proxy)
-              PHRASES=$(echo "$CONTENT" | tr '.' '\n' | sort | uniq -d | wc -l)
-              TOTAL_PHRASES=$(echo "$CONTENT" | tr '.' '\n' | wc -l)
+              # Count sentences that appear more than once
+              ALL_SENTENCES=$(echo "$CONTENT" | tr '.' '\n' | grep -E '.{15,}' || true)
+              TOTAL_SENTENCES=$(echo "$ALL_SENTENCES" | wc -l)
+              UNIQUE_SENTENCES=$(echo "$ALL_SENTENCES" | sort -u | wc -l)
               
-              if [ "$TOTAL_PHRASES" -gt 0 ]; then
-                CURL=$(echo "scale=3; $PHRASES / $TOTAL_PHRASES" | bc)
+              if [ "$TOTAL_SENTENCES" -gt 0 ] && [ "$UNIQUE_SENTENCES" -gt 0 ]; then
+                # Curl = 1 - (unique/total), higher when more repetition
+                REPEATED=$((TOTAL_SENTENCES - UNIQUE_SENTENCES))
+                # Use awk for floating point math (more portable than bc)
+                CURL=$(awk "BEGIN {printf \"%.3f\", $REPEATED / $TOTAL_SENTENCES}")
               else
                 CURL=0
               fi
@@ -175,36 +193,34 @@ jobs:
               HAS_CONCLUSION=$(echo "$CONTENT" | grep -cE 'therefore|thus|conclusion|summary' || true)
               
               if [ "$HAS_CONCLUSION" -gt 0 ]; then
-                DIV="0.2"
+                DIV="$DIV_WITH_CONCLUSION"
               else
-                DIV=$(echo "scale=3; 0.3 + ($QUESTIONS * 0.02)" | bc)
-                # Cap at 0.8
-                if [ "$(echo "$DIV > 0.8" | bc)" -eq 1 ]; then
-                  DIV="0.8"
-                fi
+                # Use awk for portable floating point arithmetic
+                DIV=$(awk "BEGIN {v=$DIV_BASE + ($QUESTIONS * $DIV_QUESTION_WEIGHT); if (v > $DIV_MAX) v = $DIV_MAX; printf \"%.3f\", v}")
               fi
               
-              TOTAL_CURL=$(echo "scale=3; $TOTAL_CURL + $CURL" | bc)
-              TOTAL_DIV=$(echo "scale=3; $TOTAL_DIV + $DIV" | bc)
+              TOTAL_CURL=$(awk "BEGIN {printf \"%.3f\", $TOTAL_CURL + $CURL}")
+              TOTAL_DIV=$(awk "BEGIN {printf \"%.3f\", $TOTAL_DIV + $DIV}")
               FILE_COUNT=$((FILE_COUNT + 1))
             fi
           done < <(find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" -not -path "./archive/*")
           
           # Calculate averages
           if [ "$FILE_COUNT" -gt 0 ]; then
-            AVG_CURL=$(echo "scale=3; $TOTAL_CURL / $FILE_COUNT" | bc)
-            AVG_DIV=$(echo "scale=3; $TOTAL_DIV / $FILE_COUNT" | bc)
+            AVG_CURL=$(awk "BEGIN {printf \"%.3f\", $TOTAL_CURL / $FILE_COUNT}")
+            AVG_DIV=$(awk "BEGIN {printf \"%.3f\", $TOTAL_DIV / $FILE_COUNT}")
           else
             AVG_CURL=0
             AVG_DIV=0
           fi
           
           # Calculate coherence score (1 - average of curl and divergence)
-          COHERENCE=$(echo "scale=3; 1 - (($AVG_CURL + $AVG_DIV) / 2)" | bc)
+          COHERENCE=$(awk "BEGIN {printf \"%.3f\", 1 - (($AVG_CURL + $AVG_DIV) / 2)}")
           
           # Determine if correction is needed
           NEEDS_CORRECTION="false"
-          if [ "$(echo "$COHERENCE < ${{ env.COHERENCE_THRESHOLD }}" | bc)" -eq 1 ]; then
+          THRESHOLD=${{ env.COHERENCE_THRESHOLD }}
+          if [ "$(awk "BEGIN {print ($COHERENCE < $THRESHOLD) ? 1 : 0}")" -eq 1 ]; then
             NEEDS_CORRECTION="true"
           fi
           
