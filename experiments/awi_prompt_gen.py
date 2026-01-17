@@ -303,9 +303,14 @@ class Predict(Module):
                        e.g., "template, history -> optimized_prompt"
         """
         self.signature = signature
-        parts = signature.split("->")
-        self.input_fields = [p.strip() for p in parts[0].split(",")]
-        self.output_fields = [p.strip() for p in parts[1].split(",")]
+        parts = signature.split("->", 1)
+        if len(parts) != 2 or not parts[0].strip() or not parts[1].strip():
+            raise ValueError(
+                f"Invalid signature format: {signature!r}. "
+                "Expected format like 'template, history -> optimized_prompt'."
+            )
+        self.input_fields = [p.strip() for p in parts[0].split(",") if p.strip()]
+        self.output_fields = [p.strip() for p in parts[1].split(",") if p.strip()]
 
     def forward(self, **kwargs) -> Prediction:
         """
