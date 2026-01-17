@@ -96,9 +96,14 @@ class QuantumState:
                 remaining -= count
 
         # Handle any rounding remainder
-        if remaining > 0 and counts:
-            max_state = max(counts, key=lambda x: probs.get(x, 0))
-            counts[max_state] += remaining
+        if remaining > 0:
+            if counts:
+                max_state = max(counts, key=lambda x: probs.get(x, 0))
+                counts[max_state] += remaining
+            else:
+                # Allocate all remaining shots to the state with highest probability
+                max_state = max(probs.items(), key=lambda x: x[1])[0]
+                counts[max_state] = remaining
 
         return counts
 
