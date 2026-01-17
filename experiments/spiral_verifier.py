@@ -151,28 +151,28 @@ class ConstraintChecker:
                 name="dual_format",
                 description="Content should serve both humans and agents",
                 source="protocol/wave-spec.md",
-                check_fn=lambda x: self._check_dual_format(x),
+                check_fn=self._check_dual_format,
                 severity="warning"
             ),
             Constraint(
                 name="coherence_threshold",
                 description="Coherence score must meet 70% threshold",
                 source="methodology/spiral-phase.md",
-                check_fn=lambda x: self._check_coherence(x),
+                check_fn=self._check_coherence,
                 severity="error"
             ),
             Constraint(
                 name="structure_preservation",
                 description="Topological structure must be preserved",
                 source="foundation/isomorphism-principle.md",
-                check_fn=lambda x: self._check_structure(x),
+                check_fn=self._check_structure,
                 severity="critical"
             ),
             Constraint(
                 name="handoff_markers",
                 description="Proper H&&S bump markers for handoffs",
                 source="protocol/bump-spec.md",
-                check_fn=lambda x: self._check_handoff_markers(x),
+                check_fn=self._check_handoff_markers,
                 severity="warning"
             ),
         ]
