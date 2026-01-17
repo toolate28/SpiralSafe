@@ -163,11 +163,6 @@ class VortexVector:
         """Check if the vortex exceeds the emergence threshold."""
         return self.resonance_score > self.EMERGENCE_THRESHOLD
 
-    @property
-    def normalized_weight(self) -> float:
-        """Get fibonacci weight normalized to [0, 1]."""
-        return fibonacci_weight(self.fibonacci_weight)
-
     def accumulate_history(self, state: Dict[str, Any]) -> None:
         """
         Add a state to the vortex history.
