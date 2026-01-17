@@ -192,6 +192,56 @@ CREATE TABLE IF NOT EXISTS agents (
 CREATE INDEX idx_agent_type ON agents(type);
 
 -- ═══════════════════════════════════════════════════════════════
+-- Provenance Tracking Tables
+-- Enhanced ATOM trail validation with DSPy-style governance
+-- ═══════════════════════════════════════════════════════════════
+
+-- Provenance Validations
+-- Trail validation records with coherence metrics
+CREATE TABLE IF NOT EXISTS provenance_validations (
+    id TEXT PRIMARY KEY,
+    valid INTEGER NOT NULL DEFAULT 1,
+    coherence_score REAL NOT NULL DEFAULT 0,
+    target_met INTEGER NOT NULL DEFAULT 0,
+    divergence_detected INTEGER NOT NULL DEFAULT 0,
+    blockers TEXT, -- JSON array
+    timestamp TEXT NOT NULL
+);
+
+CREATE INDEX idx_provenance_valid ON provenance_validations(valid);
+CREATE INDEX idx_provenance_coherence ON provenance_validations(coherence_score);
+CREATE INDEX idx_provenance_timestamp ON provenance_validations(timestamp);
+
+-- Gate Evolutions (GEPA)
+-- Gate instruction evolution records for blocker mitigation
+CREATE TABLE IF NOT EXISTS gate_evolutions (
+    id TEXT PRIMARY KEY,
+    blockers TEXT NOT NULL, -- JSON array
+    recommendations TEXT NOT NULL, -- JSON array
+    timestamp TEXT NOT NULL,
+    applied INTEGER NOT NULL DEFAULT 0,
+    applied_at TEXT
+);
+
+CREATE INDEX idx_evolution_timestamp ON gate_evolutions(timestamp);
+CREATE INDEX idx_evolution_applied ON gate_evolutions(applied);
+
+-- Validation Examples (BootstrapFewshot)
+-- Synthesized validation examples from successful transitions
+CREATE TABLE IF NOT EXISTS validation_examples (
+    id TEXT PRIMARY KEY,
+    gate TEXT NOT NULL,
+    from_phase TEXT NOT NULL,
+    to_phase TEXT NOT NULL,
+    synthesized_at TEXT NOT NULL,
+    validation_type TEXT NOT NULL DEFAULT 'bootstrap_fewshot',
+    engagement_metric REAL NOT NULL DEFAULT 1.0
+);
+
+CREATE INDEX idx_validation_gate ON validation_examples(gate);
+CREATE INDEX idx_validation_type ON validation_examples(validation_type);
+
+-- ═══════════════════════════════════════════════════════════════
 -- Views for Common Queries
 -- ═══════════════════════════════════════════════════════════════
 
@@ -238,3 +288,13 @@ WHERE revoked = 0
 AND datetime(expires_at) <= datetime('now', '+1 hour')
 AND datetime(expires_at) > datetime('now')
 ORDER BY expires_at;
+
+-- Provenance coherence summary
+CREATE VIEW IF NOT EXISTS v_provenance_coherence AS
+SELECT 
+    COUNT(*) as total_validations,
+    SUM(CASE WHEN target_met = 1 THEN 1 ELSE 0 END) as target_met_count,
+    AVG(coherence_score) as avg_coherence,
+    SUM(CASE WHEN divergence_detected = 1 THEN 1 ELSE 0 END) as divergence_count
+FROM provenance_validations
+WHERE timestamp > datetime('now', '-7 days');

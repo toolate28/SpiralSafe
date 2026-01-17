@@ -27,7 +27,7 @@ Constraints collapse the decision space. They reveal which choices actually matt
 
 ### They Force Essential Structure to Surface
 
-Redstone can only be on or off. This binary constraint doesn't prevent complex computation—it forces the computation's *structure* to become explicit.
+Redstone can only be on or off. This binary constraint doesn't prevent complex computation—it forces the computation's _structure_ to become explicit.
 
 When you can't rely on continuous gradients or analog shortcuts, the topology of your design must carry all the information. The constraint strips away representational convenience and reveals what's actually happening.
 
@@ -101,7 +101,7 @@ The constraint improves both outputs by requiring coherence between them.
 
 Discrete implementations must preserve topological invariants of continuous structures.
 
-This constraint is what makes Quantum Valley work. Without it, Redstone circuits would merely *model* quantum systems (incompletely, approximately). With it, they *instantiate* the same mathematics.
+This constraint is what makes Quantum Valley work. Without it, Redstone circuits would merely _model_ quantum systems (incompletely, approximately). With it, they _instantiate_ the same mathematics.
 
 The constraint elevates the work from simulation to proof.
 
@@ -141,12 +141,15 @@ SpiralSafe operates in this space. The frameworks define constraints. The work h
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_
 
 ---
+
 <!-- H&&S:WAVE -->
+
 Structural work complete. @copilot please review for:
-- Markdown formatting consistency  
+
+- Markdown formatting consistency
 - Link validation
 - Badge syntax standardization
 - Typo detection

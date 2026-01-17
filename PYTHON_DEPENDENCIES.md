@@ -23,6 +23,7 @@ pip install -r requirements.txt
 ```
 
 This installs only the essential dependencies needed for:
+
 - ATOM trail streaming
 - Hardware bridges (hologram, Tartarus)
 - Configuration and environment management
@@ -37,6 +38,7 @@ pip install -r requirements.txt -r requirements-ml.txt
 ```
 
 Adds support for:
+
 - Image processing (Pillow, OpenCV)
 - Scientific computing (NumPy, SciPy, Matplotlib)
 - Network visualization (NetworkX)
@@ -64,6 +66,7 @@ pip install -r requirements.txt -r requirements-dev.txt
 ```
 
 Adds development tools:
+
 - pytest, pytest-asyncio, pytest-cov
 - black, flake8, mypy, pylint
 - Type stubs for common packages
@@ -114,22 +117,24 @@ All dependencies use exact version pinning (e.g., `==1.2.3`) for reproducibility
 To update dependencies to latest compatible versions:
 
 1. **Manual approach** (current):
+
    ```bash
    # Check for outdated packages
    pip list --outdated
-   
+
    # Update specific package
    pip install --upgrade package-name
-   
+
    # Update requirements file with new version
    pip freeze | grep package-name
    ```
 
 2. **Using pip-tools** (optional):
+
    ```bash
    # Install pip-tools
    pip install pip-tools
-   
+
    # Create .in file from existing requirements
    # Then compile with latest versions
    pip-compile --upgrade requirements.txt
@@ -144,6 +149,7 @@ python3 scripts/verify-dependencies.py
 ```
 
 This checks for:
+
 - Duplicate package entries
 - Standard library modules incorrectly listed
 - Heavy packages in wrong files

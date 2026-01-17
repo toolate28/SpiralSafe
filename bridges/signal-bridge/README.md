@@ -97,6 +97,7 @@ Send "ping" to your Signal number → Should receive "pong!"
 ### Command Execution
 
 **Local Commands:**
+
 ```
 /local git status
 /local npm test
@@ -104,6 +105,7 @@ Send "ping" to your Signal number → Should receive "pong!"
 ```
 
 **Remote Commands (SSH):**
+
 ```
 /remote production git pull
 /remote staging npm run deploy
@@ -112,12 +114,14 @@ Send "ping" to your Signal number → Should receive "pong!"
 ### File Operations
 
 **Upload:**
+
 ```
 /upload config.json
 [Attach file to message]
 ```
 
 **Download:**
+
 ```
 /download logs/error.log
 ```
@@ -230,57 +234,57 @@ ANTHROPIC_API_KEY=your-claude-api-key
 
 ### System Commands
 
-| Command | Description | Example |
-|---------|-------------|---------|
-| `/ping` | Test connectivity | `/ping` |
-| `/status` | System status | `/status` |
-| `/health` | Health check | `/health` |
-| `/help` | Show commands | `/help` |
+| Command   | Description       | Example   |
+| --------- | ----------------- | --------- |
+| `/ping`   | Test connectivity | `/ping`   |
+| `/status` | System status     | `/status` |
+| `/health` | Health check      | `/health` |
+| `/help`   | Show commands     | `/help`   |
 
 ### Execution Commands
 
-| Command | Description | Example |
-|---------|-------------|---------|
-| `/local <cmd>` | Run locally | `/local git status` |
-| `/remote <cmd>` | Run on server | `/remote pm2 restart api` |
-| `/exec <cmd>` | Auto-route | `/exec npm test` |
-| `/bg <cmd>` | Background task | `/bg npm run build` |
+| Command         | Description     | Example                   |
+| --------------- | --------------- | ------------------------- |
+| `/local <cmd>`  | Run locally     | `/local git status`       |
+| `/remote <cmd>` | Run on server   | `/remote pm2 restart api` |
+| `/exec <cmd>`   | Auto-route      | `/exec npm test`          |
+| `/bg <cmd>`     | Background task | `/bg npm run build`       |
 
 ### File Commands
 
-| Command | Description | Example |
-|---------|-------------|---------|
-| `/upload` | Upload file | `/upload [attach file]` |
-| `/download <path>` | Download file | `/download logs/error.log` |
-| `/ls <path>` | List directory | `/ls /var/www` |
-| `/cat <file>` | Read file | `/cat .env.example` |
+| Command            | Description    | Example                    |
+| ------------------ | -------------- | -------------------------- |
+| `/upload`          | Upload file    | `/upload [attach file]`    |
+| `/download <path>` | Download file  | `/download logs/error.log` |
+| `/ls <path>`       | List directory | `/ls /var/www`             |
+| `/cat <file>`      | Read file      | `/cat .env.example`        |
 
 ### Git Commands
 
-| Command | Description | Example |
-|---------|-------------|---------|
-| `/git status` | Git status | `/git status` |
-| `/git pull` | Pull changes | `/git pull` |
-| `/git push` | Push changes | `/git push` |
-| `/git log` | Recent commits | `/git log` |
+| Command       | Description    | Example       |
+| ------------- | -------------- | ------------- |
+| `/git status` | Git status     | `/git status` |
+| `/git pull`   | Pull changes   | `/git pull`   |
+| `/git push`   | Push changes   | `/git push`   |
+| `/git log`    | Recent commits | `/git log`    |
 
 ### AI Commands
 
-| Command | Description | Example |
-|---------|-------------|---------|
-| `/ask <question>` | Ask AI | `/ask What's deployed?` |
-| `/explain <file>` | Explain code | `/explain schema.sql` |
-| `/debug <error>` | Debug error | `/debug "ReferenceError: foo"` |
-| `/suggest <task>` | Get suggestion | `/suggest optimize database` |
+| Command           | Description    | Example                        |
+| ----------------- | -------------- | ------------------------------ |
+| `/ask <question>` | Ask AI         | `/ask What's deployed?`        |
+| `/explain <file>` | Explain code   | `/explain schema.sql`          |
+| `/debug <error>`  | Debug error    | `/debug "ReferenceError: foo"` |
+| `/suggest <task>` | Get suggestion | `/suggest optimize database`   |
 
 ### Admin Commands
 
-| Command | Description | Example |
-|---------|-------------|---------|
-| `/logs` | Show logs | `/logs` |
-| `/ps` | Processes | `/ps` |
-| `/restart` | Restart bridge | `/restart` |
-| `/whitelist <number>` | Add user | `/whitelist +11234567890` |
+| Command               | Description    | Example                   |
+| --------------------- | -------------- | ------------------------- |
+| `/logs`               | Show logs      | `/logs`                   |
+| `/ps`                 | Processes      | `/ps`                     |
+| `/restart`            | Restart bridge | `/restart`                |
+| `/whitelist <number>` | Add user       | `/whitelist +11234567890` |
 
 ---
 
@@ -397,7 +401,7 @@ Location: ops/ATOM_AUTH_SYSTEM.md
 
 ### Example 4: Debug Production Error
 
-```
+````
 You: /logs error
 
 Bridge:
@@ -424,11 +428,12 @@ const keycode: LEDKeycode | null = JSON.parse(stored);
 if (!keycode || !keycode.code) {
   return false;
 }
-```
+````
 
 **File:** ops/spiralsafe-worker.ts:780-783
 **Severity:** Medium (runtime error)
 **Action:** Add null check before accessing `.code` property
+
 ```
 
 ---
@@ -438,56 +443,58 @@ if (!keycode || !keycode.code) {
 ### Components
 
 ```
+
 ┌─────────────────────────────────────────────────────────────┐
-│  Signal Messaging Layer                                     │
-│  • Signal-CLI REST API (Docker)                             │
-│  • Message polling (3-second interval)                      │
-│  • Attachment handling                                      │
+│ Signal Messaging Layer │
+│ • Signal-CLI REST API (Docker) │
+│ • Message polling (3-second interval) │
+│ • Attachment handling │
 └──────────────────┬──────────────────────────────────────────┘
-                   │
-                   ▼
+│
+▼
 ┌─────────────────────────────────────────────────────────────┐
-│  B&&P Bridge Server (Node.js + TypeScript)                  │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  Message Handler                                    │   │
-│  │  • Parse commands                                   │   │
-│  │  • Validate syntax                                  │   │
-│  │  • Route to executors                               │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  Authorization                                      │   │
-│  │  • Whitelist check                                  │   │
-│  │  • Rate limiting                                    │   │
-│  │  • Audit logging                                    │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  Executors                                          │   │
-│  │  • Local executor (child_process)                   │   │
-│  │  • Remote executor (SSH)                            │   │
-│  │  • AI executor (Claude API)                         │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  Response Formatter                                 │   │
-│  │  • Truncate long output                             │   │
-│  │  • Add emoji indicators                             │   │
-│  │  • Format markdown                                  │   │
-│  └─────────────────────────────────────────────────────┘   │
+│ B&&P Bridge Server (Node.js + TypeScript) │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ Message Handler │ │
+│ │ • Parse commands │ │
+│ │ • Validate syntax │ │
+│ │ • Route to executors │ │
+│ └─────────────────────────────────────────────────────┘ │
+│ │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ Authorization │ │
+│ │ • Whitelist check │ │
+│ │ • Rate limiting │ │
+│ │ • Audit logging │ │
+│ └─────────────────────────────────────────────────────┘ │
+│ │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ Executors │ │
+│ │ • Local executor (child_process) │ │
+│ │ • Remote executor (SSH) │ │
+│ │ • AI executor (Claude API) │ │
+│ └─────────────────────────────────────────────────────┘ │
+│ │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ Response Formatter │ │
+│ │ • Truncate long output │ │
+│ │ • Add emoji indicators │ │
+│ │ • Format markdown │ │
+│ └─────────────────────────────────────────────────────┘ │
 └──────────────────┬──────────────────────────────────────────┘
-                   │
-                   ▼
+│
+▼
 ┌─────────────────────────────────────────────────────────────┐
-│  Execution Environment                                      │
-│  ┌────────────────────┐    ┌────────────────────┐          │
-│  │  Local Machine     │    │  Remote Server     │          │
-│  │  • Git repo        │    │  • Production API  │          │
-│  │  • Build tools     │    │  • PM2 processes   │          │
-│  │  • Scripts         │    │  • Logs            │          │
-│  └────────────────────┘    └────────────────────┘          │
+│ Execution Environment │
+│ ┌────────────────────┐ ┌────────────────────┐ │
+│ │ Local Machine │ │ Remote Server │ │
+│ │ • Git repo │ │ • Production API │ │
+│ │ • Build tools │ │ • PM2 processes │ │
+│ │ • Scripts │ │ • Logs │ │
+│ └────────────────────┘ └────────────────────┘ │
 └─────────────────────────────────────────────────────────────┘
-```
+
+````
 
 ### Data Flow
 
@@ -526,7 +533,7 @@ logAudit({
   result: result.exitCode,
   timestamp: new Date(),
 });
-```
+````
 
 ---
 
@@ -622,6 +629,7 @@ docker run -d \
 ### Common Issues
 
 **Signal-CLI not responding:**
+
 ```bash
 # Check if Docker container is running
 docker ps | grep signal-cli-rest-api
@@ -634,6 +642,7 @@ docker logs signal-cli-rest-api
 ```
 
 **Commands not executing:**
+
 ```bash
 # Check authorization
 cat .env | grep AUTHORIZED_NUMBERS
@@ -648,6 +657,7 @@ curl http://localhost:8080/v2/send \
 ```
 
 **Remote execution failing:**
+
 ```bash
 # Test SSH connection
 ssh -i ~/.ssh/id_rsa deploy@production.spiralsafe.org

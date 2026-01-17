@@ -42,11 +42,13 @@ As you work, you add lessons learned. As patterns emerge, you compress redundanc
 ## Core Assumptions
 
 ### 1. **Jupyter Environment Required**
+
 - Python 3.11+ with Jupyter notebook support
 - Core libraries: `json`, `hashlib`, `pathlib`, `datetime`, `subprocess`
 - Optional: `matplotlib`, `pandas` for visualizations
 
 ### 2. **Repository Context**
+
 - The notebook MUST be run from the repository root directory
 - It expects `.atom-trail/` directory structure:
   ```
@@ -57,18 +59,21 @@ As you work, you add lessons learned. As patterns emerge, you compress redundanc
   ```
 
 ### 3. **Integration with Ops Tools**
+
 - PowerShell scripts in `ops/scripts/` directory:
   - `Transcript-Pipeline.ps1` - Session encryption (AES-256-GCM)
   - `Notebook-Verifier.ps1` - Notebook integrity verification
   - `SpiralSafe.psm1` - PowerShell CLI module
 
 ### 4. **ATOM Trail Protocol**
+
 - All sessions use ATOM (Atomic Traceable Operations Model) naming
 - Format: `ATOM-SESSION-YYYYMMDD-NNN-description`
 - Each session has a cryptographic hash for verification
 - Session reports can be encrypted and signed
 
 ### 5. **H&&S:WAVE Protocol**
+
 - All operations follow Hope&&Sauced handoff protocol
 - Signatures ensure continuity across human-AI sessions
 - See [`protocol/wave-spec.md`](../protocol/wave-spec.md) for details
@@ -110,10 +115,11 @@ When you first open the notebook:
 1. **Run Section 2 cells** to initialize the session helpers
 2. A session will be **automatically started** if none exists
 3. You'll see output like:
+
    ```
    ✓ Session started: ATOM-SESSION-20260107-001-project-book-session
      Hash: 5594c744704e476bb3d624b94621083676cf2db2d5824cf2ee5f3b0e34395484
-   
+
    Session started and available as `CURRENT_SESSION_TAG`
    ```
 
@@ -149,6 +155,7 @@ session = start_session()
 ```
 
 **Output**:
+
 ```
 ✓ Session started: ATOM-SESSION-20260107-002-implementing-new-feature
   Hash: a1b2c3d4e5f6...
@@ -168,6 +175,7 @@ report = sign_out('ATOM-SESSION-20260107-002-implementing-new-feature')
 ```
 
 **Output**:
+
 ```
 ✓ Session report written: .atom-trail/sessions/ATOM-SESSION-...-report.json
 ✓ Encrypted report: .atom-trail/sessions/transcript.encrypted.json
@@ -213,6 +221,7 @@ report = sign_out('ATOM-SESSION-20260107-002-implementing-new-feature')
 ```
 
 **With Visualization** (if matplotlib/pandas installed):
+
 - Bar chart showing sessions per day
 - Helps identify work patterns
 
@@ -221,6 +230,7 @@ report = sign_out('ATOM-SESSION-20260107-002-implementing-new-feature')
 **Section "Integration substrates"**: Track platform integration progress.
 
 Shows timeline for:
+
 - OpenAI (GPT)
 - xAI (Grok)
 - Google (DeepMind)
@@ -259,6 +269,7 @@ report = sign_out()
 ```
 
 **Example Output**:
+
 ```
 ╔══════════════════════════════════════════════════════════════════╗
 ║                       MERKLE ROOT                                ║
@@ -280,9 +291,9 @@ report = sign_out()
 Edit the markdown table directly in Section 8:
 
 ```markdown
-| Date       | Lesson                    | Resolution           |
-|------------|---------------------------|----------------------|
-| 2026-01-07 | Your lesson here          | How you solved it    |
+| Date       | Lesson           | Resolution        |
+| ---------- | ---------------- | ----------------- |
+| 2026-01-07 | Your lesson here | How you solved it |
 ```
 
 ### Workflow 4: Session Report Analysis
@@ -309,6 +320,7 @@ Edit the markdown table directly in Section 8:
 ### Understanding ATOM Sessions
 
 **ATOM** (Atomic Traceable Operations Model) sessions provide:
+
 - **Unique identification**: Each session has a unique tag
 - **Cryptographic verification**: SHA-256 hash of session metadata
 - **Temporal tracking**: Start/end timestamps
@@ -412,13 +424,14 @@ A Merkle root is computed from all critical file hashes:
     [H(A,B)]    [H(C,D)]
      /    \      /    \
    H(A)  H(B)  H(C)  H(D)
-   
+
 Where A, B, C, D are individual file hashes
 ```
 
 **Property**: Any change to ANY file changes the root hash.
 
-**Use Case**: 
+**Use Case**:
+
 - Record Merkle root before releases
 - Verify integrity of deployed systems
 - Detect tampering
@@ -451,6 +464,7 @@ The notebook integrates with three key PowerShell scripts:
 ```
 
 **Features**:
+
 - DPAPI-based encryption (Windows) or AES-256-GCM (cross-platform)
 - Automatic key derivation
 - Secure metadata handling
@@ -480,6 +494,7 @@ ss-hash        # Generate hashes
 ### Git Integration
 
 The notebook assumes git operations for:
+
 - Checking repository status
 - Counting commits and branches
 - Analyzing project history
@@ -526,6 +541,7 @@ jupyter notebook ../project-book.ipynb
 ### 2. Initialize Session Helpers
 
 Always run the session helper cell (Section 2) when:
+
 - First opening the notebook
 - After restarting the kernel
 - After returning to the notebook in a new session
@@ -590,6 +606,7 @@ Follow the SpiralSafe principle:
 **Cause**: Optional visualization libraries not installed.
 
 **Solution**:
+
 ```bash
 pip install pandas matplotlib
 ```
@@ -603,6 +620,7 @@ Or, if you don't need visualizations, ignore the error. The notebook will still 
 **Cause**: The statistics cell uses Unix commands (`wc -l`, etc.) that may not work on Windows or when run from wrong directory.
 
 **Solution**:
+
 - **On Windows**: This error is expected and non-critical. The feature is informational only.
 - **On Linux/Mac**: Ensure you're running from the repository root.
 
@@ -617,6 +635,7 @@ FileNotFoundError: Session file not found: .atom-trail/sessions/ATOM-SESSION-...
 **Cause**: The session tag doesn't exist or was deleted.
 
 **Solution**:
+
 ```python
 # Check available sessions
 from pathlib import Path
@@ -635,6 +654,7 @@ sign_out('ATOM-SESSION-20260107-001-project-book-session')
 **Cause**: PowerShell script not at expected path.
 
 **Solution**:
+
 ```python
 # Verify the script exists
 from pathlib import Path
@@ -652,6 +672,7 @@ report = sign_out(encrypt=False)
 **Cause**: Memory issue or Python environment problem.
 
 **Solution**:
+
 1. Restart the kernel: `Kernel > Restart`
 2. Re-run initialization cells
 3. If problem persists, check Python version (requires 3.11+)
@@ -667,6 +688,7 @@ NameError: name 'CURRENT_SESSION_TAG' is not defined
 **Cause**: Session helpers not initialized or kernel restarted.
 
 **Solution**:
+
 ```python
 # Re-run the session helpers cell (Section 2)
 # It will auto-start a session if none exists
@@ -682,6 +704,7 @@ session = start_session('my-session')
 **Cause**: Not running from a git repository or git not in PATH.
 
 **Solution**:
+
 ```bash
 # Ensure you're in a git repository
 git status
@@ -702,16 +725,16 @@ You can extend the session report generation:
 def sign_out_custom(tag=None, encrypt=True, additional_data=None):
     """Enhanced sign_out with custom metadata."""
     report = sign_out(tag=tag, encrypt=encrypt)
-    
+
     if additional_data:
         report['custom_data'] = additional_data
-        
+
         # Write enhanced report
         tag = tag or CURRENT_SESSION_TAG
         enhanced_path = Path(f'.atom-trail/sessions/{tag}-enhanced-report.json')
         enhanced_path.write_text(json.dumps(report, indent=2))
         print(f"✓ Enhanced report: {enhanced_path}")
-    
+
     return report
 
 # Usage
@@ -736,7 +759,7 @@ for session_file in sessions_dir.glob(f'ATOM-SESSION-{target_date}-*.json'):
     session = json.loads(session_file.read_text())
     duration = session.get('end_epoch', 0) - session.get('start_epoch', 0)
     duration_min = duration / 60 if duration > 0 else 'ongoing'
-    
+
     print(f"{session['atom_tag']}: {duration_min} minutes")
 ```
 
@@ -774,6 +797,7 @@ for file in MY_CRITICAL_FILES:
 ### Q: Do I need to use the notebook for every contribution?
 
 **A**: No. The project book is optional. It's most useful for:
+
 - Project maintainers tracking overall progress
 - Long-term contributors managing complex work sessions
 - Anyone needing cryptographic verification of their work
@@ -784,7 +808,8 @@ For small PRs or one-off contributions, the notebook is overkill.
 
 ### Q: What's the difference between a "session" and a "verification"?
 
-**A**: 
+**A**:
+
 - **Session** (`.atom-trail/sessions/`): A time-bounded work period by one contributor. Records what was done, when, and by whom.
 - **Verification** (`.atom-trail/verifications/`): A cryptographic proof that work was reviewed and approved. Includes signatures from AI and human reviewers.
 
@@ -808,6 +833,7 @@ The session management and verification code is designed to be portable.
 ### Q: Why does this exist when we have git commit history?
 
 **A**: Git tracks code changes. The project book tracks:
+
 - **Context**: Why decisions were made
 - **Sessions**: Multi-commit work periods as atomic units
 - **Lessons**: Patterns discovered during development
@@ -821,6 +847,7 @@ It's complementary to git, not a replacement.
 ### Q: What's the connection to Quantum↔Minecraft mapping?
 
 **A**: The project book is a general tool used across all SpiralSafe work, including:
+
 - Documenting quantum-minecraft mappings
 - Managing museum build sessions
 - Tracking integration substrate development
@@ -848,6 +875,6 @@ It embodies the SpiralSafe ethos: structure that helps without constraining, too
 **Last Updated**: 2026-01-07
 **Status**: ✦ Complete
 
-*Part of the SpiralSafe Ecosystem | Hope && Sauce*
+_Part of the SpiralSafe Ecosystem | Hope && Sauce_
 
 **H&&S:WAVE** - Hope&&Sauced

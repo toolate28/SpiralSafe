@@ -8,13 +8,13 @@ Vercel serves as the deployment substrate where SpiralSafe protocols become obse
 
 ## Conceptual Mapping
 
-| Vercel | SpiralSafe | Insight |
-|--------|------------|---------|
-| Preview deployments | **Wave analysis** | Coherence check before production |
-| Production deploy | **AWI grant** | Permission-gated manifestation |
-| Deployment hooks | **Bump markers** | State synchronization |
-| Build output | **ATOM completion** | Verified task artifacts |
-| Deploy URL | **Context reference** | Addressable state |
+| Vercel              | SpiralSafe            | Insight                           |
+| ------------------- | --------------------- | --------------------------------- |
+| Preview deployments | **Wave analysis**     | Coherence check before production |
+| Production deploy   | **AWI grant**         | Permission-gated manifestation    |
+| Deployment hooks    | **Bump markers**      | State synchronization             |
+| Build output        | **ATOM completion**   | Verified task artifacts           |
+| Deploy URL          | **Context reference** | Addressable state                 |
 
 ---
 
@@ -39,9 +39,7 @@ Vercel serves as the deployment substrate where SpiralSafe protocols become obse
   "headers": [
     {
       "source": "/api/(.*)",
-      "headers": [
-        { "key": "X-SpiralSafe-Version", "value": "1.0.0" }
-      ]
+      "headers": [{ "key": "X-SpiralSafe-Version", "value": "1.0.0" }]
     }
   ]
 }
@@ -67,9 +65,10 @@ vercel env add SPIRALSAFE_DEPLOY_KEY
 
 ```typescript
 // scripts/wave-check.ts
-import { execSync } from 'child_process';
+import { execSync } from "child_process";
 
-const API_BASE = process.env.SPIRALSAFE_API_BASE || 'https://api.spiralsafe.org';
+const API_BASE =
+  process.env.SPIRALSAFE_API_BASE || "https://api.spiralsafe.org";
 
 interface WaveResult {
   curl: number;
@@ -78,46 +77,54 @@ interface WaveResult {
 }
 
 async function checkCoherence(): Promise<void> {
-  console.log('═══════════════════════════════════════════════════════════════');
-  console.log('  SpiralSafe Wave Check (Pre-Build)');
-  console.log('═══════════════════════════════════════════════════════════════');
-  
+  console.log(
+    "═══════════════════════════════════════════════════════════════",
+  );
+  console.log("  SpiralSafe Wave Check (Pre-Build)");
+  console.log(
+    "═══════════════════════════════════════════════════════════════",
+  );
+
   // Find documentation files
   const files = execSync('find . -name "*.md" -not -path "./node_modules/*"')
     .toString()
     .trim()
-    .split('\n')
+    .split("\n")
     .filter(Boolean);
-  
+
   let failures = 0;
-  
+
   for (const file of files) {
     const content = execSync(`cat "${file}"`).toString();
-    
+
     const response = await fetch(`${API_BASE}/api/wave/analyze`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content })
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content }),
     });
-    
+
     const result: WaveResult = await response.json();
-    
+
     if (!result.coherent) {
-      console.log(`⚠ ${file} - curl:${result.curl.toFixed(2)} div:${result.divergence.toFixed(2)}`);
+      console.log(
+        `⚠ ${file} - curl:${result.curl.toFixed(2)} div:${result.divergence.toFixed(2)}`,
+      );
       failures++;
     } else {
       console.log(`✓ ${file}`);
     }
   }
-  
-  console.log('───────────────────────────────────────────────────────────────');
-  
+
+  console.log(
+    "───────────────────────────────────────────────────────────────",
+  );
+
   if (failures > 0) {
     console.log(`⚠ ${failures} file(s) below coherence threshold`);
     // Don't fail build, but log warning
     // process.exit(1); // Uncomment to enforce
   } else {
-    console.log('✓ All files pass coherence checks');
+    console.log("✓ All files pass coherence checks");
   }
 }
 
@@ -129,7 +136,7 @@ checkCoherence().catch(console.error);
 ```typescript
 // api/webhooks/vercel.ts
 interface VercelDeployHook {
-  type: 'deployment.created' | 'deployment.succeeded' | 'deployment.failed';
+  type: "deployment.created" | "deployment.succeeded" | "deployment.failed";
   payload: {
     deployment: {
       id: string;
@@ -141,178 +148,218 @@ interface VercelDeployHook {
       id: string;
       name: string;
     };
-    target: 'production' | 'preview';
+    target: "production" | "preview";
   };
 }
 
 export async function handleVercelWebhook(
   request: Request,
-  env: Env
+  env: Env,
 ): Promise<Response> {
-  const hook = await request.json() as VercelDeployHook;
+  const hook = (await request.json()) as VercelDeployHook;
   const { type, payload } = hook;
-  
+
   switch (type) {
-    case 'deployment.created':
+    case "deployment.created":
       return handleDeploymentCreated(payload, env);
-    case 'deployment.succeeded':
+    case "deployment.succeeded":
       return handleDeploymentSucceeded(payload, env);
-    case 'deployment.failed':
+    case "deployment.failed":
       return handleDeploymentFailed(payload, env);
     default:
-      return new Response('OK', { status: 200 });
+      return new Response("OK", { status: 200 });
   }
 }
 
 async function handleDeploymentCreated(
-  payload: VercelDeployHook['payload'],
-  env: Env
+  payload: VercelDeployHook["payload"],
+  env: Env,
 ): Promise<Response> {
   const { deployment, project, target } = payload;
-  
+
   // 1. Request AWI grant for deployment
-  const grantLevel = target === 'production' ? 3 : 2;
-  
-  await env.SPIRALSAFE_DB.prepare(`
+  const grantLevel = target === "production" ? 3 : 2;
+
+  await env.SPIRALSAFE_DB.prepare(
+    `
     INSERT INTO awi_grants (id, intent, scope, level, granted_at, expires_at)
     VALUES (?, ?, ?, ?, ?, ?)
-  `).bind(
-    `awi-vercel-${deployment.id}`,
-    `Deploy ${project.name} to ${target}`,
-    JSON.stringify({
-      resources: [`project:${project.id}`, `deployment:${deployment.id}`],
-      actions: ['deploy', 'activate']
-    }),
-    grantLevel,
-    new Date().toISOString(),
-    new Date(Date.now() + 600000).toISOString() // 10 min TTL
-  ).run();
-  
+  `,
+  )
+    .bind(
+      `awi-vercel-${deployment.id}`,
+      `Deploy ${project.name} to ${target}`,
+      JSON.stringify({
+        resources: [`project:${project.id}`, `deployment:${deployment.id}`],
+        actions: ["deploy", "activate"],
+      }),
+      grantLevel,
+      new Date().toISOString(),
+      new Date(Date.now() + 600000).toISOString(), // 10 min TTL
+    )
+    .run();
+
   // 2. Create SYNC bump
-  await env.SPIRALSAFE_DB.prepare(`
+  await env.SPIRALSAFE_DB.prepare(
+    `
     INSERT INTO bumps (id, type, from_agent, to_agent, state, context, timestamp, resolved)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-  `).bind(
-    `bump-vercel-${deployment.id}`,
-    'SYNC',
-    'vercel',
-    target,
-    'deploying',
+  `,
+  )
+    .bind(
+      `bump-vercel-${deployment.id}`,
+      "SYNC",
+      "vercel",
+      target,
+      "deploying",
+      JSON.stringify({
+        deployment_id: deployment.id,
+        deployment_url: deployment.url,
+        project: project.name,
+        target,
+      }),
+      new Date().toISOString(),
+      0,
+    )
+    .run();
+
+  return new Response(
     JSON.stringify({
-      deployment_id: deployment.id,
-      deployment_url: deployment.url,
-      project: project.name,
-      target
+      awi_grant: `awi-vercel-${deployment.id}`,
+      bump: `bump-vercel-${deployment.id}`,
     }),
-    new Date().toISOString(),
-    0
-  ).run();
-  
-  return new Response(JSON.stringify({ 
-    awi_grant: `awi-vercel-${deployment.id}`,
-    bump: `bump-vercel-${deployment.id}`
-  }), { status: 200 });
+    { status: 200 },
+  );
 }
 
 async function handleDeploymentSucceeded(
-  payload: VercelDeployHook['payload'],
-  env: Env
+  payload: VercelDeployHook["payload"],
+  env: Env,
 ): Promise<Response> {
   const { deployment, project, target } = payload;
-  
+
   // 1. Resolve the deployment bump
-  await env.SPIRALSAFE_DB.prepare(`
+  await env.SPIRALSAFE_DB.prepare(
+    `
     UPDATE bumps 
     SET resolved = 1, resolved_at = ?, resolution_notes = ?
     WHERE id = ?
-  `).bind(
-    new Date().toISOString(),
-    `Successfully deployed to ${target}`,
-    `bump-vercel-${deployment.id}`
-  ).run();
-  
+  `,
+  )
+    .bind(
+      new Date().toISOString(),
+      `Successfully deployed to ${target}`,
+      `bump-vercel-${deployment.id}`,
+    )
+    .run();
+
   // 2. Log completion in wave_analyses as coherence checkpoint
-  await env.SPIRALSAFE_DB.prepare(`
+  await env.SPIRALSAFE_DB.prepare(
+    `
     INSERT INTO wave_analyses 
     (id, content_hash, curl, divergence, potential, coherent, analyzed_at, source, metadata)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).bind(
-    `deploy-${deployment.id}`,
-    deployment.id,
-    0, // Successful deploy = no repetition issues
-    0, // No divergence (resolved)
-    0, // Potential realized
-    1, // Coherent
-    new Date().toISOString(),
-    'vercel',
-    JSON.stringify({ 
-      project: project.name,
-      target,
-      url: deployment.url
-    })
-  ).run();
-  
+  `,
+  )
+    .bind(
+      `deploy-${deployment.id}`,
+      deployment.id,
+      0, // Successful deploy = no repetition issues
+      0, // No divergence (resolved)
+      0, // Potential realized
+      1, // Coherent
+      new Date().toISOString(),
+      "vercel",
+      JSON.stringify({
+        project: project.name,
+        target,
+        url: deployment.url,
+      }),
+    )
+    .run();
+
   // 3. Create ATOM for deployment tracking
-  await env.SPIRALSAFE_DB.prepare(`
+  await env.SPIRALSAFE_DB.prepare(
+    `
     INSERT INTO atoms (id, name, molecule, compound, status, verification, dependencies, assignee, created_at, updated_at, completed_at, verified_at)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).bind(
-    `atom-deploy-${deployment.id}`,
-    `Deploy to ${target}`,
-    'deployment',
-    project.name,
-    'verified',
-    JSON.stringify({ criteria: { deployed: true, url: deployment.url }, automated: true }),
-    JSON.stringify({ requires: [], blocks: [] }),
-    'vercel',
-    new Date().toISOString(),
-    new Date().toISOString(),
-    new Date().toISOString(),
-    new Date().toISOString()
-  ).run();
-  
-  return new Response(JSON.stringify({ 
-    status: 'deployed',
-    url: deployment.url,
-    coherent: true
-  }), { status: 200 });
+  `,
+  )
+    .bind(
+      `atom-deploy-${deployment.id}`,
+      `Deploy to ${target}`,
+      "deployment",
+      project.name,
+      "verified",
+      JSON.stringify({
+        criteria: { deployed: true, url: deployment.url },
+        automated: true,
+      }),
+      JSON.stringify({ requires: [], blocks: [] }),
+      "vercel",
+      new Date().toISOString(),
+      new Date().toISOString(),
+      new Date().toISOString(),
+      new Date().toISOString(),
+    )
+    .run();
+
+  return new Response(
+    JSON.stringify({
+      status: "deployed",
+      url: deployment.url,
+      coherent: true,
+    }),
+    { status: 200 },
+  );
 }
 
 async function handleDeploymentFailed(
-  payload: VercelDeployHook['payload'],
-  env: Env
+  payload: VercelDeployHook["payload"],
+  env: Env,
 ): Promise<Response> {
   const { deployment, project, target } = payload;
-  
+
   // 1. Create BLOCK bump
-  await env.SPIRALSAFE_DB.prepare(`
+  await env.SPIRALSAFE_DB.prepare(
+    `
     UPDATE bumps 
     SET type = 'BLOCK', state = 'deployment-failed', to_agent = 'engineering'
     WHERE id = ?
-  `).bind(`bump-vercel-${deployment.id}`).run();
-  
+  `,
+  )
+    .bind(`bump-vercel-${deployment.id}`)
+    .run();
+
   // 2. Start SAIF investigation
-  await env.SPIRALSAFE_DB.prepare(`
+  await env.SPIRALSAFE_DB.prepare(
+    `
     INSERT INTO saif_investigations (id, title, phase, symptoms, created_at, updated_at)
     VALUES (?, ?, ?, ?, ?, ?)
-  `).bind(
-    `saif-deploy-${deployment.id}`,
-    `Deployment failure: ${project.name} to ${target}`,
-    'symptom',
-    JSON.stringify([
-      'Vercel deployment failed',
-      `Project: ${project.name}`,
-      `Target: ${target}`,
-      `Deployment ID: ${deployment.id}`
-    ]),
-    new Date().toISOString(),
-    new Date().toISOString()
-  ).run();
-  
-  return new Response(JSON.stringify({ 
-    status: 'failed',
-    saif_investigation: `saif-deploy-${deployment.id}`
-  }), { status: 200 });
+  `,
+  )
+    .bind(
+      `saif-deploy-${deployment.id}`,
+      `Deployment failure: ${project.name} to ${target}`,
+      "symptom",
+      JSON.stringify([
+        "Vercel deployment failed",
+        `Project: ${project.name}`,
+        `Target: ${target}`,
+        `Deployment ID: ${deployment.id}`,
+      ]),
+      new Date().toISOString(),
+      new Date().toISOString(),
+    )
+    .run();
+
+  return new Response(
+    JSON.stringify({
+      status: "failed",
+      saif_investigation: `saif-deploy-${deployment.id}`,
+    }),
+    { status: 200 },
+  );
 }
 ```
 
@@ -357,7 +404,7 @@ graph LR
 ### Deployment Coherence History
 
 ```sql
-SELECT 
+SELECT
   id,
   json_extract(metadata, '$.project') as project,
   json_extract(metadata, '$.target') as target,
@@ -372,7 +419,7 @@ LIMIT 20;
 ### Failed Deployments Under Investigation
 
 ```sql
-SELECT 
+SELECT
   s.id,
   s.title,
   s.phase,
@@ -387,4 +434,4 @@ ORDER BY s.created_at DESC;
 
 ---
 
-*H&&S: Deployment coherence through structured gates*
+_H&&S: Deployment coherence through structured gates_

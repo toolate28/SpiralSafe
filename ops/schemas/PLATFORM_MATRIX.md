@@ -108,48 +108,48 @@
 
 ### Windows
 
-| Strengths | Weaknesses |
-|-----------|------------|
-| Native PowerShell integration | Line ending conversion (CRLF) |
-| Windows Credential Manager | Path length limitations (260 chars) |
-| DPAPI user-context encryption | Case-insensitive filesystem |
-| Windows Hello biometrics | UAC interruptions |
-| WSL2 Unix interop | |
+| Strengths                     | Weaknesses                          |
+| ----------------------------- | ----------------------------------- |
+| Native PowerShell integration | Line ending conversion (CRLF)       |
+| Windows Credential Manager    | Path length limitations (260 chars) |
+| DPAPI user-context encryption | Case-insensitive filesystem         |
+| Windows Hello biometrics      | UAC interruptions                   |
+| WSL2 Unix interop             |                                     |
 
 ### macOS
 
-| Strengths | Weaknesses |
-|-----------|------------|
-| Keychain credential storage | SIP system path restrictions |
-| Native LibreSSL | Gatekeeper signing requirements |
-| Hardened runtime support | Resource fork complexity |
-| Secure Enclave key protection | Homebrew dependencies |
-| Unified Unix toolchain | |
+| Strengths                     | Weaknesses                      |
+| ----------------------------- | ------------------------------- |
+| Keychain credential storage   | SIP system path restrictions    |
+| Native LibreSSL               | Gatekeeper signing requirements |
+| Hardened runtime support      | Resource fork complexity        |
+| Secure Enclave key protection | Homebrew dependencies           |
+| Unified Unix toolchain        |                                 |
 
 ### Linux
 
-| Strengths | Weaknesses |
-|-----------|------------|
-| Native GPG ecosystem | Distro fragmentation |
-| systemd secret management | Varying default crypto tools |
+| Strengths                   | Weaknesses                      |
+| --------------------------- | ------------------------------- |
+| Native GPG ecosystem        | Distro fragmentation            |
+| systemd secret management   | Varying default crypto tools    |
 | Full filesystem permissions | Desktop keyring inconsistencies |
-| Container-native workflows | SELinux/AppArmor contexts |
-| Extensive crypto libraries | |
+| Container-native workflows  | SELinux/AppArmor contexts       |
+| Extensive crypto libraries  |                                 |
 
 ---
 
 ## Redaction Patterns
 
-| Pattern | Description | Example |
-|---------|-------------|---------|
-| `API_KEY` | API keys/tokens | `api_key=sk_live_...` |
-| `AUTH_TOKEN` | Bearer/auth tokens | `Bearer eyJ...` |
-| `JWT` | JSON Web Tokens | `eyJhbGciOiJI...` |
-| `PASSWORD` | Password fields | `password: your_password_here` |
-| `EMAIL` | Email addresses | `user@domain.com` |
-| `IP_ADDRESS` | IPv4 addresses | `192.168.1.1` |
-| `AWS_KEY` | AWS access keys | `AKIA...` |
-| `GCP_KEY` | GCP API keys | `AIza...` |
+| Pattern      | Description        | Example                        |
+| ------------ | ------------------ | ------------------------------ |
+| `API_KEY`    | API keys/tokens    | `api_key=sk_live_...`          |
+| `AUTH_TOKEN` | Bearer/auth tokens | `Bearer eyJ...`                |
+| `JWT`        | JSON Web Tokens    | `eyJhbGciOiJI...`              |
+| `PASSWORD`   | Password fields    | `password: your_password_here` |
+| `EMAIL`      | Email addresses    | `user@domain.com`              |
+| `IP_ADDRESS` | IPv4 addresses     | `192.168.1.1`                  |
+| `AWS_KEY`    | AWS access keys    | `AKIA...`                      |
+| `GCP_KEY`    | GCP API keys       | `AIza...`                      |
 
 ---
 
@@ -172,4 +172,4 @@
 ---
 
 **H&&S:WAVE** | Hope&&Sauced
-*Cross-Platform. Secure by Design. Zero Trust.*
+_Cross-Platform. Secure by Design. Zero Trust._

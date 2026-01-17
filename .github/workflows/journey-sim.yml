@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       apply:
-        description: 'Perform simulated copy/restore (requires self-hosted runner)'
+        description: "Perform simulated copy/restore (requires self-hosted runner)"
         required: false
-        default: 'false'
+        default: "false"
 
 jobs:
   simulate:

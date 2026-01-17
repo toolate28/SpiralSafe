@@ -10,8 +10,8 @@
 -r requirements.txt
 
 # Scientific computing
-numpy==1.26.2
-scipy==1.11.4
+numpy==2.4.1
+scipy==1.17.0
 
 # Visualization
 matplotlib==3.8.2
@@ -26,6 +26,11 @@ manim==0.18.0
 
 # Image processing
 opencv-python==4.9.0.80
+
+# DSPy - Language Model Programming Framework
+# Used for SAIF NPC AI behavior optimization
+# Supports MIPROv2 teleprompter and BootstrapFinetune
+dspy==3.1.0
 
 # Machine Learning (Optional - Large packages)
 # Uncomment only if ML features are needed

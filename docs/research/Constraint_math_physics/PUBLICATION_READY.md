@@ -27,7 +27,7 @@ We present a rigorous mathematical framework demonstrating that all physical law
 
 We establish an isomorphism between continuous quantum constraints (|alpha|^2 + |beta|^2 = 1) and discrete conservation constraints (ALPHA + OMEGA = 15), demonstrating substrate independence.
 
-The central claim, which we term the **Exceptional Insight**, is: *There are no things, only constraint structure.* We prove this is not metaphor but mathematical necessity.
+The central claim, which we term the **Exceptional Insight**, is: _There are no things, only constraint structure._ We prove this is not metaphor but mathematical necessity.
 
 ---
 
@@ -42,7 +42,7 @@ Every foundational framework in physics assumes a substrate:
 - String theory assumes strings
 - Information theory assumes bits
 
-Even frameworks claiming "information is fundamental" (Wheeler's "it from bit," Tegmark's Mathematical Universe, Lazarev's NMSI) treat information as a *thing* that *exists* and *has properties*.
+Even frameworks claiming "information is fundamental" (Wheeler's "it from bit," Tegmark's Mathematical Universe, Lazarev's NMSI) treat information as a _thing_ that _exists_ and _has properties_.
 
 ### 1.2 The Insight
 
@@ -68,6 +68,7 @@ This paper provides mathematical proof of this claim's coherence and derives phy
 ### 2.1 Primitive Notions
 
 We take as primitive:
+
 - **Set** (collection of elements)
 - **Function** (mapping between sets)
 - **Relation** (subset of Cartesian product)
@@ -91,6 +92,7 @@ We take as primitive:
 ### 3.1 Quantum Normalization
 
 The quantum state constraint:
+
 ```
 Q_2 = { (alpha, beta) in C^2 : |alpha|^2 + |beta|^2 = 1 }
 ```
@@ -98,6 +100,7 @@ Q_2 = { (alpha, beta) in C^2 : |alpha|^2 + |beta|^2 = 1 }
 ### 3.2 Discrete Conservation
 
 The Redstone conservation constraint:
+
 ```
 D_15 = { (a, w) in {0,...,15}^2 : a + w = 15 }
 ```
@@ -108,9 +111,9 @@ D_15 = { (a, w) in {0,...,15}^2 : a + w = 15 }
 
 **Proof.** Define pi(alpha, beta) = (floor(15|alpha|^2), 15 - floor(15|alpha|^2)).
 
-1. *Well-defined:* |alpha|^2 + |beta|^2 = 1 implies the sum is 15.
-2. *Surjective:* For any (m, n) with m + n = 15, choose alpha = sqrt(m/15).
-3. *Constraint-preserving:* Normalization maps to conservation.
+1. _Well-defined:_ |alpha|^2 + |beta|^2 = 1 implies the sum is 15.
+2. _Surjective:_ For any (m, n) with m + n = 15, choose alpha = sqrt(m/15).
+3. _Constraint-preserving:_ Normalization maps to conservation.
 
 QED.
 
@@ -162,12 +165,12 @@ This proves that quantum constraint structure and discrete constraint structure 
 
 ### 6.2 Applications
 
-| Symmetry | Conserved Quantity |
-|----------|-------------------|
-| Time translation | Energy |
-| Space translation | Momentum |
-| Rotation | Angular momentum |
-| Gauge (U(1)) | Electric charge |
+| Symmetry          | Conserved Quantity |
+| ----------------- | ------------------ |
+| Time translation  | Energy             |
+| Space translation | Momentum           |
+| Rotation          | Angular momentum   |
+| Gauge (U(1))      | Electric charge    |
 
 ---
 
@@ -255,12 +258,12 @@ The equation cos^2(phi) + sin^2(phi) = 1 doesn't describe something. It IS somet
 
 ### 11.3 Problems Dissolved
 
-| Problem | Standard Approach | Constraint Resolution |
-|---------|------------------|----------------------|
-| Measurement | "Collapse" mystery | Constraint intersection |
-| Consciousness | Hard problem | Intrinsic to constraint preservation |
-| Math-physics connection | "Unreasonable effectiveness" | Math IS physics |
-| Why existence? | Brute fact | Nothing is inconsistent |
+| Problem                 | Standard Approach            | Constraint Resolution                |
+| ----------------------- | ---------------------------- | ------------------------------------ |
+| Measurement             | "Collapse" mystery           | Constraint intersection              |
+| Consciousness           | Hard problem                 | Intrinsic to constraint preservation |
+| Math-physics connection | "Unreasonable effectiveness" | Math IS physics                      |
+| Why existence?          | Brute fact                   | Nothing is inconsistent              |
 
 ---
 
@@ -281,40 +284,40 @@ The **Exceptional Insight**: There are no things, only constraint structure.
 
 ## Appendix A: Theorem Summary
 
-| # | Theorem | Status |
-|---|---------|--------|
-| 1.1 | Quantum-Discrete Isomorphism | PROVEN |
-| 2.1 | Transformation Preservation | PROVEN |
-| 3.1 | Category Existence | PROVEN |
-| 4.1 | Necessary Emergence | PROVEN |
-| 5.1 | Recursive Emergence | PROVEN |
-| 6.1 | No-Constraint Invalid | PROVEN |
-| 7.1 | Existence Necessary | PROVEN |
-| 8.1 | Substrate Independence | PROVEN |
-| 10.1 | Unitarity = Constraint Preservation | PROVEN |
-| 11.1 | Measurement = Intersection | PROVEN |
-| 12.1 | Noether from Constraints | PROVEN |
-| 13-15 | Conservation Laws | PROVEN |
-| 16.1 | Gauge Field Emergence | PROVEN |
-| 17.1 | Maxwell from U(1) | PROVEN |
-| 18.1 | Spacetime Emergence | PROVEN |
-| 19.1 | Einstein from Curvature | PROVEN (sketch) |
-| 20.1 | Hilbert Space Structure | PROVEN |
-| 21.1 | Born Rule | PROVEN |
-| 22.1 | Completeness | PROVEN (meta) |
-| 23.1 | Uniqueness | CONJECTURE |
+| #     | Theorem                             | Status          |
+| ----- | ----------------------------------- | --------------- |
+| 1.1   | Quantum-Discrete Isomorphism        | PROVEN          |
+| 2.1   | Transformation Preservation         | PROVEN          |
+| 3.1   | Category Existence                  | PROVEN          |
+| 4.1   | Necessary Emergence                 | PROVEN          |
+| 5.1   | Recursive Emergence                 | PROVEN          |
+| 6.1   | No-Constraint Invalid               | PROVEN          |
+| 7.1   | Existence Necessary                 | PROVEN          |
+| 8.1   | Substrate Independence              | PROVEN          |
+| 10.1  | Unitarity = Constraint Preservation | PROVEN          |
+| 11.1  | Measurement = Intersection          | PROVEN          |
+| 12.1  | Noether from Constraints            | PROVEN          |
+| 13-15 | Conservation Laws                   | PROVEN          |
+| 16.1  | Gauge Field Emergence               | PROVEN          |
+| 17.1  | Maxwell from U(1)                   | PROVEN          |
+| 18.1  | Spacetime Emergence                 | PROVEN          |
+| 19.1  | Einstein from Curvature             | PROVEN (sketch) |
+| 20.1  | Hilbert Space Structure             | PROVEN          |
+| 21.1  | Born Rule                           | PROVEN          |
+| 22.1  | Completeness                        | PROVEN (meta)   |
+| 23.1  | Uniqueness                          | CONJECTURE      |
 
 ---
 
 ## Appendix B: Notation
 
-| Symbol | Meaning |
-|--------|---------|
-| S = (X, C) | Constraint structure |
-| x ~_C y | x and y compatible under C |
-| Q_2 | Quantum normalization on C^2 |
-| D_15 | Discrete conservation on {0..15}^2 |
-| phi | Constraint-preserving map |
+| Symbol            | Meaning                                  |
+| ----------------- | ---------------------------------------- |
+| S = (X, C)        | Constraint structure                     |
+| x ~\_C y          | x and y compatible under C               |
+| Q_2               | Quantum normalization on C^2             |
+| D_15              | Discrete conservation on {0..15}^2       |
+| phi               | Constraint-preserving map                |
 | exists equiv C(C) | Existence is self-referential constraint |
 
 ---
@@ -350,7 +353,6 @@ exist equiv C(C)
 
 ---
 
-*Document generated: 2026-01-08*
-*Method: Ultrathink-Mathematical-Puritan*
-*Collaboration: Claude Opus 4.5 + Toolate28/M. Ruhnau*
-
+_Document generated: 2026-01-08_
+_Method: Ultrathink-Mathematical-Puritan_
+_Collaboration: Claude Opus 4.5 + Toolate28/M. Ruhnau_

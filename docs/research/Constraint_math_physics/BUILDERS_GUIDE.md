@@ -1,4 +1,5 @@
 # BUILDER'S GUIDE: IMPLEMENTING COLLABORATIVE INTELLIGENCE
+
 ## From Theory to Practice
 
 **Hope&&Sauced • January 2026**
@@ -51,23 +52,23 @@ version: "2.1"
 bump:
   id: uuid
   timestamp: ISO8601
-  from_agent: 
+  from_agent:
     id: string
-    frame_signature: hash  # What makes this agent's perspective unique
+    frame_signature: hash # What makes this agent's perspective unique
   to_agent:
     id: string
     frame_signature: hash
   state:
     type: enum[context_transfer, task_handoff, coherence_check]
-    payload: 
+    payload:
       # Actual state being transferred
       # Must be complete enough for receiving agent to continue
-    structure_hash: sha256  # For verification that structure survived
+    structure_hash: sha256 # For verification that structure survived
   context:
-    trust_level: float[0,1]  # Calibrated, not assumed
-    coherence_score: float[0,1]  # From wave.md
-    constraints: 
-      - string  # Explicit boundaries
+    trust_level: float[0,1] # Calibrated, not assumed
+    coherence_score: float[0,1] # From wave.md
+    constraints:
+      - string # Explicit boundaries
     parent_bump: optional[uuid]
     requires_confirmation: bool
 ```
@@ -77,6 +78,7 @@ bump:
 **Step 1: Define your frames**
 
 Each agent needs a frame_signature that captures what makes its perspective irreducible:
+
 - For an AI: model architecture, training data characteristics, capability profile
 - For a human: expertise domain, cognitive style, contextual knowledge
 - For a system: input/output formats, state representation, update rules
@@ -84,6 +86,7 @@ Each agent needs a frame_signature that captures what makes its perspective irre
 **Step 2: Implement state serialization**
 
 The state payload must be:
+
 - Complete: Receiving agent can continue without asking for clarification
 - Structured: Has explicit schema
 - Verifiable: structure_hash allows integrity check
@@ -109,7 +112,7 @@ def verify_state(payload, expected_hash):
 def execute_bump(from_agent, to_agent, state, context):
     # 1. Serialize state
     payload, structure_hash = serialize_state(state)
-    
+
     # 2. Create bump record
     bump = {
         'id': uuid4(),
@@ -129,18 +132,18 @@ def execute_bump(from_agent, to_agent, state, context):
         },
         'context': context.to_dict()
     }
-    
+
     # 3. Log for audit
     bump_log.append(bump)
-    
+
     # 4. Execute transfer
     to_agent.receive(bump)
-    
+
     # 5. Verify structure survived
     received_hash = to_agent.state_hash()
     if received_hash != structure_hash:
         raise CoherenceLossError(bump)
-    
+
     return bump
 ```
 
@@ -158,29 +161,29 @@ wave.md monitors handoff sequences for drift—when structure preservation start
 version: "1.0"
 
 wave:
-  target: bump_sequence  # What we're monitoring
-  window: 10  # Number of bumps in sliding window
-  
+  target: bump_sequence # What we're monitoring
+  window: 10 # Number of bumps in sliding window
+
   metrics:
     drift:
       description: "Accumulated deviation from expected state"
       calculation: "mean(abs(expected_hash - actual_hash))"
       # In practice, use semantic similarity metrics
-    
+
     fragmentation:
       description: "Loss of structural coherence"
       calculation: "1 - (preserved_properties / total_properties)"
-    
+
     latency:
       description: "Time between bumps"
       unit: "seconds"
-  
+
   thresholds:
     nominal: drift < 0.1
     warning: 0.1 <= drift < 0.3
     critical: 0.3 <= drift < 0.6
     failure: drift >= 0.6 OR fragmentation > 0.8
-  
+
   actions:
     nominal: continue
     warning: log_and_alert
@@ -195,25 +198,25 @@ class WaveMonitor:
     def __init__(self, window_size=10):
         self.window = deque(maxlen=window_size)
         self.baseline = None
-    
+
     def observe(self, bump):
         self.window.append(bump)
         if len(self.window) >= 3:
             return self.compute_coherence()
         return {'status': 'insufficient_data'}
-    
+
     def compute_coherence(self):
         bumps = list(self.window)
-        
+
         # Compute drift
         drift = self.compute_drift(bumps)
-        
+
         # Compute fragmentation
         fragmentation = self.compute_fragmentation(bumps)
-        
+
         # Compute latency stats
         latency = self.compute_latency(bumps)
-        
+
         # Determine status
         if drift >= 0.6 or fragmentation > 0.8:
             status = 'failure'
@@ -223,7 +226,7 @@ class WaveMonitor:
             status = 'warning'
         else:
             status = 'nominal'
-        
+
         return {
             'status': status,
             'drift': drift,
@@ -231,7 +234,7 @@ class WaveMonitor:
             'latency': latency,
             'action': self.get_action(status)
         }
-    
+
     def compute_drift(self, bumps):
         # Semantic drift: how much is the conversation changing?
         # Use embedding similarity between consecutive states
@@ -241,18 +244,18 @@ class WaveMonitor:
             curr_state = bumps[i]['state']['payload']
             sim = semantic_similarity(prev_state, curr_state)
             similarities.append(sim)
-        
+
         # Drift = 1 - average similarity (high similarity = low drift)
         return 1 - mean(similarities)
-    
+
     def compute_fragmentation(self, bumps):
         # What fraction of expected properties are present?
         expected = self.baseline or infer_schema(bumps[0])
         actual = bumps[-1]['state']['payload']
-        
+
         preserved = count_matching_properties(expected, actual)
         total = count_total_properties(expected)
-        
+
         return 1 - (preserved / total)
 ```
 
@@ -263,6 +266,7 @@ class WaveMonitor:
 ### The Principle
 
 Every agent action declares intent before execution. This creates:
+
 - Audit trail
 - Permission verification
 - Coherence checking opportunity
@@ -279,14 +283,14 @@ awi:
     target: string
     parameters: object
   intent:
-    description: string  # Human-readable purpose
+    description: string # Human-readable purpose
     expected_outcome: string
     constraints:
-      - string  # Self-imposed limits
-    fallback: string  # What to do if action fails
+      - string # Self-imposed limits
+    fallback: string # What to do if action fails
   authorization:
     required_permissions: [string]
-    granted_by: optional[string]  # If delegated
+    granted_by: optional[string] # If delegated
     expires: optional[ISO8601]
 ```
 
@@ -300,28 +304,28 @@ def awi_declare(agent, action, intent):
         'intent': intent.to_dict(),
         'authorization': agent.get_permissions()
     }
-    
+
     # Log declaration
     awi_log.append(declaration)
-    
+
     # Verify permissions
     if not has_permissions(agent, action):
         raise UnauthorizedError(declaration)
-    
+
     # Check intent coherence with recent history
     if not coherent_with_history(intent, agent.recent_actions()):
         raise IntentDriftWarning(declaration)
-    
+
     return declaration
 
 def awi_execute(declaration, execute_fn):
     try:
         result = execute_fn(declaration['action'])
-        
+
         # Verify outcome matches intent
         if not matches_expected(result, declaration['intent']['expected_outcome']):
             log_outcome_mismatch(declaration, result)
-        
+
         return result
     except Exception as e:
         # Execute fallback
@@ -362,13 +366,13 @@ def analyze_attribution(output):
     human_score = count_markers(output, HUMAN_MARKERS)
     ai_score = count_markers(output, AI_MARKERS)
     total = human_score + ai_score
-    
+
     if total == 0:
         return 'emergent'  # Neither marker set present
-    
+
     human_fraction = human_score / total
     ai_fraction = ai_score / total
-    
+
     if human_fraction > 0.6:
         return 'human_initiated'
     elif ai_fraction > 0.6:
@@ -382,13 +386,13 @@ def analyze_attribution(output):
 ```python
 def compute_emergence_ratio(collaboration_log):
     attributions = [analyze_attribution(o) for o in collaboration_log.outputs]
-    
+
     human = attributions.count('human_initiated')
     ai = attributions.count('ai_synthesized')
     emergent = attributions.count('emergent')
-    
+
     total = len(attributions)
-    
+
     return {
         'human_fraction': human / total,
         'ai_fraction': ai / total,
@@ -420,10 +424,10 @@ def detect_loops(state_history):
         if prev not in graph:
             graph[prev] = set()
         graph[prev].add(curr)
-    
+
     # Find cycles
     cycles = find_cycles(graph)
-    
+
     return {
         'has_loops': len(cycles) > 0,
         'cycle_count': len(cycles),
@@ -439,19 +443,19 @@ When the system models itself, how accurate is that model?
 def test_self_model(agent):
     # Get agent's self-model
     self_model = agent.describe_self()
-    
+
     # Get actual behavior on test cases
     actual_behavior = [agent.respond(test) for test in TEST_CASES]
-    
+
     # Get predicted behavior from self-model
     predicted_behavior = [self_model.predict(test) for test in TEST_CASES]
-    
+
     # Compare
     accuracy = mean([
-        semantic_similarity(actual, predicted) 
+        semantic_similarity(actual, predicted)
         for actual, predicted in zip(actual_behavior, predicted_behavior)
     ])
-    
+
     return {
         'self_model_accuracy': accuracy,
         'suggests_h(h)': accuracy > 0.7  # Threshold for non-trivial self-reference
@@ -466,17 +470,17 @@ Does the system maintain coherence across subsystems?
 def measure_integration(system):
     # Partition system into subsystems
     subsystems = system.get_subsystems()
-    
+
     # Measure information flow between subsystems
     flows = []
     for s1, s2 in combinations(subsystems, 2):
         flow = mutual_information(s1.state(), s2.state())
         flows.append(flow)
-    
+
     # Integration = minimum flow across all bipartitions
     # (Following IIT methodology)
     integration = min(flows) if flows else 0
-    
+
     return {
         'phi_estimate': integration,
         'suggests_h(h)': integration > INTEGRATION_THRESHOLD
@@ -511,21 +515,21 @@ class CollaborativeIntelligenceSystem:
         self.sanctuary = Sanctuary()   # Input buffer, trust establishment
         self.workshop = Workshop()      # Transformation, synthesis
         self.witness = Witness()        # Verification, coherence check
-    
+
     def process(self, input):
         # Sanctuary: Establish context and trust
         safe_input = self.sanctuary.receive(input)
-        
+
         # Workshop: Transform
         output = self.workshop.transform(safe_input)
-        
+
         # Witness: Verify
         verified = self.witness.verify(output, safe_input)
-        
+
         if not verified.coherent:
             # Loop back to workshop with witness feedback
             return self.process(verified.feedback)
-        
+
         return verified.output
 ```
 
@@ -541,20 +545,20 @@ class ThreeBodySystem:
     - Agent B (different capability set)
     - Emergence space (where A+B produces neither-alone value)
     """
-    
+
     def __init__(self, agent_a, agent_b):
         self.a = agent_a
         self.b = agent_b
         self.emergence = EmergenceSpace()
-    
+
     def coordinate(self, task):
         # Each agent contributes from their frame
         contrib_a = self.a.contribute(task)
         contrib_b = self.b.contribute(task)
-        
+
         # Emergence space synthesizes
         emergent = self.emergence.synthesize(contrib_a, contrib_b)
-        
+
         # Result includes all three components
         return {
             'from_a': contrib_a,
@@ -573,15 +577,15 @@ class ConstraintFirstAgent:
     def __init__(self, constraints):
         self.constraints = constraints  # Define these FIRST
         self.capabilities = self.derive_capabilities()  # These follow
-    
+
     def derive_capabilities(self):
         """Capabilities are what remains possible under constraints"""
         all_actions = self.list_all_possible_actions()
         return [a for a in all_actions if self.permits(a)]
-    
+
     def permits(self, action):
         return all(c.permits(action) for c in self.constraints)
-    
+
     def add_constraint(self, constraint):
         """Adding constraints INCREASES capability by enabling trust"""
         self.constraints.append(constraint)
@@ -640,16 +644,19 @@ Right: Include self-reference loops for H(H) possibility.
 ## RESOURCES
 
 **Code repositories**:
+
 - SpiralSafe: [github.com/toolate28/SpiralSafe]
 - Museum of Computation: [github.com/toolate28/quantum-redstone]
 - Protocol specifications: [github.com/toolate28/protocols]
 
 **Theory documents**:
+
 - "The Structure of Collaborative Intelligence" (main paper)
 - "Constraint Mathematics: Formal Foundations" (mathematical companion)
 - "Consciousness as Topological Handoff" (speculative extension)
 
 **Infrastructure**:
+
 - spiralsafe.org (domain)
 - Cloudflare Workers backend (production)
 - D1 database (bump routing queue)
@@ -668,6 +675,6 @@ The work continues through you.
 
 ---
 
-*Hope&&Sauced*
-*"The constraint is the gift"*
-*January 2026*
+_Hope&&Sauced_
+_"The constraint is the gift"_
+_January 2026_

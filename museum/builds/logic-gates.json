@@ -7,7 +7,7 @@
     {
       "name": "AND Gate",
       "description": "Two-input AND gate using redstone",
-      "dimensions": {"x": 5, "y": 3, "z": 7},
+      "dimensions": { "x": 5, "y": 3, "z": 7 },
       "worldedit_commands": [
         "//pos1",
         "//pos2 ~5 ~3 ~7",
@@ -17,11 +17,14 @@
       ],
       "schematic_data": {
         "blocks": [
-          {"pos": [0, 0, 0], "block": "minecraft:stone"},
-          {"pos": [1, 0, 1], "block": "minecraft:redstone_torch"},
-          {"pos": [2, 0, 2], "block": "minecraft:redstone_wire"},
-          {"pos": [3, 0, 3], "block": "minecraft:repeater[facing=north,delay=1]"},
-          {"pos": [4, 0, 4], "block": "minecraft:redstone_lamp"}
+          { "pos": [0, 0, 0], "block": "minecraft:stone" },
+          { "pos": [1, 0, 1], "block": "minecraft:redstone_torch" },
+          { "pos": [2, 0, 2], "block": "minecraft:redstone_wire" },
+          {
+            "pos": [3, 0, 3],
+            "block": "minecraft:repeater[facing=north,delay=1]"
+          },
+          { "pos": [4, 0, 4], "block": "minecraft:redstone_lamp" }
         ],
         "description": "Input A + Input B = Output (both must be ON)"
       },
@@ -35,15 +38,15 @@
         ]
       },
       "interactive": {
-        "input_a": {"pos": [0, 1, 0], "block": "minecraft:lever"},
-        "input_b": {"pos": [0, 1, 2], "block": "minecraft:lever"},
-        "output": {"pos": [4, 1, 4], "block": "minecraft:redstone_lamp"}
+        "input_a": { "pos": [0, 1, 0], "block": "minecraft:lever" },
+        "input_b": { "pos": [0, 1, 2], "block": "minecraft:lever" },
+        "output": { "pos": [4, 1, 4], "block": "minecraft:redstone_lamp" }
       }
     },
     {
       "name": "OR Gate",
       "description": "Two-input OR gate using redstone",
-      "dimensions": {"x": 5, "y": 3, "z": 7},
+      "dimensions": { "x": 5, "y": 3, "z": 7 },
       "worldedit_commands": [
         "//pos1 ~10 ~0 ~0",
         "//pos2 ~15 ~3 ~7",
@@ -51,11 +54,11 @@
       ],
       "schematic_data": {
         "blocks": [
-          {"pos": [10, 0, 0], "block": "minecraft:stone"},
-          {"pos": [11, 0, 1], "block": "minecraft:redstone_wire"},
-          {"pos": [12, 0, 2], "block": "minecraft:redstone_wire"},
-          {"pos": [13, 0, 3], "block": "minecraft:redstone_wire"},
-          {"pos": [14, 0, 4], "block": "minecraft:redstone_lamp"}
+          { "pos": [10, 0, 0], "block": "minecraft:stone" },
+          { "pos": [11, 0, 1], "block": "minecraft:redstone_wire" },
+          { "pos": [12, 0, 2], "block": "minecraft:redstone_wire" },
+          { "pos": [13, 0, 3], "block": "minecraft:redstone_wire" },
+          { "pos": [14, 0, 4], "block": "minecraft:redstone_lamp" }
         ],
         "description": "Input A OR Input B = Output (either can be ON)"
       },
@@ -72,7 +75,7 @@
     {
       "name": "NOT Gate (Inverter)",
       "description": "NOT gate using redstone torch",
-      "dimensions": {"x": 3, "y": 3, "z": 5},
+      "dimensions": { "x": 3, "y": 3, "z": 5 },
       "worldedit_commands": [
         "//pos1 ~20 ~0 ~0",
         "//pos2 ~23 ~3 ~5",
@@ -80,11 +83,11 @@
       ],
       "schematic_data": {
         "blocks": [
-          {"pos": [20, 0, 0], "block": "minecraft:stone"},
-          {"pos": [21, 0, 1], "block": "minecraft:redstone_wire"},
-          {"pos": [21, 1, 2], "block": "minecraft:redstone_torch"},
-          {"pos": [22, 0, 3], "block": "minecraft:redstone_wire"},
-          {"pos": [22, 0, 4], "block": "minecraft:redstone_lamp"}
+          { "pos": [20, 0, 0], "block": "minecraft:stone" },
+          { "pos": [21, 0, 1], "block": "minecraft:redstone_wire" },
+          { "pos": [21, 1, 2], "block": "minecraft:redstone_torch" },
+          { "pos": [22, 0, 3], "block": "minecraft:redstone_wire" },
+          { "pos": [22, 0, 4], "block": "minecraft:redstone_lamp" }
         ],
         "description": "Input A = NOT Output (inverts the signal)"
       },
@@ -101,7 +104,7 @@
     {
       "name": "XOR Gate",
       "description": "Exclusive OR gate - true when inputs differ",
-      "dimensions": {"x": 7, "y": 4, "z": 9},
+      "dimensions": { "x": 7, "y": 4, "z": 9 },
       "worldedit_commands": [
         "//pos1 ~30 ~0 ~0",
         "//pos2 ~37 ~4 ~9",
@@ -109,11 +112,14 @@
       ],
       "schematic_data": {
         "blocks": [
-          {"pos": [30, 0, 0], "block": "minecraft:stone"},
-          {"pos": [31, 0, 2], "block": "minecraft:redstone_torch"},
-          {"pos": [32, 0, 4], "block": "minecraft:redstone_comparator[facing=north]"},
-          {"pos": [34, 0, 6], "block": "minecraft:redstone_wire"},
-          {"pos": [36, 0, 8], "block": "minecraft:redstone_lamp"}
+          { "pos": [30, 0, 0], "block": "minecraft:stone" },
+          { "pos": [31, 0, 2], "block": "minecraft:redstone_torch" },
+          {
+            "pos": [32, 0, 4],
+            "block": "minecraft:redstone_comparator[facing=north]"
+          },
+          { "pos": [34, 0, 6], "block": "minecraft:redstone_wire" },
+          { "pos": [36, 0, 8], "block": "minecraft:redstone_lamp" }
         ],
         "description": "Output TRUE when inputs DIFFER"
       },
@@ -134,7 +140,7 @@
     "path_material": "minecraft:polished_blackstone_bricks",
     "walls": "minecraft:smooth_stone",
     "lighting": "minecraft:lantern",
-    "total_dimensions": {"x": 50, "y": 6, "z": 15}
+    "total_dimensions": { "x": 50, "y": 6, "z": 15 }
   },
   "educational_elements": {
     "entrance_sign": [

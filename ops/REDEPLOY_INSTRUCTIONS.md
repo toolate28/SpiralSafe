@@ -9,6 +9,7 @@
 ## ✅ What's Been Fixed
 
 1. **wrangler.toml** - D1/KV/R2 bindings uncommented with correct IDs:
+
    ```toml
    [[d1_databases]]
    binding = "SPIRALSAFE_DB"
@@ -37,6 +38,7 @@ git pull origin claude/review-codebase-state-KuPq8
 ```
 
 **Expected Output**:
+
 ```
 Updating c067f67..c04c070
 Fast-forward
@@ -60,6 +62,7 @@ npx wrangler deploy
 ```
 
 **Expected Output**:
+
 ```
 Total Upload: XX.XX KiB / gzip: XX.XX KiB
 Uploaded spiralsafe-api (X.XX sec)
@@ -76,6 +79,7 @@ curl https://api.spiralsafe.org/api/health | ConvertFrom-Json | ConvertTo-Json -
 ```
 
 **Expected Output**:
+
 ```json
 {
   "status": "healthy",
@@ -97,6 +101,7 @@ $env:SPIRALSAFE_API_KEY = "<YOUR_SPIRALSAFE_API_KEY>"
 ```
 
 **Expected**: All 6 endpoints should return successful responses:
+
 ```
 ✅ Health Check: 200 OK
 ✅ WAVE Analysis: 200 OK
@@ -113,15 +118,19 @@ $env:SPIRALSAFE_API_KEY = "<YOUR_SPIRALSAFE_API_KEY>"
 ### If bindings still show false:
 
 1. **Check wrangler.toml**:
+
    ```powershell
    cat ops/wrangler.toml | Select-String -Pattern "^\[\[d1_databases\]\]"
    ```
+
    Should return matches WITHOUT `#` prefix
 
 2. **Verify secrets are set**:
+
    ```powershell
    npx wrangler secret list
    ```
+
    Should show `SPIRALSAFE_API_KEY`
 
 3. **Check deployment logs**:
@@ -133,6 +142,7 @@ $env:SPIRALSAFE_API_KEY = "<YOUR_SPIRALSAFE_API_KEY>"
 ### If authentication fails:
 
 Check that the API key environment variable is set:
+
 ```powershell
 echo $env:SPIRALSAFE_API_KEY
 ```
@@ -154,12 +164,12 @@ Should output your 64-character hex API key (e.g., `abc123...def456`)
 
 ## 🎯 Current Status
 
-| Component | Status | Notes |
-|-----------|--------|-------|
-| Security Fix | ✅ Deployed | API key auth working |
-| Binding Fix | ⏳ Ready | Committed, needs redeploy |
-| Test Script | ✅ Updated | Includes API key header |
-| Documentation | ✅ Complete | All guides created |
+| Component     | Status      | Notes                     |
+| ------------- | ----------- | ------------------------- |
+| Security Fix  | ✅ Deployed | API key auth working      |
+| Binding Fix   | ⏳ Ready    | Committed, needs redeploy |
+| Test Script   | ✅ Updated  | Includes API key header   |
+| Documentation | ✅ Complete | All guides created        |
 
 ---
 

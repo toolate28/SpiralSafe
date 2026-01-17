@@ -4,12 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       apply:
-        description: 'Run scripts with -Apply (dangerous)'
+        description: "Run scripts with -Apply (dangerous)"
         required: false
-        default: 'false'
+        default: "false"
   push:
     branches:
-      - 'docs/cleanup/**'
+      - "docs/cleanup/**"
 
 jobs:
   run-scripts:

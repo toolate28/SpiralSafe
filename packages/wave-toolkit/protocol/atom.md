@@ -12,11 +12,11 @@ Complex projects fail predictably: tasks too large to track, dependencies discov
 
 ## Core Concepts
 
-| Unit | Definition |
-|------|------------|
-| **Atom** | Smallest verifiable, independent, valuable, bounded task |
-| **Molecule** | Cluster of related atoms accomplishing a sub-goal |
-| **Compound** | Full project—all molecules combined |
+| Unit         | Definition                                               |
+| ------------ | -------------------------------------------------------- |
+| **Atom**     | Smallest verifiable, independent, valuable, bounded task |
+| **Molecule** | Cluster of related atoms accomplishing a sub-goal        |
+| **Compound** | Full project—all molecules combined                      |
 
 ---
 
@@ -73,4 +73,4 @@ metadata:
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_

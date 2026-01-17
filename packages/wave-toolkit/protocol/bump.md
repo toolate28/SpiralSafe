@@ -12,13 +12,13 @@ bump.md enables clean transitions when work moves between different AI agents, s
 
 ## Bump Types
 
-| Type | Marker | Use Case |
-|------|--------|----------|
-| WAVE | `H&&S:WAVE` | Soft handoff—review welcome, ownership retained |
-| PASS | `H&&S:PASS` | Hard handoff—ownership transfers |
-| PING | `H&&S:PING` | Attention request—no ownership change |
-| SYNC | `H&&S:SYNC` | State synchronization—bidirectional update |
-| BLOCK | `H&&S:BLOCK` | Work blocked—requires resolution |
+| Type  | Marker       | Use Case                                        |
+| ----- | ------------ | ----------------------------------------------- |
+| WAVE  | `H&&S:WAVE`  | Soft handoff—review welcome, ownership retained |
+| PASS  | `H&&S:PASS`  | Hard handoff—ownership transfers                |
+| PING  | `H&&S:PING`  | Attention request—no ownership change           |
+| SYNC  | `H&&S:SYNC`  | State synchronization—bidirectional update      |
+| BLOCK | `H&&S:BLOCK` | Work blocked—requires resolution                |
 
 ---
 
@@ -28,7 +28,9 @@ bump.md enables clean transitions when work moves between different AI agents, s
 
 ```markdown
 <!-- H&&S:WAVE -->
+
 Structural work complete. Ready for formatting review.
+
 <!-- /H&&S:WAVE -->
 ```
 
@@ -41,7 +43,9 @@ Structural work complete. Ready for formatting review.
   state: draft-complete
   needs: [formatting, link-validation]
 -->
+
 Semantic content is final.
+
 <!-- /H&&S:PASS -->
 ```
 
@@ -74,6 +78,7 @@ Agent → BLOCK → Human resolves → Agent continues
 ## Context Preservation
 
 Every bump should include:
+
 - **Origin**: Who/what is sending
 - **Intent**: What the receiver should do
 - **State**: Current completion status
@@ -100,4 +105,4 @@ H&&S:PASS to Copilot for formatting review
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_

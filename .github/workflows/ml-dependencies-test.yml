@@ -17,15 +17,15 @@ on:
   workflow_dispatch:
     inputs:
       test_torch:
-        description: 'Test PyTorch'
+        description: "Test PyTorch"
         type: boolean
         default: true
       test_qiskit:
-        description: 'Test Qiskit'
+        description: "Test Qiskit"
         type: boolean
         default: false
       use_gpu:
-        description: 'Use GPU runner (if available)'
+        description: "Use GPU runner (if available)"
         type: boolean
         default: false
 
@@ -41,10 +41,10 @@ jobs:
     if: |
       github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'test-ml'))
-    
+
     permissions:
       contents: read
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -52,8 +52,8 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
-          cache: 'pip'
+          python-version: "3.10"
+          cache: "pip"
 
       - name: Install Core Dependencies
         run: |
@@ -65,7 +65,7 @@ jobs:
         run: |
           echo "Installing PyTorch (CPU-only for CI)"
           pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-          
+
           echo "Installing other ML dependencies"
           pip install numpy scipy matplotlib plotly networkx sympy opencv-python
 
