@@ -344,14 +344,14 @@ awi_request() {
         exit 1
     fi
     
-    # Validate level is a non-negative integer
-    if ! [[ "$level" =~ ^[0-9]+$ ]]; then
+    # Validate level is a non-negative integer (no leading zeros, except for 0)
+    if ! [[ "$level" =~ ^(0|[1-9][0-9]*)$ ]]; then
         log_error "Level must be a non-negative integer"
         exit 1
     fi
     
-    # Validate ttl is a non-negative integer
-    if ! [[ "$ttl" =~ ^[0-9]+$ ]]; then
+    # Validate ttl is a non-negative integer (no leading zeros, except for 0)
+    if ! [[ "$ttl" =~ ^(0|[1-9][0-9]*)$ ]]; then
         log_error "TTL must be a non-negative integer"
         exit 1
     fi
