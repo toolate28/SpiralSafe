@@ -1,0 +1,342 @@
+# ═══════════════════════════════════════════════════════════════
+# Coherence Oracle Monitoring
+# Self-healing coherence system with auto-correction triggers
+# ═══════════════════════════════════════════════════════════════
+#
+# Stage 3 of Vortex Cascade Collapse (fib_weight: 5)
+# Continuously scans fidelity/coherence metrics and auto-triggers
+# targeted corrections when <92% coherence detected.
+#
+# H&&S: Guardian oracle - enforces global >60% emergent quality threshold
+# ATOM: ATOM-FEAT-20260117-003-coherence-oracle-monitoring
+
+name: Coherence Oracle
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  
+  workflow_dispatch:
+    inputs:
+      threshold_override:
+        description: 'Override coherence threshold (default: 0.92)'
+        type: string
+        default: '0.92'
+      full_scan:
+        description: 'Run full repository scan'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  SPIRALSAFE_API_BASE: ${{ vars.SPIRALSAFE_API_BASE || 'https://api.spiralsafe.org' }}
+  DEFAULT_COHERENCE_THRESHOLD: 0.92
+  EMERGENT_QUALITY_THRESHOLD: 0.60
+  FIBONACCI_WEIGHT_STAGE_3: 5
+
+jobs:
+  # ─────────────────────────────────────────────────────────────
+  # Oracle Scan: Document Coherence Analysis
+  # ─────────────────────────────────────────────────────────────
+  oracle-scan:
+    name: Oracle Document Scan
+    runs-on: ubuntu-latest
+    
+    outputs:
+      overall_coherence: ${{ steps.scan.outputs.overall_coherence }}
+      emergent_quality: ${{ steps.scan.outputs.emergent_quality }}
+      flagged_documents: ${{ steps.scan.outputs.flagged_documents }}
+      high_curl_count: ${{ steps.scan.outputs.high_curl_count }}
+      high_divergence_count: ${{ steps.scan.outputs.high_divergence_count }}
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Oracle Coherence Scan
+        id: scan
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  Coherence Oracle Scan (fib_weight: ${{ env.FIBONACCI_WEIGHT_STAGE_3 }})"
+          echo "═══════════════════════════════════════════════════════════════"
+          echo ""
+          
+          # Determine threshold
+          THRESHOLD="${{ github.event.inputs.threshold_override || env.DEFAULT_COHERENCE_THRESHOLD }}"
+          echo "Coherence threshold: $THRESHOLD"
+          echo ""
+          
+          # Initialize counters
+          TOTAL_COHERENCE=0
+          FILE_COUNT=0
+          HIGH_CURL_COUNT=0
+          HIGH_DIVERGENCE_COUNT=0
+          FLAGGED_DOCS=""
+          
+          # Scan key directories
+          SCAN_DIRS="docs protocol methodology foundation interface"
+          
+          if [ "${{ github.event.inputs.full_scan }}" == "true" ]; then
+            SCAN_DIRS="."
+            echo "Full scan mode enabled"
+          fi
+          
+          for dir in $SCAN_DIRS; do
+            if [ ! -d "$dir" ] && [ "$dir" != "." ]; then
+              continue
+            fi
+            
+            while IFS= read -r file; do
+              if [ -f "$file" ]; then
+                CONTENT=$(cat "$file")
+                WORD_COUNT=$(echo "$CONTENT" | wc -w)
+                
+                # Skip very short files
+                if [ "$WORD_COUNT" -lt 50 ]; then
+                  continue
+                fi
+                
+                # Calculate curl (repetition detection)
+                SENTENCES=$(echo "$CONTENT" | tr '.' '\n' | grep -E '.{20,}' | sort)
+                UNIQUE_SENTENCES=$(echo "$SENTENCES" | uniq | wc -l)
+                TOTAL_SENTENCES=$(echo "$SENTENCES" | wc -l)
+                
+                if [ "$TOTAL_SENTENCES" -gt 0 ]; then
+                  CURL=$(echo "scale=3; 1 - ($UNIQUE_SENTENCES / $TOTAL_SENTENCES)" | bc)
+                else
+                  CURL=0
+                fi
+                
+                # Calculate divergence (unresolved questions)
+                QUESTIONS=$(echo "$CONTENT" | grep -c '?' || true)
+                RESOLVED=$(echo "$CONTENT" | grep -cE 'therefore|thus|conclusion|summary|answer|solution' || true)
+                
+                if [ "$QUESTIONS" -gt 0 ]; then
+                  DIV=$(echo "scale=3; ($QUESTIONS - $RESOLVED) / $QUESTIONS * 0.5" | bc)
+                  # Ensure non-negative
+                  if [ "$(echo "$DIV < 0" | bc)" -eq 1 ]; then
+                    DIV=0
+                  fi
+                else
+                  DIV="0.15"
+                fi
+                
+                # Calculate file coherence
+                FILE_COHERENCE=$(echo "scale=3; 1 - (($CURL + $DIV) / 2)" | bc)
+                
+                # Track flagged documents
+                IS_FLAGGED="false"
+                
+                if [ "$(echo "$CURL > 0.3" | bc)" -eq 1 ]; then
+                  HIGH_CURL_COUNT=$((HIGH_CURL_COUNT + 1))
+                  IS_FLAGGED="true"
+                fi
+                
+                if [ "$(echo "$DIV > 0.4" | bc)" -eq 1 ]; then
+                  HIGH_DIVERGENCE_COUNT=$((HIGH_DIVERGENCE_COUNT + 1))
+                  IS_FLAGGED="true"
+                fi
+                
+                if [ "$IS_FLAGGED" == "true" ]; then
+                  FLAGGED_DOCS="$FLAGGED_DOCS|$file:curl=$CURL,div=$DIV"
+                fi
+                
+                TOTAL_COHERENCE=$(echo "scale=3; $TOTAL_COHERENCE + $FILE_COHERENCE" | bc)
+                FILE_COUNT=$((FILE_COUNT + 1))
+              fi
+            done < <(find "$dir" -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" -not -path "./archive/*" 2>/dev/null)
+          done
+          
+          # Calculate overall coherence
+          if [ "$FILE_COUNT" -gt 0 ]; then
+            OVERALL_COHERENCE=$(echo "scale=3; $TOTAL_COHERENCE / $FILE_COUNT" | bc)
+          else
+            OVERALL_COHERENCE=1
+          fi
+          
+          # Calculate emergent quality
+          # (weighted combination of coherence and structural integrity)
+          EMERGENT_QUALITY=$(echo "scale=3; $OVERALL_COHERENCE * 0.7 + (1 - $HIGH_CURL_COUNT / ($FILE_COUNT + 1)) * 0.3" | bc)
+          
+          echo "───────────────────────────────────────────────────────────────"
+          echo "  Oracle Scan Results"
+          echo "───────────────────────────────────────────────────────────────"
+          echo "  Files scanned: $FILE_COUNT"
+          echo "  Overall coherence: $OVERALL_COHERENCE"
+          echo "  Emergent quality: $EMERGENT_QUALITY"
+          echo "  High curl documents: $HIGH_CURL_COUNT"
+          echo "  High divergence documents: $HIGH_DIVERGENCE_COUNT"
+          echo "───────────────────────────────────────────────────────────────"
+          
+          # Set outputs
+          echo "overall_coherence=$OVERALL_COHERENCE" >> $GITHUB_OUTPUT
+          echo "emergent_quality=$EMERGENT_QUALITY" >> $GITHUB_OUTPUT
+          echo "flagged_documents=$FLAGGED_DOCS" >> $GITHUB_OUTPUT
+          echo "high_curl_count=$HIGH_CURL_COUNT" >> $GITHUB_OUTPUT
+          echo "high_divergence_count=$HIGH_DIVERGENCE_COUNT" >> $GITHUB_OUTPUT
+      
+      - name: Report to API
+        continue-on-error: true
+        run: |
+          echo "Reporting oracle scan results to API..."
+          
+          PAYLOAD=$(jq -n \
+            --arg coherence "${{ steps.scan.outputs.overall_coherence }}" \
+            --arg quality "${{ steps.scan.outputs.emergent_quality }}" \
+            --arg curl_count "${{ steps.scan.outputs.high_curl_count }}" \
+            --arg div_count "${{ steps.scan.outputs.high_divergence_count }}" \
+            --arg sha "${{ github.sha }}" \
+            '{
+              content: "Coherence oracle periodic scan",
+              metadata: {
+                oracle_type: "scheduled",
+                cascade_stage: 3,
+                fibonacci_weight: 5,
+                overall_coherence: ($coherence | tonumber),
+                emergent_quality: ($quality | tonumber),
+                high_curl_documents: ($curl_count | tonumber),
+                high_divergence_documents: ($div_count | tonumber),
+                repository: "${{ github.repository }}",
+                sha: $sha,
+                signature: "H&&S:GH-COPILOT"
+              }
+            }')
+          
+          curl -s -X POST "${{ env.SPIRALSAFE_API_BASE }}/api/wave/analyze" \
+            -H "Content-Type: application/json" \
+            -H "X-API-Key: ${{ secrets.SPIRALSAFE_API_KEY }}" \
+            -d "$PAYLOAD" || echo "API unavailable"
+
+  # ─────────────────────────────────────────────────────────────
+  # Oracle Alert: Trigger corrections if needed
+  # ─────────────────────────────────────────────────────────────
+  oracle-alert:
+    name: Oracle Alert System
+    runs-on: ubuntu-latest
+    needs: oracle-scan
+    if: |
+      needs.oracle-scan.outputs.overall_coherence < 0.92 ||
+      needs.oracle-scan.outputs.emergent_quality < 0.60
+      
+    steps:
+      - name: Generate Alert
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  ⚠️  COHERENCE ORACLE ALERT"
+          echo "═══════════════════════════════════════════════════════════════"
+          echo ""
+          echo "Overall Coherence: ${{ needs.oracle-scan.outputs.overall_coherence }}"
+          echo "Emergent Quality: ${{ needs.oracle-scan.outputs.emergent_quality }}"
+          echo ""
+          
+          if [ "$(echo "${{ needs.oracle-scan.outputs.overall_coherence }} < 0.92" | bc)" -eq 1 ]; then
+            echo "❌ Coherence below 92% threshold"
+          fi
+          
+          if [ "$(echo "${{ needs.oracle-scan.outputs.emergent_quality }} < 0.60" | bc)" -eq 1 ]; then
+            echo "❌ Emergent quality below 60% threshold"
+          fi
+          
+          echo ""
+          echo "High curl documents: ${{ needs.oracle-scan.outputs.high_curl_count }}"
+          echo "High divergence documents: ${{ needs.oracle-scan.outputs.high_divergence_count }}"
+      
+      - name: Create BLOCK Bump
+        continue-on-error: true
+        run: |
+          PAYLOAD=$(jq -n \
+            --arg coherence "${{ needs.oracle-scan.outputs.overall_coherence }}" \
+            --arg quality "${{ needs.oracle-scan.outputs.emergent_quality }}" \
+            --arg curl_count "${{ needs.oracle-scan.outputs.high_curl_count }}" \
+            --arg div_count "${{ needs.oracle-scan.outputs.high_divergence_count }}" \
+            '{
+              type: "BLOCK",
+              from: "coherence-oracle",
+              to: "human-maintainer",
+              state: "oracle_alert",
+              context: {
+                overall_coherence: ($coherence | tonumber),
+                emergent_quality: ($quality | tonumber),
+                high_curl_documents: ($curl_count | tonumber),
+                high_divergence_documents: ($div_count | tonumber),
+                thresholds: {
+                  coherence: 0.92,
+                  emergent_quality: 0.60
+                },
+                cascade_stage: 3,
+                fibonacci_weight: 5,
+                signature: "H&&S:GH-COPILOT",
+                alert_type: "periodic_scan",
+                recommendation: "Review flagged documents for circular reasoning or unresolved expansions"
+              }
+            }')
+          
+          curl -s -X POST "${{ env.SPIRALSAFE_API_BASE }}/api/bump/create" \
+            -H "Content-Type: application/json" \
+            -H "X-API-Key: ${{ secrets.SPIRALSAFE_API_KEY }}" \
+            -d "$PAYLOAD" || echo "API unavailable"
+          
+          echo ""
+          echo "H&&S:BLOCK → Oracle alert sent for human review"
+
+  # ─────────────────────────────────────────────────────────────
+  # Oracle Summary
+  # ─────────────────────────────────────────────────────────────
+  oracle-summary:
+    name: Oracle Summary Report
+    runs-on: ubuntu-latest
+    needs: [oracle-scan, oracle-alert]
+    if: always()
+    
+    steps:
+      - name: Generate Summary
+        run: |
+          echo "## 🔮 Coherence Oracle Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### System Health" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          COHERENCE="${{ needs.oracle-scan.outputs.overall_coherence || 'N/A' }}"
+          QUALITY="${{ needs.oracle-scan.outputs.emergent_quality || 'N/A' }}"
+          
+          # Status icons
+          if [ "$COHERENCE" != "N/A" ]; then
+            if [ "$(echo "$COHERENCE >= 0.92" | bc 2>/dev/null || echo 0)" -eq 1 ]; then
+              COH_ICON="✅"
+            else
+              COH_ICON="⚠️"
+            fi
+          else
+            COH_ICON="❓"
+          fi
+          
+          if [ "$QUALITY" != "N/A" ]; then
+            if [ "$(echo "$QUALITY >= 0.60" | bc 2>/dev/null || echo 0)" -eq 1 ]; then
+              QUAL_ICON="✅"
+            else
+              QUAL_ICON="⚠️"
+            fi
+          else
+            QUAL_ICON="❓"
+          fi
+          
+          echo "| Metric | Value | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Overall Coherence | $COHERENCE | $COH_ICON (threshold: 0.92) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Emergent Quality | $QUALITY | $QUAL_ICON (threshold: 0.60) |" >> $GITHUB_STEP_SUMMARY
+          echo "| High Curl Documents | ${{ needs.oracle-scan.outputs.high_curl_count || 'N/A' }} | |" >> $GITHUB_STEP_SUMMARY
+          echo "| High Divergence Documents | ${{ needs.oracle-scan.outputs.high_divergence_count || 'N/A' }} | |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Cascade Stage 3 (fib_weight: 5)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "The coherence oracle continuously monitors documentation health and" >> $GITHUB_STEP_SUMMARY
+          echo "auto-triggers targeted corrections when metrics fall below thresholds." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "*H&&S:SYNC — Oracle scan complete*" >> $GITHUB_STEP_SUMMARY

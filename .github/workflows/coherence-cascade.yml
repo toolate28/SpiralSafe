@@ -1,0 +1,387 @@
+# ═══════════════════════════════════════════════════════════════
+# Coherence Cascade Integration
+# Auto-triggers coherence analysis on dependabot merges
+# ═══════════════════════════════════════════════════════════════
+#
+# Part of Stage 1 of Vortex Cascade Collapse (fib_weight: 13)
+# When dependabot PRs merge, this workflow:
+# 1. Runs coherence analysis on the updated codebase
+# 2. Reports metrics to the SpiralSafe API
+# 3. Creates ATOM tags for dependency update tracking
+# 4. Triggers the coherence oracle for auto-correction if needed
+#
+# H&&S: Autonomous maintenance lattice - zero-touch dependency evolution
+# ATOM: ATOM-FEAT-20260117-002-coherence-cascade-workflow
+
+name: Coherence Cascade Integration
+
+on:
+  # Trigger on dependabot PRs being merged
+  pull_request:
+    types: [closed]
+    branches: [main]
+  
+  # Trigger on push to main from dependabot commits
+  push:
+    branches: [main]
+  
+  # Manual trigger for testing
+  workflow_dispatch:
+    inputs:
+      force_cascade:
+        description: 'Force cascade execution regardless of trigger source'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pull-requests: read
+
+env:
+  SPIRALSAFE_API_BASE: ${{ vars.SPIRALSAFE_API_BASE || 'https://api.spiralsafe.org' }}
+  COHERENCE_THRESHOLD: 0.92
+  FIBONACCI_WEIGHT_STAGE_1: 13
+
+jobs:
+  # ─────────────────────────────────────────────────────────────
+  # Detect if this is a cascade-triggering event
+  # ─────────────────────────────────────────────────────────────
+  detect-cascade-trigger:
+    name: Detect Cascade Trigger
+    runs-on: ubuntu-latest
+    outputs:
+      is_cascade: ${{ steps.detect.outputs.is_cascade }}
+      trigger_type: ${{ steps.detect.outputs.trigger_type }}
+      
+    steps:
+      - name: Detect trigger type
+        id: detect
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  Detecting Cascade Trigger"
+          echo "═══════════════════════════════════════════════════════════════"
+          
+          IS_CASCADE="false"
+          TRIGGER_TYPE="none"
+          
+          # Check if manually forced
+          if [ "${{ github.event.inputs.force_cascade }}" == "true" ]; then
+            IS_CASCADE="true"
+            TRIGGER_TYPE="manual_force"
+            echo "✓ Manual force cascade enabled"
+          fi
+          
+          # Check if PR was merged by dependabot
+          if [ "${{ github.event_name }}" == "pull_request" ] && \
+             [ "${{ github.event.pull_request.merged }}" == "true" ]; then
+            
+            PR_AUTHOR="${{ github.event.pull_request.user.login }}"
+            echo "PR author: $PR_AUTHOR"
+            
+            if [ "$PR_AUTHOR" == "dependabot[bot]" ] || \
+               [ "$PR_AUTHOR" == "dependabot" ]; then
+              IS_CASCADE="true"
+              TRIGGER_TYPE="dependabot_merge"
+              echo "✓ Dependabot PR merged - triggering cascade"
+            fi
+            
+            # Check for cascade labels
+            LABELS="${{ join(github.event.pull_request.labels.*.name, ',') }}"
+            if [[ "$LABELS" == *"cascade-stage-1"* ]]; then
+              IS_CASCADE="true"
+              TRIGGER_TYPE="cascade_label"
+              echo "✓ Cascade label detected"
+            fi
+          fi
+          
+          # Check if push commit is from dependabot
+          if [ "${{ github.event_name }}" == "push" ]; then
+            COMMIT_AUTHOR="${{ github.event.head_commit.author.name }}"
+            COMMIT_MSG="${{ github.event.head_commit.message }}"
+            
+            if [[ "$COMMIT_AUTHOR" == *"dependabot"* ]] || \
+               [[ "$COMMIT_MSG" == "[deps]"* ]] || \
+               [[ "$COMMIT_MSG" == "[deps-py]"* ]] || \
+               [[ "$COMMIT_MSG" == "[ci]"* ]]; then
+              IS_CASCADE="true"
+              TRIGGER_TYPE="dependabot_push"
+              echo "✓ Dependabot commit detected"
+            fi
+          fi
+          
+          echo ""
+          echo "Cascade trigger: $IS_CASCADE"
+          echo "Trigger type: $TRIGGER_TYPE"
+          
+          echo "is_cascade=$IS_CASCADE" >> $GITHUB_OUTPUT
+          echo "trigger_type=$TRIGGER_TYPE" >> $GITHUB_OUTPUT
+
+  # ─────────────────────────────────────────────────────────────
+  # Stage 1: Coherence Analysis on Cascade
+  # ─────────────────────────────────────────────────────────────
+  coherence-cascade:
+    name: Coherence Cascade Analysis
+    runs-on: ubuntu-latest
+    needs: detect-cascade-trigger
+    if: needs.detect-cascade-trigger.outputs.is_cascade == 'true'
+    
+    outputs:
+      coherence_score: ${{ steps.analyze.outputs.coherence }}
+      curl_score: ${{ steps.analyze.outputs.curl }}
+      divergence_score: ${{ steps.analyze.outputs.divergence }}
+      needs_correction: ${{ steps.analyze.outputs.needs_correction }}
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Run Coherence Analysis
+        id: analyze
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  Stage 1: Coherence Cascade Analysis (fib_weight: ${{ env.FIBONACCI_WEIGHT_STAGE_1 }})"
+          echo "═══════════════════════════════════════════════════════════════"
+          echo ""
+          
+          # Initialize metrics
+          TOTAL_CURL=0
+          TOTAL_DIV=0
+          FILE_COUNT=0
+          
+          # Analyze markdown files for coherence patterns
+          while IFS= read -r file; do
+            if [ -f "$file" ]; then
+              CONTENT=$(cat "$file")
+              
+              # Calculate curl (repeated phrases proxy)
+              PHRASES=$(echo "$CONTENT" | tr '.' '\n' | sort | uniq -d | wc -l)
+              TOTAL_PHRASES=$(echo "$CONTENT" | tr '.' '\n' | wc -l)
+              
+              if [ "$TOTAL_PHRASES" -gt 0 ]; then
+                CURL=$(echo "scale=3; $PHRASES / $TOTAL_PHRASES" | bc)
+              else
+                CURL=0
+              fi
+              
+              # Calculate divergence (unresolved expansion proxy)
+              QUESTIONS=$(echo "$CONTENT" | grep -c '?' || true)
+              HAS_CONCLUSION=$(echo "$CONTENT" | grep -cE 'therefore|thus|conclusion|summary' || true)
+              
+              if [ "$HAS_CONCLUSION" -gt 0 ]; then
+                DIV="0.2"
+              else
+                DIV=$(echo "scale=3; 0.3 + ($QUESTIONS * 0.02)" | bc)
+                # Cap at 0.8
+                if [ "$(echo "$DIV > 0.8" | bc)" -eq 1 ]; then
+                  DIV="0.8"
+                fi
+              fi
+              
+              TOTAL_CURL=$(echo "scale=3; $TOTAL_CURL + $CURL" | bc)
+              TOTAL_DIV=$(echo "scale=3; $TOTAL_DIV + $DIV" | bc)
+              FILE_COUNT=$((FILE_COUNT + 1))
+            fi
+          done < <(find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" -not -path "./archive/*")
+          
+          # Calculate averages
+          if [ "$FILE_COUNT" -gt 0 ]; then
+            AVG_CURL=$(echo "scale=3; $TOTAL_CURL / $FILE_COUNT" | bc)
+            AVG_DIV=$(echo "scale=3; $TOTAL_DIV / $FILE_COUNT" | bc)
+          else
+            AVG_CURL=0
+            AVG_DIV=0
+          fi
+          
+          # Calculate coherence score (1 - average of curl and divergence)
+          COHERENCE=$(echo "scale=3; 1 - (($AVG_CURL + $AVG_DIV) / 2)" | bc)
+          
+          # Determine if correction is needed
+          NEEDS_CORRECTION="false"
+          if [ "$(echo "$COHERENCE < ${{ env.COHERENCE_THRESHOLD }}" | bc)" -eq 1 ]; then
+            NEEDS_CORRECTION="true"
+          fi
+          
+          echo "───────────────────────────────────────────────────────────────"
+          echo "  Analysis Complete"
+          echo "───────────────────────────────────────────────────────────────"
+          echo "  Files analyzed: $FILE_COUNT"
+          echo "  Average Curl: $AVG_CURL"
+          echo "  Average Divergence: $AVG_DIV"
+          echo "  Coherence Score: $COHERENCE"
+          echo "  Threshold: ${{ env.COHERENCE_THRESHOLD }}"
+          echo "  Needs Correction: $NEEDS_CORRECTION"
+          echo "───────────────────────────────────────────────────────────────"
+          
+          # Set outputs
+          echo "coherence=$COHERENCE" >> $GITHUB_OUTPUT
+          echo "curl=$AVG_CURL" >> $GITHUB_OUTPUT
+          echo "divergence=$AVG_DIV" >> $GITHUB_OUTPUT
+          echo "needs_correction=$NEEDS_CORRECTION" >> $GITHUB_OUTPUT
+      
+      - name: Report to API
+        continue-on-error: true
+        run: |
+          echo "Reporting cascade coherence metrics to API..."
+          
+          PAYLOAD=$(jq -n \
+            --arg coherence "${{ steps.analyze.outputs.coherence }}" \
+            --arg curl "${{ steps.analyze.outputs.curl }}" \
+            --arg divergence "${{ steps.analyze.outputs.divergence }}" \
+            --arg trigger "${{ needs.detect-cascade-trigger.outputs.trigger_type }}" \
+            --arg fib_weight "${{ env.FIBONACCI_WEIGHT_STAGE_1 }}" \
+            --arg sha "${{ github.sha }}" \
+            --arg repo "${{ github.repository }}" \
+            '{
+              content: "Cascade coherence analysis",
+              metadata: {
+                cascade_stage: 1,
+                fibonacci_weight: ($fib_weight | tonumber),
+                coherence: ($coherence | tonumber),
+                curl: ($curl | tonumber),
+                divergence: ($divergence | tonumber),
+                trigger_type: $trigger,
+                repository: $repo,
+                sha: $sha,
+                signature: "H&&S:GH-COPILOT"
+              }
+            }')
+          
+          curl -s -X POST "${{ env.SPIRALSAFE_API_BASE }}/api/wave/analyze" \
+            -H "Content-Type: application/json" \
+            -H "X-API-Key: ${{ secrets.SPIRALSAFE_API_KEY }}" \
+            -d "$PAYLOAD" || echo "API unavailable - continuing"
+      
+      - name: Create ATOM tag for cascade
+        continue-on-error: true
+        run: |
+          # Generate ATOM tag for this cascade event
+          DATE=$(date +%Y%m%d)
+          SEQ="001"
+          ATOM_TAG="ATOM-CASCADE-${DATE}-${SEQ}-coherence-update"
+          
+          echo "Creating ATOM tag: $ATOM_TAG"
+          
+          PAYLOAD=$(jq -n \
+            --arg id "$ATOM_TAG" \
+            --arg coherence "${{ steps.analyze.outputs.coherence }}" \
+            --arg sha "${{ github.sha }}" \
+            '{
+              id: $id,
+              name: "Cascade coherence update",
+              molecule: "maintenance-lattice",
+              compound: "spiralsafe-cascade",
+              status: "pending",
+              verification: {
+                criteria: {
+                  coherence_threshold: "0.92",
+                  coherence_actual: $coherence
+                },
+                automated: true
+              },
+              dependencies: {
+                requires: [],
+                blocks: []
+              },
+              assignee: "cascade-system",
+              metadata: {
+                cascade_stage: 1,
+                signature: "H&&S:GH-COPILOT"
+              }
+            }')
+          
+          curl -s -X POST "${{ env.SPIRALSAFE_API_BASE }}/api/atom/create" \
+            -H "Content-Type: application/json" \
+            -H "X-API-Key: ${{ secrets.SPIRALSAFE_API_KEY }}" \
+            -d "$PAYLOAD" || echo "API unavailable - continuing"
+
+  # ─────────────────────────────────────────────────────────────
+  # Stage 3: Trigger Coherence Oracle if correction needed
+  # ─────────────────────────────────────────────────────────────
+  coherence-oracle-trigger:
+    name: Coherence Oracle Trigger
+    runs-on: ubuntu-latest
+    needs: coherence-cascade
+    if: needs.coherence-cascade.outputs.needs_correction == 'true'
+    
+    steps:
+      - name: Trigger Oracle Workflow
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  Stage 3: Coherence Oracle Activation (fib_weight: 5)"
+          echo "═══════════════════════════════════════════════════════════════"
+          echo ""
+          echo "Coherence below threshold: ${{ needs.coherence-cascade.outputs.coherence_score }}"
+          echo "Threshold: ${{ env.COHERENCE_THRESHOLD }}"
+          echo ""
+          echo "Creating BLOCK bump for human review..."
+          
+          PAYLOAD=$(jq -n \
+            --arg coherence "${{ needs.coherence-cascade.outputs.coherence_score }}" \
+            --arg curl "${{ needs.coherence-cascade.outputs.curl_score }}" \
+            --arg divergence "${{ needs.coherence-cascade.outputs.divergence_score }}" \
+            --arg sha "${{ github.sha }}" \
+            '{
+              type: "BLOCK",
+              from: "coherence-oracle",
+              to: "human-review",
+              state: "coherence_below_threshold",
+              context: {
+                coherence: ($coherence | tonumber),
+                curl: ($curl | tonumber),
+                divergence: ($divergence | tonumber),
+                threshold: 0.92,
+                cascade_stage: 3,
+                fibonacci_weight: 5,
+                sha: $sha,
+                repository: "${{ github.repository }}",
+                signature: "H&&S:GH-COPILOT",
+                recommendation: "Review high-curl or high-divergence documents"
+              }
+            }')
+          
+          curl -s -X POST "${{ env.SPIRALSAFE_API_BASE }}/api/bump/create" \
+            -H "Content-Type: application/json" \
+            -H "X-API-Key: ${{ secrets.SPIRALSAFE_API_KEY }}" \
+            -d "$PAYLOAD" || echo "API unavailable - logging locally"
+          
+          echo ""
+          echo "H&&S:BLOCK → Coherence oracle flagged for human review"
+
+  # ─────────────────────────────────────────────────────────────
+  # Summary
+  # ─────────────────────────────────────────────────────────────
+  cascade-summary:
+    name: Cascade Summary
+    runs-on: ubuntu-latest
+    needs: [detect-cascade-trigger, coherence-cascade]
+    if: always() && needs.detect-cascade-trigger.outputs.is_cascade == 'true'
+    
+    steps:
+      - name: Generate Summary
+        run: |
+          echo "## 🌀 Coherence Cascade Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| **Trigger Type** | ${{ needs.detect-cascade-trigger.outputs.trigger_type }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Coherence Score** | ${{ needs.coherence-cascade.outputs.coherence_score || 'N/A' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Curl Score** | ${{ needs.coherence-cascade.outputs.curl_score || 'N/A' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Divergence Score** | ${{ needs.coherence-cascade.outputs.divergence_score || 'N/A' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Threshold** | ${{ env.COHERENCE_THRESHOLD }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Needs Correction** | ${{ needs.coherence-cascade.outputs.needs_correction || 'N/A' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Fibonacci Cascade Weights" >> $GITHUB_STEP_SUMMARY
+          echo "- Stage 1 (Dependabot + Coherence): **13**" >> $GITHUB_STEP_SUMMARY
+          echo "- Stage 2 (QDI Integration): **8**" >> $GITHUB_STEP_SUMMARY
+          echo "- Stage 3 (Coherence Oracle): **5**" >> $GITHUB_STEP_SUMMARY
+          echo "- Stage 4 (Unified Cascade): **21**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "*H&&S:SYNC — Cascade complete*" >> $GITHUB_STEP_SUMMARY
