@@ -47,3 +47,7 @@ opencv-python==4.9.0.80
 # API Clients for external AI services
 openai==1.12.0
 replicate==0.25.0
+
+# Prompt optimization framework (Optional - for AWI prompt toolkit)
+# Uncomment only if DSPy-style prompt optimization is needed
+# dspy-ai==2.4.0

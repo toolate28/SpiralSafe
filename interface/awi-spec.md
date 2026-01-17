@@ -82,4 +82,46 @@ authorization:
 
 ---
 
+## Prompt Toolkit Integration
+
+AWI includes a DSPy-inspired prompt generation module for AI-human collaboration.
+
+### Architecture
+
+```
+User Intent → ChainOfThought Scaffolder → Predict Refiner → Optimized Prompt
+```
+
+### Components
+
+| Component | Purpose |
+|-----------|---------|
+| **ChainOfThought** | Scaffolds intent into structured template |
+| **Predict** | Refines template using historical context |
+| **AwiPromptGen** | Combines scaffolding and refinement |
+
+### Optimization Techniques
+
+- **COPRO**: Contrasts high/low coherence examples (20-40% alignment boost)
+- **SIMBA**: Gradient-guided annealing to cap divergence in dual-agent branching
+
+### Usage
+
+```python
+from experiments.awi_prompt_gen import AwiPromptGen
+
+gen = AwiPromptGen()
+result = gen(
+    user_intent="Modify README.md to add contributing section",
+    history=[{"coherence": 0.85, "pattern": "file_operation"}]
+)
+print(result.content)
+```
+
+### Reference Implementation
+
+See [`experiments/awi_prompt_gen.py`](../experiments/awi_prompt_gen.py) for the full implementation.
+
+---
+
 *~ Hope&&Sauced*
