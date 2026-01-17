@@ -37,23 +37,23 @@ jobs:
     if: github.event_name == 'push'
     permissions:
       contents: read
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2  # Get current and previous commit
-      
+          fetch-depth: 2 # Get current and previous commit
+
       - name: Extract ATOM tags from commits
         id: extract-atoms
         run: |
           echo "═══════════════════════════════════════════════════════════════"
           echo "  Extracting ATOM Tags from Recent Commits"
           echo "═══════════════════════════════════════════════════════════════"
-          
+
           # Extract ATOM tags from the most recent commit
           ATOM_TAGS=$(git log -1 --pretty=format:"%s %b" | grep -oE 'ATOM-[A-Z]+-[0-9]{8}-[0-9]{3}-[a-z0-9-]+' || echo "")
-          
+
           if [ -z "$ATOM_TAGS" ]; then
             echo "No ATOM tags found in commit message"
             echo "atom_tags=" >> "$GITHUB_OUTPUT"
@@ -64,14 +64,14 @@ jobs:
             ATOM_JSON=$(echo "$ATOM_TAGS" | jq -R -s -c 'split("\n") | map(select(length > 0))')
             echo "atom_tags=$ATOM_JSON" >> "$GITHUB_OUTPUT"
           fi
-      
+
       - name: Send ATOM tags to API
         if: steps.extract-atoms.outputs.atom_tags != ''
         run: |
           echo "Sending ATOM tags to SpiralSafe API..."
-          
+
           ATOM_TAGS='${{ steps.extract-atoms.outputs.atom_tags }}'
-          
+
           for tag in $(echo "$ATOM_TAGS" | jq -r '.[]'); do
             echo "Posting ATOM tag: $tag"
             
@@ -143,21 +143,21 @@ jobs:
     permissions:
       contents: read
       pull-requests: read
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Determine bump type and state
         id: bump-info
         run: |
           echo "═══════════════════════════════════════════════════════════════"
           echo "  Determining Bump Type for PR Event"
           echo "═══════════════════════════════════════════════════════════════"
-          
+
           ACTION="${{ github.event.action }}"
           MERGED="${{ github.event.pull_request.merged }}"
-          
+
           case "$ACTION" in
             opened)
               BUMP_TYPE="WAVE"
@@ -186,21 +186,21 @@ jobs:
               echo "Unknown action - defaulting to PING"
               ;;
           esac
-          
+
           echo "bump_type=$BUMP_TYPE" >> "$GITHUB_OUTPUT"
           echo "state=$STATE" >> "$GITHUB_OUTPUT"
-      
+
       - name: Check for explicit spiralsafe markers
         id: check-markers
         run: |
           echo "Checking PR body for spiralsafe markers..."
-          
+
           # Get PR body
           PR_BODY='${{ github.event.pull_request.body }}'
-          
+
           # Check for explicit bump type marker (extract once)
           MARKER_MATCH=$(echo "$PR_BODY" | grep -oE 'spiralsafe:bump:[A-Z]+:[a-z_]+' | head -1 || echo "")
-          
+
           if [ -n "$MARKER_MATCH" ]; then
             EXPLICIT_TYPE=$(echo "$MARKER_MATCH" | cut -d':' -f3)
             EXPLICIT_STATE=$(echo "$MARKER_MATCH" | cut -d':' -f4)
@@ -212,10 +212,10 @@ jobs:
             echo "No explicit marker found"
             echo "has_explicit=false" >> "$GITHUB_OUTPUT"
           fi
-          
+
           # Check for H&&S markers in body (extract once)
           HS_MATCH=$(echo "$PR_BODY" | grep -oE 'H&&S:(WAVE|PASS|PING|SYNC|BLOCK)' | head -1 || echo "")
-          
+
           if [ -n "$HS_MATCH" ]; then
             echo "Found H&&S marker: $HS_MATCH"
             echo "has_hs_marker=true" >> "$GITHUB_OUTPUT"
@@ -223,11 +223,11 @@ jobs:
           else
             echo "has_hs_marker=false" >> "$GITHUB_OUTPUT"
           fi
-      
+
       - name: Send bump to API
         run: |
           echo "Sending bump marker to SpiralSafe API..."
-          
+
           # Use explicit marker if present, otherwise use detected values
           if [ "${{ steps.check-markers.outputs.has_explicit }}" = "true" ]; then
             BUMP_TYPE="${{ steps.check-markers.outputs.explicit_type }}"
@@ -238,7 +238,7 @@ jobs:
             STATE="${{ steps.bump-info.outputs.state }}"
             echo "Using detected values"
           fi
-          
+
           # Build context object
           CONTEXT=$(jq -n \
             --arg pr_number "${{ github.event.pull_request.number }}" \
@@ -267,7 +267,7 @@ jobs:
               workflow_run_id: "${{ github.run_id }}",
               workflow_run_url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
             }')
-          
+
           PAYLOAD=$(jq -n \
             --arg type "$BUMP_TYPE" \
             --arg from "github-pr" \
@@ -281,10 +281,10 @@ jobs:
               state: $state,
               context: $context
             }')
-          
+
           echo "Payload:"
           echo "$PAYLOAD" | jq .
-          
+
           # POST to API
           HTTP_CODE=$(curl -s -o /tmp/response.json -w "%{http_code}" \
             -X POST \
@@ -292,7 +292,7 @@ jobs:
             -H "X-API-Key: ${{ secrets.SPIRALSAFE_API_KEY }}" \
             -d "$PAYLOAD" \
             "${{ env.SPIRALSAFE_API_BASE }}/api/bump/create")
-          
+
           if [ "$HTTP_CODE" -eq 201 ] || [ "$HTTP_CODE" -eq 200 ]; then
             echo "✓ Successfully created bump marker: $BUMP_TYPE ($STATE)"
             cat /tmp/response.json | jq .

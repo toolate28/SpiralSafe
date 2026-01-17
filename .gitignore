@@ -52,3 +52,5 @@ htmlcov/
 
 # Media output (generated files)
 media/output/
+# Temporary claude working directories
+tmpclaude-*-cwd

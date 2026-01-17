@@ -1,7 +1,7 @@
 # SpiralSafe Deployment Checklist
 
 > **H&&S:WAVE** | Hope&&Sauced
-> *Pre-deployment verification and post-deployment validation*
+> _Pre-deployment verification and post-deployment validation_
 
 ---
 
@@ -21,6 +21,7 @@
 ## Phase 1: Local Development Setup ✅
 
 ### 1.1 Install Dependencies
+
 ```bash
 # Node.js (ops layer)
 cd /home/user/SpiralSafe/ops
@@ -34,6 +35,7 @@ pip install -e .[dev]
 **Status**: ✅ Complete
 
 ### 1.2 Verify Build
+
 ```bash
 cd /home/user/SpiralSafe/ops
 npm run typecheck  # Should pass with no errors
@@ -43,6 +45,7 @@ npm run build      # Should generate dist/ folder
 **Status**: ✅ Complete
 
 ### 1.3 Run Tests
+
 ```bash
 # TypeScript tests
 cd /home/user/SpiralSafe/ops
@@ -62,6 +65,7 @@ pytest -v
 **Status**: ✅ Complete - Deployed 2026-01-07
 
 ### 2.1 Authenticate with Cloudflare
+
 ```bash
 cd /home/user/SpiralSafe/ops
 npx wrangler login
@@ -71,11 +75,13 @@ export CLOUDFLARE_ACCOUNT_ID="your-account-id"
 ```
 
 **Checklist**:
+
 - [x] Cloudflare CLI authenticated
 - [x] API token verified (test with `npx wrangler whoami`)
 - [x] Account ID confirmed (3ddeb355f4954bb1ee4f9486b2908e7e)
 
 ### 2.2 Create Cloud Resources
+
 ```bash
 cd /home/user/SpiralSafe/ops
 
@@ -96,6 +102,7 @@ npm run r2:create
 ```
 
 **Checklist**:
+
 - [x] D1 database created (ID: d47d04ca-7d74-41a8-b489-0af373a2bb2c)
 - [x] KV namespace created (ID: 79d496efbfab4d54a6277ed80dc29d1f)
 - [x] R2 bucket created (spiralsafe-contexts)
@@ -103,6 +110,7 @@ npm run r2:create
 - [x] Resource IDs committed to git
 
 ### 2.3 Initialize Database Schema
+
 ```bash
 cd /home/user/SpiralSafe/ops
 npm run db:migrate
@@ -112,6 +120,7 @@ npx wrangler d1 execute spiralsafe-ops --command "SELECT name FROM sqlite_master
 ```
 
 **Expected Tables**:
+
 - wave_analyses
 - bump_markers
 - awi_grants
@@ -121,6 +130,7 @@ npx wrangler d1 execute spiralsafe-ops --command "SELECT name FROM sqlite_master
 - system_health
 
 **Checklist**:
+
 - [x] Schema migration successful (40 queries executed)
 - [x] All 7 tables created
 - [x] No SQL errors
@@ -132,6 +142,7 @@ npx wrangler d1 execute spiralsafe-ops --command "SELECT name FROM sqlite_master
 **Status**: ✅ Complete - Live on 2026-01-07T15:10:53Z
 
 ### 3.1 Development Deployment
+
 ```bash
 cd /home/user/SpiralSafe/ops
 npm run deploy:dev
@@ -141,6 +152,7 @@ curl https://api-dev.spiralsafe.org/api/health
 ```
 
 **Expected Response**:
+
 ```json
 {
   "status": "healthy",
@@ -151,11 +163,13 @@ curl https://api-dev.spiralsafe.org/api/health
 ```
 
 **Checklist**:
+
 - [ ] Dev worker deployed
 - [ ] Health endpoint responding
 - [ ] No 500 errors
 
 ### 3.2 Production Deployment
+
 ```bash
 cd /home/user/SpiralSafe/ops
 npm run deploy
@@ -165,6 +179,7 @@ curl https://api.spiralsafe.org/api/health
 ```
 
 **Actual Response** (2026-01-07):
+
 ```json
 {
   "status": "healthy",
@@ -181,6 +196,7 @@ curl https://api.spiralsafe.org/api/health
 **Live URL**: 🔗 https://api.spiralsafe.org
 
 **Checklist**:
+
 - [x] Production worker deployed (ID: d4e36b58-964c-4820-a08b-27d1e7540a1e)
 - [x] Health endpoint responding
 - [x] Custom domain configured (api.spiralsafe.org)
@@ -194,20 +210,24 @@ curl https://api.spiralsafe.org/api/health
 **Status**: ⏸️ Requires GitHub repository access
 
 ### 4.1 GitHub Secrets
+
 Navigate to: `https://github.com/toolate28/SpiralSafe/settings/secrets/actions`
 
 **Required Secrets**:
+
 ```
 CLOUDFLARE_API_TOKEN      = <your-api-token>
 CLOUDFLARE_ACCOUNT_ID     = <your-account-id>
 ```
 
 **Checklist**:
+
 - [ ] CLOUDFLARE_API_TOKEN added
 - [ ] CLOUDFLARE_ACCOUNT_ID added
 - [ ] Secrets verified (no typos)
 
 ### 4.2 Trigger CI/CD
+
 ```bash
 # Push to main triggers spiralsafe-ci.yml
 git checkout main
@@ -217,6 +237,7 @@ git push origin main
 ```
 
 **Expected Workflow Jobs**:
+
 1. ✅ Coherence Analysis
 2. ✅ Lint & Static Analysis
 3. ✅ Build & Test
@@ -224,6 +245,7 @@ git push origin main
 5. ✅ Verify Deployment
 
 **Checklist**:
+
 - [ ] All workflow jobs pass
 - [ ] Deployment successful
 - [ ] Post-deploy health check passes
@@ -233,6 +255,7 @@ git push origin main
 ## Phase 5: Post-Deployment Verification ⏸️
 
 ### 5.1 API Endpoints Smoke Test
+
 ```bash
 # Health check
 curl https://api.spiralsafe.org/api/health
@@ -268,6 +291,7 @@ curl -X POST https://api.spiralsafe.org/api/awi/request \
 ```
 
 **Checklist**:
+
 - [ ] `/api/health` returns 200 OK
 - [ ] `/api/wave/analyze` accepts POST
 - [ ] `/api/bump/create` accepts POST
@@ -276,6 +300,7 @@ curl -X POST https://api.spiralsafe.org/api/awi/request \
 - [ ] Response times < 500ms
 
 ### 5.2 Database Verification
+
 ```bash
 # Check wave_analyses table
 npx wrangler d1 execute spiralsafe-ops --command "SELECT COUNT(*) FROM wave_analyses;"
@@ -288,11 +313,13 @@ npx wrangler d1 execute spiralsafe-ops --command "SELECT COUNT(*) FROM awi_grant
 ```
 
 **Checklist**:
+
 - [ ] Tables accessible
 - [ ] Queries execute without errors
 - [ ] Test data inserted successfully
 
 ### 5.3 Integration Tests
+
 ```bash
 # Run integration test suite (when available)
 cd /home/user/SpiralSafe/ops
@@ -303,6 +330,7 @@ npm run test:integration
 ```
 
 **Checklist**:
+
 - [ ] Integration tests pass
 - [ ] Sentry error tracking configured
 - [ ] Vercel deployment successful (if applicable)
@@ -312,18 +340,21 @@ npm run test:integration
 ## Phase 6: Monitoring & Observability ⏸️
 
 ### 6.1 Cloudflare Analytics
+
 - [ ] Worker analytics enabled
 - [ ] Request metrics visible
 - [ ] Error rate < 1%
 - [ ] P95 latency < 200ms
 
 ### 6.2 Sentry Error Tracking
+
 - [ ] Sentry project created
 - [ ] DSN configured in worker
 - [ ] Test error captured
 - [ ] Alert rules configured
 
 ### 6.3 Custom Monitoring
+
 - [ ] Health check endpoint monitored (uptime service)
 - [ ] Scheduled maintenance workflow running
 - [ ] Session reports generating correctly
@@ -334,6 +365,7 @@ npm run test:integration
 ## Phase 7: Documentation & Handoff ⏸️
 
 ### 7.1 Update Project Book
+
 ```bash
 # Run project book to update hashes and status
 jupyter notebook project-book.ipynb
@@ -342,18 +374,21 @@ jupyter notebook project-book.ipynb
 ```
 
 **Checklist**:
+
 - [ ] Component status updated
 - [ ] Merkle root regenerated
 - [ ] Session report created
 - [ ] Lessons learned captured
 
 ### 7.2 Update Documentation
+
 - [ ] DEPLOYMENT_ARCHITECTURE.md reflects actual deployment
 - [ ] README.md includes deployment instructions
 - [ ] API documentation published (if public)
 - [ ] Integration guides updated
 
 ### 7.3 Create Deployment Tag
+
 ```bash
 git tag -a v1.0.0-ops -m "Operations layer deployed to production
 
@@ -372,6 +407,7 @@ git push origin v1.0.0-ops
 ```
 
 **Checklist**:
+
 - [ ] Git tag created
 - [ ] Tag pushed to remote
 - [ ] Release notes published
@@ -384,6 +420,7 @@ git push origin v1.0.0-ops
 ### If Deployment Fails
 
 **1. Immediate Rollback**:
+
 ```bash
 # Rollback worker deployment
 npx wrangler rollback
@@ -393,6 +430,7 @@ curl https://api.spiralsafe.org/api/health
 ```
 
 **2. Database Rollback**:
+
 ```bash
 # Database migrations are not automatically reversible
 # Manual intervention required if schema changes fail
@@ -400,6 +438,7 @@ curl https://api.spiralsafe.org/api/health
 ```
 
 **3. CI/CD Rollback**:
+
 ```bash
 # Revert the merge commit
 git revert <commit-sha>
@@ -408,6 +447,7 @@ git push origin main
 ```
 
 ### Emergency Contacts
+
 - **Repository Owner**: toolate28
 - **Cloudflare Account**: (add email)
 - **Deployment Logs**: GitHub Actions → SpiralSafe CI
@@ -417,15 +457,15 @@ git push origin main
 ## Deployment Status Summary
 
 | Phase                     | Status      | Completion Date | Notes                          |
-|---------------------------|-------------|-----------------|--------------------------------|
-| Phase 0: Prerequisites    | ✅ Complete | 2026-01-07     | Dependencies installed         |
-| Phase 1: Local Setup      | ✅ Complete | 2026-01-07     | TypeScript builds successfully |
-| Phase 2: Cloudflare Setup | ⏸️ Pending  | -              | Requires Cloudflare account    |
-| Phase 3: Deployment       | ⏸️ Pending  | -              | Blocked by Phase 2             |
-| Phase 4: CI/CD Config     | ⏸️ Pending  | -              | Blocked by Phase 2             |
-| Phase 5: Verification     | ⏸️ Pending  | -              | Blocked by Phase 3             |
-| Phase 6: Monitoring       | ⏸️ Pending  | -              | Blocked by Phase 3             |
-| Phase 7: Documentation    | ⏸️ Pending  | -              | Blocked by Phase 5             |
+| ------------------------- | ----------- | --------------- | ------------------------------ |
+| Phase 0: Prerequisites    | ✅ Complete | 2026-01-07      | Dependencies installed         |
+| Phase 1: Local Setup      | ✅ Complete | 2026-01-07      | TypeScript builds successfully |
+| Phase 2: Cloudflare Setup | ⏸️ Pending  | -               | Requires Cloudflare account    |
+| Phase 3: Deployment       | ⏸️ Pending  | -               | Blocked by Phase 2             |
+| Phase 4: CI/CD Config     | ⏸️ Pending  | -               | Blocked by Phase 2             |
+| Phase 5: Verification     | ⏸️ Pending  | -               | Blocked by Phase 3             |
+| Phase 6: Monitoring       | ⏸️ Pending  | -               | Blocked by Phase 3             |
+| Phase 7: Documentation    | ⏸️ Pending  | -               | Blocked by Phase 5             |
 
 **Next Action**: Create Cloudflare account and obtain API credentials (Phase 2.1)
 
@@ -434,9 +474,9 @@ git push origin main
 ---
 
 **H&&S:WAVE** | Hope&&Sauced
-*Deployment Checklist v1.0*
-*Generated: 2026-01-07*
-*Session: ATOM-SESSION-20260107-ULTRATHINK-001*
+_Deployment Checklist v1.0_
+_Generated: 2026-01-07_
+_Session: ATOM-SESSION-20260107-ULTRATHINK-001_
 
 ```
 From the constraints, gifts.

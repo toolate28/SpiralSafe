@@ -37,14 +37,14 @@ This integration connects SpiralSafe with OpenAI's GPT ecosystem, enabling acces
 
 ## Features
 
-| Feature | Status | Description |
-|---------|--------|-------------|
+| Feature          | Status  | Description                         |
+| ---------------- | ------- | ----------------------------------- |
 | Chat Completions | ✓ Ready | GPT-4o and GPT-4-turbo via Chat API |
-| Assistants API | ✓ Ready | Persistent assistants with tools |
-| Function Calling | ✓ Ready | Structured tool use |
-| Code Interpreter | ✓ Ready | Python execution in sandboxed env |
-| Vision | ✓ Ready | Image analysis with GPT-4V |
-| Embeddings | ✓ Ready | Semantic search and similarity |
+| Assistants API   | ✓ Ready | Persistent assistants with tools    |
+| Function Calling | ✓ Ready | Structured tool use                 |
+| Code Interpreter | ✓ Ready | Python execution in sandboxed env   |
+| Vision           | ✓ Ready | Image analysis with GPT-4V          |
+| Embeddings       | ✓ Ready | Semantic search and similarity      |
 
 ---
 
@@ -93,13 +93,15 @@ OpenAI responses are normalized to SpiralSafe format:
         "completion_tokens": 225,
         "total_tokens": 405
       },
-      "choices": [{
-        "message": {
-          "role": "assistant",
-          "content": "Analysis complete with wave coherence metrics..."
-        },
-        "finish_reason": "stop"
-      }]
+      "choices": [
+        {
+          "message": {
+            "role": "assistant",
+            "content": "Analysis complete with wave coherence metrics..."
+          },
+          "finish_reason": "stop"
+        }
+      ]
     },
     "handoff": {
       "signature": "H&&S:WAVE",
@@ -209,11 +211,13 @@ response = client.chat.completions.create(
 ## Strengths & Considerations
 
 ### Strengths
+
 - **Widest Ecosystem**: Best developer experience, most integrations
 - **Consistent Updates**: Regular model improvements
 - **Enterprise Support**: SOC 2 compliance, data privacy options
 
 ### Considerations
+
 - **Closed Source**: No access to model weights
 - **Vendor Lock-in**: API-dependent infrastructure
 - **Cost**: Higher per-token costs than open-source alternatives
@@ -221,4 +225,4 @@ response = client.chat.completions.create(
 ---
 
 **H&&S:WAVE** | Hope&&Sauced
-*Commercial AI Integration Through Protocol*
+_Commercial AI Integration Through Protocol_

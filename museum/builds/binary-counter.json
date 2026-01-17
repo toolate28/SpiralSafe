@@ -2,24 +2,40 @@
   "museum_exhibit": "Binary Counter & Number Systems",
   "version": "1.0.0",
   "description": "Interactive 4-bit binary counter showing how computers count",
-  "dimensions": {"x": 12, "y": 5, "z": 10},
+  "dimensions": { "x": 12, "y": 5, "z": 10 },
   "exhibits": [
     {
       "name": "4-Bit Binary Counter",
       "description": "Counts from 0 to 15 in binary using redstone",
       "components": {
         "display": {
-          "bit_0": {"pos": [0, 2, 0], "block": "minecraft:redstone_lamp", "label": "1 (2^0)"},
-          "bit_1": {"pos": [2, 2, 0], "block": "minecraft:redstone_lamp", "label": "2 (2^1)"},
-          "bit_2": {"pos": [4, 2, 0], "block": "minecraft:redstone_lamp", "label": "4 (2^2)"},
-          "bit_3": {"pos": [6, 2, 0], "block": "minecraft:redstone_lamp", "label": "8 (2^3)"}
+          "bit_0": {
+            "pos": [0, 2, 0],
+            "block": "minecraft:redstone_lamp",
+            "label": "1 (2^0)"
+          },
+          "bit_1": {
+            "pos": [2, 2, 0],
+            "block": "minecraft:redstone_lamp",
+            "label": "2 (2^1)"
+          },
+          "bit_2": {
+            "pos": [4, 2, 0],
+            "block": "minecraft:redstone_lamp",
+            "label": "4 (2^2)"
+          },
+          "bit_3": {
+            "pos": [6, 2, 0],
+            "block": "minecraft:redstone_lamp",
+            "label": "8 (2^3)"
+          }
         },
         "clock": {
           "pos": [8, 0, 5],
           "blocks": [
-            {"pos": [8, 0, 5], "block": "minecraft:repeater[delay=4]"},
-            {"pos": [9, 0, 5], "block": "minecraft:comparator"},
-            {"pos": [10, 0, 5], "block": "minecraft:redstone_wire"}
+            { "pos": [8, 0, 5], "block": "minecraft:repeater[delay=4]" },
+            { "pos": [9, 0, 5], "block": "minecraft:comparator" },
+            { "pos": [10, 0, 5], "block": "minecraft:redstone_wire" }
           ],
           "speed": "adjustable via repeater delay"
         }
@@ -46,11 +62,31 @@
         {
           "name": "Binary to Decimal Chart",
           "item_frames": [
-            {"pos": [0, 3, 2], "item": "minecraft:paper", "text": "Binary | Decimal"},
-            {"pos": [0, 3, 3], "item": "minecraft:paper", "text": "0000   | 0"},
-            {"pos": [0, 3, 4], "item": "minecraft:paper", "text": "0001   | 1"},
-            {"pos": [0, 3, 5], "item": "minecraft:paper", "text": "0010   | 2"},
-            {"pos": [0, 3, 6], "item": "minecraft:paper", "text": "0011   | 3"}
+            {
+              "pos": [0, 3, 2],
+              "item": "minecraft:paper",
+              "text": "Binary | Decimal"
+            },
+            {
+              "pos": [0, 3, 3],
+              "item": "minecraft:paper",
+              "text": "0000   | 0"
+            },
+            {
+              "pos": [0, 3, 4],
+              "item": "minecraft:paper",
+              "text": "0001   | 1"
+            },
+            {
+              "pos": [0, 3, 5],
+              "item": "minecraft:paper",
+              "text": "0010   | 2"
+            },
+            {
+              "pos": [0, 3, 6],
+              "item": "minecraft:paper",
+              "text": "0011   | 3"
+            }
           ]
         }
       ]
@@ -59,9 +95,9 @@
       "name": "Number System Comparison",
       "description": "Shows binary, decimal, and hexadecimal side by side",
       "displays": {
-        "binary": {"pos": [0, 1, 8], "color": "red"},
-        "decimal": {"pos": [4, 1, 8], "color": "green"},
-        "hexadecimal": {"pos": [8, 1, 8], "color": "blue"}
+        "binary": { "pos": [0, 1, 8], "color": "red" },
+        "decimal": { "pos": [4, 1, 8], "color": "green" },
+        "hexadecimal": { "pos": [8, 1, 8], "color": "blue" }
       },
       "signage": {
         "title": "Three Ways to Count",

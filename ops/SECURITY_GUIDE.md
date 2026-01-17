@@ -45,11 +45,11 @@ SpiralSafe API implements multiple layers of security:
 
 Rate limits are configured via Cloudflare secrets (environment variables):
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `RATE_LIMIT_REQUESTS` | 100 | Max requests per IP per window |
-| `RATE_LIMIT_WINDOW` | 60 | Time window in seconds |
-| `RATE_LIMIT_AUTH_FAILURES` | 5 | Max auth failures per IP per window |
+| Variable                   | Default | Description                         |
+| -------------------------- | ------- | ----------------------------------- |
+| `RATE_LIMIT_REQUESTS`      | 100     | Max requests per IP per window      |
+| `RATE_LIMIT_WINDOW`        | 60      | Time window in seconds              |
+| `RATE_LIMIT_AUTH_FAILURES` | 5       | Max auth failures per IP per window |
 
 ### Setting Rate Limits
 
@@ -119,6 +119,7 @@ npx wrangler secret put SPIRALSAFE_API_KEY
 ```
 
 **Example Key Format** (use your actual key):
+
 ```
 your-64-character-hex-api-key-here
 ```
@@ -159,6 +160,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
 **Key Requirements**:
+
 - Minimum 32 characters (64 hex characters recommended)
 - Cryptographically random
 - Unique per environment/service
@@ -286,6 +288,7 @@ npx wrangler d1 execute spiralsafe-ops --command="
 **Access**: Cloudflare Dashboard → Workers & Pages → spiralsafe-api → Analytics
 
 **Metrics Available**:
+
 - Requests per second
 - Success rate (2xx/3xx responses)
 - Error rate (4xx/5xx responses)
@@ -316,6 +319,7 @@ For high-volume logging to external services:
 **Cloudflare Dashboard → Analytics → Logs → Add Logpush job**
 
 Destinations:
+
 - AWS S3
 - Google Cloud Storage
 - Azure Blob Storage
@@ -331,14 +335,15 @@ Set up email notifications for critical events:
 
 **Recommended Alerts**:
 
-| Event | Threshold | Action |
-|-------|-----------|--------|
-| Error Rate | > 5% | Email immediately |
-| Request Rate | > 1000/min | Email (potential DDoS) |
-| CPU Time | > 30ms p99 | Email (performance issue) |
-| Workers Invocations | 0 for 5min | Email (downtime) |
+| Event               | Threshold  | Action                    |
+| ------------------- | ---------- | ------------------------- |
+| Error Rate          | > 5%       | Email immediately         |
+| Request Rate        | > 1000/min | Email (potential DDoS)    |
+| CPU Time            | > 30ms p99 | Email (performance issue) |
+| Workers Invocations | 0 for 5min | Email (downtime)          |
 
 **Email Template**:
+
 ```
 To: ops@spiralsafe.org
 Subject: [SpiralSafe] Alert: {event_type}
@@ -359,6 +364,7 @@ Use external monitoring service (UptimeRobot, Pingdom, etc.):
 **Check Interval**: 60 seconds
 
 **Response Validation**:
+
 ```json
 {
   "status": "healthy",
@@ -371,6 +377,7 @@ Use external monitoring service (UptimeRobot, Pingdom, etc.):
 ```
 
 **Alert Conditions**:
+
 - Status code != 200
 - `status` field != "healthy"
 - Any `checks` field == false
@@ -380,11 +387,13 @@ Use external monitoring service (UptimeRobot, Pingdom, etc.):
 ### 6. Grafana Dashboard (Advanced)
 
 **Setup**:
+
 1. Deploy Grafana Worker or self-hosted instance
 2. Connect to Cloudflare Analytics API
 3. Import SpiralSafe dashboard template
 
 **Panels**:
+
 - Request rate timeline
 - Error rate percentage
 - P50/P75/P99 latency
@@ -399,12 +408,12 @@ Use external monitoring service (UptimeRobot, Pingdom, etc.):
 
 ### Rotation Schedule
 
-| Key Type | Rotation Frequency | Method |
-|----------|-------------------|--------|
-| Production | Every 90 days | Overlapping rotation |
-| Staging | Every 180 days | Direct replacement |
-| Development | Annually | Direct replacement |
-| Emergency | Immediately | Revoke + new key |
+| Key Type    | Rotation Frequency | Method               |
+| ----------- | ------------------ | -------------------- |
+| Production  | Every 90 days      | Overlapping rotation |
+| Staging     | Every 180 days     | Direct replacement   |
+| Development | Annually           | Direct replacement   |
+| Emergency   | Immediately        | Revoke + new key     |
 
 ### Overlapping Rotation Process
 
@@ -413,12 +422,14 @@ Use external monitoring service (UptimeRobot, Pingdom, etc.):
 **Steps**:
 
 1. **Generate New Key**:
+
    ```bash
    NEW_KEY=$(openssl rand -hex 32)
    echo "New key: $NEW_KEY"
    ```
 
 2. **Add to Secondary Keys** (both keys now valid):
+
    ```bash
    npx wrangler secret put SPIRALSAFE_API_KEYS
    # Enter: old_key,new_key
@@ -430,6 +441,7 @@ Use external monitoring service (UptimeRobot, Pingdom, etc.):
    - Notify external API consumers
 
 4. **Remove Old Key** (after all clients migrated):
+
    ```bash
    npx wrangler secret put SPIRALSAFE_API_KEYS
    # Enter: new_key
@@ -445,6 +457,7 @@ Use external monitoring service (UptimeRobot, Pingdom, etc.):
 **Immediate Actions**:
 
 1. **Revoke Compromised Key**:
+
    ```bash
    # Remove from all key lists
    npx wrangler secret put SPIRALSAFE_API_KEY
@@ -455,6 +468,7 @@ Use external monitoring service (UptimeRobot, Pingdom, etc.):
    ```
 
 2. **Audit Recent Activity**:
+
    ```bash
    npx wrangler d1 execute spiralsafe-ops --command="
      SELECT * FROM system_health
@@ -464,6 +478,7 @@ Use external monitoring service (UptimeRobot, Pingdom, etc.):
    ```
 
 3. **Review Logs for Suspicious Activity**:
+
    ```bash
    # Check for unusual IPs, countries, or request patterns
    npx wrangler kv:key list --binding=SPIRALSAFE_KV --prefix="log:"
@@ -537,12 +552,14 @@ echo "Remove old keys from SPIRALSAFE_API_KEYS after migration"
 ### 2. Key Storage
 
 **✅ DO**:
+
 - Store in password manager (1Password, LastPass)
 - Use environment variables
 - Encrypt at rest
 - Use Cloudflare secrets for production
 
 **❌ DON'T**:
+
 - Commit to git
 - Store in plaintext files
 - Share via email/chat
@@ -590,15 +607,15 @@ echo "Remove old keys from SPIRALSAFE_API_KEYS after migration"
 
 ## Appendix: Environment Variables
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `SPIRALSAFE_API_KEY` | ✅ Yes | - | Primary API key |
-| `SPIRALSAFE_API_KEYS` | ❌ No | - | Comma-separated additional keys |
-| `RATE_LIMIT_REQUESTS` | ❌ No | 100 | Max requests per window |
-| `RATE_LIMIT_WINDOW` | ❌ No | 60 | Window duration (seconds) |
-| `RATE_LIMIT_AUTH_FAILURES` | ❌ No | 5 | Max auth failures per window |
-| `CLOUDFLARE_ACCOUNT_ID` | ✅ Yes | - | Cloudflare account ID |
-| `CLOUDFLARE_API_TOKEN` | ✅ Yes | - | Wrangler deployment token |
+| Variable                   | Required | Default | Description                     |
+| -------------------------- | -------- | ------- | ------------------------------- |
+| `SPIRALSAFE_API_KEY`       | ✅ Yes   | -       | Primary API key                 |
+| `SPIRALSAFE_API_KEYS`      | ❌ No    | -       | Comma-separated additional keys |
+| `RATE_LIMIT_REQUESTS`      | ❌ No    | 100     | Max requests per window         |
+| `RATE_LIMIT_WINDOW`        | ❌ No    | 60      | Window duration (seconds)       |
+| `RATE_LIMIT_AUTH_FAILURES` | ❌ No    | 5       | Max auth failures per window    |
+| `CLOUDFLARE_ACCOUNT_ID`    | ✅ Yes   | -       | Cloudflare account ID           |
+| `CLOUDFLARE_API_TOKEN`     | ✅ Yes   | -       | Wrangler deployment token       |
 
 ---
 

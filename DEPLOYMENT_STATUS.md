@@ -10,21 +10,21 @@
 
 ### ✅ Configured & Ready
 
-| Component | Status | Config File | Notes |
-|-----------|--------|-------------|-------|
-| **Core API** | ✅ Configured | `ops/wrangler.toml` | Cloudflare Workers |
-| **Public Site** | ✅ Ready | `public/index.html` | Needs deployment |
+| Component       | Status        | Config File           | Notes                                    |
+| --------------- | ------------- | --------------------- | ---------------------------------------- |
+| **Core API**    | ✅ Configured | `ops/wrangler.toml`   | Cloudflare Workers                       |
+| **Public Site** | ✅ Ready      | `public/index.html`   | Needs deployment                         |
 | **D1 Database** | ✅ Configured | `wrangler.toml:28-36` | ID: d47d04ca-7d74-41a8-b489-0af373a2bb2c |
-| **KV Store** | ✅ Configured | `wrangler.toml:42-48` | ID: 79d496efbfab4d54a6277ed80dc29d1f |
-| **R2 Bucket** | ✅ Configured | `wrangler.toml:54-60` | Name: spiralsafe-contexts |
+| **KV Store**    | ✅ Configured | `wrangler.toml:42-48` | ID: 79d496efbfab4d54a6277ed80dc29d1f     |
+| **R2 Bucket**   | ✅ Configured | `wrangler.toml:54-60` | Name: spiralsafe-contexts                |
 
 ### ⚠️ Needs Deployment
 
-| Component | Action Required | Command |
-|-----------|----------------|---------|
-| **Core API** | Deploy to Cloudflare | `cd ops && npx wrangler deploy` |
-| **Public Site** | Deploy to Pages | `cd public && npx wrangler pages deploy . --project-name spiralsafe` |
-| **API Secrets** | Set API key | `npx wrangler secret put SPIRALSAFE_API_KEY` |
+| Component       | Action Required      | Command                                                              |
+| --------------- | -------------------- | -------------------------------------------------------------------- |
+| **Core API**    | Deploy to Cloudflare | `cd ops && npx wrangler deploy`                                      |
+| **Public Site** | Deploy to Pages      | `cd public && npx wrangler pages deploy . --project-name spiralsafe` |
+| **API Secrets** | Set API key          | `npx wrangler secret put SPIRALSAFE_API_KEY`                         |
 
 ---
 
@@ -35,6 +35,7 @@
 **File**: `ops/wrangler.toml`
 
 ✅ **Correct Configuration**:
+
 ```toml
 name = "spiralsafe-api"
 main = "api/spiralsafe-worker.ts"
@@ -67,6 +68,7 @@ bucket_name = "spiralsafe-contexts"
 **File**: `public/index.html` (24,782 bytes)
 
 ✅ **Features**:
+
 - Beautiful gradient hero
 - H&&S:WAVE protocol showcase
 - Team introduction (Ptolemy + Bartimaeus)
@@ -75,6 +77,7 @@ bucket_name = "spiralsafe-contexts"
 - Responsive design (Tailwind CSS)
 
 **Deployment Options**:
+
 1. **Cloudflare Pages** (Recommended)
 2. GitHub Pages
 3. Vercel
@@ -244,6 +247,7 @@ curl https://api.spiralsafe.org/api/health
 
 **Cause**: D1 binding not working
 **Fix**:
+
 ```bash
 # Verify database exists
 npx wrangler d1 list
@@ -260,6 +264,7 @@ npx wrangler deploy
 
 **Cause**: Secret not set or wrong key
 **Fix**:
+
 ```bash
 # Set/update secret
 cd ops
@@ -273,6 +278,7 @@ npx wrangler secret put SPIRALSAFE_API_KEY
 
 **Cause**: Too many requests from same IP
 **Fix**:
+
 ```bash
 # Wait 60 seconds
 sleep 60
@@ -286,6 +292,7 @@ npx wrangler secret put RATE_LIMIT_REQUESTS
 
 **Cause**: Site not deployed or DNS not configured
 **Fix**:
+
 ```bash
 # Redeploy site
 cd public
@@ -300,57 +307,61 @@ npx wrangler pages deploy . --project-name spiralsafe
 
 ### Required Secrets (Cloudflare)
 
-| Secret | Required | Command | Example |
-|--------|----------|---------|---------|
-| `SPIRALSAFE_API_KEY` | ✅ Yes | `wrangler secret put SPIRALSAFE_API_KEY` | 64-char hex |
-| `SPIRALSAFE_API_KEYS` | ❌ No | `wrangler secret put SPIRALSAFE_API_KEYS` | key1,key2,key3 |
-| `RATE_LIMIT_REQUESTS` | ❌ No | `wrangler secret put RATE_LIMIT_REQUESTS` | 100 |
-| `RATE_LIMIT_WINDOW` | ❌ No | `wrangler secret put RATE_LIMIT_WINDOW` | 60 |
-| `RATE_LIMIT_AUTH_FAILURES` | ❌ No | `wrangler secret put RATE_LIMIT_AUTH_FAILURES` | 5 |
+| Secret                     | Required | Command                                        | Example        |
+| -------------------------- | -------- | ---------------------------------------------- | -------------- |
+| `SPIRALSAFE_API_KEY`       | ✅ Yes   | `wrangler secret put SPIRALSAFE_API_KEY`       | 64-char hex    |
+| `SPIRALSAFE_API_KEYS`      | ❌ No    | `wrangler secret put SPIRALSAFE_API_KEYS`      | key1,key2,key3 |
+| `RATE_LIMIT_REQUESTS`      | ❌ No    | `wrangler secret put RATE_LIMIT_REQUESTS`      | 100            |
+| `RATE_LIMIT_WINDOW`        | ❌ No    | `wrangler secret put RATE_LIMIT_WINDOW`        | 60             |
+| `RATE_LIMIT_AUTH_FAILURES` | ❌ No    | `wrangler secret put RATE_LIMIT_AUTH_FAILURES` | 5              |
 
 ### Configuration (wrangler.toml)
 
-| Variable | Value | Location |
-|----------|-------|----------|
-| `database_id` | d47d04ca-7d74-41a8-b489-0af373a2bb2c | Line 31 |
-| `kv_id` | 79d496efbfab4d54a6277ed80dc29d1f | Line 44 |
-| `r2_bucket` | spiralsafe-contexts | Line 56 |
+| Variable      | Value                                | Location |
+| ------------- | ------------------------------------ | -------- |
+| `database_id` | d47d04ca-7d74-41a8-b489-0af373a2bb2c | Line 31  |
+| `kv_id`       | 79d496efbfab4d54a6277ed80dc29d1f     | Line 44  |
+| `r2_bucket`   | spiralsafe-contexts                  | Line 56  |
 
 ---
 
 ## 🌍 Expected URLs After Deployment
 
-| Service | URL | Status |
-|---------|-----|--------|
-| **Core API** | https://api.spiralsafe.org | ⏳ Pending deployment |
-| **Public Site** | https://spiralsafe.org | ⏳ Pending deployment |
-| **API Workers URL** | https://spiralsafe-api.*.workers.dev | ⏳ Auto-generated |
-| **Pages URL** | https://spiralsafe.pages.dev | ⏳ Auto-generated |
-| **Admin Console** | https://console.spiralsafe.org | 🚧 Architecture complete, not built |
+| Service             | URL                                  | Status                              |
+| ------------------- | ------------------------------------ | ----------------------------------- |
+| **Core API**        | https://api.spiralsafe.org           | ⏳ Pending deployment               |
+| **Public Site**     | https://spiralsafe.org               | ⏳ Pending deployment               |
+| **API Workers URL** | https://spiralsafe-api.*.workers.dev | ⏳ Auto-generated                   |
+| **Pages URL**       | https://spiralsafe.pages.dev         | ⏳ Auto-generated                   |
+| **Admin Console**   | https://console.spiralsafe.org       | 🚧 Architecture complete, not built |
 
 ---
 
 ## 📊 Deployment Priority
 
 ### Phase 1: Core Infrastructure (Do First)
+
 1. ✅ Deploy Core API (`ops/wrangler.toml`)
 2. ✅ Set API Key secret
 3. ✅ Test health endpoint
 4. ✅ Verify D1/KV/R2 bindings
 
 ### Phase 2: Public Presence (Do Second)
+
 1. ✅ Deploy public site (`public/index.html`)
 2. ✅ Verify site loads
 3. ✅ Test responsive design
 4. ✅ Check all links work
 
 ### Phase 3: Monitoring (Do Third)
+
 1. ✅ Set up Cloudflare email alerts
 2. ✅ Configure UptimeRobot health checks
 3. ✅ Test alert triggers
 4. ✅ Monitor logs with `wrangler tail`
 
 ### Phase 4: Advanced Features (Optional)
+
 1. 🚧 Build admin console frontend
 2. 🚧 Implement ATOM-AUTH backend
 3. 🚧 Build SpiralCraft Minecraft plugin
@@ -377,6 +388,7 @@ npx wrangler pages deploy . --project-name spiralsafe
 ## 📞 Support
 
 ### Resources
+
 - **Documentation**: `/DEPLOYMENT_GUIDE.md` (15-minute setup)
 - **Security Guide**: `/ops/SECURITY_GUIDE.md`
 - **API Reference**: `/ops/API_REFERENCE.md`

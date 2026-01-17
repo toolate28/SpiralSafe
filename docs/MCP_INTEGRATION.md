@@ -1,4 +1,5 @@
 # MCP Integration Guide
+
 ## Model Context Protocol for Safe Spiral
 
 **ATOM:** ATOM-DOC-20260102-010-mcp-integration-guide  
@@ -10,7 +11,7 @@
        ╱ │╲
       ╱  │ ╲      MCP: Model Context
      ╱   ◉  ╲     Protocol
-    ╱  ╱ │╲   ╲    
+    ╱  ╱ │╲   ╲
    ╱  ╱  │ ╲   ╲   Connect AI agents
   ╱  ╱   ◉  ╲   ╲  to infrastructure
  ◉──◉───◉───◉──◉
@@ -50,16 +51,19 @@ For Safe Spiral, MCP enables Claude Desktop and GitHub Copilot to interact direc
 ### Claude Desktop
 
 **macOS:**
+
 ```
 ~/Library/Application Support/Claude/claude_desktop_config.json
 ```
 
 **Windows:**
+
 ```
 %APPDATA%\Claude\claude_desktop_config.json
 ```
 
 **Linux:**
+
 ```
 ~/.config/Claude/claude_desktop_config.json
 ```
@@ -100,6 +104,7 @@ echo $GITHUB_PERSONAL_ACCESS_TOKEN
 ### Step 3: Test MCP Connection
 
 Ask Claude:
+
 ```
 "Can you list the recent issues in this repository?"
 ```
@@ -113,6 +118,7 @@ If Claude can access GitHub data, MCP is working.
 ```
 
 This validates:
+
 - Docker availability
 - Node.js/npx setup
 - Environment variables
@@ -143,6 +149,7 @@ This validates:
 **Known Limitation:** MCP invocations are **not currently captured in ATOM trail**.
 
 This means:
+
 - No audit log of MCP server calls
 - No record of data passed to/from MCP servers
 - Cannot reconstruct decision chains involving MCP
@@ -189,6 +196,7 @@ When code or documentation is created/modified based on MCP data, add a brief no
 
 ```markdown
 <!-- MCP: Data retrieved via GitHub MCP list_issues on 2026-01-04 -->
+
 Current open issues: 5
 ```
 
@@ -211,6 +219,7 @@ Or in code comments:
 **5. Minimum Documentation Checklist**
 
 For any work involving MCP:
+
 - [ ] Create ATOM tag before MCP operations
 - [ ] Record which MCP server(s) were used
 - [ ] Note key operations performed
@@ -226,12 +235,14 @@ For any work involving MCP:
 **Docker Image:** `mcp/github`
 
 **Capabilities:**
+
 - Repository browsing and search
 - Issue and PR management
 - Branch and commit operations
 - Code review and comments
 
 **Setup:**
+
 ```bash
 # Set GitHub token
 export GITHUB_PERSONAL_ACCESS_TOKEN="ghp_your_token_here"
@@ -241,6 +252,7 @@ docker run --rm -i -e GITHUB_PERSONAL_ACCESS_TOKEN mcp/github
 ```
 
 **Token Permissions:**
+
 - Minimum: `repo` (read-only)
 - For PR creation: `repo` (full)
 - For issue management: `repo`, `write:discussion`
@@ -250,12 +262,14 @@ docker run --rm -i -e GITHUB_PERSONAL_ACCESS_TOKEN mcp/github
 **npm Package:** `@modelcontextprotocol/server-mermaid`
 
 **Capabilities:**
+
 - Generate flowcharts
 - Create sequence diagrams
 - Build entity-relationship diagrams
 - Produce state diagrams
 
 **Setup:**
+
 ```bash
 # Test Mermaid MCP
 npx -y @modelcontextprotocol/server-mermaid
@@ -288,12 +302,12 @@ npx --version
 
 ### Common Issues
 
-| Symptom                                | Cause              | Fix                                         |
-| -------------------------------------- | ------------------ | ------------------------------------------- |
-| "Docker not found"                     | Docker not running | Start Docker Desktop                        |
-| "GITHUB_PERSONAL_ACCESS_TOKEN not set" | Missing env var    | `export GITHUB_PERSONAL_ACCESS_TOKEN=...`  |
-| "Rate limit exceeded"                  | Too many API calls | Wait or use different token                 |
-| "npx timeout"                          | Network/npm issues | Check internet, clear npm cache             |
+| Symptom                                | Cause              | Fix                                       |
+| -------------------------------------- | ------------------ | ----------------------------------------- |
+| "Docker not found"                     | Docker not running | Start Docker Desktop                      |
+| "GITHUB_PERSONAL_ACCESS_TOKEN not set" | Missing env var    | `export GITHUB_PERSONAL_ACCESS_TOKEN=...` |
+| "Rate limit exceeded"                  | Too many API calls | Wait or use different token               |
+| "npx timeout"                          | Network/npm issues | Check internet, clear npm cache           |
 
 ---
 
@@ -348,6 +362,7 @@ Enable powerful capabilities while maintaining transparency about limitations. A
 Found an issue or have a suggestion? See [CONTRIBUTING.md](../CONTRIBUTING.md).
 
 When working with MCP:
+
 1. Create ATOM tag: `./scripts/atom-track.sh TASK "MCP-related work" "mcp"`
 2. Document security implications
 3. Test with `check-mcp-health.sh`
@@ -355,8 +370,8 @@ When working with MCP:
 
 ---
 
-*Hope && Sauce*  
-*Step True · Trust Deep · Pass Forward*
+_Hope && Sauce_  
+_Step True · Trust Deep · Pass Forward_
 
 **ATOM:** ATOM-DOC-20260102-010-mcp-integration-guide  
 **See Also:** MCP_SECURITY_NOTES.md, TROUBLESHOOTING_MCP.md

@@ -30,7 +30,9 @@ coherence_threshold: 0.5
 
 ```markdown
 <!-- H&&S:WAVE -->
+
 Work complete. Ready for review.
+
 <!-- /H&&S:WAVE -->
 ```
 
@@ -59,12 +61,12 @@ atom:
 
 ## Protocols
 
-| Protocol | Purpose | File |
-|----------|---------|------|
-| WAVE | Coherence detection | `protocol/wave.md` |
-| BUMP | Handoff markers | `protocol/bump.md` |
-| AWI | Permission scaffolding | `protocol/awi.md` |
-| ATOM | Task orchestration | `protocol/atom.md` |
+| Protocol | Purpose                | File               |
+| -------- | ---------------------- | ------------------ |
+| WAVE     | Coherence detection    | `protocol/wave.md` |
+| BUMP     | Handoff markers        | `protocol/bump.md` |
+| AWI      | Permission scaffolding | `protocol/awi.md`  |
+| ATOM     | Task orchestration     | `protocol/atom.md` |
 
 ---
 
@@ -79,12 +81,15 @@ atom:
 ## Philosophy
 
 ### Less is more
+
 wave-toolkit is intentionally minimal. It provides structure without overhead.
 
 ### Trust through transparency
+
 Every protocol emphasizes explicit declaration over implicit assumption.
 
 ### Constraint enables emergence
+
 Clear boundaries create better collaboration than unlimited freedom.
 
 ---
@@ -92,6 +97,7 @@ Clear boundaries create better collaboration than unlimited freedom.
 ## Not Included
 
 This toolkit deliberately excludes:
+
 - Game integrations (see: quantum-redstone, hope-npcs)
 - Mathematical frameworks (see: SpiralSafe foundation/)
 - Domain-specific content
@@ -104,5 +110,5 @@ MIT
 
 ---
 
-*H&&S:WAVE | Hope&&Sauced*
-*From the constraints, gifts.*
+_H&&S:WAVE | Hope&&Sauced_
+_From the constraints, gifts._

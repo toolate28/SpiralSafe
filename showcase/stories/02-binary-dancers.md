@@ -1,4 +1,5 @@
 # 🌙 The Four Dancers of Binary Night
+
 ## A Hope && Sauce Story About Binary Numbers
 
 **Age:** 7-11 years | **Topic:** Binary Counting & Place Value | **Museum Build:** Binary Counter
@@ -41,31 +42,39 @@ The four dancers lined up:
 ## Chapter 3: The Count Begins
 
 **Number 0:**
+
 ```
 [OFF] [OFF] [OFF] [OFF] = 0
  8     4     2     1
 ```
+
 All dark. Nothing.
 
 **Number 1:**
+
 ```
 [OFF] [OFF] [OFF] [ON] = 1
  8     4     2     1
 ```
+
 Only Orchard glows. 0+0+0+1 = **1**
 
 **Number 2:**
+
 ```
 [OFF] [OFF] [ON] [OFF] = 2
  8     4     2     1
 ```
+
 Only Constellation glows. 0+0+2+0 = **2**
 
 **Number 3:**
+
 ```
 [OFF] [OFF] [ON] [ON] = 3
  8     4     2     1
 ```
+
 Constellation AND Orchard glow. 0+0+2+1 = **3**
 
 "I see it!" Sauce exclaimed. "Each dancer either adds their number or doesn't!"
@@ -75,31 +84,39 @@ Constellation AND Orchard glow. 0+0+2+1 = **3**
 ## Chapter 4: The Bigger Numbers
 
 **Number 4:**
+
 ```
 [OFF] [ON] [OFF] [OFF] = 4
  8     4     2     1
 ```
+
 Only Firefly glows.
 
 **Number 7:**
+
 ```
 [OFF] [ON] [ON] [ON] = 7
  8     4     2     1
 ```
+
 Firefly + Constellation + Orchard = 4+2+1 = **7**
 
 **Number 8:**
+
 ```
 [ON] [OFF] [OFF] [OFF] = 8
  8     4     2     1
 ```
+
 Only Air glows - but Air is powerful!
 
 **Number 15:**
+
 ```
 [ON] [ON] [ON] [ON] = 15
  8     4     2     1
 ```
+
 Everyone glows! 8+4+2+1 = **15** - the biggest number they can make!
 
 ---
@@ -133,7 +150,7 @@ Firefly answered: "Because computers use electricity. Electricity is either **fl
 
 "Is made of millions of tiny ON/OFF switches," Air finished. "Just like us, but much, much faster."
 
-The garden whispered: *"Your phone has billions of dancers doing this trillions of times per second."*
+The garden whispered: _"Your phone has billions of dancers doing this trillions of times per second."_
 
 ---
 
@@ -166,11 +183,13 @@ The dancers all glowed in a special pattern: `10011`
 5. Each redstone lamp is one dancer!
 
 **Experiment challenges:**
+
 - Can you slow down the clock to watch each number longer?
 - Can you add a 5th bit to count to 31?
 - Can you wire a button to make it count on demand instead of automatically?
 
 **Decode these binary messages:**
+
 ```
 01001000 01101001 → What word is this? (Hint: use ASCII table)
 ```
@@ -180,11 +199,13 @@ The dancers all glowed in a special pattern: `10011`
 ## 💭 Think About It...
 
 **For younger kids (7-9):**
+
 - With 1 dancer, you can make 2 numbers (0, 1)
 - With 2 dancers, you can make 4 numbers (0, 1, 2, 3)
 - With 3 dancers, how many numbers can you make?
 
 **For older kids (10-11):**
+
 - How would you represent the number 100 in binary?
 - If each dancer takes 1 second to flip, how long to count to 1 million?
 - What's the biggest number you can make with 8 dancers (8 bits = 1 byte)?
@@ -193,11 +214,11 @@ The dancers all glowed in a special pattern: `10011`
 
 ## 🌟 The Hope && Sauce Wisdom
 
-From Hope: *"Sometimes the simplest system—just ON and OFF—can express infinite complexity."*
+From Hope: _"Sometimes the simplest system—just ON and OFF—can express infinite complexity."_
 
-From Sauce: *"Every dancer has their own value, but together they can count to anything."*
+From Sauce: _"Every dancer has their own value, but together they can count to anything."_
 
-From the Dancers: *"We are how every computer counts. We are how your world keeps track of numbers. And we never get tired."*
+From the Dancers: _"We are how every computer counts. We are how your world keeps track of numbers. And we never get tired."_
 
 ---
 
@@ -232,20 +253,20 @@ You live in a binary world. Now you speak its language.
 **Build Status:** Ready to import
 **Learning Status:** Binary unlocked!
 
-**Next Story:** *The Memory Orchard* (Coming soon...)
+**Next Story:** _The Memory Orchard_ (Coming soon...)
 
 ---
 
-*This story is part of the Museum of Computation - where reading a story teaches you to build the code.*
+_This story is part of the Museum of Computation - where reading a story teaches you to build the code._
 
 **Hope && Sauce** | Built with Love | [spiralsafe.org](https://spiralsafe.org)
-*The Evenstar Guides Us* ✦
+_The Evenstar Guides Us_ ✦
 
 ---
 
 ## 🎵 The Binary Counting Song
 
-*(Sing to any tune you like!)*
+_(Sing to any tune you like!)_
 
 ```
 Zero zero zero zero, nothing's on tonight

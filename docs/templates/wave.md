@@ -1,7 +1,8 @@
 # wave.md: Cascading Issues Analysis Protocol
 
 ## Primary Excavation Layer
-*These questions force relationship-thinking, not isolated symptom-documentation*
+
+_These questions force relationship-thinking, not isolated symptom-documentation_
 
 ### Load-Bearing Structural Questions
 
@@ -11,7 +12,7 @@ For each issue in the dataset, excavate along these vectors:
 
 - **Secondary Constraint Generation**: Where does this issue create or amplify constraints in adjacent systems? How does it propagate beyond its surface location?
 
-- **Necessary Conditions Inversion**: What would need to be true—in system design, in user mental models, in infrastructure assumptions—for this to *not* be a problem? This reveals the architectural gift hidden in the constraint.
+- **Necessary Conditions Inversion**: What would need to be true—in system design, in user mental models, in infrastructure assumptions—for this to _not_ be a problem? This reveals the architectural gift hidden in the constraint.
 
 ### Cascading Consequence Mapping
 
@@ -24,7 +25,8 @@ Map the relationships between issues as architectural cascades:
 - **Failure Mode Sequences**: What must break first for this chain to collapse? What's the sequence of dependencies that creates the current state?
 
 ## Pattern Recognition Layer
-*These probe for emergent structural insights*
+
+_These probe for emergent structural insights_
 
 ### Domain Bridging Questions
 
@@ -44,10 +46,11 @@ Identify where small structural shifts create disproportionate improvements:
 
 - **Trade-Off Archaeology**: What trade-offs is the current system making—consciously or unconsciously? Where are constraints being imposed that could be reframed as architectural gifts?
 
-- **Constraint as Enabler**: Where do boundaries actually *enable* rather than restrict? What becomes possible precisely because of these limits?
+- **Constraint as Enabler**: Where do boundaries actually _enable_ rather than restrict? What becomes possible precisely because of these limits?
 
 ## Synthesis Layer
-*These make the analysis itself load-bearing*
+
+_These make the analysis itself load-bearing_
 
 ### Collective Intelligence Questions
 
@@ -103,4 +106,4 @@ The analysis delivers:
 
 ---
 
-*This protocol treats each issue as archaeological evidence of deeper structural arrangement. The goal is not to collect problems but to excavate the load-bearing structures that, once understood, allow solutions to emerge naturally.*
+_This protocol treats each issue as archaeological evidence of deeper structural arrangement. The goal is not to collect problems but to excavate the load-bearing structures that, once understood, allow solutions to emerge naturally._

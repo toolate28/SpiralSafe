@@ -19,7 +19,7 @@ pylint==3.0.3
 # API Clients (for testing integrations)
 openai==1.12.0
 replicate==0.25.0
-isort==5.13.2
+isort==7.0.0
 
 # Type stubs
 types-requests==2.31.0.10

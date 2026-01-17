@@ -5,6 +5,7 @@ Use this template to open an internal incident issue (label: `security/secret-le
 Title: [SECURITY] Secret exposure: Cloudflare API token found in docs/history (rotated)
 
 Body:
+
 ```
 Summary:
 - Secret type: Cloudflare API token

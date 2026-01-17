@@ -10,20 +10,20 @@ Every project has a Day Zero: the moment before code is written, before patterns
 
 Most projects follow: "Just get something working" → "We'll clean up later" → Technical debt forever.
 
-Day Zero Design inverts this: invest in correct architecture *before* building.
+Day Zero Design inverts this: invest in correct architecture _before_ building.
 
 ---
 
 ## What to Decide on Day Zero
 
-| Category | Decisions |
-|----------|-----------|
-| **Naming** | Conventions for files, functions, variables |
-| **Structure** | Directory layout, module boundaries |
-| **Interfaces** | API contracts, data formats |
-| **Documentation** | Standards, templates, locations |
-| **Testing** | Strategy, coverage expectations |
-| **Collaboration** | Contribution guidelines, review process |
+| Category          | Decisions                                   |
+| ----------------- | ------------------------------------------- |
+| **Naming**        | Conventions for files, functions, variables |
+| **Structure**     | Directory layout, module boundaries         |
+| **Interfaces**    | API contracts, data formats                 |
+| **Documentation** | Standards, templates, locations             |
+| **Testing**       | Strategy, coverage expectations             |
+| **Collaboration** | Contribution guidelines, review process     |
 
 ---
 
@@ -55,6 +55,7 @@ project/
 **Investment**: 8-16 hours for a medium project
 
 **Return**:
+
 - 10-100x reduced coordination overhead
 - 5-20x avoided rework
 - 3-10x faster onboarding
@@ -64,4 +65,4 @@ The investment pays for itself within the first month.
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_

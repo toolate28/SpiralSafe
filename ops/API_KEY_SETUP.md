@@ -9,6 +9,7 @@ The SpiralSafe API protects all write endpoints (POST, PUT, DELETE) with API key
 ## Protected Endpoints
 
 All endpoints with these HTTP methods require authentication:
+
 - `POST /api/wave/analyze` - Coherence analysis
 - `POST /api/bump/create` - Create routing markers
 - `PUT /api/bump/resolve/{id}` - Resolve bumps

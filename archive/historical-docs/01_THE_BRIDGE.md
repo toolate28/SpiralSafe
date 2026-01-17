@@ -23,12 +23,14 @@ This is the bridge that shows how that happened.
 **Problem:** Surface Pro 4 devices in DPET environment fail unpredictably. Repairs are manual, inconsistent, knowledge is implicit.
 
 **Solution:** Systematic, evidence-based diagnostics:
+
 - `Get-SystemSnapshot()` - Gather visible state
 - `Get-PriorityLevel()` - Classify urgency (P0-P3)
 - Modular interventions - Each operation is testable
 - JSON Lines logging - Every action recorded, patterns queryable
 
 **Key Innovation:** Making implicit knowledge explicit. Instead of "try this fix," you have:
+
 1. Diagnostics that show actual state
 2. Priority classification that shows urgency
 3. Graduated response (P0 is immediate, P3 is wait)
@@ -48,6 +50,7 @@ This is the bridge that shows how that happened.
 ### What You Built: Day Zero Design + Formal Specifications
 
 **Problem:** Systems that "work" in ideal conditions break under real constraint. Day-Zero procedures need to be:
+
 - Teachable to humans (readable docs)
 - Executable by AI (formal specs)
 - Portable across contexts (variables, not hardcodes)
@@ -56,17 +59,20 @@ This is the bridge that shows how that happened.
 **Solution:** Three-layer specification:
 
 **Layer 1: SCHEMAS** - What is valid?
+
 - JSON Schema definitions for configs, logs, operations
 - "This field must be X type with these constraints"
 - Enables automated validation
 
 **Layer 2: CONTRACTS** - What can happen?
+
 - YAML contracts defining what operations are allowed
 - "Backup requires encryption AND audit log AND recovery plan"
 - Propagation rules for cascading changes
 - Clear governance without bureaucracy
 
 **Layer 3: ABSTRACTIONS** - How to be portable?
+
 - `variables.env` for all parameterizable values
 - `path_templates.json` for building paths dynamically
 - One change to a variable, everything updates
@@ -77,6 +83,7 @@ This is the bridge that shows how that happened.
 > **"Rigor enables flexibility"** - Your core insight from this work
 
 When you write down formally what's valid, what's allowed, and how to parameterize, then:
+
 - Humans can understand the rules
 - AI can verify compliance
 - Systems can adapt as requirements change
@@ -99,6 +106,7 @@ When you write down formally what's valid, what's allowed, and how to parameteri
 **Solution:** Four formalisms:
 
 **ATOM: Atomic, Testable, Observable, Measurable**
+
 - Break work at natural boundaries (Atomic)
 - Each piece has a test condition (Testable)
 - You can see if it worked (Observable)
@@ -106,12 +114,14 @@ When you write down formally what's valid, what's allowed, and how to parameteri
 - Result: No ambiguous work, clear completion criteria
 
 **OWI: Observation, Wisdom, Inference**
+
 - Collect what actually happened (Observation)
 - What does that teach us? (Wisdom)
 - What can we conclude? (Inference)
 - Result: Knowledge flows from experience, not assumptions
 
 **SAIF: Structured, Actionable, Illustrated, Feedback-driven**
+
 - Organize information logically (Structured)
 - Every piece tells you what to do (Actionable)
 - Show diagrams, not just words (Illustrated)
@@ -119,13 +129,14 @@ When you write down formally what's valid, what's allowed, and how to parameteri
 - Result: Documentation people actually use and understand
 
 **KENL: Kernel Elegance Networked Layered**
+
 - Minimal core concept (Kernel)
 - Expressed cleanly, without clutter (Elegance)
 - Connected to other ideas (Networked)
 - Built in layers of increasing detail (Layered)
 - Result: Knowledge scales, compounds, doesn't decay with retelling
 
-**Key Innovation:** These aren't random best practices. They're the structure of systems that *actually work*.
+**Key Innovation:** These aren't random best practices. They're the structure of systems that _actually work_.
 
 ### The Insight
 
@@ -138,11 +149,13 @@ When you write down formally what's valid, what's allowed, and how to parameteri
 ### What You Built: idea^i Framework
 
 **Problem:** You have great ideas but follow-through is inconsistent. What if you could synthesize directives (actions) based on:
+
 - What you know now (competency state)
 - What you still need to learn (knowledge gaps from git history)
 - When you should receive them (just-in-time, not overwhelming)
 
 **Solution:** Directive Synthesizer Engine that:
+
 1. Analyzes your git history (what have you successfully done?)
 2. Identifies knowledge gaps (what confused you in recent PRs?)
 3. Generates directives (specific actions at right time)
@@ -163,6 +176,7 @@ When you write down formally what's valid, what's allowed, and how to parameteri
 ### What You Built: Safe Spiral
 
 **Problem:** Teams fail predictably. Same symptoms everywhere:
+
 - Hidden decisions (no shared state)
 - Unclear authority (intent invisible)
 - Tangled complexity (work doesn't decompose)
@@ -174,24 +188,28 @@ When you write down formally what's valid, what's allowed, and how to parameteri
 **Solution:** Safe Spiral - Four frameworks applied to organizational dynamics:
 
 **Safe Space** = Visible Shared State (like BattleMedic's snapshots)
+
 - bump.md makes current state visible
 - No hidden decisions or assumptions
 - Everyone sees the same reality
 - Foundation for everything else
 
 **Trust** = Clear Intent (like Day Zero's specifications)
+
 - AWI framework: Authority + Reason = Intent
 - When you know WHY someone has power, trust follows
 - Intent visibility makes cooperation safe
 - Incentives align because they're explicit
 
 **Usable Work** = Natural Decomposition (like ATOM)
+
 - Work breaks at natural boundaries
 - Each piece is testable and observable
 - No ambiguous handoffs
 - Easy to parallelize, easy to recover from failures
 
 **Better Spiral** = Knowledge Networks (like KENL + idea^i)
+
 - Knowledge flows between people/teams
 - Patterns emerge from connected observations
 - Learning compounds instead of decaying
@@ -209,13 +227,13 @@ When you write down formally what's valid, what's allowed, and how to parameteri
 
 Look at what you've proven:
 
-| Component | BattleMedic | Day Zero | ATOM/OWI/SAIF/KENL | idea^i | Safe Spiral |
-|-----------|-------------|----------|---------------------|---------|-------------|
-| **Visible State** | Snapshots | Configs | Observable | Git history | bump.md |
-| **Clear Intent** | Priorities | Contracts | Structured | Directives | AWI |
-| **Natural Decomposition** | P0-P3 triage | Layers | Atomic tasks | Competency gates | ATOM |
-| **Knowledge Flow** | Logs | Abstractions | Networked | Knowledge graph | KENL |
-| **Measurable Delivery** | Intervention success | Spec validation | Test conditions | Completion signals | Constraint outcomes |
+| Component                 | BattleMedic          | Day Zero        | ATOM/OWI/SAIF/KENL | idea^i             | Safe Spiral         |
+| ------------------------- | -------------------- | --------------- | ------------------ | ------------------ | ------------------- |
+| **Visible State**         | Snapshots            | Configs         | Observable         | Git history        | bump.md             |
+| **Clear Intent**          | Priorities           | Contracts       | Structured         | Directives         | AWI                 |
+| **Natural Decomposition** | P0-P3 triage         | Layers          | Atomic tasks       | Competency gates   | ATOM                |
+| **Knowledge Flow**        | Logs                 | Abstractions    | Networked          | Knowledge graph    | KENL                |
+| **Measurable Delivery**   | Intervention success | Spec validation | Test conditions    | Completion signals | Constraint outcomes |
 
 **Same pattern. Different domains.**
 
@@ -258,12 +276,14 @@ This isn't a proof by one example. This is proof by convergence across five inde
 ## What This Means for Safe Spiral
 
 Safe Spiral isn't:
+
 - A novel management theory
 - A feel-good framework
 - An aspirational best practice
 - "Something that might work if everyone tries"
 
 Safe Spiral is:
+
 - Recognition of information physics
 - Applied to human teams
 - Proven effective in technical domains
@@ -314,6 +334,7 @@ If you understand this bridge, then everything else in the package makes sense:
 **Next:** Read `02_SAFE_SPIRAL_CONSOLIDATED.md` to see the complete framework.
 
 Or jump to any section you need:
+
 - Want to implement? → `06_IMPLEMENTATION_PLAYBOOK.md`
 - Want to measure? → `08_MEASUREMENT_FRAMEWORK.md`
 - Worried about failure? → `07_FAILURE_MODES_AND_RECOVERY.md`
@@ -326,4 +347,4 @@ The bridge is complete. Safe Spiral is proven. Everything else is execution.
 **ATOM:** ATOM-DOC-20260112-002-bridge-convergence-narrative  
 **Status:** Historical context - bridge document
 
-*This is the moment where scattered frameworks converge into one coherent system. Trust the pattern. It works.*
+_This is the moment where scattered frameworks converge into one coherent system. Trust the pattern. It works._

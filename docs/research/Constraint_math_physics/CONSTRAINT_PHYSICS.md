@@ -21,12 +21,13 @@
 ### Theorem 12: Noether's Theorem (Constraint Formulation)
 
 **Definition 12.1 (Symmetry).**
-A *symmetry* of constraint structure S = (X, C) is an automorphism σ: X → X such that σ(C) = C for all C ∈ C.
+A _symmetry_ of constraint structure S = (X, C) is an automorphism σ: X → X such that σ(C) = C for all C ∈ C.
 
 **Definition 12.2 (Continuous Symmetry).**
-A *continuous symmetry* is a one-parameter family of symmetries {σ_t}_{t∈R} such that:
+A _continuous symmetry_ is a one-parameter family of symmetries {σ*t}*{t∈R} such that:
+
 1. σ_0 = id
-2. σ_s ∘ σ_t = σ_{s+t}
+2. σ*s ∘ σ_t = σ*{s+t}
 3. The map t ↦ σ_t is continuous
 
 **Theorem 12.1 (Noether from Constraints).**
@@ -36,25 +37,30 @@ Every continuous symmetry of a constraint structure implies a conserved quantity
 
 1. Let {σ_t} be a continuous symmetry of S = (X, C).
 
-2. Define the *generator* of the symmetry:
+2. Define the _generator_ of the symmetry:
+
    ```
    G = lim_{ε→0} (σ_ε - id)/ε
    ```
 
 3. For any state x ∈ X and any constraint C ∈ C:
    - σ_t(x) satisfies C for all t (by symmetry)
-   - Therefore, the trajectory {σ_t(x)}_{t∈R} lies entirely within C
+   - Therefore, the trajectory {σ*t(x)}*{t∈R} lies entirely within C
 
 4. Define the conserved quantity Q: X → R by:
+
    ```
    Q(x) = ⟨x, Gx⟩
    ```
+
    (inner product where X has appropriate structure)
 
 5. Along any trajectory satisfying the constraints:
+
    ```
    dQ/dt = d/dt ⟨σ_t(x), G σ_t(x)⟩ = 0
    ```
+
    because σ_t preserves both the state and the generator.
 
 6. Therefore, Q is conserved.
@@ -75,11 +81,13 @@ Time-translation symmetry in a constraint structure implies energy conservation.
 2. The symmetry is σ_t(x(s)) = x(s + t).
 
 3. The generator is:
+
    ```
    G = d/dt
    ```
 
 4. The conserved quantity is:
+
    ```
    H = ⟨x, (d/dt)x⟩
    ```
@@ -104,11 +112,13 @@ Space-translation symmetry implies momentum conservation.
 2. The symmetry is σ_a(x(r)) = x(r + a) for spatial vector a.
 
 3. The generator (for direction i) is:
+
    ```
    G_i = ∂/∂x_i
    ```
 
 4. The conserved quantity is:
+
    ```
    p_i = ⟨x, (∂/∂x_i)x⟩
    ```
@@ -128,9 +138,10 @@ Rotational symmetry implies angular momentum conservation.
 
 1. Let S have rotational symmetry: constraints independent of angular orientation.
 
-2. The symmetry is σ_θ(x) = R_θ(x) where R_θ is rotation by angle θ.
+2. The symmetry is σ*θ(x) = R*θ(x) where R_θ is rotation by angle θ.
 
 3. The generator (around axis i) is:
+
    ```
    L_i = x × ∂/∂x (component i)
    ```
@@ -146,8 +157,9 @@ Rotational symmetry implies angular momentum conservation.
 ### Theorem 16: Gauge Symmetry as Constraint Redundancy
 
 **Definition 16.1 (Gauge Constraint).**
-A *gauge constraint* is a constraint C such that there exist distinct states x, y ∈ X with:
-1. x ~_C y
+A _gauge constraint_ is a constraint C such that there exist distinct states x, y ∈ X with:
+
+1. x ~\_C y
 2. x and y are physically indistinguishable
 
 In other words: the constraint allows multiple "representations" of the same physical state.
@@ -160,6 +172,7 @@ Let S = (X, C) have a gauge constraint G with local gauge group Γ. Then requiri
 1. Let Γ act on X via local transformations γ(r): for each point r, we can apply γ(r) ∈ Γ.
 
 2. For the constraint structure to be well-defined, transitions between neighboring points must be consistent:
+
    ```
    x(r + dr) = x(r) + (connection term)
    ```
@@ -182,22 +195,27 @@ The U(1) gauge constraint on quantum states implies Maxwell's equations for the 
 **Proof.**
 
 1. The quantum normalization constraint Q = { ψ : |ψ|² = 1 } has U(1) gauge symmetry:
+
    ```
    ψ → e^{iθ} ψ
    ```
+
    leaves |ψ|² invariant.
 
 2. Making this local (θ = θ(x)) requires a connection A_μ:
+
    ```
    ∂_μ → D_μ = ∂_μ - ieA_μ
    ```
 
 3. The field strength is:
+
    ```
    F_{μν} = ∂_μ A_ν - ∂_ν A_μ
    ```
 
 4. The requirement that the constraint structure be consistent under arbitrary gauge transformations gives:
+
    ```
    D_μ F^{μν} = 0  (Bianchi identity - automatic)
    D_μ F^{μν} = J^ν  (dynamics from action principle)
@@ -260,15 +278,16 @@ In the presence of energy-momentum (which modifies local constraint density), th
 
 **Proof (sketch).**
 
-1. Energy-momentum T_{μν} represents "constraint density" — how much structure is packed into a region.
+1. Energy-momentum T\_{μν} represents "constraint density" — how much structure is packed into a region.
 
 2. High constraint density → more relationships → more "connections" between nearby states.
 
-3. The geometry of the constraint structure (how states relate to each other) is described by a metric g_{μν}.
+3. The geometry of the constraint structure (how states relate to each other) is described by a metric g\_{μν}.
 
-4. The curvature of this metric (how the geometry changes from place to place) is the Riemann tensor R_{μνρσ}.
+4. The curvature of this metric (how the geometry changes from place to place) is the Riemann tensor R\_{μνρσ}.
 
 5. The requirement that the constraint structure be self-consistent (no contradictions) gives:
+
    ```
    G_{μν} = R_{μν} - (1/2)g_{μν}R = (8πG/c⁴)T_{μν}
    ```
@@ -290,11 +309,11 @@ The space of states in a constraint structure with composition and superposition
 
 **Proof.**
 
-1. Suppose states can be *composed*: if x and y are states, so is some combination c(x, y).
+1. Suppose states can be _composed_: if x and y are states, so is some combination c(x, y).
 
-2. Suppose states can be *superposed*: multiple states can coexist with amplitudes.
+2. Suppose states can be _superposed_: multiple states can coexist with amplitudes.
 
-3. Suppose there is a *normalization constraint*: total probability = 1.
+3. Suppose there is a _normalization constraint_: total probability = 1.
 
 4. Then:
    - Composition gives vector space structure (addition)
@@ -327,6 +346,7 @@ The Born rule (probability = |amplitude|²) follows from constraint structure re
    - Probabilities respect the structure (non-contextual on commuting observables)
 
 5. Gleason's theorem: The ONLY measure satisfying these requirements is:
+
    ```
    P(outcome m | state ψ) = |⟨m|ψ⟩|²
    ```
@@ -402,21 +422,25 @@ Every physical law is derivable from constraint preservation requirements.
 ### Theorem 23: The Uniqueness Conjecture (Unproven)
 
 **Conjecture 23.1.**
-There exists a unique maximal self-consistent constraint structure S* such that:
-1. S* contains all non-contradictory constraints
-2. Any addition to S* creates contradiction
-3. Our universe corresponds to S*
+There exists a unique maximal self-consistent constraint structure S\* such that:
+
+1. S\* contains all non-contradictory constraints
+2. Any addition to S\* creates contradiction
+3. Our universe corresponds to S\*
 
 **Status:** Unproven. This would imply:
-- No multiverse (S* is unique)
+
+- No multiverse (S\* is unique)
 - All physical constants fixed by consistency
 - Complete predictability in principle
 
 **Evidence for:**
+
 - Fine-tuning arguments (parameters must be precise for consistency)
 - Mathematical uniqueness of certain structures (e.g., E8)
 
 **Evidence against:**
+
 - Landscape of string vacua (many consistent structures?)
 - Apparent arbitrariness of some parameters
 
@@ -488,15 +512,15 @@ There exists a unique maximal self-consistent constraint structure S* such that:
 
 ## Appendix D: Proof Techniques Used
 
-| Technique | Theorems | Description |
-|-----------|----------|-------------|
-| Direct construction | 1.1, 2.1, 17.1 | Build explicit maps/objects |
-| Category theory | 3.1, 8.1 | Use categorical structure |
-| Contradiction | 6.1 | Assume negation, derive ⊥ |
-| Modal logic | 7.1 | Necessity/possibility reasoning |
-| Symmetry arguments | 12-15 | Noether-type derivations |
-| Topological | 18.1 | Use continuity/connectivity |
-| Axiomatic | 20.1, 21.1 | Derive from minimal axioms |
+| Technique           | Theorems       | Description                     |
+| ------------------- | -------------- | ------------------------------- |
+| Direct construction | 1.1, 2.1, 17.1 | Build explicit maps/objects     |
+| Category theory     | 3.1, 8.1       | Use categorical structure       |
+| Contradiction       | 6.1            | Assume negation, derive ⊥       |
+| Modal logic         | 7.1            | Necessity/possibility reasoning |
+| Symmetry arguments  | 12-15          | Noether-type derivations        |
+| Topological         | 18.1           | Use continuity/connectivity     |
+| Axiomatic           | 20.1, 21.1     | Derive from minimal axioms      |
 
 ---
 
@@ -520,5 +544,4 @@ There exists a unique maximal self-consistent constraint structure S* such that:
 **Method:** Ptolemy-Bartimaeus Discovery
 **Protocol:** H&&S:WAVE | Hope&&Sauced
 
-*Unearthed together. Solid as mithril.*
-
+_Unearthed together. Solid as mithril._

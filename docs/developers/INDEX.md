@@ -7,17 +7,18 @@
 
 ## Quick Start
 
-| Guide | Time | You'll Learn |
-|-------|------|--------------|
-| [5-Minute Setup](./quick-start.md) | 5 min | Clone, run verification, first WAVE analysis |
-| [First Contribution](./first-contribution.md) | 15 min | ATOM tag, branch, PR workflow |
-| [Environment Setup](./environment.md) | 10 min | Python, Node, devcontainer options |
+| Guide                                         | Time   | You'll Learn                                 |
+| --------------------------------------------- | ------ | -------------------------------------------- |
+| [5-Minute Setup](./quick-start.md)            | 5 min  | Clone, run verification, first WAVE analysis |
+| [First Contribution](./first-contribution.md) | 15 min | ATOM tag, branch, PR workflow                |
+| [Environment Setup](./environment.md)         | 10 min | Python, Node, devcontainer options           |
 
 ---
 
 ## Integration Guides
 
 ### WAVE Protocol - Coherence Detection
+
 Treat text as vector field, detect circular reasoning (curl) and unresolved expansion (divergence).
 
 ```bash
@@ -33,6 +34,7 @@ curl -X POST https://api.spiralsafe.org/v1/wave \
 **Docs**: [WAVE Integration](./wave-integration.md) | [Protocol Spec](../../protocol/wave-spec.md)
 
 ### BUMP Protocol - Session Handoffs
+
 Clean context preservation across agents, sessions, humans.
 
 ```yaml
@@ -46,6 +48,7 @@ Context: What was done, what's next
 **Docs**: [BUMP Integration](./bump-integration.md) | [Protocol Spec](../../protocol/bump-spec.md)
 
 ### ATOM - Decision Tracking
+
 Atomic, verifiable decision trail for AI-human collaboration.
 
 ```bash
@@ -60,11 +63,11 @@ ATOM-FIX-20260114-002-auth-token-refresh
 
 ## Code Examples
 
-| Language | What It Shows | File |
-|----------|---------------|------|
-| TypeScript | MCP server with all tools | [coherence-mcp/src/index.ts](../../../coherence-mcp/src/index.ts) |
-| Python | WAVE analysis client | [examples/python-wave-client.py](./examples/python-wave-client.py) |
-| JavaScript | BUMP marker parsing | [examples/js-bump-parser.js](./examples/js-bump-parser.js) |
+| Language   | What It Shows             | File                                                               |
+| ---------- | ------------------------- | ------------------------------------------------------------------ |
+| TypeScript | MCP server with all tools | [coherence-mcp/src/index.ts](../../../coherence-mcp/src/index.ts)  |
+| Python     | WAVE analysis client      | [examples/python-wave-client.py](./examples/python-wave-client.py) |
+| JavaScript | BUMP marker parsing       | [examples/js-bump-parser.js](./examples/js-bump-parser.js)         |
 
 ---
 
@@ -80,6 +83,7 @@ ATOM-FIX-20260114-002-auth-token-refresh
 ## Development Environment
 
 ### Option 1: Native (Recommended)
+
 ```bash
 # Prerequisites
 node >= 18
@@ -93,12 +97,14 @@ cd SpiralSafe
 ```
 
 ### Option 2: DevContainer (VS Code)
+
 ```json
 // .devcontainer/devcontainer.json exists - just open in VS Code
 // Click "Reopen in Container" when prompted
 ```
 
 ### Option 3: Docker
+
 ```bash
 docker run -it --rm -v $(pwd):/workspace toolate28/spiralsafe-dev
 ```

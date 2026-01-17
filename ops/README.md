@@ -2,7 +2,7 @@
 
 > **The coherence engine made operational**
 
-This directory contains the infrastructure layer that transforms SpiralSafe protocols into living systems. Where the root `/docs` directory defines *what* SpiralSafe is, `/ops` defines *how* it runs.
+This directory contains the infrastructure layer that transforms SpiralSafe protocols into living systems. Where the root `/docs` directory defines _what_ SpiralSafe is, `/ops` defines _how_ it runs.
 
 ---
 
@@ -72,6 +72,7 @@ npm run deploy:dev
 ### 4. Configure Local CLI
 
 **Bash (Unix/Mac):**
+
 ```bash
 # Add to ~/.bashrc or ~/.zshrc
 export SPIRALSAFE_API_BASE="https://api.spiralsafe.org"
@@ -82,6 +83,7 @@ sudo ln -s $(pwd)/scripts/spiralsafe /usr/local/bin/spiralsafe
 ```
 
 **PowerShell (Windows):**
+
 ```powershell
 # Add to $PROFILE
 $env:SPIRALSAFE_API_BASE = "https://api.spiralsafe.org"
@@ -95,6 +97,7 @@ spiralsafe status
 ```
 
 Expected output:
+
 ```
 SpiralSafe Operations Status
 ════════════════════════════════════════
@@ -188,22 +191,22 @@ spiralsafe status
 
 Base URL: `https://api.spiralsafe.org`
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/health` | GET | System health check |
-| `/api/wave/analyze` | POST | Coherence analysis |
-| `/api/wave/thresholds` | GET | Threshold configuration |
-| `/api/bump/create` | POST | Create handoff marker |
-| `/api/bump/pending` | GET | List unresolved bumps |
-| `/api/bump/resolve/:id` | PUT | Resolve a bump |
-| `/api/awi/request` | POST | Request permission grant |
-| `/api/awi/verify` | POST | Verify action permission |
-| `/api/awi/audit/:id` | GET | Permission audit trail |
-| `/api/atom/create` | POST | Create task unit |
-| `/api/atom/status/:id` | PUT | Update task status |
-| `/api/atom/ready` | GET | Get executable atoms |
-| `/api/context/store` | POST | Store knowledge unit |
-| `/api/context/query` | GET | Query contexts |
+| Endpoint                | Method | Description              |
+| ----------------------- | ------ | ------------------------ |
+| `/api/health`           | GET    | System health check      |
+| `/api/wave/analyze`     | POST   | Coherence analysis       |
+| `/api/wave/thresholds`  | GET    | Threshold configuration  |
+| `/api/bump/create`      | POST   | Create handoff marker    |
+| `/api/bump/pending`     | GET    | List unresolved bumps    |
+| `/api/bump/resolve/:id` | PUT    | Resolve a bump           |
+| `/api/awi/request`      | POST   | Request permission grant |
+| `/api/awi/verify`       | POST   | Verify action permission |
+| `/api/awi/audit/:id`    | GET    | Permission audit trail   |
+| `/api/atom/create`      | POST   | Create task unit         |
+| `/api/atom/status/:id`  | PUT    | Update task status       |
+| `/api/atom/ready`       | GET    | Get executable atoms     |
+| `/api/context/store`    | POST   | Store knowledge unit     |
+| `/api/context/query`    | GET    | Query contexts           |
 
 ---
 
@@ -272,19 +275,19 @@ npm run test:watch
 
 ## Environment Variables
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `SPIRALSAFE_API_BASE` | No | `https://api.spiralsafe.org` | API endpoint |
-| `SPIRALSAFE_AWI_GRANT` | No | - | Current permission grant ID |
-| `SPIRALSAFE_LOCAL` | No | `false` | Use local analysis mode |
+| Variable               | Required | Default                      | Description                 |
+| ---------------------- | -------- | ---------------------------- | --------------------------- |
+| `SPIRALSAFE_API_BASE`  | No       | `https://api.spiralsafe.org` | API endpoint                |
+| `SPIRALSAFE_AWI_GRANT` | No       | -                            | Current permission grant ID |
+| `SPIRALSAFE_LOCAL`     | No       | `false`                      | Use local analysis mode     |
 
 ### Cloudflare Secrets
 
 Set via `wrangler secret put <NAME>`:
 
-| Secret | Description |
-|--------|-------------|
-| `SENTRY_DSN` | Sentry error tracking |
+| Secret           | Description                    |
+| ---------------- | ------------------------------ |
+| `SENTRY_DSN`     | Sentry error tracking          |
 | `WEBHOOK_SECRET` | Webhook signature verification |
 
 ---
@@ -332,4 +335,4 @@ spiralsafe awi request --intent "..." --level 3
 
 ---
 
-*H&&S: Coherence engine infrastructure*
+_H&&S: Coherence engine infrastructure_

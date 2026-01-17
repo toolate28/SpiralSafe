@@ -15,5 +15,6 @@ Use this template for concise, reviewable lesson entries destined for the `proje
 - **Tags:** e.g., verification, docs, automation, CI, infra
 
 Notes:
+
 - Keep entries short (150–400 words). Link to supporting artifacts instead of embedding large logs.
 - Prefer actionable follow-ups with owners and simple acceptance criteria.
