@@ -399,8 +399,6 @@ class Predict(Module):
 
         return patterns
 
-        return patterns
-
 
 # =============================================================================
 # AWI Prompt Generation Module
