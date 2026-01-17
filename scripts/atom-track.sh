@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 # Enhanced ATOM tracking with counters and freshness
-# Usage: scripts/atom-track.sh TYPE "description" [FILE]
+# Usage: scripts/atom-track.sh TYPE "description" [FILE_OR_ISSUE]
 set -euo pipefail
 
 TYPE="${1:-}"
 DESC="${2:-}"
-FILE="${3:-}"
+FILE_OR_ISSUE="${3:-}"
 
 if [ -z "$TYPE" ] || [ -z "$DESC" ]; then
-  echo "Usage: $0 TYPE \"description\" [FILE]"
-  echo "Example: $0 DECISION \"Added CI workflow\" .github/workflows/ci.yml"
+  echo "Usage: $0 TYPE \"description\" [FILE_OR_ISSUE]"
+  echo "Examples:"
+  echo "  $0 DECISION \"Added CI workflow\" .github/workflows/ci.yml"
+  echo "  $0 DOC \"Updated README\" issue-#123"
   exit 1
 fi
 
@@ -45,9 +47,38 @@ ATOM_TAG="${TAG}-${SLUG}"
 # Store in last_atom for quick reference
 echo "${ATOM_TAG}" > .claude/last_atom
 
+# Detect if third parameter is an issue reference or file path
+ISSUE=""
+FILE=""
+if [ -n "$FILE_OR_ISSUE" ]; then
+  if [[ "$FILE_OR_ISSUE" =~ ^issue-#[0-9]+$ ]]; then
+    ISSUE="$FILE_OR_ISSUE"
+  else
+    FILE="$FILE_OR_ISSUE"
+  fi
+fi
+
 # Create decision entry with freshness tracking
 DECISION_FILE=".atom-trail/decisions/${ATOM_TAG}.json"
-cat > "$DECISION_FILE" <<EOF
+if [ -n "$ISSUE" ]; then
+  # Issue reference format
+  cat > "$DECISION_FILE" <<EOF
+{
+  "atom_tag": "${ATOM_TAG}",
+  "type": "${TYPE}",
+  "description": "${DESC}",
+  "timestamp": "${TIMESTAMP}",
+  "issue": "${ISSUE}",
+  "freshness_level": "fresh",
+  "bedrock_eligible": false,
+  "created_epoch": $(date +%s)
+}
+EOF
+  # Log to JSONL for easy parsing
+  echo "{\"atom_tag\":\"${ATOM_TAG}\",\"type\":\"${TYPE}\",\"description\":\"${DESC}\",\"timestamp\":\"${TIMESTAMP}\",\"issue\":\"${ISSUE}\"}" >> .claude/logs/atom-trail.jsonl
+else
+  # File path or no reference format
+  cat > "$DECISION_FILE" <<EOF
 {
   "atom_tag": "${ATOM_TAG}",
   "type": "${TYPE}",
@@ -59,9 +90,9 @@ cat > "$DECISION_FILE" <<EOF
   "created_epoch": $(date +%s)
 }
 EOF
-
-# Log to JSONL for easy parsing
-echo "{\"atom_tag\":\"${ATOM_TAG}\",\"type\":\"${TYPE}\",\"description\":\"${DESC}\",\"timestamp\":\"${TIMESTAMP}\",\"file\":\"${FILE:-none}\"}" >> .claude/logs/atom-trail.jsonl
+  # Log to JSONL for easy parsing
+  echo "{\"atom_tag\":\"${ATOM_TAG}\",\"type\":\"${TYPE}\",\"description\":\"${DESC}\",\"timestamp\":\"${TIMESTAMP}\",\"file\":\"${FILE:-none}\"}" >> .claude/logs/atom-trail.jsonl
+fi
 
 echo "${ATOM_TAG}"
 exit 0
