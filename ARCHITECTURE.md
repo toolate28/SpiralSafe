@@ -228,6 +228,19 @@ Operational infrastructure demonstrating SpiralSafe principles at scale.
 - TypeScript and Python implementations
 - CI/CD integration
 
+### QRC-Oracle-Seed Loop
+
+Self-maintaining quantum reservoir computing system for coherence enforcement.
+
+**Documentation**: [`protocol/qrc-oracle-seed-spec.md`](protocol/qrc-oracle-seed-spec.md)
+
+**Key Features**:
+- Continuous reservoir dynamics monitoring (fidelity, energy, divergence)
+- Auto-triggers quantum-prompt re-simulation when metrics dip below 92%
+- Fibonacci nesting pattern (1→3→5→8 qubits)
+- Integrates with DSPy teleprompter for optimization
+- Self-enforced coherence >95% via internal feedback
+
 ---
 
 ## Cross-Cutting Concerns
