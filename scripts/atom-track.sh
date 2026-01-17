@@ -19,6 +19,9 @@ DATE="$(date +%Y%m%d)"
 TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 PREFIX="ATOM-${TYPE}-${DATE}-"
 
+# Pattern for detecting issue references
+ISSUE_PATTERN="^issue-#[0-9]+$"
+
 # Create directories if they don't exist
 mkdir -p .atom-trail/decisions
 mkdir -p .atom-trail/counters
@@ -51,12 +54,15 @@ echo "${ATOM_TAG}" > .claude/last_atom
 ISSUE=""
 FILE=""
 if [ -n "$FILE_OR_ISSUE" ]; then
-  if [[ "$FILE_OR_ISSUE" =~ ^issue-#[0-9]+$ ]]; then
+  if [[ "$FILE_OR_ISSUE" =~ $ISSUE_PATTERN ]]; then
     ISSUE="$FILE_OR_ISSUE"
   else
     FILE="$FILE_OR_ISSUE"
   fi
 fi
+
+# Common metadata for JSON output
+CREATED_EPOCH="$(date +%s)"
 
 # Create decision entry with freshness tracking
 DECISION_FILE=".atom-trail/decisions/${ATOM_TAG}.json"
@@ -71,7 +77,7 @@ if [ -n "$ISSUE" ]; then
   "issue": "${ISSUE}",
   "freshness_level": "fresh",
   "bedrock_eligible": false,
-  "created_epoch": $(date +%s)
+  "created_epoch": ${CREATED_EPOCH}
 }
 EOF
   # Log to JSONL for easy parsing
@@ -87,7 +93,7 @@ else
   "file": "${FILE:-none}",
   "freshness_level": "fresh",
   "bedrock_eligible": false,
-  "created_epoch": $(date +%s)
+  "created_epoch": ${CREATED_EPOCH}
 }
 EOF
   # Log to JSONL for easy parsing
