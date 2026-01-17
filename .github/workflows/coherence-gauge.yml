@@ -206,7 +206,7 @@ jobs:
           if [ "$DEJA_VU_FILES" -gt "$DEJA_VU_THRESHOLD" ]; then
             SPIRAL_STATE="deja_vu"
             SPIRAL_ACTION="Ready to Iterate - Refine with updated context"
-          # Doubt: Low coherence + high speculation = push to new spirals
+          # Doubt: High speculation files = push to new spirals
           elif [ "$DOUBT_FILES" -gt "$DOUBT_THRESHOLD" ]; then
             SPIRAL_STATE="doubt"
             SPIRAL_ACTION="Push to New Spirals - Explore fresh approaches"
