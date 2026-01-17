@@ -23,17 +23,19 @@ The SPIRAL phase represents the integration point where SpiralSafe's constraint-
 
 ## DSPy Integration
 
-SPIRAL leverages DSPy (Declarative Self-improving Python) for structured prompt compilation:
+SPIRAL is inspired by DSPy (Declarative Self-improving Python) patterns for structured prompt compilation. The implementation uses DSPy-style module architecture without requiring DSPy as a dependency:
 
 ```python
-class SpiralVerifier(dspy.Module):
+# Conceptual DSPy-style pattern (as implemented in experiments/spiral_verifier.py)
+class SpiralVerifier:
     """Verifies outputs against SpiralSafe constraints."""
     
     def __init__(self):
-        self.constraint_checker = dspy.RAG("query -> verified_output")
+        self.constraint_checker = ConstraintChecker()  # RAG-style retrieval
     
-    def forward(self, query):
-        return self.constraint_checker(query=query)
+    def forward(self, query, content=None):
+        # Pattern: query -> retrieve constraints -> verify -> verified_output
+        return self.constraint_checker.verify(query, content)
 ```
 
 The module retrieves relevant constraints from the documentation corpus and validates query outputs against them.
