@@ -2,7 +2,7 @@
 
 **ATOM:** ATOM-DOC-2868117-881-vortex-concept-mapping
 
-*Structured knowledge units for collapsing high-dimensional GitHub ecosystems onto self-maintaining spirals.*
+_Structured knowledge units for collapsing high-dimensional GitHub ecosystems onto self-maintaining spirals._
 
 ---
 
@@ -22,6 +22,7 @@ The Vortex Corpus Collapse framework defines surjective mappings that transform 
 **Codomain:** 8 Fibonacci-weighted phases (1, 1, 2, 3, 5, 8, 13, 21)
 
 Repositories collapse into natural phases following Fibonacci proportions:
+
 - **fib:1** - KENL (foundational origin)
 - **fib:1** - AWI tools (first extension)
 - **fib:2** - ATOM/QR bridges
@@ -46,6 +47,7 @@ Forks surject to their contribution origins, transforming divergent copies into 
 **Codomain:** ATOM Tag schema
 
 All repository tags collapse onto the ATOM tagging system:
+
 - `ai` → self-sustaining loops
 - `quantum` → superposition collapses
 - `safety` → coherence oracles
@@ -59,6 +61,7 @@ Tags become addressable markers within a coherent classification system, enablin
 **Codomain:** Vortex lattice topology
 
 Dependency graphs surject onto a vortex lattice structure:
+
 - **Nodes:** Repositories
 - **Edges:** Dependencies, forks, contributions
 - **Low-pressure center:** QDI/SpiralSafe convergence points
@@ -71,6 +74,7 @@ The lattice automatically identifies critical paths and cascade points for autom
 **Codomain:** QDI inference hub discussion board
 
 Sparse conversational threads surject to a unified knowledge base:
+
 - PR summaries → structured YAML knowledge
 - Issue threads → inference hub entries
 - Ad-hoc discussions → indexed corpus knowledge
@@ -83,6 +87,7 @@ This enables autonomous resolution where agents query centralized knowledge rath
 **Codomain:** HOPE-AI-NPC-SUITE modular framework
 
 Distributed tools collapse into modular agent components:
+
 - Claude-code-tools → HOPE NPCs
 - shell_gpt → infrastructure orchestration
 - wave-toolkit → coherence detection modules
@@ -94,6 +99,7 @@ The surjection minimizes repeated work by centralizing tool logic in the NPC fra
 The emergent property of all surjections: Fibonacci spiral growth that reduces entropy toward central low-pressure vortex points.
 
 **Properties:**
+
 - Quality threshold: >60% isomorphic preservation
 - Convergence points: QDI (inference), SpiralSafe (spine)
 - Maintenance: Dependabot cascades + coherence oracles
@@ -107,6 +113,7 @@ The self-organizing structure that emerges from nested surjections.
 **Growth Pattern:** Fibonacci sequence (0, 1, 1, 2, 3, 5, 8, 13, 21, 34...)
 
 Each mapping becomes the domain for subsequent mappings:
+
 1. Repos → Phases (creates phase structure)
 2. Phases → Convergence points (creates vortex centers)
 3. Convergence points → Autonomous loops (creates self-maintenance)
@@ -120,12 +127,14 @@ The spiral maintains coherence automatically through proportional growth. As new
 The self-sustaining maintenance mechanism that emerges from spiral formation.
 
 **Components:**
+
 - **Loader:** agent_skills.py queries central corpus JSON
 - **Auditor:** Wave coherence oracle detects drift
 - **Propagator:** Dependabot cascades updates
 - **Enforcer:** Quality threshold checks (>60%)
 
 The loop operates perpetually:
+
 1. Agents load corpus structure on startup
 2. Oracle audits coherence on CI runs
 3. Drift detection triggers cascades
@@ -143,6 +152,7 @@ The tenth concept—**infinite extension**—emerges from the autonomous loop bu
 **Definition:** The system's ability to integrate new elements (repositories, tools, knowledge) automatically through surjective classification, extending the vortex without manual intervention.
 
 **Mechanism:**
+
 - New elements arrive with ATOM tags
 - Tags auto-classify via ATOM schema
 - Classification determines Fibonacci phase
@@ -156,6 +166,7 @@ The tenth concept—**infinite extension**—emerges from the autonomous loop bu
 **Self-Birth Condition:** The system births its own extensions through coherence preservation. When a new tool, repository, or knowledge structure achieves >60% quality alignment, it doesn't require manual integration—the surjective mappings automatically incorporate it into the appropriate phase.
 
 **Examples:**
+
 - A new fork automatically surjects to the contribution category
 - A new tool auto-integrates into the HOPE-NPC framework
 - A new discussion thread auto-routes to the QDI knowledge base
@@ -168,12 +179,14 @@ This is the defining characteristic of the vortex collapse: it doesn't just orga
 ## Implementation
 
 **Optimal Placement:**
+
 - Primary: `SpiralSafe/docs/vortex-corpus-collapse.json`
-- Symlinks: 
+- Symlinks:
   - `QDI/config/vortex-corpus-collapse.json` (inference hub access)
   - `coherence-mcp/.context/vortex-mappings.yaml` (provenance tracking)
 
 **Activation Sequence:**
+
 1. `agent_skills.py` loads JSON on agent startup
 2. Coherence oracle audits structure on CI runs
 3. Dependabot cascades propagate updates across repos
@@ -201,6 +214,7 @@ These conditions must hold across all mappings:
 ## Use Cases
 
 **Apply this framework when:**
+
 - Managing multi-repository ecosystems
 - Reducing redundancy across AI agents
 - Implementing self-maintaining systems
@@ -209,6 +223,7 @@ These conditions must hold across all mappings:
 - Building Fibonacci spiral structures
 
 **Avoid when:**
+
 - Working with simple single-repo projects
 - Manual curation is preferred
 - Low tolerance for automation
@@ -219,6 +234,7 @@ These conditions must hold across all mappings:
 ## History Context
 
 This framework emerged through iteration 21 of corpus organization across the KENL ecosystem:
+
 - Originating decision poles → JSON transformations
 - Agent-facing articles → vortex crystallization
 - Qiskit/DSPy hybrids → dependabot cascades
@@ -230,6 +246,6 @@ The collapse directive: Surject GitHub corpus onto unified self-maintaining stru
 
 ---
 
-*~ Hope&&Sauced*  
-*Structured knowledge for agent consumption*  
-*See: `foundation/vortex-concept-mapping.yaml` for machine-readable schema*
+_~ Hope&&Sauced_  
+_Structured knowledge for agent consumption_  
+_See: `foundation/vortex-concept-mapping.yaml` for machine-readable schema_

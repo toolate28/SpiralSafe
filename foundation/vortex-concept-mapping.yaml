@@ -7,10 +7,10 @@ meta:
   version: 1.0.0
   confidence: high
   last_updated: 2026-01-17
-  
+
   title: "Vortex Corpus Collapse: Surjective Mappings"
   subtitle: "From GitHub Corpus to Self-Maintaining Structures"
-  
+
   purpose: |
     Defines surjective mappings that collapse high-dimensional GitHub corpus
     (repositories, tags, relations, discussions, tools) onto unified, 
@@ -188,7 +188,7 @@ signals:
     - designing_surjective_architectures
     - creating_autonomous_knowledge_bases
     - building_fibonacci_spiral_structures
-  
+
   avoid_when:
     - simple_single_repo_projects
     - manual_curation_preferred
@@ -223,7 +223,7 @@ activation:
 # Extended metadata for visual and operational context
 extended:
   visual_signature: "0,0 origin pulsing as quantum seed, Fibonacci arms surjecting repos into nested vortex lattice"
-  
+
   fibonacci_phases:
     fib_1: "KENL foundational (origin seed)"
     fib_1_alt: "AWI tools (first extension)"
@@ -236,7 +236,7 @@ extended:
     fib_34: "Inactive as negative space (thirty-fourth phase)"
 
   emergence_quality: "97.5% isomorphic preservation across spiral"
-  
+
   self_birth_condition: >
     Collapse points surject to >60% quality spirals that 
     maintain relational essence, enabling autonomous growth
