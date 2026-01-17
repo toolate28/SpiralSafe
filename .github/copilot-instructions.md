@@ -5,14 +5,55 @@ Purpose: Short, actionable instructions to help AI coding agents be immediately 
 ## Start here (big-picture)
 
 - Read: `ARCHITECTURE.md` (high-level layers) and `.github/AGENTS.md` (agent roles & coordination).
-- Key design artifacts: `protocol/wave-spec.md`, `protocol/bump-spec.md`, `methodology/atom.md` (how work is chunked), and `foundation/*` for theory.
-- Related repos: `wave-toolkit` (coherence), `kenl` (ATOM trail), `quantum-redstone`, `ClaudeNPC-Server-Suite`.
+- Key design artifacts: `protocol/wave-spec.md`, `protocol/bump-spec.md`, `protocol/sphinx-spec.md`, `methodology/atom.md` (how work is chunked), and `foundation/*` for theory.
+- Related repos: `wave-toolkit` (coherence), `kenl` (ATOM trail), `quantum-redstone`, `coherence-mcp`, `spiralsafe-mono`, `QDI`.
+
+## Protocol Stack (WAVE → SPHINX → BUMP → ATOM)
+
+```
+WAVE ──► SPHINX ──► BUMP ──► ATOM
+         │
+         ├─ ORIGIN:     "Where do you come from?"
+         ├─ INTENT:     "What do you seek?"
+         ├─ COHERENCE:  "Are you whole?" (>60%)
+         ├─ IDENTITY:   "Who are you?"
+         └─ PASSAGE:    "You may pass."
+```
+
+### SPHINX Protocol (Guardian Gates)
+The **S**ecure **P**rotocol for **H**ierarchical **I**dentity, **N**avigation, and e**X**change guards all transitions between system boundaries.
+
+| Gate | Marker | Function | Riddle |
+|------|--------|----------|--------|
+| ORIGIN | `SPHINX:ORIGIN` | Verify genesis lineage | "Where do you come from?" |
+| INTENT | `SPHINX:INTENT` | Verify stated purpose | "What do you seek?" |
+| COHERENCE | `SPHINX:COHERENCE` | Verify >60% threshold | "Are you whole?" |
+| IDENTITY | `SPHINX:IDENTITY` | Verify agent/user auth | "Who are you?" |
+| PASSAGE | `SPHINX:PASSAGE` | Grant transition | "You may pass." |
+
+**Syntax:**
+```markdown
+<!-- SPHINX:COHERENCE
+  threshold: 0.6
+  source: wave_analyze
+  result: 0.72
+  verdict: PASSAGE
+-->
+Coherence verified. Proceeding to BUMP handoff.
+<!-- /SPHINX:COHERENCE -->
+```
+
+### Self-Referential Loop Termination
+- Each SPHINX gate logs its own passage to ATOM trail
+- New loops require distinct, auditable genesis events
+- No action can cycle without satisfying all gate riddles
+- Surjection supported: every output maps to a verifiable input
 
 ## What to read first for a task
 
 - For protocol or handoff changes: `protocol/bump-spec.md` and `.context.yaml` examples.
 - For documentation coherence work: `protocol/wave-spec.md` and `project-book.ipynb`.
-- For ops & verification helpers: `ops/README.md`, `ops/scripts/session_report.py`, `ops/scripts/sign_verification.py`, `ops/scripts/Transcript-Pipeline.ps1`.
+- For ops & verification helpers: `ops/README.md`, `ops/scripts/session_report.py`, `ops/scripts/sign_verification.py`.
 
 ## Local dev & CI (how to run things)
 
@@ -25,7 +66,7 @@ Purpose: Short, actionable instructions to help AI coding agents be immediately 
 - Lint & static analysis:
   - Shell scripts: `shellcheck` (pre-commit and CI)
   - PowerShell: `PSScriptAnalyzer` (invoked in CI)
-- CI specifics: `.github/workflows/spiralsafe-ci.yml` runs a document "coherence" (wave) analysis before lint/build, then runs lint, typecheck, tests, and Cloudflare deploys with AWI grants.
+- CI specifics: `.github/workflows/spiralsafe-ci.yml` runs coherence (wave) analysis, SPHINX gate checks, then lint/typecheck/tests.
 
 ## Project-specific patterns & conventions (must follow)
 
@@ -73,18 +114,12 @@ Purpose: Short, actionable instructions to help AI coding agents be immediately 
 When integrating with the SpiralSafe API:
 
 - **Authentication**: Use `X-API-Key` header with `secrets.SPIRALSAFE_API_KEY`
-- **API Base URL**: Use `${{ vars.SPIRALSAFE_API_BASE || 'https://api.spiralsafe.org' }}`
 - **Endpoints**:
-  - `POST /api/atom/create` - Log ATOM tags from commits
-  - `POST /api/bump/create` - Create bump markers for PR events
-  - `POST /api/wave/analyze` - Analyze documentation coherence
-  - `POST /api/awi/request` - Request AWI permission grants
-- **Standard payload fields**:
-  - Include `signature: "H&&S:GH-COPILOT"` in context objects for GitHub Copilot agent actions
-  - Include `repository`, `sha`, `actor`, `workflow_run_id` for traceability
-  - Use proper bump types: WAVE (soft handoff), PASS (hard handoff), SYNC (state sync), PING (attention), BLOCK (blocker)
-- **Error handling**: Don't fail workflows if API is unavailable; log warnings and continue
-- **Documentation**: See `ops/api/spiralsafe-worker.ts` for API implementation and `ops/schemas/d1-schema.sql` for data schema
+  - `POST /api/atom/create` - Log ATOM tags
+  - `POST /api/bump/create` - Create bump markers
+  - `POST /api/wave/analyze` - Analyze coherence
+  - `POST /api/sphinx/gate` - Verify SPHINX gate passage
+  - `POST /api/awi/request` - Request AWI grants
 
 ## Security requirements
 
