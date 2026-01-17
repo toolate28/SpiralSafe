@@ -331,7 +331,7 @@ class SaifNpc:
         """
         return {
             "module": "SaifNpc",
-            "version": __version__,
+            "version": "1.0.0",
             "model": self.model_name,
             "personality": self.npc_personality,
             "marker": "H&&S:WAVE",
