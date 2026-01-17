@@ -40,11 +40,10 @@ H&&S:WAVE - Collaborative handoff markers embedded
 
 from __future__ import annotations
 
-import math
 import warnings
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from dataclasses import dataclass
+from typing import Any, Dict, List, Tuple, Union
 
 import numpy as np
 
@@ -118,7 +117,7 @@ class CoherenceMetrics:
             self.emergence_quality > 0.6
         )
     
-    def to_dict(self) -> Dict[str, float]:
+    def to_dict(self) -> Dict[str, Union[float, bool]]:
         """Convert to dictionary."""
         return {
             "curl": self.curl,
@@ -142,8 +141,13 @@ class QuantumBackend(ABC):
         pass
     
     @abstractmethod
-    def compute_expectation(self, circuit: Any, observable: Any) -> float:
-        """Compute expectation value of an observable."""
+    def compute_expectation(self, *args: Any, **kwargs: Any) -> float:
+        """
+        Compute expectation value of an observable.
+
+        Subclasses should document the accepted arguments (for example:
+        circuit, observable, shots, noise model, etc.).
+        """
         pass
 
 
