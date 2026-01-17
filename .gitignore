@@ -49,3 +49,6 @@ env/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Temporary claude working directories
+tmpclaude-*-cwd
