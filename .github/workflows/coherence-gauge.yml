@@ -256,10 +256,10 @@ jobs:
           fi
           
           # Set outputs for the comment
-          echo "coherence_pct=$AVG_COHERENCE_PCT" >> $GITHUB_OUTPUT
-          echo "curl=$AVG_CURL" >> $GITHUB_OUTPUT
-          echo "divergence=$AVG_DIV" >> $GITHUB_OUTPUT
-          echo "entropy=$AVG_ENTROPY" >> $GITHUB_OUTPUT
+           echo "coherence_pct=$SAFE_AVG_COHERENCE_PCT" >> $GITHUB_OUTPUT
+           echo "curl=$SAFE_AVG_CURL" >> $GITHUB_OUTPUT
+           echo "divergence=$SAFE_AVG_DIV" >> $GITHUB_OUTPUT
+           echo "entropy=$SAFE_AVG_ENTROPY" >> $GITHUB_OUTPUT
           echo "quantum_state=$QUANTUM_STATE" >> $GITHUB_OUTPUT
           echo "gauge_level=$GAUGE_LEVEL" >> $GITHUB_OUTPUT
           echo "files_analyzed=$COUNT" >> $GITHUB_OUTPUT

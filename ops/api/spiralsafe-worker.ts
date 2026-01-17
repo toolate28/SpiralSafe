@@ -28,7 +28,7 @@ export interface Env {
 // Types
 // ═══════════════════════════════════════════════════════════════
 
-interface WaveAnalysis {
+export interface WaveAnalysis {
   curl: number;
   divergence: number;
   potential: number;
@@ -36,7 +36,7 @@ interface WaveAnalysis {
   coherent: boolean;
 }
 
-interface WaveRegion {
+export interface WaveRegion {
   start: number;
   end: number;
   type: 'high_curl' | 'positive_divergence' | 'negative_divergence' | 'high_potential';
@@ -402,6 +402,29 @@ export default {
 };
 
 // ═══════════════════════════════════════════════════════════════
+// Wave Analysis Constants
+// ═══════════════════════════════════════════════════════════════
+
+// Conclusion pattern for detecting resolved content
+const CONCLUSION_PATTERN_STRING = 'therefore|thus|in conclusion|finally|to summarize|in summary';
+const CONCLUSION_PATTERN = new RegExp(CONCLUSION_PATTERN_STRING, 'i');
+const CONCLUSION_PATTERN_GLOBAL = new RegExp(CONCLUSION_PATTERN_STRING, 'gi');
+
+// Divergence detection thresholds and weights
+const DIVERGENCE_BASE = 0.2;  // Base divergence for content with conclusions
+const DIVERGENCE_FLOOR = 0.3;  // Floor for content without conclusions
+const DIVERGENCE_QUESTION_WEIGHT = 0.1;  // Weight per question mark
+const DIVERGENCE_MAX = 0.8;  // Maximum positive divergence value
+
+// Negative divergence (over-compression) thresholds
+const NEG_DIV_BASE = 0.3;  // Base negative divergence score
+const NEG_DIV_CONCLUSION_WEIGHT = 0.15;  // Weight per excessive conclusion
+const NEG_DIV_MAX = 0.8;  // Maximum negative divergence magnitude
+const NEG_DIV_SHORT_CONTENT_THRESHOLD = 100;  // Avg paragraph length threshold
+const NEG_DIV_MIN_CONCLUSIONS = 2;  // Minimum conclusions to trigger short content check
+const NEG_DIV_EXCESSIVE_RATIO = 0.3;  // Max ratio of conclusions to paragraphs
+
+// ═══════════════════════════════════════════════════════════════
 // Wave Handlers - Coherence Detection
 // ═══════════════════════════════════════════════════════════════
 
@@ -437,7 +460,7 @@ async function handleWave(request: Request, env: Env, path: string): Promise<Res
   return jsonResponse({ error: 'Invalid wave endpoint' }, 400);
 }
 
-function analyzeCoherence(content: string, thresholds?: Record<string, number>): WaveAnalysis {
+export function analyzeCoherence(content: string, thresholds?: Record<string, number>): WaveAnalysis {
   // Simplified coherence analysis - production would use embeddings
   const paragraphs = content.split(/\n\n+/);
   const t = {
@@ -465,7 +488,7 @@ function analyzeCoherence(content: string, thresholds?: Record<string, number>):
     });
   }
 
-  // Detect divergence regions
+  // Detect positive divergence regions (unresolved expansion)
   if (expansionScore > t.div_warning) {
     regions.push({
       start: 0,
@@ -473,6 +496,17 @@ function analyzeCoherence(content: string, thresholds?: Record<string, number>):
       type: 'positive_divergence',
       severity: expansionScore > t.div_critical ? 'critical' : 'warning',
       description: 'Ideas expanding without resolution'
+    });
+  }
+
+  // Detect negative divergence regions (premature closure/over-compression)
+  if (expansionScore < -t.div_warning) {
+    regions.push({
+      start: 0,
+      end: content.length,
+      type: 'negative_divergence',
+      severity: expansionScore < -t.div_critical ? 'critical' : 'warning',
+      description: 'Premature closure or over-compression detected'
     });
   }
 
@@ -485,23 +519,39 @@ function analyzeCoherence(content: string, thresholds?: Record<string, number>):
   };
 }
 
-function detectRepetition(paragraphs: string[]): number {
+export function detectRepetition(paragraphs: string[]): number {
   // Simplified: check for repeated phrases
   const phrases = paragraphs.flatMap(p => p.toLowerCase().split(/[.!?]+/).map(s => s.trim()).filter(s => s.length > 20));
   const unique = new Set(phrases);
   return phrases.length > 0 ? 1 - (unique.size / phrases.length) : 0;
 }
 
-function detectExpansion(paragraphs: string[]): number {
-  // Simplified: check if content expands without concluding
-  const hasConclusion = paragraphs.some(p => 
-    /therefore|thus|in conclusion|finally|to summarize/i.test(p)
-  );
-  const questionCount = (paragraphs.join(' ').match(/\?/g) || []).length;
-  return hasConclusion ? 0.2 : Math.min(0.3 + (questionCount * 0.1), 0.8);
+export function detectExpansion(paragraphs: string[]): number {
+  // Returns positive values for unresolved expansion, negative for over-compression
+  const text = paragraphs.join(' ');
+  
+  // Positive divergence indicators: content expands without concluding
+  const hasConclusion = paragraphs.some(p => CONCLUSION_PATTERN.test(p));
+  const questionCount = (text.match(/\?/g) || []).length;
+  
+  // Negative divergence indicators: premature closure / over-compression
+  const conclusionCount = (text.match(CONCLUSION_PATTERN_GLOBAL) || []).length;
+  // Calculate average paragraph length excluding separators for accuracy
+  const avgParagraphLength = paragraphs.reduce((sum, p) => sum + p.length, 0) / Math.max(paragraphs.length, 1);
+  const hasMultipleConclusionsShortContent = conclusionCount >= NEG_DIV_MIN_CONCLUSIONS && avgParagraphLength < NEG_DIV_SHORT_CONTENT_THRESHOLD;
+  const excessiveSummarization = conclusionCount > paragraphs.length * NEG_DIV_EXCESSIVE_RATIO;
+  
+  // Detect over-compression: multiple conclusions in short content or excessive summarization
+  if (hasMultipleConclusionsShortContent || excessiveSummarization) {
+    // Return negative value proportional to over-compression severity
+    return -Math.min(NEG_DIV_BASE + (conclusionCount * NEG_DIV_CONCLUSION_WEIGHT), NEG_DIV_MAX);
+  }
+  
+  // Positive divergence: unresolved expansion
+  return hasConclusion ? DIVERGENCE_BASE : Math.min(DIVERGENCE_FLOOR + (questionCount * DIVERGENCE_QUESTION_WEIGHT), DIVERGENCE_MAX);
 }
 
-function detectPotential(paragraphs: string[]): number {
+export function detectPotential(paragraphs: string[]): number {
   // Simplified: detect undeveloped ideas
   const potentialMarkers = paragraphs.filter(p =>
     /could|might|perhaps|possibly|future work|TODO|TBD/i.test(p)
