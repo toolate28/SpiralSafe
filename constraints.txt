@@ -51,4 +51,4 @@ plotly==5.18.0
 replicate==0.25.0
 scipy==1.17.0
 sympy==1.12
-manim==0.18.0
+manim==0.19.2

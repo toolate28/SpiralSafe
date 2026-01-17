@@ -22,7 +22,7 @@ networkx==3.2.1
 sympy==1.12
 
 # Mathematical animations (large dependency)
-manim==0.18.0
+manim==0.19.2
 
 # Image processing
 opencv-python==4.9.0.80
