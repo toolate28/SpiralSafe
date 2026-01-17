@@ -7,13 +7,13 @@ echo ""
 
 # Create temporary directory
 TMPDIR=$(mktemp -d)
-trap "rm -rf $TMPDIR" EXIT
+trap 'rm -rf "$TMPDIR"' EXIT
 
 # Extract key phrases from each doc (5+ word sequences)
 find . -name "*.md" -type f \
     ! -path "./node_modules/*" \
     ! -path "./archive/*" \
-    ! -path "./.git/*" | while read doc; do
+    ! -path "./.git/*" | while read -r doc; do
     
     # Extract content (skip YAML frontmatter and code blocks)
     awk '
@@ -37,14 +37,14 @@ echo ""
 duplicates_found=0
 
 # Compare each pair of documents
-for doc1 in $TMPDIR/*.txt; do
-    for doc2 in $TMPDIR/*.txt; do
+for doc1 in "$TMPDIR"/*.txt; do
+    for doc2 in "$TMPDIR"/*.txt; do
         if [ "$doc1" \< "$doc2" ]; then
             # Find common 10-word sequences
             comm -12 \
                 <(sed 's/ /\n/g' "$doc1" | grep -v '^$' | sort -u) \
                 <(sed 's/ /\n/g' "$doc2" | grep -v '^$' | sort -u) | wc -l | {
-                read overlap
+                read -r overlap
                 
                 # Calculate sizes
                 size1=$(wc -w < "$doc1")
@@ -86,7 +86,7 @@ echo ""
 find . -name "*.md" -type f \
     ! -path "./node_modules/*" \
     ! -path "./archive/*" \
-    ! -path "./.git/*" | while read doc; do
+    ! -path "./.git/*" | while read -r doc; do
     
     # Check for YAML intent or first paragraph
     if grep -q "^intent:" "$doc" 2>/dev/null; then
