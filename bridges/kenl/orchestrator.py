@@ -495,9 +495,16 @@ def main():
     )
     parser.add_argument(
         "--strict",
+        dest="strict",
         action="store_true",
         default=True,
-        help="Enable strict safety mode (default: True)",
+        help="Enable strict safety mode (default: True). Use --no-strict to disable.",
+    )
+    parser.add_argument(
+        "--no-strict",
+        dest="strict",
+        action="store_false",
+        help="Disable strict safety mode",
     )
     parser.add_argument(
         "--divergence-cap",
