@@ -31,6 +31,7 @@ Protocol: H&&S:WAVE | Hope&&Sauced
 import math
 import json
 import hashlib
+import os
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import List, Dict, Optional, Tuple, Any
@@ -38,9 +39,29 @@ from pathlib import Path
 import random
 
 
+# Output directory configuration
+# Can be overridden via QRC_OUTPUT_DIR environment variable
+DEFAULT_OUTPUT_DIR = "media/output/qrc_oracle_seed"
+OUTPUT_DIR = Path(os.environ.get("QRC_OUTPUT_DIR", "")).resolve() if os.environ.get("QRC_OUTPUT_DIR") else None
+
+
 # =============================================================================
 # CORE DATA STRUCTURES
 # =============================================================================
+
+# Named constants for energy normalization
+# The expected ground state energy for an n-qubit system with H = -Σ Z_i is -n
+# For a 4-qubit system, the balanced superposition has energy ≈ 0
+# We normalize around -0.5 as a reasonable baseline for mixed states
+EXPECTED_ENERGY_BASELINE = -0.5
+ENERGY_NORMALIZATION_FACTOR = 0.5  # Maps deviation to [0, 1] range
+
+# Phase adjustment range for divergence correction
+# Small angles (±0.1 radians ≈ ±5.7°) provide gentle corrections
+# without disrupting the reservoir's echo state properties
+PHASE_ADJUSTMENT_MIN = -0.1
+PHASE_ADJUSTMENT_MAX = 0.1
+
 
 @dataclass
 class OracleMetrics:
@@ -63,9 +84,12 @@ class OracleMetrics:
         Formula: (1 - curl_proxy) × 0.4 + fidelity × 0.3 + (1 - divergence) × 0.3
         
         Note: curl_proxy is estimated from energy stability in this implementation.
+        The energy baseline of -0.5 represents a typical mixed state energy for
+        a small qubit system with Hamiltonian H = -Σ Z_i.
         """
         # Estimate curl from energy deviation (higher deviation = more circular patterns)
-        curl_proxy = min(abs(self.energy + 0.5) * 0.5, 1.0)  # Normalize around expected -0.5
+        energy_deviation = abs(self.energy - EXPECTED_ENERGY_BASELINE)
+        curl_proxy = min(energy_deviation * ENERGY_NORMALIZATION_FACTOR, 1.0)
         return (1 - curl_proxy) * 0.4 + self.fidelity * 0.3 + (1 - self.divergence) * 0.3
     
     @property
@@ -388,10 +412,14 @@ class SelfHealingOracle:
         }
     
     def _adjust_phases(self) -> Dict[str, str]:
-        """Apply targeted phase gate adjustments."""
-        # Apply random Z rotations to reduce divergence
+        """
+        Apply targeted phase gate adjustments to reduce divergence.
+        
+        Uses small random RZ rotations (within PHASE_ADJUSTMENT_MIN/MAX range)
+        to gently correct the reservoir state without disrupting echo properties.
+        """
         for qubit in range(self.reservoir.n_qubits):
-            angle = random.uniform(-0.1, 0.1)
+            angle = random.uniform(PHASE_ADJUSTMENT_MIN, PHASE_ADJUSTMENT_MAX)
             self._apply_rz(qubit, angle)
         
         return {
@@ -654,8 +682,11 @@ def demonstrate_qrc_oracle_seed_loop():
 if __name__ == "__main__":
     loop = demonstrate_qrc_oracle_seed_loop()
     
-    # Save results
-    output_dir = Path(__file__).parent.parent / "media" / "output" / "qrc_oracle_seed"
+    # Save results - use environment override or default relative to script
+    if OUTPUT_DIR:
+        output_dir = OUTPUT_DIR
+    else:
+        output_dir = Path(__file__).parent.parent / DEFAULT_OUTPUT_DIR
     output_dir.mkdir(parents=True, exist_ok=True)
     
     with open(output_dir / "loop_reports.json", "w") as f:

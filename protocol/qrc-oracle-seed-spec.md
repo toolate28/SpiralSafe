@@ -55,11 +55,11 @@ def create_qrc_reservoir(n_qubits: int = 4) -> QuantumCircuit:
 
 The oracle continuously monitors reservoir health:
 
-| Metric | Threshold | Action Below Threshold |
-|--------|-----------|------------------------|
-| Fidelity | > 0.95 | Trigger re-simulation |
-| Energy | Stable | Adjust phase gates |
-| Divergence | < 5% | DSPy teleprompter nudge |
+| Metric | Target | Violation | Corrective Action |
+|--------|--------|-----------|-------------------|
+| Fidelity | > 0.95 | < 0.95 | Trigger re-simulation |
+| Energy | Stable ± 2% | Drift > 2% | Adjust phase gates |
+| Divergence | < 5% | > 5% | DSPy teleprompter nudge |
 
 ```python
 @dataclass
@@ -262,8 +262,11 @@ Get current reservoir status.
 
 - SpiralSafe wave.md: [`protocol/wave-spec.md`](wave-spec.md)
 - Quantum circuits: [`protocol/quantum-circuits-spec.md`](quantum-circuits-spec.md)
-- Quantum cognition engine: [`experiments/quantum_cognition_engine.py`](../experiments/quantum_cognition_engine.py)
-- DSPy documentation: https://dspy-docs.vercel.app/
+- Quantum cognition engine: [`experiments/quantum_cognition_engine.py`](../experiments/quantum_cognition_engine.py) (quantum-inspired classical simulation)
+
+**Note**: This specification describes Qiskit-compatible quantum circuits for reservoir computing.
+The quantum cognition engine uses a complementary approach (quantum-inspired classical simulation)
+for cognitive modeling. Both approaches share the isomorphism principle but target different use cases.
 
 ---
 
