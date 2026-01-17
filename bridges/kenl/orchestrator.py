@@ -44,6 +44,7 @@ class RollbackCheckpoint:
     state: Dict[str, Any]
     command: str
     reversible: bool = True
+    intent: Optional[str] = None  # Store intent explicitly for rollback
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -52,6 +53,7 @@ class RollbackCheckpoint:
             "state": self.state,
             "command": self.command,
             "reversible": self.reversible,
+            "intent": self.intent,
         }
 
 
@@ -243,6 +245,7 @@ class ExecutionPlanner:
         initial_checkpoint = self._create_checkpoint(
             f"before_{intent}",
             {"context": context, "phase": "pre_execution"},
+            intent=intent,
         )
 
         # Generate execution steps based on intent type
@@ -252,12 +255,14 @@ class ExecutionPlanner:
         mid_checkpoint = self._create_checkpoint(
             f"mid_{intent}",
             {"context": context, "phase": "mid_execution"},
+            intent=intent,
         )
 
         # Create final checkpoint
         final_checkpoint = self._create_checkpoint(
             f"after_{intent}",
             {"context": context, "phase": "post_execution"},
+            intent=intent,
         )
 
         # Estimate divergence based on intent complexity
@@ -283,7 +288,7 @@ class ExecutionPlanner:
         )
 
     def _create_checkpoint(
-        self, command: str, state: Dict[str, Any]
+        self, command: str, state: Dict[str, Any], intent: str = None
     ) -> RollbackCheckpoint:
         """Create a rollback checkpoint."""
         self._checkpoint_counter += 1
@@ -293,6 +298,7 @@ class ExecutionPlanner:
             state=state,
             command=command,
             reversible=True,
+            intent=intent,
         )
 
     def _generate_steps(self, intent: str, context: str) -> List[str]:
@@ -433,8 +439,11 @@ class KenlOrchestrator:
         if not checkpoint.reversible:
             return False
 
-        # Extract intent from checkpoint command
-        intent = checkpoint.command.split("_")[0] if "_" in checkpoint.command else "default"
+        # Use explicit intent if available, otherwise extract from command
+        intent = checkpoint.intent
+        if not intent:
+            # Fallback to command parsing for backward compatibility
+            intent = checkpoint.command.split("_")[0] if "_" in checkpoint.command else "default"
 
         handler = self._rollback_handlers.get(intent)
         if handler:
@@ -445,6 +454,7 @@ class KenlOrchestrator:
             "timestamp": datetime.now().isoformat(),
             "action": "rollback",
             "checkpoint_id": checkpoint.id,
+            "intent": intent,
         })
         return True
 

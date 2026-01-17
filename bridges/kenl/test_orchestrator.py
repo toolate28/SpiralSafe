@@ -144,9 +144,11 @@ class TestRollbackCheckpoint:
 
     def test_checkpoint_to_dict(self):
         """Checkpoint should serialize to dict correctly"""
+        # Use a fixed date for deterministic testing
+        test_time = datetime(2020, 1, 1, 12, 0, 0)
         checkpoint = RollbackCheckpoint(
             id="ckpt-001",
-            timestamp=datetime(2026, 1, 17, 12, 0, 0),
+            timestamp=test_time,
             state={"key": "value"},
             command="test_command",
             reversible=True,
