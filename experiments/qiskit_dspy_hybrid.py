@@ -217,8 +217,8 @@ class ClassicalSimilarity(SimilarityKernel):
         if self.normalize:
             norms_a = np.linalg.norm(vectors_a, axis=1, keepdims=True)
             norms_b = np.linalg.norm(vectors_b, axis=1, keepdims=True)
-            vectors_a = np.divide(vectors_a, norms_a, where=norms_a > 0)
-            vectors_b = np.divide(vectors_b, norms_b, where=norms_b > 0)
+            vectors_a = np.where(norms_a > 0, vectors_a / norms_a, vectors_a)
+            vectors_b = np.where(norms_b > 0, vectors_b / norms_b, vectors_b)
         
         return vectors_a @ vectors_b.T
 
