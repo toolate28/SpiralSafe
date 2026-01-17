@@ -217,8 +217,10 @@ jobs:
           fi
           
           # Quantum-themed assessment with spiral states
-          COHERENCE_INT=$(echo "$AVG_COHERENCE_PCT / 1" | bc 2>/dev/null || echo 50)
-          if [ -z "$COHERENCE_INT" ]; then COHERENCE_INT=50; fi
+          COHERENCE_INT=50
+          if command -v bc >/dev/null 2>&1 && [ -n "${AVG_COHERENCE_PCT:-}" ] && printf '%s\n' "$AVG_COHERENCE_PCT" | grep -Eq '^[0-9]+(\.[0-9]+)?$'; then
+            COHERENCE_INT=$(echo "$AVG_COHERENCE_PCT / 1" | bc 2>/dev/null || echo 50)
+          fi
           
           if [ "$COHERENCE_INT" -ge 90 ]; then
             QUANTUM_STATE="✨ Superposition Achieved - Quantum coherence maintained"
