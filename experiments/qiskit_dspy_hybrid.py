@@ -669,11 +669,17 @@ class HybridQuantumLayer:
         """Create variational circuit for classical simulation."""
         circuit = []
         n = self.config.num_qubits
+        input_len = len(inputs)
+        
+        # Handle case where inputs are shorter than num_qubits
+        if input_len < n:
+            # Pad inputs to match qubit count
+            inputs = np.pad(inputs, (0, n - input_len), mode='wrap')
         
         for layer in range(self.config.num_layers):
             # Encoding layer
             for i in range(n):
-                circuit.append(("RY", i, inputs[i % len(inputs)]))
+                circuit.append(("RY", i, inputs[i]))
             
             # Variational layer
             for i in range(n):
@@ -823,10 +829,13 @@ class QuantumEnhancedRetriever:
                     (0, self.feature_dim - len(query_embedding))
                 )
         
-        # Normalize embeddings to [0, 1]
-        query_norm = (query_embedding - query_embedding.min()) / (
-            query_embedding.max() - query_embedding.min() + 1e-8
-        )
+        # Normalize embeddings to [0, 1] using robust normalization
+        range_q = query_embedding.max() - query_embedding.min()
+        if range_q > 1e-10:
+            query_norm = (query_embedding - query_embedding.min()) / range_q
+        else:
+            # All values are identical - use uniform distribution
+            query_norm = np.full_like(query_embedding, 0.5)
         
         # Compute similarities
         similarities = []
@@ -836,9 +845,12 @@ class QuantumEnhancedRetriever:
             elif len(doc_emb) < self.feature_dim:
                 doc_emb = np.pad(doc_emb, (0, self.feature_dim - len(doc_emb)))
             
-            doc_norm = (doc_emb - doc_emb.min()) / (
-                doc_emb.max() - doc_emb.min() + 1e-8
-            )
+            range_d = doc_emb.max() - doc_emb.min()
+            if range_d > 1e-10:
+                doc_norm = (doc_emb - doc_emb.min()) / range_d
+            else:
+                # All values are identical - use uniform distribution
+                doc_norm = np.full_like(doc_emb, 0.5)
             
             sim = self.similarity_kernel.compute_similarity(query_norm, doc_norm)
             similarities.append((i, sim))

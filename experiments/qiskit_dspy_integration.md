@@ -174,8 +174,11 @@ class QuantumEnhancedRAG(dspy.Module):
 The hybrid pipeline should reduce entropy compared to classical-only approaches:
 
 ```
-ΔS = S_classical - S_quantum_hybrid < 0
+ΔS = S_quantum_hybrid - S_classical < 0
 ```
+
+This means `S_quantum_hybrid < S_classical` — the quantum-enhanced system produces
+lower entropy (more coherent) outputs than classical-only approaches.
 
 Measured via:
 - **Fidelity loss** in quantum kernel (target < 0.1)
