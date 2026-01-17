@@ -465,7 +465,7 @@ function analyzeCoherence(content: string, thresholds?: Record<string, number>):
     });
   }
 
-  // Detect divergence regions
+  // Detect positive divergence regions (unresolved expansion)
   if (expansionScore > t.div_warning) {
     regions.push({
       start: 0,
@@ -473,6 +473,17 @@ function analyzeCoherence(content: string, thresholds?: Record<string, number>):
       type: 'positive_divergence',
       severity: expansionScore > t.div_critical ? 'critical' : 'warning',
       description: 'Ideas expanding without resolution'
+    });
+  }
+
+  // Detect negative divergence regions (premature closure/over-compression)
+  if (expansionScore < -t.div_warning) {
+    regions.push({
+      start: 0,
+      end: content.length,
+      type: 'negative_divergence',
+      severity: expansionScore < -t.div_critical ? 'critical' : 'warning',
+      description: 'Premature closure or over-compression detected'
     });
   }
 
@@ -493,11 +504,28 @@ function detectRepetition(paragraphs: string[]): number {
 }
 
 function detectExpansion(paragraphs: string[]): number {
-  // Simplified: check if content expands without concluding
+  // Returns positive values for unresolved expansion, negative for over-compression
+  const text = paragraphs.join(' ');
+  
+  // Positive divergence indicators: content expands without concluding
   const hasConclusion = paragraphs.some(p => 
     /therefore|thus|in conclusion|finally|to summarize/i.test(p)
   );
-  const questionCount = (paragraphs.join(' ').match(/\?/g) || []).length;
+  const questionCount = (text.match(/\?/g) || []).length;
+  
+  // Negative divergence indicators: premature closure / over-compression
+  const conclusionCount = (text.match(/therefore|thus|in conclusion|finally|to summarize|in summary/gi) || []).length;
+  const avgParagraphLength = text.length / Math.max(paragraphs.length, 1);
+  const hasMultipleConclusionsShortContent = conclusionCount >= 2 && avgParagraphLength < 100;
+  const excessiveSummarization = conclusionCount > paragraphs.length * 0.3;
+  
+  // Detect over-compression: multiple conclusions in short content or excessive summarization
+  if (hasMultipleConclusionsShortContent || excessiveSummarization) {
+    // Return negative value proportional to over-compression severity
+    return -Math.min(0.3 + (conclusionCount * 0.15), 0.8);
+  }
+  
+  // Positive divergence: unresolved expansion
   return hasConclusion ? 0.2 : Math.min(0.3 + (questionCount * 0.1), 0.8);
 }
 
