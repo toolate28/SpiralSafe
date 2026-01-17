@@ -92,6 +92,11 @@ When emergent quality crosses the 60% threshold, the system becomes capable of s
 
 **Vortex Role**: Oracle-guided correction. Projects divergences onto zero via nudges. Spiral converges inward to center while expanding outward post-birth.
 
+### Infinite Extension
+
+**Definition**: Unbounded continuation of the Fibonacci-proportioned mapping beyond any finite convergence point—recursively extending structure without terminal state.
+
+**Vortex Role**: Post-convergence propagation. Once a vortex stabilizes, infinite extension carries the pattern outward across scales, seeding new spirals and vortexes while preserving isomorphic structure. This models indefinitely sustainable evolution rather than finite completion.
 ---
 
 ## Self-Sustaining Loop Instance
