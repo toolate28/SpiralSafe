@@ -4,7 +4,7 @@
 - Repo hosts the Coherence Engine for Safe Spiral: verification gates, ATOM decision trail, and documentation state markers. Start from [README.md](README.md) for narrative, [QUICK_START.md](QUICK_START.md) for commands, [archive/ARCHIVE_INDEX.md](archive/ARCHIVE_INDEX.md) for archived docs, and [docs/VERIFICATION_GATES.md](docs/VERIFICATION_GATES.md) for gate semantics.
 
 **Non‑negotiables**
-- Never write without an ATOM: generate with `./scripts/atom-track.sh TYPE "desc" "path"` (writes to .atom-trail/decisions and .claude/last_atom). Commit/PR titles must include the ATOM tag (format `ATOM-TYPE-YYYYMMDD-NNN-description`).
+- Never write without an ATOM: generate with `./scripts/atom-track.sh TYPE "desc" "file_or_issue"` (writes to .atom-trail/decisions and .claude/last_atom). The third parameter can be a file path (e.g., `README.md`) or an issue reference (e.g., `issue-#123`). Commit/PR titles must include the ATOM tag (format `ATOM-TYPE-YYYYMMDD-NNN-description`).
 - Verification gates guard every phase. Source [scripts/lib/verification-gate.sh](scripts/lib/verification-gate.sh) and run `gate_intention_to_execution` before work; run `gate_execution_to_learning` before calling work “done”. Failed gates must be fixed, not bypassed.
 - Docs need state markers (YAML frontmatter with status/last_verified/atom_tags). Archive docs keep their ATOM lineage; if you move or edit items under [archive/](archive), log the decision and update the archive index.
 - Respect boundaries: append-only logs in [.atom-trail/](.atom-trail) and [.claude/logs/](.claude/logs); never touch .atom-trail/bedrock or delete logs.
