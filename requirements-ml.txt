@@ -43,6 +43,10 @@ dspy==3.1.0
 # qiskit==0.45.1
 # qiskit-aer==0.13.1
 
+# DSPy for LLM prompt optimization (Optional)
+# Uncomment for QRC-DSPy integration (see experiments/qrc_reservoir.py)
+# dspy-ai==2.4.0
+
 # Generative AI (Optional - Large packages)
 # Uncomment only if local model support is needed
 # diffusers==0.25.1
