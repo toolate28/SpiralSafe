@@ -27,7 +27,7 @@
   },
   "ecosystem_position": {
     "spine_repository": "SpiralSafe",
-    "inference_hub": "QDI",
+    "inference_hub": "wave-toolkit",
     "coherence_layer": "coherence-mcp",
     "infrastructure": "kenl"
   },
