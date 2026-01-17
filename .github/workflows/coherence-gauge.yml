@@ -37,10 +37,20 @@ jobs:
           
           TOTAL_CURL=0
           TOTAL_DIV=0
-          TOTAL_ENTROPY=0
-          COUNT=0
-          FAILED=()
-          EXCELLENT=()
+           TOTAL_ENTROPY=0
+           COUNT=0
+           FAILED=()
+           EXCELLENT=()
+           
+           sanitize_number() {
+             local value="$1"
+             if echo "$value" | grep -Eq '^-?([0-9]+\.?[0-9]*|[0-9]*\.[0-9]+)$'; then
+               # normalize leading dots (e.g., .5 -> 0.5) and trailing dots (e.g., 5. -> 5.0)
+               echo "$value" | sed -E 's/^\./0./; s/\.$/.0/'
+             else
+               echo "0"
+             fi
+           }
           
           for file in $FILES; do
             if [ ! -f "$file" ]; then continue; fi
@@ -129,28 +139,33 @@ jobs:
             AVG_ENTROPY=$(echo "scale=4; $TOTAL_ENTROPY / $COUNT" | bc)
             AVG_COHERENCE=$(echo "scale=4; ($AVG_CURL * 0.4) + ((1 - $AVG_DIV) * 0.4) + ($AVG_ENTROPY * 0.2)" | bc)
             AVG_COHERENCE_PCT=$(echo "scale=2; $AVG_COHERENCE * 100" | bc)
-          else
-            AVG_CURL=0
-            AVG_DIV=0
-            AVG_ENTROPY=0
-            AVG_COHERENCE=0
-            AVG_COHERENCE_PCT=0
-          fi
-          
-          echo ""
-          echo "───────────────────────────────────────────────────────────────"
-          echo "  Summary: $COUNT files analyzed"
-          echo "  Average Curl (coherence): $AVG_CURL"
-          echo "  Average Divergence: $AVG_DIV"
-          echo "  Average Entropy: $AVG_ENTROPY"
-          echo "  Overall Coherence: ${AVG_COHERENCE_PCT}%"
-          echo "───────────────────────────────────────────────────────────────"
-          
-          # Quantum-themed assessment
-          COHERENCE_INT=$(echo "$AVG_COHERENCE_PCT / 1" | bc)
-          if [ "$COHERENCE_INT" -ge 90 ]; then
-            QUANTUM_STATE="✨ Superposition Achieved - Quantum coherence maintained"
-            GAUGE_LEVEL="excellent"
+           else
+             AVG_CURL=0
+             AVG_DIV=0
+             AVG_ENTROPY=0
+             AVG_COHERENCE=0
+             AVG_COHERENCE_PCT=0
+           fi
+           
+           SAFE_AVG_CURL=$(sanitize_number "$AVG_CURL")
+           SAFE_AVG_DIV=$(sanitize_number "$AVG_DIV")
+           SAFE_AVG_ENTROPY=$(sanitize_number "$AVG_ENTROPY")
+           SAFE_AVG_COHERENCE_PCT=$(sanitize_number "$AVG_COHERENCE_PCT")
+           
+           echo ""
+           echo "───────────────────────────────────────────────────────────────"
+           echo "  Summary: $COUNT files analyzed"
+           echo "  Average Curl (coherence): $SAFE_AVG_CURL"
+           echo "  Average Divergence: $SAFE_AVG_DIV"
+           echo "  Average Entropy: $SAFE_AVG_ENTROPY"
+           echo "  Overall Coherence: ${SAFE_AVG_COHERENCE_PCT}%"
+           echo "───────────────────────────────────────────────────────────────"
+           
+           # Quantum-themed assessment
+           COHERENCE_INT=$(echo "$SAFE_AVG_COHERENCE_PCT / 1" | bc)
+           if [ "$COHERENCE_INT" -ge 90 ]; then
+             QUANTUM_STATE="✨ Superposition Achieved - Quantum coherence maintained"
+             GAUGE_LEVEL="excellent"
           elif [ "$COHERENCE_INT" -ge 75 ]; then
             QUANTUM_STATE="🌟 High Coherence - Minor decoherence detected"
             GAUGE_LEVEL="good"
@@ -166,17 +181,17 @@ jobs:
           fi
           
           # Set outputs for the comment
-          echo "coherence_pct=$AVG_COHERENCE_PCT" >> $GITHUB_OUTPUT
-          echo "curl=$AVG_CURL" >> $GITHUB_OUTPUT
-          echo "divergence=$AVG_DIV" >> $GITHUB_OUTPUT
-          echo "entropy=$AVG_ENTROPY" >> $GITHUB_OUTPUT
+           echo "coherence_pct=$SAFE_AVG_COHERENCE_PCT" >> $GITHUB_OUTPUT
+           echo "curl=$SAFE_AVG_CURL" >> $GITHUB_OUTPUT
+           echo "divergence=$SAFE_AVG_DIV" >> $GITHUB_OUTPUT
+           echo "entropy=$SAFE_AVG_ENTROPY" >> $GITHUB_OUTPUT
           echo "quantum_state=$QUANTUM_STATE" >> $GITHUB_OUTPUT
           echo "gauge_level=$GAUGE_LEVEL" >> $GITHUB_OUTPUT
-          echo "files_analyzed=$COUNT" >> $GITHUB_OUTPUT
-          echo "excellent_count=${#EXCELLENT[@]}" >> $GITHUB_OUTPUT
-          echo "needs_attention=${#FAILED[@]}" >> $GITHUB_OUTPUT
-          
-          # Store file lists for comment
+           echo "files_analyzed=$COUNT" >> $GITHUB_OUTPUT
+           echo "excellent_count=${#EXCELLENT[@]}" >> $GITHUB_OUTPUT
+           echo "needs_attention=${#FAILED[@]}" >> $GITHUB_OUTPUT
+           
+           # Store file lists for comment
           if [ ${#EXCELLENT[@]} -gt 0 ]; then
             printf '%s\n' "${EXCELLENT[@]}" > excellent-files.txt
           else
