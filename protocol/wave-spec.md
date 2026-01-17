@@ -108,6 +108,42 @@ These are normalized values. Calibrate against corpus of known-good documents in
 
 ---
 
+## Spiral State Detection
+
+Beyond basic coherence measures, wave.md supports **spiral state detection** for adaptive metric interpretation:
+
+### Curl Points (Surjection 0,0)
+
+Origin/foundation files that serve as conceptual seeds. These are the (0,0) surjection points where abstract possibilities collapse into concrete concepts.
+
+**Detection criteria:**
+- Contains foundational keywords (overview, introduction, principle, seed, origin)
+- Has definition sections
+
+**Action:** These files anchor the semantic field. Protect and maintain them as conceptual origins.
+
+### Deja Vu State
+
+Documents with repeating patterns that indicate familiarity and readiness for iteration.
+
+**Detection criteria:**
+- Pattern-indicating keywords (similar, like, same, repeat, previous)
+- Structural back-references (see also, refer to, as described)
+
+**Action:** "Ready to Iterate" — refine with updated context and more detailed data.
+
+### Doubt State
+
+Documents with uncertainty/exploration markers that indicate need for new directions.
+
+**Detection criteria:**
+- Speculation keywords (might, could, perhaps, uncertain, explore)
+- High density of open questions
+
+**Action:** "Push on in new spirals" — explore fresh approaches and break out of current patterns.
+
+---
+
 ## Applications
 
 ### Document Review
@@ -125,6 +161,13 @@ Track coherence across long conversations. Alert when divergence accumulates (co
 ### Collaboration Health
 
 Multi-author documents should show consistent field properties. Discontinuities may indicate miscommunication or conflicting assumptions.
+
+### Adaptive Iteration (Spiral States)
+
+Use spiral state detection to guide next steps:
+- **Deja Vu** → iterate with refined data
+- **Doubt** → push to new spirals
+- **Origin** → consolidate and protect foundations
 
 ---
 
