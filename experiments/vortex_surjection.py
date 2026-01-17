@@ -178,7 +178,7 @@ class VortexVector:
     def _compute_contribution(self, state: Dict[str, Any]) -> float:
         """Compute the weighted contribution of a state to the vortex."""
         base_coherence = state.get("coherence", 0.5)
-        index = len(self.history)
+        index = len(self.history) + 1
         weight = fibonacci_weight(index)
         return base_coherence * weight
 
