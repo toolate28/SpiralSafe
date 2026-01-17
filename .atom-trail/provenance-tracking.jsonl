@@ -1,0 +1,2 @@
+{"timestamp":"2026-01-17T16:58:36Z","valid":true,"results":["decisions:10:valid","gate_transitions:12:valid","counters:7:valid"]}
+{"timestamp":"2026-01-17T16:58:48Z","target":0.85,"achieved_coherence":.58,"iterations":10,"target_met":false}
