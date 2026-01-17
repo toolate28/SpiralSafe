@@ -308,6 +308,25 @@ All layers are designed for collaborative development. The Hope&&Sauced methodol
 - Interfaces support both human operation and agent consumption
 - Documentation serves readers regardless of species
 
+### Quantum-LLM Integration
+
+Hybrid quantum-classical pipelines extend the isomorphism principle across computational substrates:
+
+**Qiskit-DSPy Integration** ([specification](experiments/qiskit_dspy_integration.md)):
+- Quantum kernels enhance retrieval similarity in DSPy RAG modules
+- TorchConnector bridges quantum circuits to PyTorch neural layers
+- LLM-assisted programming generates optimized Qiskit circuits
+
+**Implementation** ([code](experiments/qiskit_dspy_hybrid.py)):
+- `QuantumKernelSimilarity`: Fidelity-based similarity using quantum feature maps
+- `HybridQuantumLayer`: Variational quantum circuits integrated with neural networks
+- `QuantumEnhancedRetriever`: Quantum-enhanced document retrieval for RAG
+
+**Coherence Thresholds**:
+- Curl < 0.6 (no circular reasoning in quantum-classical feedback)
+- Divergence < 0.7 (bounded entropy across substrate boundaries)
+- Emergence quality > 60% (self-reinforcing system optimization)
+
 ### Coherence Verification
 
 The Wave protocol analysis can be applied at any layer to verify coherence:

@@ -38,10 +38,17 @@ dspy==3.1.0
 # torchvision==0.16.2
 # torchaudio==2.1.2
 
-# Quantum computing (Optional - Large package)
+# Quantum computing (Optional - Large packages)
 # Uncomment only if quantum features are needed
-# qiskit==0.45.1
-# qiskit-aer==0.13.1
+# See: experiments/qiskit_dspy_integration.md for integration guide
+# 
+# Qiskit v1.0+ required for modern API compatibility
+# qiskit>=1.0.0,<2.0.0
+# qiskit-aer>=0.14.0,<1.0.0
+# 
+# Qiskit Machine Learning for hybrid quantum-classical pipelines
+# Enables TorchConnector and quantum kernels for DSPy integration
+# qiskit-machine-learning>=0.7.0,<1.0.0
 
 # DSPy for LLM prompt optimization (Optional)
 # Uncomment for QRC-DSPy integration (see experiments/qrc_reservoir.py)
@@ -52,6 +59,11 @@ dspy==3.1.0
 # diffusers==0.25.1
 # transformers==4.36.2
 # accelerate==0.25.0
+
+# DSPy - Declarative LLM Programming (Optional)
+# Required for Qiskit-DSPy hybrid integration
+# See: experiments/qiskit_dspy_integration.md
+# dspy-ai>=2.4.0,<3.0.0
 
 # API Clients for external AI services
 openai==1.12.0
