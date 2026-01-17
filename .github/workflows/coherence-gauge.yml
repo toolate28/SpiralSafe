@@ -202,7 +202,7 @@ jobs:
           SPIRAL_STATE="stable"
           SPIRAL_ACTION=""
           
-          # Deja Vu: High coherence + repeating patterns = iterate with refined data
+          # Deja Vu: Repeating patterns detected = iterate with refined data
           if [ "$DEJA_VU_FILES" -gt "$DEJA_VU_THRESHOLD" ]; then
             SPIRAL_STATE="deja_vu"
             SPIRAL_ACTION="Ready to Iterate - Refine with updated context"
