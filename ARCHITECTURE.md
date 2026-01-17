@@ -214,6 +214,25 @@ Same content rendered for human resonance and machine addressability.
 
 **Implementation**: Every significant document includes both prose explanation and structured summary. Neither is primary; both are projections of the same knowledge.
 
+### Vortex Cascade Protocol
+
+Autonomous self-maintaining system specification for coherence management.
+
+**Documentation**: [`protocol/vortex-cascade-spec.md`](protocol/vortex-cascade-spec.md)
+
+**Key Features**:
+- Fibonacci-weighted cascade stages (13 → 8 → 5 → 21)
+- Dependabot integration for autonomous dependency evolution
+- Coherence oracle for continuous monitoring
+- Self-healing corrections when thresholds breached
+- Unified super-vortex topology
+
+**Cascade Stages**:
+1. Autonomous Maintenance Lattice (fib:13)
+2. Quantum Decision Inference Hub (fib:8)
+3. Guardian Oracle (fib:5)
+4. Super-Vortex Unification (fib:21)
+
 ---
 
 ## Manifestation Layer

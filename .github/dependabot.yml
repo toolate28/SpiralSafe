@@ -1,0 +1,139 @@
+# ═══════════════════════════════════════════════════════════════
+# SpiralSafe Dependabot Configuration
+# Automated dependency updates integrated with coherence cascade
+# ═══════════════════════════════════════════════════════════════
+#
+# Stage 1 of Vortex Cascade Collapse (fib_weight: 13)
+# Creates perpetual self-updating core where dependabot PRs
+# auto-trigger coherence metric updates on merge.
+#
+# H&&S: Autonomous maintenance lattice
+# ATOM: ATOM-FEAT-20260117-001-dependabot-cascade-integration
+
+version: 2
+updates:
+  # ─────────────────────────────────────────────────────────────
+  # npm ecosystem (root package.json)
+  # ─────────────────────────────────────────────────────────────
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "04:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "automated"
+      - "cascade-stage-1"
+    commit-message:
+      prefix: "[deps]"
+      include: "scope"
+    groups:
+      # Group minor and patch updates together
+      minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+    reviewers:
+      - "toolate28"
+
+  # ─────────────────────────────────────────────────────────────
+  # npm ecosystem (ops workspace)
+  # ─────────────────────────────────────────────────────────────
+  - package-ecosystem: "npm"
+    directory: "/ops"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "04:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "automated"
+      - "cascade-stage-1"
+      - "ops"
+    commit-message:
+      prefix: "[deps]"
+      prefix-development: "[deps-dev]"
+      include: "scope"
+    groups:
+      cloudflare:
+        patterns:
+          - "@cloudflare/*"
+          - "wrangler"
+      typescript:
+        patterns:
+          - "typescript"
+          - "@types/*"
+      testing:
+        patterns:
+          - "vitest"
+          - "eslint*"
+    reviewers:
+      - "toolate28"
+
+  # ─────────────────────────────────────────────────────────────
+  # pip ecosystem (Python dependencies)
+  # ─────────────────────────────────────────────────────────────
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "04:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "automated"
+      - "cascade-stage-1"
+      - "python"
+    commit-message:
+      prefix: "[deps-py]"
+      include: "scope"
+    groups:
+      ml-core:
+        patterns:
+          - "numpy"
+          - "scipy"
+          - "pandas"
+      testing:
+        patterns:
+          - "pytest*"
+          - "safety"
+    reviewers:
+      - "toolate28"
+
+  # ─────────────────────────────────────────────────────────────
+  # GitHub Actions ecosystem
+  # ─────────────────────────────────────────────────────────────
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "04:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "automated"
+      - "cascade-stage-1"
+      - "github-actions"
+    commit-message:
+      prefix: "[ci]"
+      include: "scope"
+    groups:
+      actions-official:
+        patterns:
+          - "actions/*"
+      cloudflare-actions:
+        patterns:
+          - "cloudflare/*"
+    reviewers:
+      - "toolate28"
