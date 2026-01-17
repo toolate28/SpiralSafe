@@ -10,6 +10,7 @@ from .orchestrator import (
     KenlOrchestrator,
     IntentResult,
     ExecutionPlan,
+    OrchestratorResult,
     SafetyStatus,
     RollbackCheckpoint,
 )
@@ -18,6 +19,7 @@ __all__ = [
     "KenlOrchestrator",
     "IntentResult",
     "ExecutionPlan",
+    "OrchestratorResult",
     "SafetyStatus",
     "RollbackCheckpoint",
 ]

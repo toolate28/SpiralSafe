@@ -13,7 +13,7 @@ For full DSPy integration, install dspy-ai package.
 """
 
 from dataclasses import dataclass, field
-from typing import Optional, Dict, Any, List, Callable
+from typing import Optional, Dict, Any, List, Callable, Union
 from enum import Enum
 from datetime import datetime
 import re
@@ -68,6 +68,25 @@ class ExecutionPlan:
     divergence_estimate: float = 0.05
     blocked: bool = False
     block_reason: Optional[str] = None
+
+
+@dataclass
+class OrchestratorResult:
+    """Result from the KENL orchestrator for consistent return types"""
+    success: bool
+    plan: Optional[ExecutionPlan] = None
+    blocked: bool = False
+    block_reason: Optional[str] = None
+
+    @classmethod
+    def ok(cls, plan: ExecutionPlan) -> "OrchestratorResult":
+        """Create a successful result with an execution plan"""
+        return cls(success=True, plan=plan, blocked=False)
+
+    @classmethod
+    def fail(cls, reason: str) -> "OrchestratorResult":
+        """Create a blocked result with a reason"""
+        return cls(success=False, plan=None, blocked=True, block_reason=reason)
 
 
 class IntentParser:
@@ -371,7 +390,7 @@ class KenlOrchestrator:
         self._history: List[Dict[str, Any]] = []
         self._rollback_handlers: Dict[str, Callable] = {}
 
-    def forward(self, command: str) -> ExecutionPlan | str:
+    def forward(self, command: str) -> OrchestratorResult:
         """
         Process a command through the KENL orchestration pipeline.
 
@@ -381,7 +400,7 @@ class KenlOrchestrator:
             command: Natural language or shell command
 
         Returns:
-            ExecutionPlan if command passes safety checks, or "Blocked" string
+            OrchestratorResult with success status and execution plan or block reason
         """
         # Parse intent with safety check
         parsed = self.intent_parser.parse(command)
@@ -396,7 +415,7 @@ class KenlOrchestrator:
 
         # Block unsafe commands
         if parsed.safety_check == SafetyStatus.FAIL:
-            return "Blocked"
+            return OrchestratorResult.fail("Failed safety checks")
 
         # Generate execution plan
         plan = self.executor.plan(
@@ -406,13 +425,15 @@ class KenlOrchestrator:
 
         # Check if plan is blocked due to divergence
         if plan.blocked:
-            return "Blocked"
+            return OrchestratorResult.fail(plan.block_reason or "Divergence exceeded")
 
         # Check recovery rate threshold
         if plan.estimated_recovery_rate < self.recovery_threshold:
-            return "Blocked"
+            return OrchestratorResult.fail(
+                f"Recovery rate {plan.estimated_recovery_rate:.1%} below threshold {self.recovery_threshold:.1%}"
+            )
 
-        return plan
+        return OrchestratorResult.ok(plan)
 
     def register_rollback_handler(
         self, intent: str, handler: Callable[[RollbackCheckpoint], bool]
@@ -494,17 +515,11 @@ def main():
         help="Command to orchestrate (or enter interactive mode if omitted)",
     )
     parser.add_argument(
-        "--strict",
-        dest="strict",
-        action="store_true",
-        default=True,
-        help="Enable strict safety mode (default: True). Use --no-strict to disable.",
-    )
-    parser.add_argument(
         "--no-strict",
         dest="strict",
         action="store_false",
-        help="Disable strict safety mode",
+        default=True,
+        help="Disable strict safety mode (default: strict mode enabled)",
     )
     parser.add_argument(
         "--divergence-cap",
@@ -544,17 +559,17 @@ def main():
     if args.command:
         # Single command mode
         result = orchestrator.forward(args.command)
-        if result == "Blocked":
+        if result.blocked:
             print(f"\n⛔ BLOCKED: {args.command}")
-            print("   Reason: Failed safety checks or exceeded thresholds")
+            print(f"   Reason: {result.block_reason}")
             sys.exit(1)
         else:
             print(f"\n✓ APPROVED: {args.command}")
-            print(f"   Intent: {result.intent}")
-            print(f"   Recovery Rate: {result.estimated_recovery_rate:.1%}")
-            print(f"   Divergence: {result.divergence_estimate:.1%}")
-            print(f"   Steps: {len(result.steps)}")
-            print(f"   Checkpoints: {len(result.checkpoints)}")
+            print(f"   Intent: {result.plan.intent}")
+            print(f"   Recovery Rate: {result.plan.estimated_recovery_rate:.1%}")
+            print(f"   Divergence: {result.plan.divergence_estimate:.1%}")
+            print(f"   Steps: {len(result.plan.steps)}")
+            print(f"   Checkpoints: {len(result.plan.checkpoints)}")
             sys.exit(0)
 
     elif args.interactive:
@@ -578,11 +593,11 @@ def main():
                     continue
 
                 result = orchestrator.forward(command)
-                if result == "Blocked":
-                    print(f"   ⛔ BLOCKED")
+                if result.blocked:
+                    print(f"   ⛔ BLOCKED: {result.block_reason}")
                 else:
-                    print(f"   ✓ APPROVED | Intent: {result.intent} | "
-                          f"Recovery: {result.estimated_recovery_rate:.1%}")
+                    print(f"   ✓ APPROVED | Intent: {result.plan.intent} | "
+                          f"Recovery: {result.plan.estimated_recovery_rate:.1%}")
 
             except (KeyboardInterrupt, EOFError):
                 print("\n✨ Session ended")
@@ -611,10 +626,10 @@ def main():
 
         for cmd in test_commands:
             result = orchestrator.forward(cmd)
-            if result == "Blocked":
+            if result.blocked:
                 print(f"   ⛔ {cmd}")
             else:
-                print(f"   ✓ {cmd} (intent: {result.intent})")
+                print(f"   ✓ {cmd} (intent: {result.plan.intent})")
 
         print("\n" + "─" * 60)
         metrics = orchestrator.get_metrics()

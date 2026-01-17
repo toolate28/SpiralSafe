@@ -16,8 +16,8 @@ from datetime import datetime
 # Direct imports from orchestrator module
 from orchestrator import (
     KenlOrchestrator,
-    IntentResult,
     ExecutionPlan,
+    OrchestratorResult,
     SafetyStatus,
     RollbackCheckpoint,
     IntentParser,
@@ -165,26 +165,33 @@ class TestKenlOrchestrator:
     """Tests for the main KenlOrchestrator class"""
 
     def test_safe_command_returns_plan(self):
-        """Safe commands should return an ExecutionPlan"""
+        """Safe commands should return a successful OrchestratorResult"""
         orchestrator = KenlOrchestrator()
         result = orchestrator.forward("git status")
 
-        assert isinstance(result, ExecutionPlan)
-        assert result.intent == "version_control"
+        assert isinstance(result, OrchestratorResult)
+        assert result.success is True
+        assert result.blocked is False
+        assert result.plan is not None
+        assert result.plan.intent == "version_control"
 
     def test_unsafe_command_blocked(self):
         """Unsafe commands should be blocked"""
         orchestrator = KenlOrchestrator()
         result = orchestrator.forward("rm -rf /")
 
-        assert result == "Blocked"
+        assert isinstance(result, OrchestratorResult)
+        assert result.blocked is True
+        assert result.success is False
+        assert result.block_reason is not None
 
     def test_high_divergence_blocked(self):
         """Commands with high divergence should be blocked"""
         orchestrator = KenlOrchestrator(divergence_cap=0.01)
         result = orchestrator.forward("complex management operation")
 
-        assert result == "Blocked"
+        assert isinstance(result, OrchestratorResult)
+        assert result.blocked is True
 
     def test_history_tracking(self):
         """Commands should be tracked in history"""
@@ -251,11 +258,13 @@ class TestEndToEnd:
         # Safe command should produce execution plan
         result = orchestrator.forward("git push origin main")
 
-        assert isinstance(result, ExecutionPlan)
-        assert not result.blocked
-        assert result.estimated_recovery_rate >= 0.90
-        assert result.divergence_estimate <= 0.15
-        assert len(result.checkpoints) == 3
+        assert isinstance(result, OrchestratorResult)
+        assert result.success is True
+        assert result.plan is not None
+        assert not result.plan.blocked
+        assert result.plan.estimated_recovery_rate >= 0.90
+        assert result.plan.divergence_estimate <= 0.15
+        assert len(result.plan.checkpoints) == 3
 
     def test_multiple_commands_tracking(self):
         """Multiple commands should be tracked correctly"""
@@ -272,10 +281,10 @@ class TestEndToEnd:
         results = [orchestrator.forward(cmd) for cmd in commands]
 
         # 4 should pass, 1 should be blocked
-        plans = [r for r in results if isinstance(r, ExecutionPlan)]
-        blocked = [r for r in results if r == "Blocked"]
+        successful = [r for r in results if r.success]
+        blocked = [r for r in results if r.blocked]
 
-        assert len(plans) == 4
+        assert len(successful) == 4
         assert len(blocked) == 1
 
 
