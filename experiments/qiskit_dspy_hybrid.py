@@ -679,7 +679,7 @@ class HybridQuantumLayer:
         # Handle case where inputs are shorter than num_qubits
         if input_len < n:
             # Pad inputs to match qubit count
-            inputs = np.pad(inputs, (0, n - input_len), mode='wrap')
+            inputs = np.pad(inputs, (0, n - input_len))
         
         for layer in range(self.config.num_layers):
             # Encoding layer
