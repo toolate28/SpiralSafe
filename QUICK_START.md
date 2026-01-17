@@ -207,8 +207,11 @@ vim SOME_DOC.md
 # 2. Create ATOM tag
 # For a specific file:
 ./scripts/atom-track.sh DOC "updated SOME_DOC" "SOME_DOC.md"
-# Or for an issue:
-./scripts/atom-track.sh DOC "updated docs for issue 123" "issue-#123"
+# Or for an issue (multiple formats supported):
+./scripts/atom-track.sh DOC "updated docs for issue" "issue-#123"
+./scripts/atom-track.sh DOC "updated docs for issue" "#123"
+./scripts/atom-track.sh DOC "updated docs for issue" "issue-789"
+./scripts/atom-track.sh DOC "updated docs for issue" "GH-456"
 
 # 3. Lint (optional)
 markdownlint SOME_DOC.md --fix
