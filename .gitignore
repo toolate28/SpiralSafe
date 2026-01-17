@@ -50,5 +50,5 @@ env/
 .coverage
 htmlcov/
 
-# Generated output (experiments, demonstrations)
-media/output/
+# Temporary claude working directories
+tmpclaude-*-cwd
