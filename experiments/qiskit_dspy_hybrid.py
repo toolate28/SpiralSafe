@@ -488,9 +488,22 @@ class QuantumKernelSimilarity(SimilarityKernel):
                 f"got {len(vec_a)} and {len(vec_b)}"
             )
         
-        # Normalize to [0, pi] range for quantum encoding
-        vec_a_norm = np.clip(vec_a, 0, 1) * np.pi
-        vec_b_norm = np.clip(vec_b, 0, 1) * np.pi
+        # Normalize to [0, 1] using min-max normalization, then scale to [0, pi]
+        # This preserves relative vector structure, unlike clipping which loses information
+        range_a = vec_a.max() - vec_a.min()
+        if range_a > 1e-10:
+            vec_a_normalized = (vec_a - vec_a.min()) / range_a
+        else:
+            vec_a_normalized = np.full_like(vec_a, 0.5)
+        
+        range_b = vec_b.max() - vec_b.min()
+        if range_b > 1e-10:
+            vec_b_normalized = (vec_b - vec_b.min()) / range_b
+        else:
+            vec_b_normalized = np.full_like(vec_b, 0.5)
+        
+        vec_a_norm = vec_a_normalized * np.pi
+        vec_b_norm = vec_b_normalized * np.pi
         
         if self._qiskit_available and hasattr(self, '_kernel'):
             # Use Qiskit kernel
