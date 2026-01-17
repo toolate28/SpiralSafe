@@ -42,7 +42,8 @@ import random
 # Output directory configuration
 # Can be overridden via QRC_OUTPUT_DIR environment variable
 DEFAULT_OUTPUT_DIR = "media/output/qrc_oracle_seed"
-OUTPUT_DIR = Path(os.environ.get("QRC_OUTPUT_DIR", "")).resolve() if os.environ.get("QRC_OUTPUT_DIR") else None
+_env_output_dir = os.environ.get("QRC_OUTPUT_DIR")
+OUTPUT_DIR = Path(_env_output_dir).resolve() if _env_output_dir else None
 
 
 # =============================================================================
