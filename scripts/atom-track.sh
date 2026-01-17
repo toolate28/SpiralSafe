@@ -11,7 +11,7 @@ if [ -z "$TYPE" ] || [ -z "$DESC" ]; then
   echo "Usage: $0 TYPE \"description\" [FILE_OR_ISSUE]"
   echo "Examples:"
   echo "  $0 DECISION \"Added CI workflow\" .github/workflows/ci.yml"
-  echo "  $0 DOC \"Updated README\" issue-#123"
+  echo "  $0 DOC \"Updated README\" issue-#42"
   exit 1
 fi
 
