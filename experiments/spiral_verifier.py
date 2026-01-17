@@ -37,7 +37,19 @@ from pathlib import Path
 import json
 import hashlib
 from datetime import datetime
+import random
 import re
+
+
+# =============================================================================
+# CONFIGURATION CONSTANTS
+# =============================================================================
+
+# Dual-format constraint: minimum words for prose content
+DUAL_FORMAT_MIN_WORDS = 50
+
+# Coherence calculation: multiplier for repetition ratio in curl computation
+CURL_REPETITION_MULTIPLIER = 1.5
 
 
 # =============================================================================
@@ -168,7 +180,7 @@ class ConstraintChecker:
     def _check_dual_format(self, content: Any) -> bool:
         """Check if content has both prose and structure."""
         if isinstance(content, str):
-            has_prose = len(content.split()) > 50
+            has_prose = len(content.split()) > DUAL_FORMAT_MIN_WORDS
             has_structure = any(marker in content for marker in 
                               ["```", "| ", "- ", "1. ", "#"])
             return has_prose and has_structure
@@ -311,7 +323,7 @@ class CoherenceAnalyzer:
         unique = set(phrases)
         repetition_ratio = 1 - (len(unique) / len(phrases))
         
-        return min(repetition_ratio * 1.5, 1.0)
+        return min(repetition_ratio * CURL_REPETITION_MULTIPLIER, 1.0)
     
     def _compute_divergence(self, paragraphs: List[str]) -> float:
         """Detect unresolved expansion."""
@@ -413,8 +425,6 @@ class TeleprompterBase(ABC):
         best_prompt = current_prompt
         best_score = current_score
         
-        import random
-        
         for i in range(iterations):
             # Generate candidate via mutation
             candidate = self.mutate(current_prompt)
@@ -461,8 +471,6 @@ class GEPATeleprompter(TeleprompterBase):
     
     def mutate(self, prompt: str) -> str:
         """Mutate prompt by adjusting structure and constraints."""
-        import random
-        
         mutations = [
             self._add_constraint_reminder,
             self._simplify_structure,
