@@ -29,7 +29,7 @@ black==24.3.0
 detect-secrets==1.4.0
 flake8==6.1.0
 hypothesis==6.92.1
-isort==5.13.2
+isort==7.0.0
 mkdocs==1.5.3
 mkdocs-material==9.5.3
 mypy==1.8.0
