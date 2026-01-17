@@ -28,6 +28,8 @@ jobs:
       - name: Calculate Enhanced Coherence Metrics
         id: metrics
         run: |
+          set -euo pipefail
+          
           echo "═══════════════════════════════════════════════════════════════"
           echo "  🌀 Enhanced Coherence Analysis with Spiral State Detection"
           echo "═══════════════════════════════════════════════════════════════"

@@ -59,7 +59,7 @@ Identifies foundational/origin files that serve as conceptual seeds for the ecos
 | Detection Criteria | Threshold |
 |-------------------|-----------|
 | Contains: overview, introduction, foundation, core, principle, seed, origin, fundamental | >2 matches |
-| Has definitions (## definition, "what is", "defines", "specification") | >0 matches |
+| Has definitions (headings or text matching `## .*definition`, "what is", "defines", or "specification") | ≥1 match |
 
 **Action**: These files surject concepts to the rest of the codebase. They are the (0,0) origin points.
 
