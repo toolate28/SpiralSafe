@@ -49,3 +49,6 @@ env/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Generated output files
+media/output/
