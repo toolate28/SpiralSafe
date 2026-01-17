@@ -248,7 +248,7 @@ intent:
   action: {analysis['action']}
   category: {analysis['category']}
   description: "{analysis['raw_intent']}"
-  reversible: {'true' if analysis['category'] == 'query' else 'false'}
+  reversible: { 'true' if analysis['category'] == 'query' else 'false' }
   impact: {'low' if permission_level <= 1 else 'medium'}
 ```
 
