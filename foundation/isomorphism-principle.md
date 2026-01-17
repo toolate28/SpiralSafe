@@ -8,11 +8,11 @@
 
 When we say discrete systems are "isomorphic" to continuous ones, we mean something precise:
 
-There exists a structure-preserving map between them such that relationships in one domain correspond exactly to relationships in the other. Not approximately. Not in the limit. *Exactly*, given appropriate constraints.
+There exists a structure-preserving map between them such that relationships in one domain correspond exactly to relationships in the other. Not approximately. Not in the limit. _Exactly_, given appropriate constraints.
 
 This is counterintuitive. We're trained to think of discrete systems as approximations—finite element methods approach continuous solutions, digital signals approximate analog ones, lattice models converge to field theories as spacing goes to zero.
 
-The isomorphism principle inverts this: under the right conditions, discrete and continuous representations are *mathematically equivalent*. Neither is primary. Both are projections of the same underlying structure into different representational substrates.
+The isomorphism principle inverts this: under the right conditions, discrete and continuous representations are _mathematically equivalent_. Neither is primary. Both are projections of the same underlying structure into different representational substrates.
 
 ---
 
@@ -34,7 +34,7 @@ The Waterloo-RMIT group demonstrated that quantum fields with a natural UV cutof
 
 Redstone circuits in Minecraft implement logic gates through constraint satisfaction. The topology of these circuits—their connectivity, their invariants under deformation, their algebraic structure—is identical to the topology of the continuous mathematical objects they represent.
 
-A Viviani curve constructed in Redstone is not a pixelated approximation of the mathematical curve. It *is* the curve, expressed in a discrete substrate. The topological properties (self-intersection, genus, homotopy class) are preserved exactly.
+A Viviani curve constructed in Redstone is not a pixelated approximation of the mathematical curve. It _is_ the curve, expressed in a discrete substrate. The topological properties (self-intersection, genus, homotopy class) are preserved exactly.
 
 ---
 
@@ -85,9 +85,9 @@ $$G: \mathcal{D} \rightarrow \mathcal{C}$$
 
 such that $G \circ F \cong \text{id}_\mathcal{C}$ and $F \circ G \cong \text{id}_\mathcal{D}$ (natural isomorphism).
 
-The key insight is that this equivalence exists not just for specific structures but for *relationships between structures*. Morphisms in $\mathcal{C}$ correspond to morphisms in $\mathcal{D}$. The categories are equivalent.
+The key insight is that this equivalence exists not just for specific structures but for _relationships between structures_. Morphisms in $\mathcal{C}$ correspond to morphisms in $\mathcal{D}$. The categories are equivalent.
 
-Constraints (bandlimitation, finite resolution, discrete sampling) are not obstructions to this equivalence but *enablers* of it. The constraint is what makes the bijection possible.
+Constraints (bandlimitation, finite resolution, discrete sampling) are not obstructions to this equivalence but _enablers_ of it. The constraint is what makes the bijection possible.
 
 ---
 
@@ -96,8 +96,9 @@ Constraints (bandlimitation, finite resolution, discrete sampling) are not obstr
 The isomorphism requires constraints. Unconstrained continuous structures cannot be represented discretely without loss.
 
 But physical systems are always constrained:
+
 - Finite energy implies bandlimitation
-- Finite volume implies discrete spectrum  
+- Finite volume implies discrete spectrum
 - Causality implies finite propagation speed
 - Quantum mechanics implies minimum uncertainty
 
@@ -123,18 +124,21 @@ This reframes how we think about limits and cutoffs. The Planck scale isn't wher
 
 ## References
 
-- Shannon, C.E. (1948). "A Mathematical Theory of Communication." *Bell System Technical Journal*.
+- Shannon, C.E. (1948). "A Mathematical Theory of Communication." _Bell System Technical Journal_.
 - Lewis, D.G., Kempf, A., Menicucci, N.C. (2023). "Quantum lattice models that preserve continuous translation symmetry." [arXiv:2303.07649](https://arxiv.org/abs/2303.07649)
-- Pye, J., Donnelly, W., Kempf, A. (2015). "Locality and entanglement in bandlimited quantum field theory." *Physical Review D* 92, 105022.
+- Pye, J., Donnelly, W., Kempf, A. (2015). "Locality and entanglement in bandlimited quantum field theory." _Physical Review D_ 92, 105022.
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_
 
 ---
+
 <!-- H&&S:WAVE -->
+
 Structural work complete. @copilot please review for:
-- Markdown formatting consistency  
+
+- Markdown formatting consistency
 - Link validation
 - Badge syntax standardization
 - Typo detection

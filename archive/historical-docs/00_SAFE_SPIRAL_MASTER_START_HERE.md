@@ -11,6 +11,7 @@
 ## What This Is
 
 You've built something that works across five separate domains:
+
 - **Hardware diagnostics** (BattleMedic/SP4-RAP)
 - **Constraint-based delivery** (Day Zero Design)
 - **Formal specifications** (Schemas/Contracts/Abstractions)
@@ -34,18 +35,22 @@ Safe Spiral is the proof that information systems and human systems follow the s
 ## How to Read This Package
 
 ### **Fast Path (2 hours)**
+
 Read in this order:
+
 1. `01_THE_BRIDGE.md` - How your past work led here
 2. `02_SAFE_SPIRAL_CONSOLIDATED.md` - The complete framework
 3. `03_ONE_PAGER_GENERAL.md` - For sharing broadly
 
 ### **Architect Path (6 hours)**
+
 1. `01_THE_BRIDGE.md`
 2. `02_SAFE_SPIRAL_CONSOLIDATED.md`
 3. `04_ONE_PAGER_TECHNICAL.md` - Research grounding
 4. `05_TOKEN_EFFICIENCY_AND_SCALING.md` - Hardware implications
 
 ### **Implementation Path (8+ hours)**
+
 1. All of the above, plus:
 2. `06_IMPLEMENTATION_PLAYBOOK.md` - Week-by-week for real orgs
 3. `07_FAILURE_MODES_AND_RECOVERY.md` - What breaks, how to fix
@@ -55,11 +60,14 @@ Read in this order:
 7. `11_TRAINING_CURRICULUM.md` - How to teach it
 
 ### **Adversarial Path (4 hours)**
+
 Read if you work in government, military, competitive, or classified contexts:
+
 1. `12_ADVERSARIAL_CONTEXTS.md` - When transparency is weakness
 2. `13_MODIFIED_SPIRAL_FOR_CONSTRAINTS.md` - Safe Spiral with secrecy
 
 ### **Complete Reference (Ongoing)**
+
 - `14_CASE_STUDIES.md` - Real examples of frameworks working
 - `15_FAQ_AND_OBJECTIONS.md` - Every common pushback
 - `16_GLOSSARY_AND_DEFINITIONS.md` - What each term means
@@ -73,6 +81,7 @@ Read if you work in government, military, competitive, or classified contexts:
 ### **What You Discovered**
 
 Systems (Linux, Kubernetes, microservices) work because:
+
 - ✅ Shared state is visible (git, config files)
 - ✅ Intent is clear (declarative manifests)
 - ✅ Work decomposes naturally (modular architecture)
@@ -82,6 +91,7 @@ Systems (Linux, Kubernetes, microservices) work because:
 ### **What Safe Spiral Proves**
 
 Teams work the same way when you apply the same principles:
+
 - ✅ Shared state is visible (bump.md)
 - ✅ Intent is clear (AWI framework)
 - ✅ Work decomposes naturally (ATOM)
@@ -95,26 +105,31 @@ It's not religious belief. It's information physics.
 ## The Evidence Chain
 
 ### **BattleMedic (Nov 2024)**
+
 - Proved that systematic, evidence-based diagnostics work
 - Showed that P0-P3 triage + visible state (snapshots) = reliability
 - Demonstrated modular primitives beat monolithic scripts
 
 ### **Day Zero Design (Nov 2024)**
+
 - Proved that formal specifications enable flexibility
 - Showed that explicit layers (Schemas/Contracts/Abstractions) make systems portable
 - Introduced the idea: "Rigor enables flexibility"
 
 ### **ATOM/OWI/SAIF/KENL (Nov 2024)**
+
 - Formalized the decomposition and knowledge network patterns
 - Showed how to structure work so humans and AI work together optimally
 - Proved that methodologies scale across domains
 
 ### **idea^i (Nov 2024)**
+
 - Applied frameworks to project execution
 - Showed that directives synthesized from git patterns work
 - Proved that competency-aware progression is learnable
 
 ### **Safe Spiral (Dec 2025)**
+
 - Unified all of the above into organizational frameworks
 - Proved that information-optimal architecture applies to human teams
 - Showed token/hardware implications at global scale
@@ -124,6 +139,7 @@ It's not religious belief. It's information physics.
 ## What's Different About This Package
 
 **Past Safe Spiral materials:**
+
 - Frameworks, one-pagers, constellation map, HTML hub
 - ✓ Good for sharing ideas
 - ✗ Missing implementation details
@@ -133,6 +149,7 @@ It's not religious belief. It's information physics.
 - ✗ Doesn't address adversarial contexts
 
 **This package:**
+
 - Everything above, PLUS:
 - Implementation playbook (week-by-week)
 - Failure modes and recovery procedures
@@ -151,44 +168,48 @@ It's not religious belief. It's information physics.
 
 ## File Manifest
 
-| File | Purpose | Length | Read Time |
-|------|---------|--------|-----------|
-| `01_THE_BRIDGE.md` | Maps past work → Safe Spiral | 8 pages | 20 min |
-| `02_SAFE_SPIRAL_CONSOLIDATED.md` | Complete frameworks in one place | 12 pages | 30 min |
-| `03_ONE_PAGER_GENERAL.md` | For sharing with non-technical people | 4 pages | 10 min |
-| `04_ONE_PAGER_TECHNICAL.md` | For architects and researchers | 6 pages | 20 min |
-| `05_TOKEN_EFFICIENCY_AND_SCALING.md` | Hardware, networks, energy implications | 10 pages | 30 min |
-| `06_IMPLEMENTATION_PLAYBOOK.md` | Week-by-week rollout guide | 20 pages | 60 min |
-| `07_FAILURE_MODES_AND_RECOVERY.md` | What breaks, how to fix | 15 pages | 45 min |
-| `08_MEASUREMENT_FRAMEWORK.md` | KPIs, metrics, assessment | 12 pages | 35 min |
-| `09_READINESS_ASSESSMENT.md` | Is your org ready? | 10 pages | 30 min |
-| `10_CHANGE_MANAGEMENT_PATTERNS.md` | Handling resistance and anxiety | 14 pages | 40 min |
-| `11_TRAINING_CURRICULUM.md` | How to teach Safe Spiral | 16 pages | 45 min |
-| `12_ADVERSARIAL_CONTEXTS.md` | When transparency is weakness | 12 pages | 35 min |
-| `13_MODIFIED_SPIRAL_FOR_CONSTRAINTS.md` | Safe Spiral in classified/competitive orgs | 10 pages | 30 min |
-| `14_CASE_STUDIES.md` | Real examples of frameworks working | 20 pages | 60 min |
-| `15_FAQ_AND_OBJECTIONS.md` | Every common pushback answered | 18 pages | 50 min |
-| `16_GLOSSARY_AND_DEFINITIONS.md` | Term definitions and clarifications | 8 pages | 20 min |
-| `17_TOOLS_AND_TEMPLATES.md` | Actual working artifacts | 25 pages | 70 min |
-| `18_CONSTELLATION_MAP_EXPLAINED.md` | How frameworks connect | 6 pages | 20 min |
-| **TOTAL** | | **227 pages** | **~8 hours** |
+| File                                    | Purpose                                    | Length        | Read Time    |
+| --------------------------------------- | ------------------------------------------ | ------------- | ------------ |
+| `01_THE_BRIDGE.md`                      | Maps past work → Safe Spiral               | 8 pages       | 20 min       |
+| `02_SAFE_SPIRAL_CONSOLIDATED.md`        | Complete frameworks in one place           | 12 pages      | 30 min       |
+| `03_ONE_PAGER_GENERAL.md`               | For sharing with non-technical people      | 4 pages       | 10 min       |
+| `04_ONE_PAGER_TECHNICAL.md`             | For architects and researchers             | 6 pages       | 20 min       |
+| `05_TOKEN_EFFICIENCY_AND_SCALING.md`    | Hardware, networks, energy implications    | 10 pages      | 30 min       |
+| `06_IMPLEMENTATION_PLAYBOOK.md`         | Week-by-week rollout guide                 | 20 pages      | 60 min       |
+| `07_FAILURE_MODES_AND_RECOVERY.md`      | What breaks, how to fix                    | 15 pages      | 45 min       |
+| `08_MEASUREMENT_FRAMEWORK.md`           | KPIs, metrics, assessment                  | 12 pages      | 35 min       |
+| `09_READINESS_ASSESSMENT.md`            | Is your org ready?                         | 10 pages      | 30 min       |
+| `10_CHANGE_MANAGEMENT_PATTERNS.md`      | Handling resistance and anxiety            | 14 pages      | 40 min       |
+| `11_TRAINING_CURRICULUM.md`             | How to teach Safe Spiral                   | 16 pages      | 45 min       |
+| `12_ADVERSARIAL_CONTEXTS.md`            | When transparency is weakness              | 12 pages      | 35 min       |
+| `13_MODIFIED_SPIRAL_FOR_CONSTRAINTS.md` | Safe Spiral in classified/competitive orgs | 10 pages      | 30 min       |
+| `14_CASE_STUDIES.md`                    | Real examples of frameworks working        | 20 pages      | 60 min       |
+| `15_FAQ_AND_OBJECTIONS.md`              | Every common pushback answered             | 18 pages      | 50 min       |
+| `16_GLOSSARY_AND_DEFINITIONS.md`        | Term definitions and clarifications        | 8 pages       | 20 min       |
+| `17_TOOLS_AND_TEMPLATES.md`             | Actual working artifacts                   | 25 pages      | 70 min       |
+| `18_CONSTELLATION_MAP_EXPLAINED.md`     | How frameworks connect                     | 6 pages       | 20 min       |
+| **TOTAL**                               |                                            | **227 pages** | **~8 hours** |
 
 ---
 
 ## Getting Started
 
 ### **Right Now (Next 30 minutes)**
+
 1. Read `01_THE_BRIDGE.md` - understand where this came from
 2. Skim `02_SAFE_SPIRAL_CONSOLIDATED.md` - know what you have
 3. Pick your path above
 
 ### **This Week**
+
 Review whichever section matches what you'll do first (implementation, training, etc.)
 
 ### **This Month**
+
 Work through the full package to be ready for handoff
 
 ### **For Distribution**
+
 - **Non-technical audiences:** `03_ONE_PAGER_GENERAL.md`
 - **Architects/CTOs:** `04_ONE_PAGER_TECHNICAL.md` + `05_TOKEN_EFFICIENCY_AND_SCALING.md`
 - **Implementation teams:** `06_IMPLEMENTATION_PLAYBOOK.md` + `17_TOOLS_AND_TEMPLATES.md`
@@ -206,7 +227,7 @@ When you're done with this package, you should feel:
 ✅ **Protected** - You know what breaks, how to recover, and how to measure success  
 ✅ **Ready** - You can assess whether an org is prepared and handle resistance  
 ✅ **Confident** - You can train others and answer any objection  
-✅ **Complete** - No loose threads, no "we should have thought of that"  
+✅ **Complete** - No loose threads, no "we should have thought of that"
 
 If anything is missing, the package is incomplete.
 
@@ -230,6 +251,7 @@ This package represents the moment when frameworks you developed across five dif
 **That's not a coincidence.** It's convergence on natural law.
 
 Systems work the same way whether they're:
+
 - Linux kernels
 - Kubernetes clusters
 - DevOps teams
@@ -244,7 +266,7 @@ Safe Spiral isn't novel. It's recognizing what was always true about how things 
 
 **Status:** Ready for distribution  
 **Completeness:** 100% - all gaps filled  
-**Next:** Pick a path and start reading  
+**Next:** Pick a path and start reading
 
 Welcome to Safe Spiral. 🌀
 
@@ -254,4 +276,4 @@ Welcome to Safe Spiral. 🌀
 **Created:** December 28, 2025  
 **Status:** Production-ready start guide
 
-*P.S. - If tomorrow someone wakes up and reads this, they should understand everything: what it is, why it works, how to implement it, what can break, how to recover, how to teach it, and whether their context allows it. Nothing left undone.*
+_P.S. - If tomorrow someone wakes up and reads this, they should understand everything: what it is, why it works, how to implement it, what can break, how to recover, how to teach it, and whether their context allows it. Nothing left undone._

@@ -37,13 +37,13 @@ This integration connects SpiralSafe with Microsoft's AI ecosystem including Azu
 
 ## Features
 
-| Feature | Status | Description |
-|---------|--------|-------------|
-| Azure OpenAI Chat | ✓ Ready | GPT-4 and GPT-4o via Azure endpoints |
-| GitHub Copilot Extension | ✓ Ready | Custom Copilot skills and extensions |
-| M365 Copilot Graph | Planned | Microsoft Graph + Copilot integration |
-| Enterprise SSO | ✓ Ready | Azure AD / Entra ID authentication |
-| Data Sovereignty | ✓ Ready | Regional deployment compliance |
+| Feature                  | Status  | Description                           |
+| ------------------------ | ------- | ------------------------------------- |
+| Azure OpenAI Chat        | ✓ Ready | GPT-4 and GPT-4o via Azure endpoints  |
+| GitHub Copilot Extension | ✓ Ready | Custom Copilot skills and extensions  |
+| M365 Copilot Graph       | Planned | Microsoft Graph + Copilot integration |
+| Enterprise SSO           | ✓ Ready | Azure AD / Entra ID authentication    |
+| Data Sovereignty         | ✓ Ready | Regional deployment compliance        |
 
 ---
 
@@ -64,7 +64,7 @@ services:
       - documentation
       - wave_analysis
   m365_copilot:
-    enabled: false  # Planned
+    enabled: false # Planned
 features:
   enterprise_security: true
   compliance: [soc2, hipaa, gdpr, fedramp]
@@ -96,13 +96,15 @@ Microsoft Copilot responses are normalized to SpiralSafe format:
         "completion_tokens": 200,
         "total_tokens": 350
       },
-      "choices": [{
-        "message": {
-          "role": "assistant",
-          "content": "Analysis complete..."
-        },
-        "finish_reason": "stop"
-      }]
+      "choices": [
+        {
+          "message": {
+            "role": "assistant",
+            "content": "Analysis complete..."
+          },
+          "finish_reason": "stop"
+        }
+      ]
     },
     "handoff": {
       "signature": "H&&S:WAVE",
@@ -171,7 +173,7 @@ from openai import AzureOpenAI
 client = AzureOpenAI(
     azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
     azure_ad_token_provider=get_bearer_token_provider(
-        DefaultAzureCredential(), 
+        DefaultAzureCredential(),
         "https://cognitiveservices.azure.com/.default"
     ),
     api_version="2024-06-01"
@@ -185,15 +187,15 @@ Extensions are registered via the Copilot SDK and can invoke SpiralSafe wave ana
 ```typescript
 // Copilot extension skill
 export const waveAnalysisSkill = {
-  name: 'spiralsafe_wave',
-  description: 'Analyze document coherence using SpiralSafe wave.md',
+  name: "spiralsafe_wave",
+  description: "Analyze document coherence using SpiralSafe wave.md",
   execute: async (context) => {
     return await spiralsafeClient.analyzeWave(context.document);
-  }
+  },
 };
 ```
 
 ---
 
 **H&&S:WAVE** | Hope&&Sauced
-*Enterprise AI Integration Through Protocol*
+_Enterprise AI Integration Through Protocol_

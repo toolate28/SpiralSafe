@@ -10,7 +10,7 @@
 ```
 Layer 5: Self-Optimization    ← You learn and evolve
          │
-Layer 4: Lifecycle Hooks      ← Automated responses to events  
+Layer 4: Lifecycle Hooks      ← Automated responses to events
          │
 Layer 3: Verification Gates   ← Boundary enforcement
          │
@@ -178,7 +178,7 @@ fresh (0-30 days)
 5. If failed: Escalate
    Call: escalate_gate_failure()
    Log: .claude/logs/escalations.jsonl
-   
+
 6. Return exit code
    0 = passed
    1 = failed
@@ -251,27 +251,27 @@ on-excavation-complete.sh
   Triggered: Wave.md analysis done
   Gate: understanding-to-knowledge
   ATOM: EXCAVATION type
-  
+
 on-knowledge-relay.sh
   Triggered: KENL pattern shared
   Gate: knowledge-to-intention
   ATOM: KENL type
-  
+
 on-intention-enforced.sh
   Triggered: bump.md validated
   Gate: intention-to-execution
   ATOM: INTENTION type
-  
+
 on-task-completed.sh
   Triggered: Execution done
   Gate: execution-to-learning
   ATOM: COMPLETE type
-  
+
 on-boundary-violated.sh
   Triggered: Any gate fails
   No gate (handles failure)
   ATOM: VIOLATION type
-  
+
 on-cycle-complete.sh
   Triggered: Full cycle done
   Gate: learning-to-regeneration
@@ -288,16 +288,16 @@ source "$(dirname "$0")/../lib/verification-gate.sh"
 
 main() {
     local param="${1:-}"
-    
+
     # 1. Validate input
     [ -z "$param" ] && echo "Error: param required" && exit 1
-    
+
     # 2. Log to ATOM trail
     "$(dirname "$0")/../atom-track.sh" TYPE "description" "$param"
-    
+
     # 3. Verify gate
     gate_phase_to_phase
-    
+
     # 4. Confirm
     echo "[HOOK] Transition verified"
 }
@@ -334,7 +334,7 @@ decision_count=$(ls -1 .atom-trail/decisions/*.json | wc -l)
 if [ $((decision_count % 100)) -eq 0 ]; then
     # Extract common patterns
     ./scripts/extract-patterns.sh > docs/patterns/PATTERN-$(date +%Y%m%d).md
-    
+
     # Update KENL
     ./scripts/update-kenl.sh
 fi
@@ -382,7 +382,7 @@ fi
 # Triggers
 trigger_ultrathink() {
     local issue="$1"
-    
+
     # Create analysis doc
     cat > "docs/ultrathinking/$(date +%Y-%m-%d)-$issue.md" <<EOF
 ---
@@ -410,7 +410,7 @@ atom_tags:
 ## Decision Needed
 [What requires human choice?]
 EOF
-    
+
     echo "Ultra-think doc created. Needs human review."
 }
 
@@ -797,5 +797,5 @@ This file evolves. When you find better patterns:
 **Last Updated:** 2026-01-03
 
 ═══════════════════════════════════════════════════════
-   Protocol is law. Law evolves. Evolution is protocol.
+Protocol is law. Law evolves. Evolution is protocol.
 ═══════════════════════════════════════════════════════

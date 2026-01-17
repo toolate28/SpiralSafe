@@ -7,6 +7,7 @@
 ## The Problem
 
 Agent systems face a permission trilemma:
+
 1. **Too permissive**: Risk of unintended consequences
 2. **Too restrictive**: Friction destroys utility
 3. **Implicit permission**: Unclear accountability
@@ -51,24 +52,24 @@ authorization:
 
 ## Permission Levels
 
-| Level | Capability |
-|-------|------------|
-| 0 | Inform only—observe and report |
-| 1 | Suggest—propose for human approval |
-| 2 | Act with confirmation—per-action approval |
-| 3 | Act within scope—pre-authorized boundaries |
-| 4 | Full autonomy—post-hoc review |
+| Level | Capability                                 |
+| ----- | ------------------------------------------ |
+| 0     | Inform only—observe and report             |
+| 1     | Suggest—propose for human approval         |
+| 2     | Act with confirmation—per-action approval  |
+| 3     | Act within scope—pre-authorized boundaries |
+| 4     | Full autonomy—post-hoc review              |
 
 ---
 
 ## Scope Dimensions
 
-| Dimension | Example |
-|-----------|---------|
+| Dimension | Example                              |
+| --------- | ------------------------------------ |
 | Resources | "Only README.md and CONTRIBUTING.md" |
-| Actions | "Append only; no deletion" |
-| Time | "Valid for 1 hour" |
-| Impact | "Changes < 100 lines" |
+| Actions   | "Append only; no deletion"           |
+| Time      | "Valid for 1 hour"                   |
+| Impact    | "Changes < 100 lines"                |
 
 ---
 
@@ -82,4 +83,4 @@ authorization:
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_

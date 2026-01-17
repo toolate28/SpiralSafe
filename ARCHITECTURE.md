@@ -57,6 +57,7 @@ Contact surfaces where SpiralSafe meets external systems.
 Protocol for agent permission scaffolding. Enables AI systems to request and receive authorization for actions in a way that preserves human oversight while allowing agent autonomy.
 
 **Key Features**:
+
 - Intent declaration before action
 - Scoped permissions with explicit boundaries
 - Audit trail for all authorized actions
@@ -69,6 +70,7 @@ Framework for AI agent embodiment in Minecraft environments. Enables Claude-powe
 **Repository**: [ClaudeNPC-Server-Suite](https://github.com/toolate28/ClaudeNPC-Server-Suite)
 
 **Key Features**:
+
 - Modular server setup
 - Claude API integration
 - Behavioral scripting
@@ -81,6 +83,7 @@ System recovery orchestration framework. Guides diagnostic and repair processes 
 **Repository**: [wave-toolkit](https://github.com/toolate28/wave-toolkit) (integrated component)
 
 **Key Features**:
+
 - Evidence-based intervention selection
 - Transparent logging
 - Modular diagnostic plugins
@@ -97,6 +100,7 @@ Cognitive tools that guide how work proceeds regardless of specific domain.
 Decomposes complex work into atomic, completable units.
 
 **Principles**:
+
 - Each atom is independently verifiable
 - Atoms combine into molecules (related task clusters)
 - Dependencies are explicit
@@ -107,6 +111,7 @@ Decomposes complex work into atomic, completable units.
 Structured approach to problem diagnosis and resolution.
 
 **Process**:
+
 1. Symptom documentation
 2. Hypothesis generation
 3. Evidence collection
@@ -121,6 +126,7 @@ Infrastructure-aware AI orchestration for knowledge transfer and retention.
 **Repository**: [kenl](https://github.com/toolate28/kenl)
 
 **Key Features**:
+
 - Learning structures optimized for retention
 - Cross-session knowledge persistence
 - Network effects in distributed learning
@@ -131,6 +137,7 @@ Infrastructure-aware AI orchestration for knowledge transfer and retention.
 Philosophy of correct implementation from inception.
 
 **Principles**:
+
 - Invest in architecture before code
 - Establish constraints that pay compound interest
 - Documentation is not afterthought
@@ -163,6 +170,7 @@ Coherence detection treating text as vector fields.
 **Repository**: [wave-toolkit](https://github.com/toolate28/wave-toolkit)
 
 **Key Features**:
+
 - Curl detection (circular reasoning)
 - Divergence detection (unresolved expansion)
 - Potential mapping (development opportunities)
@@ -173,6 +181,7 @@ Coherence detection treating text as vector fields.
 Routing and handoff protocol between agents, sessions, and contexts.
 
 **Documentation**: [`protocol/bump-spec.md`](protocol/bump-spec.md)
+
 - Clean session transitions
 - Context preservation across handoffs
 - Multi-agent coordination
@@ -183,6 +192,7 @@ Routing and handoff protocol between agents, sessions, and contexts.
 Structured knowledge units for agent consumption.
 
 **Format**:
+
 ```yaml
 # example.context.yaml
 domain: quantum-computing
@@ -217,6 +227,7 @@ Minecraft Redstone circuits instantiating quantum topology.
 **Repository**: [quantum-redstone](https://github.com/toolate28/quantum-redstone)
 
 **Key Contributions**:
+
 - Viviani curve construction in discrete substrate
 - Topological invariant preservation demonstration
 - Educational curriculum for quantum concepts
@@ -235,6 +246,7 @@ Educational framework teaching AI principles through constraint-based learning.
 Operational infrastructure demonstrating SpiralSafe principles at scale.
 
 **Components**:
+
 - Domain architecture (spiralsafe.org)
 - Cloudflare backend (sub-millisecond response)
 - TypeScript and Python implementations
@@ -287,16 +299,16 @@ Each layer accepts new components that honor the layer's constraints:
 
 ## Repository Map
 
-| Layer | Component | Repository |
-|-------|-----------|------------|
-| Manifestation | Quantum Valley | [quantum-redstone](https://github.com/toolate28/quantum-redstone) |
-| Manifestation | Production | [SpiralSafe](https://github.com/toolate28/SpiralSafe) |
-| Protocol | Wave Protocol | [wave-toolkit](https://github.com/toolate28/wave-toolkit) |
-| Protocol | Coherence MCP | [coherence-mcp](https://github.com/toolate28/coherence-mcp) |
-| Methodology | KENL | [kenl](https://github.com/toolate28/kenl) |
-| Interface | ClaudeNPC | [ClaudeNPC-Server-Suite](https://github.com/toolate28/ClaudeNPC-Server-Suite) |
-| Interface | Cross-AI Collab | [coherence-mcp](https://github.com/toolate28/coherence-mcp) (@grok, multi-agent) |
-| Utilities | Claude Code tools | [claude-code-tools](https://github.com/toolate28/claude-code-tools) |
+| Layer         | Component         | Repository                                                                       |
+| ------------- | ----------------- | -------------------------------------------------------------------------------- |
+| Manifestation | Quantum Valley    | [quantum-redstone](https://github.com/toolate28/quantum-redstone)                |
+| Manifestation | Production        | [SpiralSafe](https://github.com/toolate28/SpiralSafe)                            |
+| Protocol      | Wave Protocol     | [wave-toolkit](https://github.com/toolate28/wave-toolkit)                        |
+| Protocol      | Coherence MCP     | [coherence-mcp](https://github.com/toolate28/coherence-mcp)                      |
+| Methodology   | KENL              | [kenl](https://github.com/toolate28/kenl)                                        |
+| Interface     | ClaudeNPC         | [ClaudeNPC-Server-Suite](https://github.com/toolate28/ClaudeNPC-Server-Suite)    |
+| Interface     | Cross-AI Collab   | [coherence-mcp](https://github.com/toolate28/coherence-mcp) (@grok, multi-agent) |
+| Utilities     | Claude Code tools | [claude-code-tools](https://github.com/toolate28/claude-code-tools)              |
 
 ---
 
@@ -312,4 +324,4 @@ Each layer accepts new components that honor the layer's constraints:
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_

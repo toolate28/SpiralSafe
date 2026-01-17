@@ -1,4 +1,5 @@
 # ✦ The One Path Forward
+
 ## SpiralSafe: From Philosophy to Production
 
 **Date:** 2026-01-04
@@ -20,6 +21,7 @@
 ## 🚀 What We Build Next (New Software)
 
 ### 1. **Logdy Central → logs.spiralsafe.org** (This Week)
+
 ```bash
 # Install cloudflared, create tunnel, deploy
 # DONE IN: 20 minutes
@@ -27,35 +29,37 @@
 ```
 
 ### 2. **ATOM Trail API** (Next 2 Days)
+
 **NEW SOFTWARE - Not tedious planning:**
 
 ```typescript
 // atom-trail-api/src/index.ts
-import { Hono } from 'hono'
-import { serve } from '@hono/node-server'
+import { Hono } from "hono";
+import { serve } from "@hono/node-server";
 
-const app = new Hono()
+const app = new Hono();
 
 // GET /api/atom-trail?tag=VERIFY&limit=20
-app.get('/atom-trail', async (c) => {
-  const tag = c.req.query('tag')
-  const limit = Number(c.req.query('limit')) || 100
+app.get("/atom-trail", async (c) => {
+  const tag = c.req.query("tag");
+  const limit = Number(c.req.query("limit")) || 100;
 
   // Read ~/.kenl/.atom-trail
-  const entries = await readAtomTrail()
-  const filtered = tag ? entries.filter(e => e.tag.includes(tag)) : entries
+  const entries = await readAtomTrail();
+  const filtered = tag ? entries.filter((e) => e.tag.includes(tag)) : entries;
 
   return c.json({
     entries: filtered.slice(0, limit),
     total: filtered.length,
-    api_version: '1.0.0'
-  })
-})
+    api_version: "1.0.0",
+  });
+});
 
-serve({ fetch: app.fetch, port: 3000 })
+serve({ fetch: app.fetch, port: 3000 });
 ```
 
 **Deploy to Cloudflare Workers:**
+
 ```bash
 npx wrangler deploy
 # URL: https://api.spiralsafe.org/atom-trail
@@ -66,6 +70,7 @@ npx wrangler deploy
 ---
 
 ### 3. **Museum Builder CLI** (Next Week)
+
 **NEW SOFTWARE - Actually build the tool:**
 
 ```typescript
@@ -109,6 +114,7 @@ program.parse()
 ```
 
 **Install:**
+
 ```bash
 npm install -g @spiralsafe/museum-builder
 
@@ -122,40 +128,46 @@ museum preview builds/logic-gates.json
 ---
 
 ### 4. **Cognitive Trigger VSCode Extension** (2 Weeks)
+
 **NEW SOFTWARE - Extend VSCode framework:**
 
 ```typescript
 // vscode-spiralsafe/src/extension.ts
-import * as vscode from 'vscode'
-import { detectNegativeSpace } from '@spiralsafe/cognitive-triggers'
+import * as vscode from "vscode";
+import { detectNegativeSpace } from "@spiralsafe/cognitive-triggers";
 
 export function activate(context: vscode.ExtensionContext) {
   // Real-time negative space detection
-  const diagnosticCollection = vscode.languages.createDiagnosticCollection('spiralsafe')
+  const diagnosticCollection =
+    vscode.languages.createDiagnosticCollection("spiralsafe");
 
   vscode.workspace.onDidChangeTextDocument(async (event) => {
-    const doc = event.document
-    const code = doc.getText()
+    const doc = event.document;
+    const code = doc.getText();
 
     // Run cognitive triggers
-    const gaps = await detectNegativeSpace(code)
+    const gaps = await detectNegativeSpace(code);
 
-    const diagnostics = gaps.map(gap => new vscode.Diagnostic(
-      gap.range,
-      `Negative space detected: ${gap.message}`,
-      vscode.DiagnosticSeverity.Information
-    ))
+    const diagnostics = gaps.map(
+      (gap) =>
+        new vscode.Diagnostic(
+          gap.range,
+          `Negative space detected: ${gap.message}`,
+          vscode.DiagnosticSeverity.Information,
+        ),
+    );
 
-    diagnosticCollection.set(doc.uri, diagnostics)
-  })
+    diagnosticCollection.set(doc.uri, diagnostics);
+  });
 
   // ATOM trail viewer sidebar
-  const atomProvider = new AtomTrailProvider()
-  vscode.window.registerTreeDataProvider('spiralsafe.atomTrail', atomProvider)
+  const atomProvider = new AtomTrailProvider();
+  vscode.window.registerTreeDataProvider("spiralsafe.atomTrail", atomProvider);
 }
 ```
 
 **Install from Marketplace:**
+
 ```
 ext install spiralsafe.cognitive-triggers
 ```
@@ -165,50 +177,52 @@ ext install spiralsafe.cognitive-triggers
 ---
 
 ### 5. **Wave Analysis Auto-Updater** (3 Weeks)
+
 **NEW SOFTWARE - Extend existing framework:**
 
 ```typescript
 // wave-analysis-daemon/src/scanner.ts
-import { Octokit } from '@octokit/rest'
-import { analyzeWave } from './analyzer'
+import { Octokit } from "@octokit/rest";
+import { analyzeWave } from "./analyzer";
 
 class WaveScanner {
   async scanIndustryStandards() {
     const standards = [
-      'https://github.com/github/gitignore',
-      'https://github.com/github/super-linter',
-      'https://owasp.org/www-project-top-ten/'
-    ]
+      "https://github.com/github/gitignore",
+      "https://github.com/github/super-linter",
+      "https://owasp.org/www-project-top-ten/",
+    ];
 
     for (const url of standards) {
-      const latest = await fetch(url)
-      const gaps = await analyzeWave(latest, currentFramework)
+      const latest = await fetch(url);
+      const gaps = await analyzeWave(latest, currentFramework);
 
       if (gaps.length > 0) {
-        await createPullRequest(gaps)
+        await createPullRequest(gaps);
       }
     }
   }
 
   async createPullRequest(gaps) {
-    const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN })
+    const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
     await octokit.pulls.create({
-      owner: 'toolate28',
-      repo: 'SpiralSafe',
+      owner: "toolate28",
+      repo: "SpiralSafe",
       title: `wave: ${gaps.length} industry standard updates`,
       body: generatePRBody(gaps),
-      head: 'wave-analysis-updates',
-      base: 'main'
-    })
+      head: "wave-analysis-updates",
+      base: "main",
+    });
   }
 }
 
 // Run monthly
-new CronJob('0 0 1 * *', () => new WaveScanner().scanIndustryStandards())
+new CronJob("0 0 1 * *", () => new WaveScanner().scanIndustryStandards());
 ```
 
 **Deploy:**
+
 ```bash
 # GitHub Action (runs monthly)
 # Creates PRs automatically
@@ -250,6 +264,7 @@ you violate the Hope && Sauce principles and lose license rights.
 ```
 
 **Why This Matters:**
+
 - Hope = Trust that value is shared
 - Sauce = Magic stays accessible to all
 - Community = Growth through generosity
@@ -259,6 +274,7 @@ you violate the Hope && Sauce principles and lose license rights.
 ## 📦 What We Publish (This Month)
 
 ### NPM Packages
+
 ```bash
 npm publish @spiralsafe/cognitive-triggers  # Week 1
 npm publish @spiralsafe/atom-trail          # Week 1
@@ -267,6 +283,7 @@ npm publish @spiralsafe/wave-analysis       # Week 3
 ```
 
 ### PowerShell Gallery
+
 ```powershell
 Publish-Module KENL.Initialize        # Week 1
 Publish-Module KENL.AtomTrail         # Week 1
@@ -275,12 +292,14 @@ Publish-Module SpiralSafe.AI          # Week 3
 ```
 
 ### VS Code Marketplace
+
 ```bash
 vsce publish  # Week 3
 # Extension: spiralsafe.cognitive-triggers
 ```
 
 ### Docker Hub
+
 ```bash
 docker push spiralsafe/logdy          # Week 1
 docker push spiralsafe/api            # Week 2
@@ -292,22 +311,26 @@ docker push spiralsafe/museum         # Week 3
 ## 🎯 The One Path (Actual Steps)
 
 ### Week 1: Deployment
+
 - [ ] Deploy Logdy → logs.spiralsafe.org
 - [ ] Deploy main site → spiralsafe.org
 - [ ] Deploy museum → moc.spiralsafe.org
 - [ ] Publish NPM: cognitive-triggers, atom-trail
 
 ### Week 2: New Software
+
 - [ ] Build ATOM Trail API (Cloudflare Workers)
 - [ ] Build Museum Builder CLI
 - [ ] Publish PowerShell modules
 
 ### Week 3: Extensions
+
 - [ ] Build VSCode extension
 - [ ] Build Wave Analysis daemon
 - [ ] Create Docker images
 
 ### Week 4: Distribution
+
 - [ ] VS Code Marketplace publish
 - [ ] Docker Hub publish
 - [ ] Blog posts (Dev.to, Hashnode)
@@ -320,6 +343,7 @@ docker push spiralsafe/museum         # Week 3
 **We're done planning.**
 
 **Next action:**
+
 1. Install cloudflared
 2. Deploy Logdy
 3. Build new software

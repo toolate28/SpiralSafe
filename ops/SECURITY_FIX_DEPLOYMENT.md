@@ -15,6 +15,7 @@ npx wrangler deploy
 ```
 
 **Expected Output:**
+
 ```
  ⛅️ wrangler 4.57.0
 ───────────────────
@@ -48,6 +49,7 @@ curl -X POST https://api.spiralsafe.org/api/bump/create `
 ```
 
 **Expected Output (401 Unauthorized):**
+
 ```json
 {
   "error": "Unauthorized",
@@ -70,6 +72,7 @@ $env:SPIRALSAFE_API_KEY = "your-64-character-hex-api-key-here"
 ```
 
 **Expected Output:**
+
 ```
 ╔══════════════════════════════════════════════════════════════╗
 ║  SpiralSafe Operations API - Endpoint Validation            ║
@@ -153,6 +156,7 @@ curl -X POST https://api.spiralsafe.org/api/bump/create `
 ```
 
 **Expected Output (403 Forbidden):**
+
 ```json
 {
   "error": "Forbidden",
@@ -167,6 +171,7 @@ curl -X POST https://api.spiralsafe.org/api/bump/create `
 ## Visual Security Status
 
 ### Before (❌ VULNERABLE):
+
 ```
 Internet → api.spiralsafe.org → Write Endpoint ✓ (NO AUTH!)
          ↓
@@ -176,6 +181,7 @@ Internet → api.spiralsafe.org → Write Endpoint ✓ (NO AUTH!)
 ```
 
 ### After (✅ SECURED):
+
 ```
 Internet → api.spiralsafe.org → Auth Middleware
                                        ↓
@@ -231,9 +237,11 @@ After deployment, verify:
 **API Key Security**:
 
 > ⚠️ **Never commit API keys to git!** Store them securely in Cloudflare Secrets using:
+>
 > ```bash
 > npx wrangler secret put SPIRALSAFE_API_KEY
 > ```
+>
 > Your key should be a 64-character hex string stored only in secure secret storage.
 
 ---

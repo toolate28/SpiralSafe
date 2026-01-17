@@ -99,7 +99,15 @@
       "path": "ops/schemas/d1-schema.sql",
       "runtime": "Cloudflare D1",
       "language": "SQL",
-      "tables": ["wave_analyses", "bumps", "awi_grants", "awi_audit", "atoms", "contexts", "system_health"]
+      "tables": [
+        "wave_analyses",
+        "bumps",
+        "awi_grants",
+        "awi_audit",
+        "atoms",
+        "contexts",
+        "system_health"
+      ]
     },
     "cli": {
       "powershell": "ops/scripts/SpiralSafe.psm1",
@@ -122,15 +130,33 @@
   },
 
   "platforms": {
-    "ai": ["claude-code", "github-copilot", "openai-gpt", "gemini", "grok", "groq"],
+    "ai": [
+      "claude-code",
+      "github-copilot",
+      "openai-gpt",
+      "gemini",
+      "grok",
+      "groq"
+    ],
     "os": ["windows", "macos", "linux"],
     "shell": ["powershell", "bash", "zsh", "fish"],
     "ide": ["vscode", "wave", "cursor", "jetbrains", "github-desktop"],
-    "cloud": ["cloudflare-workers", "cloudflare-d1", "cloudflare-kv", "cloudflare-r2"]
+    "cloud": [
+      "cloudflare-workers",
+      "cloudflare-d1",
+      "cloudflare-kv",
+      "cloudflare-r2"
+    ]
   },
 
   "integration_branches": {
-    "planned": ["xai-grok", "openai-gpt", "google-gemini", "anthropic-claude", "meta-llama"],
+    "planned": [
+      "xai-grok",
+      "openai-gpt",
+      "google-gemini",
+      "anthropic-claude",
+      "meta-llama"
+    ],
     "active": "xai-grok"
   },
 

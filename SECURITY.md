@@ -1,24 +1,24 @@
 # Security Policy
 
 ═══════════════════════════════════════════════════════════════════════════
-║                                                                         ║
-║         🛡️ THE SHIELDS OF THE CITADEL - SECURITY POLICY 🛡️             ║
-║                                                                         ║
-║    As the guards of Minas Tirith stood vigilant at their posts,        ║
-║    So we maintain vigilance over the security of this realm.           ║
-║                                                                         ║
-║    🌳 Deep roots are not reached by the frost                          ║
-║    🐎 Swift response when danger threatens                             ║
-║    ✦ Clear guidance lights the way to safety                           ║
-║                                                                         ║
+║ ║
+║ 🛡️ THE SHIELDS OF THE CITADEL - SECURITY POLICY 🛡️ ║
+║ ║
+║ As the guards of Minas Tirith stood vigilant at their posts, ║
+║ So we maintain vigilance over the security of this realm. ║
+║ ║
+║ 🌳 Deep roots are not reached by the frost ║
+║ 🐎 Swift response when danger threatens ║
+║ ✦ Clear guidance lights the way to safety ║
+║ ║
 ═══════════════════════════════════════════════════════════════════════════
 
 ## Supported Versions
 
-| Version | Supported          | Status                          |
-| ------- | ------------------ | ------------------------------- |
-| 1.0.x   | :white_check_mark: | 🌳 Current - Fully Supported   |
-| < 1.0   | :x:                | 📜 Historical - Not Supported  |
+| Version | Supported          | Status                        |
+| ------- | ------------------ | ----------------------------- |
+| 1.0.x   | :white_check_mark: | 🌳 Current - Fully Supported  |
+| < 1.0   | :x:                | 📜 Historical - Not Supported |
 
 ## Reporting a Vulnerability
 
@@ -27,12 +27,14 @@
 ### Where to Report
 
 Report security vulnerabilities to:
+
 - **Email:** security@safespiral.org (or directly to @toolate28 via GitHub)
 - **GitHub:** Use the [Security Advisories](https://github.com/toolate28/SpiralSafe/security/advisories/new) feature
 
 ### What to Include
 
 Please include:
+
 1. **Description** of the vulnerability
 2. **Steps to reproduce** (or proof of concept)
 3. **Potential impact** assessment
@@ -46,17 +48,17 @@ graph TD
     Report([🔔 Report Received]) --> Initial[Initial Response<br/>48 hours]
     Initial --> Assess[Assessment<br/>1 week]
     Assess --> Severity{Severity?}
-    
+
     Severity -->|Critical| C[Fix: 1-3 days]
     Severity -->|High| H[Fix: 1-2 weeks]
     Severity -->|Medium| M[Fix: 2-4 weeks]
     Severity -->|Low| L[Fix: Next cycle]
-    
+
     C --> Release([🛡️ Security Patch])
     H --> Release
     M --> Release
     L --> Release
-    
+
     style Report fill:#ffccbc
     style Release fill:#c8e6c9
 ```
@@ -110,16 +112,18 @@ When contributing to SpiralSafe:
 When using SpiralSafe:
 
 1. **Keep dependencies updated**
+
    ```bash
    # Check for updates regularly
    git pull
    ```
 
 2. **Verify scripts before execution**
+
    ```bash
    # Review script content
    cat scripts/script-name.sh
-   
+
    # Check for shellcheck issues
    shellcheck scripts/script-name.sh
    ```
@@ -130,10 +134,11 @@ When using SpiralSafe:
    - Use GitHub Secrets for CI/CD
 
 4. **Run security scans**
+
    ```bash
    # Scan for secrets
    ./scripts/scan-secrets.sh
-   
+
    # Verify environment
    ./scripts/verify-environment.sh
    ```
@@ -143,7 +148,8 @@ When using SpiralSafe:
 ### Script Execution
 
 **Risk:** Scripts execute with user permissions
-**Mitigation:** 
+**Mitigation:**
+
 - All scripts are versioned in git (audit trail)
 - Scripts use `set -euo pipefail` for safety
 - Scripts validate inputs before processing
@@ -153,6 +159,7 @@ When using SpiralSafe:
 
 **Risk:** Workflow files can execute arbitrary code
 **Mitigation:**
+
 - Branch protection on main/develop
 - Required reviews for workflow changes
 - Secrets accessed only in protected environments
@@ -162,6 +169,7 @@ When using SpiralSafe:
 
 **Risk:** Shell scripts may call external tools
 **Mitigation:**
+
 - Scripts check for tool availability gracefully
 - Minimal external dependencies
 - Document all required tools
@@ -171,6 +179,7 @@ When using SpiralSafe:
 
 **Risk:** ATOM trail could be manipulated
 **Mitigation:**
+
 - ATOM trail is versioned in git
 - Timestamps are in UTC (audit trail)
 - Counters prevent sequence manipulation
@@ -183,17 +192,21 @@ When using SpiralSafe:
 The repository includes automated security scanning:
 
 1. **Secrets Scanning**
+
    ```bash
    ./scripts/scan-secrets.sh
    ```
+
    - Runs on every push
    - Detects common secret patterns
    - Prevents accidental exposure
 
 2. **Code Quality**
+
    ```bash
    ./scripts/test-scripts.sh
    ```
+
    - Shellcheck validation
    - Syntax checking
    - Style compliance
@@ -208,6 +221,7 @@ The repository includes automated security scanning:
 For security-sensitive changes:
 
 1. **Create ATOM security tag**
+
    ```bash
    ./scripts/atom-track.sh SECURITY "Description of security change" "file"
    ```
@@ -230,11 +244,14 @@ For security-sensitive changes:
 ## Security Contacts
 
 ### Primary Contact
+
 - **Maintainer:** @toolate28
 - **Email:** security@safespiral.org (or via GitHub)
 
 ### Escalation
+
 For critical security issues requiring immediate attention:
+
 1. Use GitHub Security Advisories (private)
 2. Email maintainer directly
 3. Mark as "Critical - Security"
@@ -279,6 +296,7 @@ We follow a **coordinated disclosure** model:
 ### Public Disclosure
 
 After fix deployment:
+
 - Security advisory published in GitHub
 - ATOM tag made public
 - CVE requested if applicable
@@ -288,9 +306,9 @@ After fix deployment:
 
 We recognize security researchers who help improve SpiralSafe:
 
-| Researcher | Vulnerability | Severity | Date | Reward |
-|------------|---------------|----------|------|--------|
-| _TBD_      | _TBD_        | _TBD_    | _TBD_| 🏆     |
+| Researcher | Vulnerability | Severity | Date  | Reward |
+| ---------- | ------------- | -------- | ----- | ------ |
+| _TBD_      | _TBD_         | _TBD_    | _TBD_ | 🏆     |
 
 _Note: Currently no bounty program, but we publicly recognize contributors._
 
@@ -328,6 +346,7 @@ _Note: Currently no bounty program, but we publicly recognize contributors._
 ## Compliance
 
 SpiralSafe follows:
+
 - **GDPR considerations** (no personal data collected)
 - **MIT License** (security fixes freely distributable)
 - **Responsible disclosure** (coordinated with reporters)
@@ -337,28 +356,28 @@ SpiralSafe follows:
 ## Thank You
 
 ═══════════════════════════════════════════════════════════════════════════
-║                                                                         ║
-║              ✦ GRATITUDE TO THE GUARDIANS ✦                            ║
-║                                                                         ║
-║    Security researchers who responsibly disclose vulnerabilities       ║
-║    help make the Safe Spiral ecosystem safer for everyone.             ║
-║                                                                         ║
-║    Like the sentinels who watched from the White Tower,                ║
-║    Your vigilance protects all who dwell within these walls.           ║
-║                                                                         ║
-║    🌳 Your care helps our ecosystem grow strong                        ║
-║    🐎 Your swiftness helps us respond with speed                       ║
-║    ✦ Your honesty helps us build lasting trust                         ║
-║                                                                         ║
-║    We appreciate your efforts and will work with you to ensure         ║
-║    a secure, coordinated disclosure process.                           ║
-║                                                                         ║
+║ ║
+║ ✦ GRATITUDE TO THE GUARDIANS ✦ ║
+║ ║
+║ Security researchers who responsibly disclose vulnerabilities ║
+║ help make the Safe Spiral ecosystem safer for everyone. ║
+║ ║
+║ Like the sentinels who watched from the White Tower, ║
+║ Your vigilance protects all who dwell within these walls. ║
+║ ║
+║ 🌳 Your care helps our ecosystem grow strong ║
+║ 🐎 Your swiftness helps us respond with speed ║
+║ ✦ Your honesty helps us build lasting trust ║
+║ ║
+║ We appreciate your efforts and will work with you to ensure ║
+║ a secure, coordinated disclosure process. ║
+║ ║
 ═══════════════════════════════════════════════════════════════════════════
 
 **Remember:** Security is not just about finding vulnerabilities - it's about building trust through transparency and collaboration.
 
-> *"As the guards of Gondor stand their watch,*  
-> *So we stand watch over the security of our community."*
+> _"As the guards of Gondor stand their watch,_  
+> _So we stand watch over the security of our community."_
 
 ---
 
@@ -367,9 +386,9 @@ SpiralSafe follows:
 **Version:** 1.0.0
 
 ══════════════════════════════════════════════════════════════
-   🛡️ May your watch be vigilant
-   🌳 May your findings strengthen the realm
-   ✦ May trust flourish through transparency
-   
-   Step True · Trust Deep · Pass Forward
+🛡️ May your watch be vigilant
+🌳 May your findings strengthen the realm
+✦ May trust flourish through transparency
+
+Step True · Trust Deep · Pass Forward
 ══════════════════════════════════════════════════════════════

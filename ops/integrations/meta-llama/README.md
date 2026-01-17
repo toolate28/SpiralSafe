@@ -37,14 +37,14 @@ This integration connects SpiralSafe with Meta's LLaMA ecosystem, enabling fully
 
 ## Features
 
-| Feature | Status | Description |
-|---------|--------|-------------|
-| Ollama Integration | ✓ Ready | Local LLaMA inference via Ollama API |
-| vLLM Backend | ✓ Ready | High-performance serving for production |
-| Hugging Face Hub | ✓ Ready | Access to model weights and inference |
-| Fine-tuning Support | ✓ Ready | LoRA and full fine-tuning capabilities |
-| Quantization | ✓ Ready | 4-bit, 8-bit quantization for efficiency |
-| Local Deployment | ✓ Ready | Run completely offline |
+| Feature             | Status  | Description                              |
+| ------------------- | ------- | ---------------------------------------- |
+| Ollama Integration  | ✓ Ready | Local LLaMA inference via Ollama API     |
+| vLLM Backend        | ✓ Ready | High-performance serving for production  |
+| Hugging Face Hub    | ✓ Ready | Access to model weights and inference    |
+| Fine-tuning Support | ✓ Ready | LoRA and full fine-tuning capabilities   |
+| Quantization        | ✓ Ready | 4-bit, 8-bit quantization for efficiency |
+| Local Deployment    | ✓ Ready | Run completely offline                   |
 
 ---
 
@@ -219,4 +219,4 @@ model = AutoModelForCausalLM.from_pretrained(
 ---
 
 **H&&S:WAVE** | Hope&&Sauced
-*Open-Source AI Integration Through Protocol*
+_Open-Source AI Integration Through Protocol_

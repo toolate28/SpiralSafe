@@ -52,6 +52,7 @@ ghs_[A-Za-z0-9]{36}
 ### 1. Environment Variables
 
 **For local development:**
+
 ```bash
 # .env.example (commit this)
 API_KEY=your_api_key_here
@@ -63,6 +64,7 @@ DATABASE_URL=postgresql://your_user:your_password@prod.example.com:5432/proddb
 ```
 
 **In code:**
+
 ```bash
 # Shell script
 API_KEY="${API_KEY:-}"
@@ -90,6 +92,7 @@ if (-not $ApiKey) {
 3. Add your secrets
 
 **Usage in workflows:**
+
 ```yaml
 jobs:
   deploy:
@@ -112,19 +115,20 @@ jobs:
 # config.example.yml (commit this)
 api:
   endpoint: https://api.example.com
-  key: ${API_KEY}  # Environment variable reference
-  
+  key: ${API_KEY} # Environment variable reference
+
 database:
   host: ${DB_HOST}
   port: 5432
   name: ${DB_NAME}
-  
+
 features:
   debug_mode: false
   rate_limit: 100
 ```
 
 Load with environment variable substitution:
+
 ```bash
 envsubst < config.example.yml > config.yml
 ```
@@ -139,23 +143,25 @@ envsubst < config.example.yml > config.yml
    - Regenerate tokens
 
 2. **Remove from git history**
+
    ```bash
    # For recent commits (not pushed)
    git reset --soft HEAD~1
    git restore --staged <file>
-   
+
    # For pushed commits - requires force push
    # Contact repository admin - this affects all contributors
    ```
 
 3. **Use git-filter-repo or BFG Repo-Cleaner**
+
    ```bash
    # Install git-filter-repo
    pip install git-filter-repo
-   
+
    # Remove file from entire history
    git filter-repo --path <file> --invert-paths
-   
+
    # Force push (coordinate with team!)
    git push origin --force --all
    ```
@@ -169,6 +175,7 @@ envsubst < config.example.yml > config.yml
 ### Prevention:
 
 Add to `.gitignore`:
+
 ```
 # Secrets and credentials
 .env
@@ -200,6 +207,7 @@ sed -E 's/(password|api[_-]?key|token|secret)=\S+/\1=REDACTED/gi' input.log
 ## Testing with Secrets
 
 ### Local Testing
+
 ```bash
 # Load from .env file
 source .env
@@ -207,14 +215,16 @@ source .env
 ```
 
 ### CI/CD Testing
+
 ```yaml
 # Use test/mock credentials
 env:
   API_KEY: "test_key_not_real"
-  DATABASE_URL: "postgresql://testuser:your_password@localhost/testdb"  # placeholder
+  DATABASE_URL: "postgresql://testuser:your_password@localhost/testdb" # placeholder
 ```
 
 ### Test Files
+
 ```bash
 # tests/fixtures/test-config.yml
 api:
@@ -227,6 +237,7 @@ api:
 ### Regular Scans
 
 Run automated scans:
+
 ```bash
 # Manual check
 git grep -iE "(password|secret|api[_-]?key|token)[\s]*[=:]" | grep -v ".github/SECRETS.md"
@@ -238,6 +249,7 @@ git log -p -10 | grep -iE "(password|secret|api[_-]?key|token)[\s]*[=:]"
 ### Pre-commit Hooks
 
 Install pre-commit hook:
+
 ```bash
 # .git/hooks/pre-commit
 #!/bin/bash
@@ -254,6 +266,7 @@ fi
 ### Audit Log
 
 Track secret usage:
+
 ```jsonl
 {"timestamp":"2026-01-02T10:00:00Z","action":"secret_accessed","secret_name":"API_KEY","user":"deploy_bot","purpose":"production_deployment"}
 {"timestamp":"2026-01-02T11:00:00Z","action":"secret_rotated","secret_name":"DATABASE_PASSWORD","user":"admin","reason":"scheduled_rotation"}
@@ -261,17 +274,18 @@ Track secret usage:
 
 ## Secret Rotation Schedule
 
-| Secret Type | Rotation Frequency | Owner |
-|-------------|-------------------|-------|
-| API Keys | 90 days | DevOps team |
-| Database passwords | 60 days | Database admin |
-| Service account credentials | 30 days | Security team |
-| Deployment tokens | 90 days | CI/CD admin |
-| Webhook secrets | 180 days | Integration owner |
+| Secret Type                 | Rotation Frequency | Owner             |
+| --------------------------- | ------------------ | ----------------- |
+| API Keys                    | 90 days            | DevOps team       |
+| Database passwords          | 60 days            | Database admin    |
+| Service account credentials | 30 days            | Security team     |
+| Deployment tokens           | 90 days            | CI/CD admin       |
+| Webhook secrets             | 180 days           | Integration owner |
 
 ## GitHub Actions Specific
 
 ### Using Secrets in Workflows
+
 ```yaml
 name: Deploy
 on: [push]
@@ -279,12 +293,12 @@ on: [push]
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: production  # Environment protection rules
-    
+    environment: production # Environment protection rules
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Deploy with secrets
         env:
           # Never log these
@@ -297,12 +311,13 @@ jobs:
 ```
 
 ### Masking Secrets in Logs
+
 ```yaml
 - name: Use secret safely
   run: |
     # This will be masked in logs
     echo "::add-mask::${{ secrets.API_KEY }}"
-    
+
     # Now you can use it (still don't echo it directly)
     API_KEY="${{ secrets.API_KEY }}"
 ```

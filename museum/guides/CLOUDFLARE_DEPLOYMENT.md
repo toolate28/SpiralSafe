@@ -37,6 +37,7 @@ npx wrangler pages project create spiralsafe \
 ```
 
 **Or via Cloudflare Dashboard:**
+
 1. Go to Pages → Create a project
 2. Connect GitHub account
 3. Select repository: `toolate28/SpiralSafe`
@@ -49,6 +50,7 @@ npx wrangler pages project create spiralsafe \
 ### 1.2 Environment Variables (Optional)
 
 If the site needs any environment variables:
+
 ```bash
 npx wrangler pages secret put ATOM_API_KEY
 # Enter value when prompted
@@ -62,12 +64,13 @@ npx wrangler pages secret put ATOM_API_KEY
 
 In Cloudflare DNS dashboard for `spiralsafe.org`:
 
-| Type | Name | Target | Proxy | TTL |
-|------|------|--------|-------|-----|
-| CNAME | @ | spiralsafe.pages.dev | ✅ Proxied | Auto |
-| CNAME | www | spiralsafe.pages.dev | ✅ Proxied | Auto |
+| Type  | Name | Target               | Proxy      | TTL  |
+| ----- | ---- | -------------------- | ---------- | ---- |
+| CNAME | @    | spiralsafe.pages.dev | ✅ Proxied | Auto |
+| CNAME | www  | spiralsafe.pages.dev | ✅ Proxied | Auto |
 
 **Or via Wrangler:**
+
 ```bash
 # Add apex domain
 npx wrangler pages domain add spiralsafe.org
@@ -94,6 +97,7 @@ curl https://dns.google/resolve?name=spiralsafe.org&type=A
 ### 3.1 Enable Universal SSL
 
 Cloudflare should automatically provision SSL certificates. Verify:
+
 1. Go to SSL/TLS tab in Cloudflare dashboard
 2. Ensure **Full (strict)** mode is enabled
 3. Verify certificate status: ✅ Active
@@ -101,12 +105,14 @@ Cloudflare should automatically provision SSL certificates. Verify:
 ### 3.2 Force HTTPS
 
 Create Page Rule for HTTP → HTTPS redirect:
+
 ```
 If URL matches: http://*spiralsafe.org/*
 Then: Always Use HTTPS
 ```
 
 **Or via API:**
+
 ```bash
 curl -X POST "https://api.cloudflare.com/client/v4/zones/{zone_id}/pagerules" \
   -H "Authorization: Bearer {api_token}" \
@@ -166,6 +172,7 @@ Create Worker or use Transform Rules:
 ### 5.2 Enable DDoS Protection
 
 Cloudflare automatically provides DDoS protection. For enhanced protection:
+
 ```
 Security → DDoS → Sensitivity: High
 ```
@@ -202,6 +209,7 @@ Already configured in `.github/workflows/` - every push to `main` triggers Pages
 ### 7.2 Preview Deployments
 
 Pull requests automatically get preview URLs:
+
 ```
 https://{branch}.spiralsafe.pages.dev
 ```

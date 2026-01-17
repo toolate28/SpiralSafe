@@ -1,4 +1,5 @@
 # 🌐 Full-Platform Integration Roadmap
+
 ## SpiralSafe Ecosystem Expansion Strategy
 
 **Vision:** SpiralSafe integrated into every major developer platform
@@ -10,13 +11,16 @@
 ## 🎯 Strategic Platform Targets
 
 ### Tier 1: Microsoft Ecosystem
+
 **Market:** 20M+ developers | Windows/Azure dominance
 **Priority:** HIGH (native platform)
 
 #### 1. GitHub
+
 **Status:** ✅ Repository live, Actions configured
 
 **Integration Points:**
+
 - [x] GitHub Actions (CI/CD workflows)
 - [x] GitHub Releases (v1.0.0 published)
 - [ ] GitHub Packages (NPM registry alternative)
@@ -27,20 +31,23 @@
 - [ ] GitHub Sponsors (sustainability)
 
 **Next Steps:**
+
 ```yaml
 # .devcontainer/devcontainer.json
 {
   "name": "SpiralSafe Development",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-  "features": {
-    "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers/features/node:1": {}
-  },
-  "postCreateCommand": "bash scripts/bootstrap.sh"
+  "features":
+    {
+      "ghcr.io/devcontainers/features/github-cli:1": {},
+      "ghcr.io/devcontainers/features/node:1": {},
+    },
+  "postCreateCommand": "bash scripts/bootstrap.sh",
 }
 ```
 
 **Deliverables:**
+
 - [ ] `.github/COPILOT_INSTRUCTIONS.md` (custom AI behavior)
 - [ ] `.github/copilot-workspace.yml` (workspace config)
 - [ ] GitHub App manifest for SpiralSafe automation
@@ -49,9 +56,11 @@
 ---
 
 #### 2. Azure DevOps / Azure Cloud
+
 **Status:** ⏳ Not started
 
 **Integration Points:**
+
 - [ ] Azure Pipelines (alternative CI/CD)
 - [ ] Azure Repos (mirror repository)
 - [ ] Azure Artifacts (package hosting)
@@ -60,6 +69,7 @@
 - [ ] Azure Cognitive Services (AI-powered docs search)
 
 **Architecture:**
+
 ```
 SpiralSafe on Azure:
 ├── Static Web App (spiralsafe.org)
@@ -73,12 +83,14 @@ SpiralSafe on Azure:
 ```
 
 **Next Steps:**
+
 1. Create Azure account (free tier)
 2. Deploy Static Web App (connect to GitHub)
 3. Configure custom domain (spiralsafe.org)
 4. Implement serverless ATOM trail API
 
 **Deliverables:**
+
 - [ ] `azure-pipelines.yml` (alternative to GitHub Actions)
 - [ ] Azure Functions project (`/azure-functions`)
 - [ ] ARM templates for infrastructure-as-code
@@ -87,9 +99,11 @@ SpiralSafe on Azure:
 ---
 
 #### 3. PowerShell Gallery
+
 **Status:** ⏳ Modules cataloged, not published
 
 **Modules Ready:**
+
 - `KENL.Initialize` - OS optimization and environment setup
 - `KENL.AtomTrail` - Audit logging and trail management
 - `KENL.LogAggregator` - Centralized log collection (Logdy integration)
@@ -97,6 +111,7 @@ SpiralSafe on Azure:
 - `SpiralSafe.Security` - Safe execution wrappers
 
 **Publication Process:**
+
 ```powershell
 # 1. Get PowerShell Gallery API key
 Register-PSRepository -Name PSGallery
@@ -113,6 +128,7 @@ Publish-Module -Path .\KENL.Initialize -NuGetApiKey $apiKey
 ```
 
 **Deliverables:**
+
 - [ ] Module manifests (`.psd1` files)
 - [ ] Module tests (Pester framework)
 - [ ] PowerShell Gallery publishing workflow
@@ -121,15 +137,18 @@ Publish-Module -Path .\KENL.Initialize -NuGetApiKey $apiKey
 ---
 
 #### 4. Visual Studio Code Marketplace
+
 **Status:** ⏳ Not started
 
 **Extension Ideas:**
+
 - **SpiralSafe ATOM Viewer** - View ATOM trail in VS Code sidebar
 - **Cognitive Triggers Lint** - Real-time negative space detection
 - **Museum Builder** - Minecraft schematic generator from code
 - **Hope && Sauce Theme** - Color scheme matching ecosystem
 
 **Extension Structure:**
+
 ```
 spiralsafe-vscode/
 ├── package.json (VS Code extension manifest)
@@ -141,12 +160,14 @@ spiralsafe-vscode/
 ```
 
 **Next Steps:**
+
 1. Create extension project: `yo code`
 2. Implement ATOM trail viewer
 3. Package with `vsce package`
 4. Publish to marketplace
 
 **Deliverables:**
+
 - [ ] VS Code extension (published to marketplace)
 - [ ] Extension documentation
 - [ ] Tutorial video/GIF
@@ -154,13 +175,16 @@ spiralsafe-vscode/
 ---
 
 ### Tier 2: Google Ecosystem
+
 **Market:** 4M+ developers | Cloud/Mobile focus
 **Priority:** MEDIUM (cloud deployment alternative)
 
 #### 1. Google Cloud Platform
+
 **Status:** ⏳ Not started
 
 **Integration Points:**
+
 - [ ] Cloud Run (containerized SpiralSafe deployment)
 - [ ] Cloud Functions (serverless API)
 - [ ] Cloud Storage (artifact hosting)
@@ -169,6 +193,7 @@ spiralsafe-vscode/
 - [ ] Cloud Build (CI/CD alternative)
 
 **Architecture:**
+
 ```
 SpiralSafe on GCP:
 ├── Firebase Hosting (spiralsafe.org)
@@ -185,12 +210,14 @@ SpiralSafe on GCP:
 ```
 
 **Next Steps:**
+
 1. Create GCP project (free tier $300 credit)
 2. Deploy to Firebase Hosting
 3. Containerize API with Docker
 4. Deploy to Cloud Run
 
 **Deliverables:**
+
 - [ ] `Dockerfile` for Cloud Run
 - [ ] `cloudbuild.yaml` for CI/CD
 - [ ] Firebase configuration (`firebase.json`)
@@ -199,30 +226,34 @@ SpiralSafe on GCP:
 ---
 
 #### 2. Google Analytics / Search Console
+
 **Status:** ⏳ Not started
 
 **Integration Points:**
+
 - [ ] Google Analytics 4 (spiralsafe.org traffic)
 - [ ] Google Search Console (SEO optimization)
 - [ ] Google Tag Manager (event tracking)
 - [ ] Google Fonts (typography if needed)
 
 **Tracking Strategy:**
+
 ```javascript
 // Track museum build downloads
-gtag('event', 'download', {
-  'event_category': 'Museum',
-  'event_label': 'logic-gates.json'
+gtag("event", "download", {
+  event_category: "Museum",
+  event_label: "logic-gates.json",
 });
 
 // Track story reads
-gtag('event', 'view_item', {
-  'event_category': 'Stories',
-  'event_label': 'Fireflies and Logic'
+gtag("event", "view_item", {
+  event_category: "Stories",
+  event_label: "Fireflies and Logic",
 });
 ```
 
 **Deliverables:**
+
 - [ ] GA4 property configured
 - [ ] Search Console verified
 - [ ] SEO optimization checklist
@@ -231,19 +262,23 @@ gtag('event', 'view_item', {
 ---
 
 ### Tier 3: NPM Ecosystem
+
 **Market:** 17M+ developers | JavaScript universe
 **Priority:** HIGH (package distribution)
 
 #### 1. NPM Registry
+
 **Status:** ⏳ Package ready, not published
 
 **Packages:**
+
 - `@spiralsafe/claude-cognitive-triggers` (main package)
 - `@spiralsafe/atom-trail` (audit logging)
 - `@spiralsafe/wave-analysis` (self-updating framework)
 - `@spiralsafe/museum-builder` (Minecraft schematic generator)
 
 **Publication:**
+
 ```bash
 # 1. Create NPM account
 npm adduser
@@ -257,6 +292,7 @@ npm view @spiralsafe/claude-cognitive-triggers
 ```
 
 **Deliverables:**
+
 - [ ] All packages published to NPM
 - [ ] NPM organization (@spiralsafe) configured
 - [ ] Package documentation on npm.js
@@ -265,20 +301,24 @@ npm view @spiralsafe/claude-cognitive-triggers
 ---
 
 #### 2. JSR (JavaScript Registry)
+
 **Status:** ⏳ Not started
 
 **Why JSR?**
+
 - Native TypeScript support (no compilation needed)
 - Better discoverability than NPM
 - Modern registry for Deno/Node.js
 
 **Publication:**
+
 ```bash
 # Publish to JSR
 deno publish
 ```
 
 **Deliverables:**
+
 - [ ] JSR-compatible package structure
 - [ ] Published to jsr.io/@spiralsafe
 - [ ] Documentation on JSR site
@@ -286,19 +326,23 @@ deno publish
 ---
 
 ### Tier 4: Container Registries
+
 **Market:** DevOps/Cloud-native developers
 **Priority:** MEDIUM (deployment simplification)
 
 #### 1. Docker Hub
+
 **Status:** ⏳ Not started
 
 **Images:**
+
 - `spiralsafe/base` - Complete SpiralSafe environment
 - `spiralsafe/logdy` - Logdy Central pre-configured
 - `spiralsafe/museum` - Minecraft server with builds
 - `spiralsafe/api` - ATOM trail API server
 
 **Dockerfile Example:**
+
 ```dockerfile
 FROM node:20-alpine
 WORKDIR /app
@@ -320,6 +364,7 @@ CMD ["node", "server.js"]
 ```
 
 **Deliverables:**
+
 - [ ] Dockerfiles for all images
 - [ ] Docker Compose configuration
 - [ ] Published to Docker Hub
@@ -328,14 +373,17 @@ CMD ["node", "server.js"]
 ---
 
 #### 2. GitHub Container Registry (ghcr.io)
+
 **Status:** ⏳ Not started
 
 **Advantages over Docker Hub:**
+
 - Native GitHub integration
 - Better CI/CD with GitHub Actions
 - Unlimited public images
 
 **Publishing:**
+
 ```yaml
 # .github/workflows/docker-publish.yml
 name: Publish Docker Images
@@ -355,6 +403,7 @@ jobs:
 ```
 
 **Deliverables:**
+
 - [ ] GHCR publishing workflow
 - [ ] Images published to ghcr.io
 - [ ] Container documentation
@@ -362,21 +411,26 @@ jobs:
 ---
 
 ### Tier 5: AI Platform Partnerships
+
 **Market:** AI developers & researchers
 **Priority:** HIGH (showcase for Claude/GPT)
 
 #### 1. Anthropic (Claude)
+
 **Status:** ✅ Built with Claude Code, unofficial showcase
 
 **Integration Opportunities:**
+
 - [ ] Official showcase project on anthropic.com
 - [ ] Claude API integration examples
 - [ ] Prompt engineering best practices repository
 - [ ] Human-AI collaboration case study
 
 **Pitch to Anthropic:**
+
 > "SpiralSafe demonstrates Claude's capability for complex,
 > multi-day collaborative projects. Features:
+>
 > - 4,200+ lines of verified documentation
 > - Educational content (stories for kids)
 > - Production infrastructure (CI/CD, deployment)
@@ -385,6 +439,7 @@ jobs:
 > Request: Feature as Claude Code showcase project"
 
 **Deliverables:**
+
 - [ ] Case study document (PDF/blog post)
 - [ ] Video walkthrough of collaboration
 - [ ] Metrics (tokens used, time saved, quality achieved)
@@ -393,29 +448,29 @@ jobs:
 ---
 
 #### 2. OpenAI (ChatGPT / GPT-4)
+
 **Status:** ⏳ Not started
 
 **Integration Points:**
+
 - [ ] GPT-4 comparison examples (same prompts)
 - [ ] Custom GPT for SpiralSafe documentation
 - [ ] OpenAI API integration guides
 - [ ] Multi-model comparison framework
 
 **Custom GPT Configuration:**
+
 ```json
 {
   "name": "SpiralSafe Guide",
   "description": "Expert on SpiralSafe framework, KENL, ATOM trail, and Hope && Sauce principles",
   "instructions": "You are an expert guide...",
-  "knowledge_files": [
-    "README.md",
-    "MAGNUM_OPUS.md",
-    "showcase/README.md"
-  ]
+  "knowledge_files": ["README.md", "MAGNUM_OPUS.md", "showcase/README.md"]
 }
 ```
 
 **Deliverables:**
+
 - [ ] Custom GPT published
 - [ ] OpenAI API examples
 - [ ] Multi-model evaluation report
@@ -423,15 +478,18 @@ jobs:
 ---
 
 #### 3. Hugging Face
+
 **Status:** ⏳ Not started
 
 **Integration Points:**
+
 - [ ] Model hosting (fine-tuned models for SpiralSafe tasks)
 - [ ] Spaces (interactive demos of museum builds)
 - [ ] Datasets (ATOM trail examples, wave analysis data)
 - [ ] Transformers integration (local inference examples)
 
 **Hugging Face Space Example:**
+
 ```python
 # Museum Build Visualizer (Gradio app)
 import gradio as gr
@@ -450,6 +508,7 @@ demo.launch()
 ```
 
 **Deliverables:**
+
 - [ ] Hugging Face Space (museum visualizer)
 - [ ] Dataset uploads (anonymized ATOM trails)
 - [ ] Model card for SpiralSafe integration
@@ -457,40 +516,48 @@ demo.launch()
 ---
 
 ### Tier 6: Developer Tools Platforms
+
 **Market:** IDE users, DevOps engineers
 **Priority:** MEDIUM (developer experience)
 
 #### 1. JetBrains Marketplace
+
 **Status:** ⏳ Not started
 
 **Plugin Ideas:**
+
 - **SpiralSafe Integration** - ATOM trail, cognitive triggers in IntelliJ/PyCharm
 - **Museum Builder** - Visual Minecraft schematic editor
 - **Wave Analysis Dashboard** - Track framework updates
 
 **Deliverables:**
+
 - [ ] JetBrains plugin (published to marketplace)
 - [ ] Plugin documentation
 
 ---
 
 #### 2. Vim/Neovim Plugin
+
 **Status:** ⏳ Not started
 
 **Plugin:** `spiralsafe.nvim`
 
 **Features:**
+
 - ATOM trail viewer (`:AtomView`)
 - Cognitive trigger highlights
 - Wave analysis integration
 
 **Installation:**
+
 ```lua
 -- Using packer.nvim
 use 'toolate28/spiralsafe.nvim'
 ```
 
 **Deliverables:**
+
 - [ ] Neovim plugin (Lua)
 - [ ] Published to GitHub
 - [ ] Documentation on README
@@ -498,13 +565,16 @@ use 'toolate28/spiralsafe.nvim'
 ---
 
 ### Tier 7: Community Platforms
+
 **Market:** Community engagement, knowledge sharing
 **Priority:** MEDIUM (awareness & adoption)
 
 #### 1. Dev.to / Hashnode
+
 **Status:** ⏳ Not started
 
 **Content Series:**
+
 - [ ] "Building SpiralSafe: A Human-AI Collaboration Story"
 - [ ] "Hope && Sauce: Philosophy of Collaborative Intelligence"
 - [ ] "Teaching Kids Computer Science Through Minecraft"
@@ -512,6 +582,7 @@ use 'toolate28/spiralsafe.nvim'
 - [ ] "The ATOM Trail: Audit Logging for AI Operations"
 
 **Deliverables:**
+
 - [ ] 10+ blog posts published
 - [ ] Cross-posted to Dev.to, Hashnode, Medium
 - [ ] SEO optimized for discovery
@@ -519,15 +590,18 @@ use 'toolate28/spiralsafe.nvim'
 ---
 
 #### 2. Reddit / Hacker News
+
 **Status:** ⏳ Not started
 
 **Launch Strategy:**
+
 - [ ] r/programming - "Show HN: SpiralSafe - Human-AI Built Framework"
 - [ ] r/gamedev - "Museum of Computation: Teaching CS via Minecraft"
 - [ ] r/MachineLearning - "Cognitive Triggers for AI Self-Awareness"
 - [ ] r/PowerShell - "KENL Modules Now on PowerShell Gallery"
 
 **Deliverables:**
+
 - [ ] Launch posts drafted
 - [ ] Community engagement plan
 - [ ] Response templates for questions
@@ -535,15 +609,18 @@ use 'toolate28/spiralsafe.nvim'
 ---
 
 #### 3. YouTube / Twitch
+
 **Status:** ⏳ Not started
 
 **Content Ideas:**
+
 - [ ] "Building with Claude Code: Full Session Recording"
 - [ ] "Minecraft Museum Tour: Logic Gates & Binary Counters"
 - [ ] "Deploying to Cloudflare: Live Infrastructure Setup"
 - [ ] "Code Review: Human + AI Collaboration Patterns"
 
 **Deliverables:**
+
 - [ ] YouTube channel created
 - [ ] 5+ videos published
 - [ ] Tutorial series planned
@@ -553,12 +630,14 @@ use 'toolate28/spiralsafe.nvim'
 ## 📊 Integration Success Metrics
 
 ### Technical Metrics
+
 - [ ] Packages published: 0/5 NPM, 0/5 PowerShell Gallery
 - [ ] Docker images: 0/4 published
 - [ ] VS Code installs: Target 1,000 in first quarter
 - [ ] GitHub stars: Target 500 by end Q1 2026
 
 ### Platform Coverage
+
 - [ ] Microsoft: 4/8 integrations complete
 - [ ] Google: 0/6 integrations complete
 - [ ] NPM: 0/2 registries published
@@ -566,6 +645,7 @@ use 'toolate28/spiralsafe.nvim'
 - [ ] AI Platforms: 1/3 partnerships established
 
 ### Community Engagement
+
 - [ ] Blog posts: Target 10 published
 - [ ] Social media: Target 5,000 impressions/month
 - [ ] Community contributors: Target 10 external contributors
@@ -576,7 +656,9 @@ use 'toolate28/spiralsafe.nvim'
 ## 🗓️ Phased Rollout Timeline
 
 ### Month 1 (January 2026)
+
 **Focus:** Foundation deployment
+
 - [x] Logdy Central → logs.spiralsafe.org
 - [ ] Main site → spiralsafe.org
 - [ ] Museum → moc.spiralsafe.org
@@ -584,28 +666,36 @@ use 'toolate28/spiralsafe.nvim'
 - [ ] PowerShell Gallery modules published
 
 ### Month 2 (February 2026)
+
 **Focus:** Microsoft ecosystem
+
 - [ ] GitHub Codespaces configured
 - [ ] Azure Static Web App deployed
 - [ ] VS Code extension published
 - [ ] Azure Functions API live
 
 ### Month 3 (March 2026)
+
 **Focus:** Community & content
+
 - [ ] Blog post series launched
 - [ ] YouTube videos published
 - [ ] Reddit/HN launch posts
 - [ ] First external contributors
 
 ### Month 4 (April 2026)
+
 **Focus:** Container & AI platforms
+
 - [ ] Docker Hub images published
 - [ ] Hugging Face Space live
 - [ ] Custom GPT published
 - [ ] Anthropic showcase submission
 
 ### Month 5-6 (May-June 2026)
+
 **Focus:** Google ecosystem & optimization
+
 - [ ] Firebase Hosting alternative
 - [ ] Google Analytics configured
 - [ ] Cloud Run deployment
@@ -628,6 +718,7 @@ use 'toolate28/spiralsafe.nvim'
 - **Community platforms:** Knowledge sharing & awareness
 
 **When complete:**
+
 - Developers can `npm install @spiralsafe/...` or `Install-Module KENL.*`
 - Cloud teams can `docker pull spiralsafe/...` or deploy to Azure/GCP
 - AI researchers can study collaboration patterns

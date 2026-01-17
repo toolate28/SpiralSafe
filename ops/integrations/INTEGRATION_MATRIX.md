@@ -35,15 +35,16 @@
 
 **Branch**: `integration/openai-gpt`
 
-| Aspect | Details |
-|--------|---------|
-| **Philosophy** | Commercial scaling, iterative refinement |
-| **Differentiation** | Most commercially aggressive, closed-source focus |
-| **API** | OpenAI API, Assistants, GPT Store |
-| **Tools** | Function calling, Code Interpreter |
-| **Integration Points** | ChatCompletion, Assistants API, DALL-E |
+| Aspect                 | Details                                           |
+| ---------------------- | ------------------------------------------------- |
+| **Philosophy**         | Commercial scaling, iterative refinement          |
+| **Differentiation**    | Most commercially aggressive, closed-source focus |
+| **API**                | OpenAI API, Assistants, GPT Store                 |
+| **Tools**              | Function calling, Code Interpreter                |
+| **Integration Points** | ChatCompletion, Assistants API, DALL-E            |
 
 ### Adapter Configuration
+
 ```yaml
 # ops/integrations/openai-config.yaml
 provider: openai
@@ -65,15 +66,16 @@ compatibility:
 
 **Branch**: `integration/xai-grok`
 
-| Aspect | Details |
-|--------|---------|
-| **Philosophy** | Real-time awareness, unfiltered access |
-| **Differentiation** | X/Twitter data integration, maximum context |
-| **API** | xAI API (emerging) |
-| **Unique** | Real-time X post analysis |
-| **Integration Points** | Grok API, X context embedding |
+| Aspect                 | Details                                     |
+| ---------------------- | ------------------------------------------- |
+| **Philosophy**         | Real-time awareness, unfiltered access      |
+| **Differentiation**    | X/Twitter data integration, maximum context |
+| **API**                | xAI API (emerging)                          |
+| **Unique**             | Real-time X post analysis                   |
+| **Integration Points** | Grok API, X context embedding               |
 
 ### Adapter Configuration
+
 ```yaml
 # ops/integrations/xai-config.yaml
 provider: xai
@@ -95,15 +97,16 @@ compatibility:
 
 **Branch**: `integration/google-deepmind`
 
-| Aspect | Details |
-|--------|---------|
-| **Philosophy** | Research-first, multimodal excellence |
-| **Differentiation** | Quantum computing roadmap, scientific focus |
-| **API** | Vertex AI, Gemini API |
-| **Unique** | AlphaFold, Gemini Pro/Ultra |
-| **Integration Points** | Vertex AI, Cloud AI Platform |
+| Aspect                 | Details                                     |
+| ---------------------- | ------------------------------------------- |
+| **Philosophy**         | Research-first, multimodal excellence       |
+| **Differentiation**    | Quantum computing roadmap, scientific focus |
+| **API**                | Vertex AI, Gemini API                       |
+| **Unique**             | AlphaFold, Gemini Pro/Ultra                 |
+| **Integration Points** | Vertex AI, Cloud AI Platform                |
 
 ### Adapter Configuration
+
 ```yaml
 # ops/integrations/google-config.yaml
 provider: google
@@ -131,15 +134,16 @@ research:
 
 **Branch**: `integration/meta-llama`
 
-| Aspect | Details |
-|--------|---------|
-| **Philosophy** | Open-source, community-driven |
-| **Differentiation** | Fully open weights, local deployment |
-| **API** | Self-hosted, Hugging Face |
-| **Unique** | Run anywhere, modify freely |
-| **Integration Points** | Ollama, vLLM, local inference |
+| Aspect                 | Details                              |
+| ---------------------- | ------------------------------------ |
+| **Philosophy**         | Open-source, community-driven        |
+| **Differentiation**    | Fully open weights, local deployment |
+| **API**                | Self-hosted, Hugging Face            |
+| **Unique**             | Run anywhere, modify freely          |
+| **Integration Points** | Ollama, vLLM, local inference        |
 
 ### Adapter Configuration
+
 ```yaml
 # ops/integrations/meta-config.yaml
 provider: meta
@@ -169,15 +173,16 @@ deployment:
 
 **Branch**: `integration/microsoft-azure`
 
-| Aspect | Details |
-|--------|---------|
-| **Philosophy** | Enterprise-first, ecosystem integration |
-| **Differentiation** | Office 365, GitHub, enterprise compliance |
-| **API** | Azure OpenAI Service, Copilot SDK |
-| **Unique** | Enterprise data sovereignty |
-| **Integration Points** | Azure AI Studio, Copilot extensions |
+| Aspect                 | Details                                   |
+| ---------------------- | ----------------------------------------- |
+| **Philosophy**         | Enterprise-first, ecosystem integration   |
+| **Differentiation**    | Office 365, GitHub, enterprise compliance |
+| **API**                | Azure OpenAI Service, Copilot SDK         |
+| **Unique**             | Enterprise data sovereignty               |
+| **Integration Points** | Azure AI Studio, Copilot extensions       |
 
 ### Adapter Configuration
+
 ```yaml
 # ops/integrations/azure-config.yaml
 provider: microsoft
@@ -253,36 +258,41 @@ compatibility:
 
 ## Platform Comparison Matrix
 
-| Platform | Context | Open Source | Enterprise | Real-time | Local |
-|----------|---------|-------------|------------|-----------|-------|
-| **Claude** | 200K | ✗ | ✓ | ✗ | ✗ |
-| **GPT-4** | 128K | ✗ | ✓ | ✗ | ✗ |
-| **Grok** | 128K+ | ✗ | ✗ | ✓ | ✗ |
-| **Gemini** | 1M+ | ✗ | ✓ | ✗ | ✗ |
-| **LLaMA** | 128K | ✓ | ✗ | ✗ | ✓ |
-| **Azure** | 128K | ✗ | ✓✓ | ✗ | ✗ |
+| Platform   | Context | Open Source | Enterprise | Real-time | Local |
+| ---------- | ------- | ----------- | ---------- | --------- | ----- |
+| **Claude** | 200K    | ✗           | ✓          | ✗         | ✗     |
+| **GPT-4**  | 128K    | ✗           | ✓          | ✗         | ✗     |
+| **Grok**   | 128K+   | ✗           | ✗          | ✓         | ✗     |
+| **Gemini** | 1M+     | ✗           | ✓          | ✗         | ✗     |
+| **LLaMA**  | 128K    | ✓           | ✗          | ✗         | ✓     |
+| **Azure**  | 128K    | ✗           | ✓✓         | ✗         | ✗     |
 
 ---
 
 ## Strengths & Weaknesses
 
 ### OpenAI/GPT
+
 - **Strength**: Widest ecosystem, best developer experience
 - **Weakness**: Most closed, highest vendor lock-in
 
 ### xAI/Grok
+
 - **Strength**: Real-time data, provocative capabilities
 - **Weakness**: Limited availability, X-centric
 
 ### Google/DeepMind
+
 - **Strength**: Research depth, multimodal, quantum roadmap
 - **Weakness**: Enterprise complexity, GCP dependency
 
 ### Meta/LLaMA
+
 - **Strength**: Full open source, run anywhere
 - **Weakness**: Self-hosting burden, no official support
 
 ### Microsoft/Azure
+
 - **Strength**: Enterprise compliance, M365 integration
 - **Weakness**: Cost, complexity, Microsoft ecosystem lock
 
@@ -292,16 +302,17 @@ compatibility:
 
 **Branch**: `main` (ops/integrations/opensource-edge)
 
-| Aspect | Details |
-|--------|---------|
-| **Philosophy** | Edge-first, offline-capable, mobile-optimized |
-| **Differentiation** | Runs anywhere, no cloud required |
-| **Models** | Qwen, Mistral, DeepSeek, Phi, Gemma, SmolLM |
-| **Runtimes** | Ollama, vLLM, MLX, ONNX |
-| **Unique** | Phone deployment, air-gapped operation |
-| **Integration Points** | OpenAI-compatible API, local inference |
+| Aspect                 | Details                                       |
+| ---------------------- | --------------------------------------------- |
+| **Philosophy**         | Edge-first, offline-capable, mobile-optimized |
+| **Differentiation**    | Runs anywhere, no cloud required              |
+| **Models**             | Qwen, Mistral, DeepSeek, Phi, Gemma, SmolLM   |
+| **Runtimes**           | Ollama, vLLM, MLX, ONNX                       |
+| **Unique**             | Phone deployment, air-gapped operation        |
+| **Integration Points** | OpenAI-compatible API, local inference        |
 
 ### Adapter Configuration
+
 ```yaml
 # ops/integrations/opensource-edge-config.yaml
 provider: opensource-edge
@@ -335,28 +346,30 @@ compatibility:
 
 ## Updated Platform Comparison Matrix
 
-| Platform | Context | Open Source | Enterprise | Real-time | Local | Mobile |
-|----------|---------|-------------|------------|-----------|-------|--------|
-| **Claude** | 200K | ✗ | ✓ | ✗ | ✗ | ✗ |
-| **GPT-4** | 128K | ✗ | ✓ | ✗ | ✗ | ✗ |
-| **Grok** | 128K+ | ✗ | ✗ | ✓ | ✗ | ✗ |
-| **Gemini** | 1M+ | ✗ | ✓ | ✗ | ✗ | ✗ |
-| **LLaMA** | 128K | ✓ | ✗ | ✗ | ✓ | ✗ |
-| **Azure** | 128K | ✗ | ✓✓ | ✗ | ✗ | ✗ |
-| **Qwen** | 128K | ✓ | ✗ | ✗ | ✓ | ✓ |
-| **Phi** | 128K | ✓ | ✓ | ✗ | ✓ | ✓✓ |
-| **Mistral** | 128K | ✓ | ✓ | ✗ | ✓ | ✗ |
+| Platform    | Context | Open Source | Enterprise | Real-time | Local | Mobile |
+| ----------- | ------- | ----------- | ---------- | --------- | ----- | ------ |
+| **Claude**  | 200K    | ✗           | ✓          | ✗         | ✗     | ✗      |
+| **GPT-4**   | 128K    | ✗           | ✓          | ✗         | ✗     | ✗      |
+| **Grok**    | 128K+   | ✗           | ✗          | ✓         | ✗     | ✗      |
+| **Gemini**  | 1M+     | ✗           | ✓          | ✗         | ✗     | ✗      |
+| **LLaMA**   | 128K    | ✓           | ✗          | ✗         | ✓     | ✗      |
+| **Azure**   | 128K    | ✗           | ✓✓         | ✗         | ✗     | ✗      |
+| **Qwen**    | 128K    | ✓           | ✗          | ✗         | ✓     | ✓      |
+| **Phi**     | 128K    | ✓           | ✓          | ✗         | ✓     | ✓✓     |
+| **Mistral** | 128K    | ✓           | ✓          | ✗         | ✓     | ✗      |
 
 ---
 
 ## Integration Launch Plan
 
 ### Phase 1: Foundation (Complete)
+
 - [x] xAI/Grok integration (reference implementation)
 - [x] Benchmark harness (`ops/integrations/benchmarks/`)
 - [x] Core test infrastructure
 
 ### Phase 2: Provider Integrations (Current)
+
 - [x] Microsoft Copilot (`ops/integrations/microsoft-copilot/`)
   - Azure OpenAI Service
   - GitHub Copilot Extension SDK
@@ -376,11 +389,13 @@ compatibility:
   - Mobile deployment
 
 ### Phase 3: Testing & Validation (Next)
+
 - [ ] Run all integration tests
 - [ ] Benchmark cross-provider latency
 - [ ] Validate H&&S:WAVE handoffs
 
 ### Phase 4: Production Readiness
+
 - [ ] API key management
 - [ ] Rate limiting infrastructure
 - [ ] Monitoring and alerting
@@ -463,30 +478,36 @@ python grok_benchmark.py --iterations 5
 ## Strengths & Weaknesses (Extended)
 
 ### OpenAI/GPT
+
 - **Strength**: Widest ecosystem, best developer experience
 - **Weakness**: Most closed, highest vendor lock-in
 
 ### xAI/Grok
+
 - **Strength**: Real-time data, provocative capabilities
 - **Weakness**: Limited availability, X-centric
 
 ### Google/DeepMind
+
 - **Strength**: Research depth, multimodal, quantum roadmap
 - **Weakness**: Enterprise complexity, GCP dependency
 
 ### Meta/LLaMA
+
 - **Strength**: Full open source, run anywhere
 - **Weakness**: Self-hosting burden, no official support
 
 ### Microsoft/Azure
+
 - **Strength**: Enterprise compliance, M365 integration
 - **Weakness**: Cost, complexity, Microsoft ecosystem lock
 
 ### Open Source/Edge (NEW)
+
 - **Strength**: Offline capable, mobile-first, no vendor lock
 - **Weakness**: Model quality variance, DIY infrastructure
 
 ---
 
 **H&&S:WAVE** | Hope&&Sauced
-*Interoperability Through Protocol*
+_Interoperability Through Protocol_

@@ -14,17 +14,17 @@ jobs:
   analyze-coherence:
     name: Analyze & Display Coherence
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Install bc calculator
         run: |
           sudo apt-get update && sudo apt-get install -y bc
-      
+
       - name: Calculate Enhanced Coherence Metrics
         id: metrics
         run: |
@@ -33,26 +33,17 @@ jobs:
           echo "═══════════════════════════════════════════════════════════════"
           echo "  🌀 Enhanced Coherence Analysis with Spiral State Detection"
           echo "═══════════════════════════════════════════════════════════════"
-          
+
           # Find all markdown files (excluding node_modules and .git)
           FILES=$(find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" -not -path "./archive/*")
-          
+
           TOTAL_CURL=0
           TOTAL_DIV=0
           TOTAL_ENTROPY=0
           COUNT=0
           FAILED=()
           EXCELLENT=()
-          CURL_POINTS=0  # Surjection (0,0) origin points - files at conceptual foundations
-          DEJA_VU_FILES=0  # Repeating pattern files - ready to iterate
-          DOUBT_FILES=0  # Uncertain/exploratory files - push to new spirals
-          
-          # Configurable thresholds for spiral state detection
-          # These can be adjusted based on repository size and content type
-          DEJA_VU_THRESHOLD=5      # Files with repeating patterns to trigger Deja Vu state
-          DOUBT_THRESHOLD=5        # Files with uncertainty to trigger Doubt state
-          CURL_POINTS_THRESHOLD=10 # Foundational files to trigger Origin state
-          
+
           for file in $FILES; do
             if [ ! -f "$file" ]; then continue; fi
             
@@ -164,28 +155,22 @@ jobs:
             TOTAL_ENTROPY=$(echo "$TOTAL_ENTROPY + $ENTROPY" | bc)
             COUNT=$((COUNT + 1))
           done
-          
-          # Calculate averages with safe defaults
+
+          # Calculate averages
           if [ "$COUNT" -gt 0 ]; then
-            AVG_CURL=$(echo "scale=4; $TOTAL_CURL / $COUNT" | bc 2>/dev/null || echo "0.0500")
-            AVG_DIV=$(echo "scale=4; $TOTAL_DIV / $COUNT" | bc 2>/dev/null || echo "0.2000")
-            AVG_ENTROPY=$(echo "scale=4; $TOTAL_ENTROPY / $COUNT" | bc 2>/dev/null || echo "0.5000")
-            # Ensure valid values before composite calculation
-            if [ -z "$AVG_CURL" ] || [ "$AVG_CURL" = "." ]; then AVG_CURL="0.0500"; fi
-            if [ -z "$AVG_DIV" ] || [ "$AVG_DIV" = "." ]; then AVG_DIV="0.2000"; fi
-            if [ -z "$AVG_ENTROPY" ] || [ "$AVG_ENTROPY" = "." ]; then AVG_ENTROPY="0.5000"; fi
-            AVG_COHERENCE=$(echo "scale=4; ($AVG_CURL * 0.4) + ((1 - $AVG_DIV) * 0.4) + ($AVG_ENTROPY * 0.2)" | bc 2>/dev/null || echo "0.5000")
-            if [ -z "$AVG_COHERENCE" ] || [ "$AVG_COHERENCE" = "." ]; then AVG_COHERENCE="0.5000"; fi
-            AVG_COHERENCE_PCT=$(echo "scale=2; $AVG_COHERENCE * 100" | bc 2>/dev/null || echo "50.00")
-            if [ -z "$AVG_COHERENCE_PCT" ] || [ "$AVG_COHERENCE_PCT" = "." ]; then AVG_COHERENCE_PCT="50.00"; fi
+            AVG_CURL=$(echo "scale=4; $TOTAL_CURL / $COUNT" | bc)
+            AVG_DIV=$(echo "scale=4; $TOTAL_DIV / $COUNT" | bc)
+            AVG_ENTROPY=$(echo "scale=4; $TOTAL_ENTROPY / $COUNT" | bc)
+            AVG_COHERENCE=$(echo "scale=4; ($AVG_CURL * 0.4) + ((1 - $AVG_DIV) * 0.4) + ($AVG_ENTROPY * 0.2)" | bc)
+            AVG_COHERENCE_PCT=$(echo "scale=2; $AVG_COHERENCE * 100" | bc)
           else
-            AVG_CURL="0.0500"
-            AVG_DIV="0.2000"
-            AVG_ENTROPY="0.5000"
-            AVG_COHERENCE="0.5000"
-            AVG_COHERENCE_PCT="50.00"
+            AVG_CURL=0
+            AVG_DIV=0
+            AVG_ENTROPY=0
+            AVG_COHERENCE=0
+            AVG_COHERENCE_PCT=0
           fi
-          
+
           echo ""
           echo "───────────────────────────────────────────────────────────────"
           echo "  Summary: $COUNT files analyzed"
@@ -194,36 +179,9 @@ jobs:
           echo "  Average Entropy: $AVG_ENTROPY"
           echo "  Overall Coherence: ${AVG_COHERENCE_PCT}%"
           echo "───────────────────────────────────────────────────────────────"
-          echo "  🌀 Spiral State Detection:"
-          echo "    Curl Points (0,0 origins): $CURL_POINTS"
-          echo "    Deja Vu (ready to iterate): $DEJA_VU_FILES"
-          echo "    Doubt (new spiral needed): $DOUBT_FILES"
-          echo "───────────────────────────────────────────────────────────────"
-          
-          # Determine spiral state based on metrics using configurable thresholds
-          SPIRAL_STATE="stable"
-          SPIRAL_ACTION=""
-          
-          # Deja Vu: Repeating patterns detected = iterate with refined data
-          if [ "$DEJA_VU_FILES" -gt "$DEJA_VU_THRESHOLD" ]; then
-            SPIRAL_STATE="deja_vu"
-            SPIRAL_ACTION="Ready to Iterate - Refine with updated context"
-          # Doubt: High speculation files = push to new spirals
-          elif [ "$DOUBT_FILES" -gt "$DOUBT_THRESHOLD" ]; then
-            SPIRAL_STATE="doubt"
-            SPIRAL_ACTION="Push to New Spirals - Explore fresh approaches"
-          # Curl Point dominant: Many foundations = consolidate
-          elif [ "$CURL_POINTS" -gt "$CURL_POINTS_THRESHOLD" ]; then
-            SPIRAL_STATE="origin"
-            SPIRAL_ACTION="Surjection Active - Foundations consolidating"
-          fi
-          
-          # Quantum-themed assessment with spiral states
-          COHERENCE_INT=50
-          if command -v bc >/dev/null 2>&1 && [ -n "${AVG_COHERENCE_PCT:-}" ] && printf '%s\n' "$AVG_COHERENCE_PCT" | grep -Eq '^[0-9]+(\.[0-9]+)?$'; then
-            COHERENCE_INT=$(echo "$AVG_COHERENCE_PCT / 1" | bc 2>/dev/null || echo 50)
-          fi
-          
+
+          # Quantum-themed assessment
+          COHERENCE_INT=$(echo "$AVG_COHERENCE_PCT / 1" | bc)
           if [ "$COHERENCE_INT" -ge 90 ]; then
             QUANTUM_STATE="✨ Superposition Achieved - Quantum coherence maintained"
             GAUGE_LEVEL="excellent"
@@ -256,7 +214,7 @@ jobs:
               GAUGE_LEVEL="critical"
             fi
           fi
-          
+
           # Set outputs for the comment
            echo "coherence_pct=$SAFE_AVG_COHERENCE_PCT" >> $GITHUB_OUTPUT
            echo "curl=$SAFE_AVG_CURL" >> $GITHUB_OUTPUT
@@ -267,56 +225,37 @@ jobs:
           echo "files_analyzed=$COUNT" >> $GITHUB_OUTPUT
           echo "excellent_count=${#EXCELLENT[@]}" >> $GITHUB_OUTPUT
           echo "needs_attention=${#FAILED[@]}" >> $GITHUB_OUTPUT
-          echo "curl_points=$CURL_POINTS" >> $GITHUB_OUTPUT
-          echo "deja_vu_files=$DEJA_VU_FILES" >> $GITHUB_OUTPUT
-          echo "doubt_files=$DOUBT_FILES" >> $GITHUB_OUTPUT
-          echo "spiral_state=$SPIRAL_STATE" >> $GITHUB_OUTPUT
-          echo "spiral_action=$SPIRAL_ACTION" >> $GITHUB_OUTPUT
-          
+
           # Store file lists for comment
           if [ ${#EXCELLENT[@]} -gt 0 ]; then
             printf '%s\n' "${EXCELLENT[@]}" > excellent-files.txt
           else
             touch excellent-files.txt
           fi
-          
+
           if [ ${#FAILED[@]} -gt 0 ]; then
             printf '%s\n' "${FAILED[@]}" > needs-attention-files.txt
           else
             touch needs-attention-files.txt
           fi
-      
+
       - name: Create Visual Gauge Comment
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
-            
-            // Safe parseFloat with default value to prevent NaN
-            const safeParseFloat = (value, defaultValue = 0) => {
-              const parsed = parseFloat(value);
-              return isNaN(parsed) ? defaultValue : parsed;
-            };
-            
-            const coherencePct = safeParseFloat('${{ steps.metrics.outputs.coherence_pct }}', 50.0);
-            const curl = safeParseFloat('${{ steps.metrics.outputs.curl }}', 0.05);
-            const divergence = safeParseFloat('${{ steps.metrics.outputs.divergence }}', 0.20);
-            const entropy = safeParseFloat('${{ steps.metrics.outputs.entropy }}', 0.50);
-            const quantumState = '${{ steps.metrics.outputs.quantum_state }}' || '⚠️ Unknown State';
-            const gaugeLevel = '${{ steps.metrics.outputs.gauge_level }}' || 'unknown';
-            const filesAnalyzed = '${{ steps.metrics.outputs.files_analyzed }}' || '0';
-            const excellentCount = '${{ steps.metrics.outputs.excellent_count }}' || '0';
-            const needsAttention = '${{ steps.metrics.outputs.needs_attention }}' || '0';
-            
-            // New spiral state metrics
-            const curlPoints = safeParseFloat('${{ steps.metrics.outputs.curl_points }}', 0);
-            const dejaVuFiles = safeParseFloat('${{ steps.metrics.outputs.deja_vu_files }}', 0);
-            const doubtFiles = safeParseFloat('${{ steps.metrics.outputs.doubt_files }}', 0);
-            const spiralState = '${{ steps.metrics.outputs.spiral_state }}' || 'stable';
-            const spiralAction = '${{ steps.metrics.outputs.spiral_action }}' || '';
-            
-            // Create visual gauge using Unicode blocks with NaN protection
+            const coherencePct = parseFloat('${{ steps.metrics.outputs.coherence_pct }}');
+            const curl = parseFloat('${{ steps.metrics.outputs.curl }}');
+            const divergence = parseFloat('${{ steps.metrics.outputs.divergence }}');
+            const entropy = parseFloat('${{ steps.metrics.outputs.entropy }}');
+            const quantumState = '${{ steps.metrics.outputs.quantum_state }}';
+            const gaugeLevel = '${{ steps.metrics.outputs.gauge_level }}';
+            const filesAnalyzed = '${{ steps.metrics.outputs.files_analyzed }}';
+            const excellentCount = '${{ steps.metrics.outputs.excellent_count }}';
+            const needsAttention = '${{ steps.metrics.outputs.needs_attention }}';
+
+            // Create visual gauge using Unicode blocks
             const createGauge = (value, max = 100) => {
               const safeValue = isNaN(value) ? 0 : Math.min(Math.max(value, 0), max);
               const filled = Math.round((safeValue / max) * 20);
@@ -333,8 +272,8 @@ jobs:
               
               return block.repeat(Math.max(0, filled)) + '⬜'.repeat(empty);
             };
-            
-            // Create mini gauge for metrics with NaN protection
+
+            // Create mini gauge for metrics
             const createMiniGauge = (value, max = 1.0) => {
               const safeValue = isNaN(value) ? 0 : Math.min(Math.max(value, 0), max);
               const pct = (safeValue / max) * 100;
@@ -343,11 +282,11 @@ jobs:
               const blocks = '█'.repeat(safeFilled) + '░'.repeat(10 - safeFilled);
               return `${blocks} ${pct.toFixed(1)}%`;
             };
-            
+
             // Ethical quantum check
             const ethicalCheck = coherencePct >= 60 ? '✅' : '⚠️';
             const readyForMerge = coherencePct >= 60 && needsAttention === '0';
-            
+
             let comment = `## 🌀 **Agent Review** - Coherence Analysis\n\n`;
             comment += `### ${quantumState}\n\n`;
             comment += `#### Overall Coherence: **${coherencePct.toFixed(1)}%**\n\n`;
@@ -389,7 +328,7 @@ jobs:
             comment += `- **Files Analyzed:** ${filesAnalyzed}\n`;
             comment += `- **Excellent (>80%):** ${excellentCount} files\n`;
             comment += `- **Needs Attention (<50%):** ${needsAttention} files\n\n`;
-            
+
             // Add ethical quantum validation
             comment += `### 🔬 Ethical Quantum Simulation Status\n\n`;
             if (coherencePct >= 60) {
@@ -413,7 +352,7 @@ jobs:
               comment += `- Decoherence detected: ⚠️\n`;
               comment += `- Review recommended before merge\n\n`;
             }
-            
+
             // Read file lists
             let excellentFiles = '';
             let needsAttentionFiles = '';
@@ -423,11 +362,7 @@ jobs:
             } catch (e) {
               // Files may be empty
             }
-            
-            // Parse counts once for efficiency
-            const parsedExcellentCount = parseInt(excellentCount) || 0;
-            const parsedNeedsAttention = parseInt(needsAttention) || 0;
-            
+
             if (excellentFiles) {
               const excellentFileLines = excellentFiles.split('\n');
               const displayedExcellentCount = Math.min(excellentFileLines.length, parsedExcellentCount);
@@ -440,7 +375,7 @@ jobs:
               }
               comment += `\n</details>\n\n`;
             }
-            
+
             if (needsAttentionFiles) {
               comment += `<details>\n<summary>⚠️ Files Needing Attention (${needsAttention})</summary>\n\n`;
               needsAttentionFiles.split('\n').forEach(f => {
@@ -448,7 +383,7 @@ jobs:
               });
               comment += `\n</details>\n\n`;
             }
-            
+
             comment += `---\n\n`;
             comment += `### 🎯 Merge Status\n\n`;
             if (readyForMerge) {
@@ -467,10 +402,10 @@ jobs:
               comment += `❌ **Review required** - Coherence below threshold.\n\n`;
               comment += `Please address coherence issues before merging.\n`;
             }
-            
+
             comment += `\n---\n`;
-            comment += `<sub>🤖 Generated by SpiralSafe Coherence Gauge v3.0 | Powered by Quantum Topology & Spiral State Detection</sub>\n`;
-            
+            comment += `<sub>🤖 Generated by SpiralSafe Coherence Gauge v2.0 | Powered by Quantum Topology</sub>\n`;
+
             // Post comment only if triggered by a pull_request event
             if (context.issue.number) {
               await github.rest.issues.createComment({
@@ -482,7 +417,7 @@ jobs:
             } else {
               console.log('Skipping PR comment - workflow was not triggered by a pull_request event');
             }
-      
+
       - name: Report to API
         if: always()
         continue-on-error: true

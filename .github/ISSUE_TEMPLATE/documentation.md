@@ -1,15 +1,17 @@
 ---
 name: Documentation Update
 about: Request or propose documentation improvements
-title: '[DOCS] '
+title: "[DOCS] "
 labels: documentation, needs-atom-tag
-assignees: ''
+assignees: ""
 ---
 
 ## ATOM Tag
+
 **ATOM:** `ATOM-DOC-[DATE]-[NUM]-[description]`
 
 _Auto-generated or create with:_
+
 ```bash
 ./scripts/atom-track.sh DOC "Documentation update description" "issue-#N"
 ```
@@ -17,20 +19,24 @@ _Auto-generated or create with:_
 ---
 
 ## Summary
+
 Brief description of the documentation change needed.
 
 ## Current State
+
 **What documentation exists now?**
 
 - File(s): `path/to/doc.md`
 - Current content: [describe or link]
 
 ## Proposed Change
+
 **What should be updated/added/removed?**
 
 Describe the documentation improvements needed.
 
 ## Reason for Change
+
 **Why is this documentation change needed?**
 
 - [ ] Information is outdated
@@ -43,6 +49,7 @@ Describe the documentation improvements needed.
 - [ ] Other: [describe]
 
 ## Affected Documents
+
 List all documentation files that need updates:
 
 - [ ] `README.md`
@@ -51,6 +58,7 @@ List all documentation files that need updates:
 - [ ] Other: [list]
 
 ## Framework Alignment
+
 Does this documentation help with:
 
 - [ ] Visible State - Makes state/changes observable
@@ -60,9 +68,11 @@ Does this documentation help with:
 - [ ] Measurable Delivery - Defines success criteria
 
 ## Related ATOM Tags
+
 - `ATOM-XXX-YYYYMMDD-NNN` - Related change
 
 ## Verification
+
 **How to verify the documentation is accurate:**
 
 ```bash
@@ -76,6 +86,7 @@ Does this documentation help with:
 - [ ] Follows markdown linting rules
 
 ## Priority
+
 - [ ] Critical - Blocking usage
 - [ ] High - Significantly improves clarity
 - [ ] Medium - Nice to have improvement
@@ -84,6 +95,7 @@ Does this documentation help with:
 ---
 
 ## Checklist
+
 - [ ] I have identified specific files to update
 - [ ] I have explained why the change is needed
 - [ ] I have provided examples or references

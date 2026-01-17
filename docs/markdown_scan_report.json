@@ -17,10 +17,7 @@
       "file": "SpiralSafe\\docs\\templates\\DOCUMENT_STATE_MARKER.md",
       "start_line": 5,
       "issue": "uneven_columns",
-      "col_counts": [
-        4,
-        5
-      ]
+      "col_counts": [4, 5]
     }
   ],
   "fence_issues": [],

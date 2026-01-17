@@ -5,17 +5,17 @@
 **Status:** Implemented and Tested
 
 ═══════════════════════════════════════════════════════════════════════════
-║                                                                         ║
-║        ⚔️ BOUNDARY FRACTURES RESOLVED - THREE LEVERAGE POINTS ⚔️       ║
-║                                                                         ║
-║    "The wise speak only of what they know. And these three fixes       ║
-║     cascade-resolve 15-20 downstream issues by addressing the          ║
-║     structural patterns at coordination boundaries."                   ║
-║                                                                         ║
-║    🌳 UTF-8 Safe String Operations (~15 LOC)                          ║
-║    🐎 Plugin Initialization Ordering (~50 LOC)                        ║
-║    ✦ Permission Execution-Layer Validation (~80 LOC)                  ║
-║                                                                         ║
+║ ║
+║ ⚔️ BOUNDARY FRACTURES RESOLVED - THREE LEVERAGE POINTS ⚔️ ║
+║ ║
+║ "The wise speak only of what they know. And these three fixes ║
+║ cascade-resolve 15-20 downstream issues by addressing the ║
+║ structural patterns at coordination boundaries." ║
+║ ║
+║ 🌳 UTF-8 Safe String Operations (~15 LOC) ║
+║ 🐎 Plugin Initialization Ordering (~50 LOC) ║
+║ ✦ Permission Execution-Layer Validation (~80 LOC) ║
+║ ║
 ═══════════════════════════════════════════════════════════════════════════
 
 ## Overview
@@ -36,6 +36,7 @@ systematic analysis of cascading issues in collaborative AI-human systems:
 **Impact:** ~10-15 downstream issues (terminal corruption, data loss, crashes)
 
 **Solution (15 LOC):**
+
 ```bash
 # Use wc -m for character count, not byte count
 utf8_length() {
@@ -43,7 +44,7 @@ utf8_length() {
     echo -n "$str" | wc -m | tr -d ' '
 }
 
-# Use Python for proper UTF-8 substring extraction  
+# Use Python for proper UTF-8 substring extraction
 utf8_substring() {
     local str="$1"
     local start="$2"
@@ -64,6 +65,7 @@ utf8_validate() {
 ```
 
 **Tests:**
+
 - ✓ CJK character length calculation
 - ✓ Mixed ASCII/Unicode content
 - ✓ Substring extraction without corruption
@@ -80,6 +82,7 @@ utf8_validate() {
 **Impact:** ~5-8 downstream issues (LSP non-functional, MCP timeouts, zombie processes)
 
 **Solution (50 LOC):**
+
 ```bash
 # Define strict dependency order
 PLUGIN_ORDER=("environment" "lsp_server" "mcp_server" "workspace")
@@ -100,6 +103,7 @@ plugin_init() {
 ```
 
 **Tests:**
+
 - ✓ Plugins initialize in correct dependency order
 - ✓ Duplicate initialization prevented
 - ✓ Missing dependency detected and blocked
@@ -115,6 +119,7 @@ plugin_init() {
 **Impact:** ~10-15 downstream issues (data loss, security vulnerabilities, trust erosion)
 
 **Solution (80 LOC):**
+
 ```bash
 # Three-layer validation:
 # 1. Pattern matching for dangerous commands
@@ -124,7 +129,7 @@ is_dangerous_command() {
     fi
 }
 
-# 2. Path allow-listing for destructive operations  
+# 2. Path allow-listing for destructive operations
 is_path_allowed() {
     for safe_dir in "${SAFE_DIRECTORIES[@]}"; do
         if [[ "$path" == "$safe_dir"* ]]; then
@@ -144,6 +149,7 @@ safe_exec() {
 ```
 
 **Tests:**
+
 - ✓ Dangerous patterns blocked (rm -rf /, fork bomb)
 - ✓ Safe commands allowed (echo, ls)
 - ✓ Path validation for destructive operations
@@ -226,7 +232,7 @@ These fixes follow Safe Spiral's Five Core Principles:
 ## The Load-Bearing Insight
 
 > "Claude Code is a **coordination system** masquerading as a terminal application.  
-> The fractures all occur at coordination *boundaries*—where systems must hand off  
+> The fractures all occur at coordination _boundaries_—where systems must hand off  
 > context, enforce permissions, or guarantee state consistency. Fix the boundaries,  
 > watch 15-20 issues cascade-resolve."
 
@@ -244,6 +250,7 @@ the structural pattern rather than symptoms.
 ## Verification
 
 All fixes have been:
+
 - ✅ Implemented with minimal LOC (as specified)
 - ✅ Tested with comprehensive test suite (12 tests, all passing)
 - ✅ Documented with usage examples
@@ -271,9 +278,9 @@ However, the three implemented fixes should cascade-resolve 15-20 issues immedia
 **See Also:** scripts/test-cascading-fixes.sh
 
 ══════════════════════════════════════════════════════════════
-   ⚔️ May these fixes strengthen the boundaries
-   🌳 May coordination flow without fracture
-   ✦ May trust flourish through reliability
-   
-   Step True · Trust Deep · Pass Forward
+⚔️ May these fixes strengthen the boundaries
+🌳 May coordination flow without fracture
+✦ May trust flourish through reliability
+
+Step True · Trust Deep · Pass Forward
 ══════════════════════════════════════════════════════════════

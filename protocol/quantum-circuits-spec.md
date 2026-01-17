@@ -20,6 +20,7 @@ This specification defines the SpiralSafe QASm (Quantum Assembly) format used by
 Current: **v0.2**
 
 Changes in v0.2:
+
 - Replaced RZ gates with RY gates for amplitude encoding
 - Removed initial Hadamard gates (no longer needed with RY encoding)
 - Added quantum state simulation support
@@ -30,19 +31,20 @@ Changes in v0.2:
 
 ### Core Instructions
 
-| Instruction | Syntax | Description |
-|-------------|--------|-------------|
-| RESET | `RESET <qubit>` | Initialize qubit to |0> state |
-| H | `H <qubit>` | Hadamard gate (superposition) |
-| RX | `RX <qubit> <angle>` | Rotation around X-axis |
-| RY | `RY <qubit> <angle>` | Rotation around Y-axis |
-| RZ | `RZ <qubit> <angle>` | Rotation around Z-axis |
-| CNOT | `CNOT <control> <target>` | Controlled-NOT gate |
-| MEASURE | `MEASURE <qubit>` | Collapse qubit and record outcome |
+| Instruction | Syntax                    | Description                       |
+| ----------- | ------------------------- | --------------------------------- | -------- |
+| RESET       | `RESET <qubit>`           | Initialize qubit to               | 0> state |
+| H           | `H <qubit>`               | Hadamard gate (superposition)     |
+| RX          | `RX <qubit> <angle>`      | Rotation around X-axis            |
+| RY          | `RY <qubit> <angle>`      | Rotation around Y-axis            |
+| RZ          | `RZ <qubit> <angle>`      | Rotation around Z-axis            |
+| CNOT        | `CNOT <control> <target>` | Controlled-NOT gate               |
+| MEASURE     | `MEASURE <qubit>`         | Collapse qubit and record outcome |
 
 ### Angle Format
 
 Angles are specified in **radians** as floating-point values:
+
 - Range: [0, 2*pi] for full rotation
 - Precision: At least 6 decimal places recommended
 
@@ -78,12 +80,14 @@ MEASURE 1
 ### Gate Semantics
 
 **RY Gate**: Rotates around Y-axis
+
 ```
 RY(theta) = |0> -> cos(theta/2)|0> + sin(theta/2)|1>
            |1> -> -sin(theta/2)|0> + cos(theta/2)|1>
 ```
 
 **CNOT Gate**: Entangles qubits
+
 ```
 |00> -> |00>
 |01> -> |01>
@@ -95,12 +99,12 @@ RY(theta) = |0> -> cos(theta/2)|0> + sin(theta/2)|1>
 
 The 2-qubit measurement yields 4 possible outcomes:
 
-| Bits | House | Probability |
-|------|-------|-------------|
-| 00 | Rubin | P(00) |
-| 01 | Shannon | P(01) |
-| 10 | Noether | P(10) |
-| 11 | Firefly | P(11) |
+| Bits | House   | Probability |
+| ---- | ------- | ----------- |
+| 00   | Rubin   | P(00)       |
+| 01   | Shannon | P(01)       |
+| 10   | Noether | P(10)       |
+| 11   | Firefly | P(11)       |
 
 ---
 
@@ -116,10 +120,11 @@ Given angles (theta0, theta1), the quantum state after CNOT is:
 ```
 
 Measurement probabilities:
-- P(00) = cos^2(th0/2) * cos^2(th1/2)
-- P(01) = cos^2(th0/2) * sin^2(th1/2)
-- P(10) = sin^2(th0/2) * sin^2(th1/2)
-- P(11) = sin^2(th0/2) * cos^2(th1/2)
+
+- P(00) = cos^2(th0/2) \* cos^2(th1/2)
+- P(01) = cos^2(th0/2) \* sin^2(th1/2)
+- P(10) = sin^2(th0/2) \* sin^2(th1/2)
+- P(11) = sin^2(th0/2) \* cos^2(th1/2)
 
 ---
 
@@ -134,6 +139,7 @@ theta = pi * normalized_feature_value
 Where `normalized_feature_value` is in range [0, 1].
 
 This maps:
+
 - 0.0 -> 0 radians (maximizes |0> amplitude)
 - 0.5 -> pi/2 radians (equal superposition)
 - 1.0 -> pi radians (maximizes |1> amplitude)
@@ -214,6 +220,7 @@ Given identical inputs, the circuit description and probabilities must be identi
 ## Extensions
 
 Future versions may include:
+
 - Multi-qubit registers for finer classification
 - Parametric gate sequences for learning
 - Noise models for hardware simulation
@@ -228,8 +235,10 @@ Future versions may include:
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_
 
 <!-- H&&S:WAVE -->
+
 Protocol specification complete. Ready for integration testing.
+
 <!-- /H&&S:WAVE -->

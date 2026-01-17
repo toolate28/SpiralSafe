@@ -129,24 +129,24 @@ CREATE INDEX idx_admin_audit_log_timestamp ON admin_audit_log(timestamp);
 
 ### Roles
 
-| Role | Permissions |
-|------|-------------|
+| Role            | Permissions                                                                    |
+| --------------- | ------------------------------------------------------------------------------ |
 | **super_admin** | Full access: user management, API key rotation, system config, all data access |
-| **admin** | API monitoring, log viewing, limited config changes, no user management |
-| **viewer** | Read-only access to dashboards, metrics, and logs |
+| **admin**       | API monitoring, log viewing, limited config changes, no user management        |
+| **viewer**      | Read-only access to dashboards, metrics, and logs                              |
 
 ### Permission Matrix
 
-| Action | super_admin | admin | viewer |
-|--------|-------------|-------|--------|
-| View Dashboard | ✅ | ✅ | ✅ |
-| View Metrics | ✅ | ✅ | ✅ |
-| View Logs | ✅ | ✅ | ✅ |
-| Export Logs | ✅ | ✅ | ❌ |
-| Rotate API Keys | ✅ | ❌ | ❌ |
-| Manage Users | ✅ | ❌ | ❌ |
-| Change System Config | ✅ | ⚠️ Limited | ❌ |
-| Delete Data | ✅ | ❌ | ❌ |
+| Action               | super_admin | admin      | viewer |
+| -------------------- | ----------- | ---------- | ------ |
+| View Dashboard       | ✅          | ✅         | ✅     |
+| View Metrics         | ✅          | ✅         | ✅     |
+| View Logs            | ✅          | ✅         | ✅     |
+| Export Logs          | ✅          | ✅         | ❌     |
+| Rotate API Keys      | ✅          | ❌         | ❌     |
+| Manage Users         | ✅          | ❌         | ❌     |
+| Change System Config | ✅          | ⚠️ Limited | ❌     |
+| Delete Data          | ✅          | ❌         | ❌     |
 
 ---
 
@@ -264,6 +264,7 @@ POST /admin/config/maintenance
 ### 1. Login Page (`/admin/login.html`)
 
 **Features**:
+
 - Clean, minimal design
 - Username/password form
 - "Remember me" checkbox
@@ -272,6 +273,7 @@ POST /admin/config/maintenance
 - Link to password reset (future)
 
 **Tech Stack**:
+
 - Vanilla HTML/CSS/JS
 - Tailwind CSS for styling
 - Fetch API for authentication
@@ -279,6 +281,7 @@ POST /admin/config/maintenance
 ### 2. Dashboard (`/admin/dashboard.html`)
 
 **Layout**:
+
 ```
 ┌─────────────────────────────────────────────────────────┐
 │  SpiralSafe Admin Console         [@username] [Logout]  │
@@ -304,6 +307,7 @@ POST /admin/config/maintenance
 ```
 
 **Sections**:
+
 - Metrics cards (requests, errors, latency, active sessions)
 - Request rate timeline chart
 - Recent errors list
@@ -313,6 +317,7 @@ POST /admin/config/maintenance
 ### 3. Logs Explorer (`/admin/logs.html`)
 
 **Features**:
+
 - Searchable log table
 - Filters: IP, status code, date range, path
 - Export to CSV/JSON
@@ -322,6 +327,7 @@ POST /admin/config/maintenance
 ### 4. User Management (`/admin/users.html`)
 
 **Features**:
+
 - List all admin users
 - Create new user modal
 - Edit user role
@@ -331,6 +337,7 @@ POST /admin/config/maintenance
 ### 5. API Keys (`/admin/api-keys.html`)
 
 **Features**:
+
 - List all API keys (masked)
 - Generate new key (show once, copy to clipboard)
 - Revoke key with confirmation
@@ -412,6 +419,7 @@ POST /admin/config/maintenance
 ## Technology Stack
 
 ### Backend
+
 - **Runtime**: Cloudflare Workers (TypeScript)
 - **Database**: D1 (SQLite)
 - **Session Store**: KV
@@ -419,6 +427,7 @@ POST /admin/config/maintenance
 - **Password Hashing**: bcrypt (cloudflare-workers-bcrypt)
 
 ### Frontend
+
 - **Framework**: Vanilla JS (or Vue.js for SPA)
 - **Styling**: Tailwind CSS
 - **Charts**: Chart.js or Apache ECharts
@@ -426,6 +435,7 @@ POST /admin/config/maintenance
 - **HTTP Client**: Fetch API
 
 ### Infrastructure
+
 - **Domain**: console.spiralsafe.org
 - **Deployment**: Cloudflare Workers + Pages
 - **SSL/TLS**: Cloudflare managed certificate
@@ -526,10 +536,12 @@ curl -X PUT https://console.spiralsafe.org/admin/users/me/password \
 export default {
   async scheduled(event: ScheduledEvent, env: Env) {
     await env.SPIRALSAFE_DB.prepare(
-      'DELETE FROM admin_sessions WHERE expires_at < ?'
-    ).bind(new Date().toISOString()).run();
-  }
-}
+      "DELETE FROM admin_sessions WHERE expires_at < ?",
+    )
+      .bind(new Date().toISOString())
+      .run();
+  },
+};
 ```
 
 ### Audit Log Rotation
@@ -550,6 +562,7 @@ export default {
 ## Future Enhancements
 
 ### v2.0 (Q2 2026)
+
 - [ ] 2FA/TOTP authentication
 - [ ] OAuth integration (GitHub, Google, NEAR)
 - [ ] Advanced analytics dashboards
@@ -557,6 +570,7 @@ export default {
 - [ ] Mobile-responsive admin UI
 
 ### v3.0 (Q3 2026)
+
 - [ ] GraphQL API for admin operations
 - [ ] Real-time collaboration (multiple admins)
 - [ ] Advanced RBAC with custom roles

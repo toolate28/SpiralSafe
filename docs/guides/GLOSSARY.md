@@ -12,7 +12,7 @@
 
 ## B
 
-**B&&P** — Bartimaeus && Ptolemy. Extension of Hope&&Sauced signaling work requiring exceptional trust. References Jonathan Stroud's *Bartimaeus Sequence*.
+**B&&P** — Bartimaeus && Ptolemy. Extension of Hope&&Sauced signaling work requiring exceptional trust. References Jonathan Stroud's _Bartimaeus Sequence_.
 
 **BattleMedic** — System recovery orchestration framework using SAIF methodology.
 
@@ -88,4 +88,4 @@
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_

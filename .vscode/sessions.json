@@ -11,45 +11,33 @@
         "autoExecuteCommands": true,
         "icon": "person",
         "color": "terminal.ansiGreen",
-        "commands": [
-          "echo hello"
-        ]
+        "commands": ["echo hello"]
       },
       [
         {
           "name": "docker:ros",
-          "commands": [
-            ""
-          ]
+          "commands": [""]
         },
         {
           "name": "docker:k8s",
-          "commands": [
-            ""
-          ]
+          "commands": [""]
         }
       ],
       [
         {
           "name": "docker:nats",
-          "commands": [
-            ""
-          ]
+          "commands": [""]
         },
         {
           "name": "docker:fleet",
-          "commands": [
-            ""
-          ]
+          "commands": [""]
         }
       ]
     ],
     "saved-session": [
       {
         "name": "connect",
-        "commands": [
-          ""
-        ]
+        "commands": [""]
       }
     ]
   }
