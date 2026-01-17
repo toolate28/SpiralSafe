@@ -53,6 +53,7 @@ H&&S:WAVE - Collaborative handoff markers embedded
 from __future__ import annotations
 
 import json
+import os
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -73,6 +74,10 @@ MAX_HISTORY_ITEMS = 5
 # Coherence thresholds
 COHERENCE_HIGH_THRESHOLD = 0.7
 DIVERGENCE_CAP_THRESHOLD = 0.3
+
+# Output directory configuration (can be overridden via environment variable)
+DEFAULT_OUTPUT_DIR = Path(__file__).parent.parent / "media" / "output" / "awi_prompts"
+OUTPUT_DIR = Path(os.environ.get("AWI_OUTPUT_DIR", str(DEFAULT_OUTPUT_DIR)))
 
 # =============================================================================
 # DSPy-Style Base Classes
@@ -248,7 +253,7 @@ intent:
   action: {analysis['action']}
   category: {analysis['category']}
   description: "{analysis['raw_intent']}"
-  reversible: { 'true' if analysis['category'] == 'query' else 'false' }
+  reversible: {'true' if analysis['category'] == 'query' else 'false'}
   impact: {'low' if permission_level <= 1 else 'medium'}
 ```
 
@@ -601,16 +606,15 @@ def demonstrate_awi_prompt_gen():
 if __name__ == "__main__":
     gen = demonstrate_awi_prompt_gen()
 
-    # Save demo output
-    output_dir = Path(__file__).parent.parent / "media" / "output" / "awi_prompts"
-    output_dir.mkdir(parents=True, exist_ok=True)
+    # Save demo output using configurable output directory
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     demo_result = gen(
         user_intent="Create a new feature branch for AWI integration",
         history=[{"coherence": 0.85}],
     )
 
-    with open(output_dir / "demo_prompt.json", "w") as f:
+    with open(OUTPUT_DIR / "demo_prompt.json", "w") as f:
         json.dump(
             {
                 "content": demo_result.content,
@@ -623,4 +627,4 @@ if __name__ == "__main__":
             default=str,
         )
 
-    print(f"\nDemo output saved to: {output_dir / 'demo_prompt.json'}")
+    print(f"\nDemo output saved to: {OUTPUT_DIR / 'demo_prompt.json'}")
