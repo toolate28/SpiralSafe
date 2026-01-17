@@ -435,11 +435,13 @@ class SelfHealingOracle:
         phase_conj = complex(math.cos(angle / 2), math.sin(angle / 2))
         
         mask = 1 << qubit
-        for i, amp in enumerate(self.reservoir.state.amplitudes):
+        amplitudes = self.reservoir.state.amplitudes
+        for i in range(len(amplitudes)):
+            amp = amplitudes[i]
             if i & mask:
-                self.reservoir.state.amplitudes[i] = amp * phase_conj
+                amplitudes[i] = amp * phase_conj
             else:
-                self.reservoir.state.amplitudes[i] = amp * phase
+                amplitudes[i] = amp * phase
     
     def _recalibrate_topology(self) -> Dict[str, str]:
         """Recalibrate entanglement topology."""
