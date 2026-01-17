@@ -203,7 +203,7 @@ Expected coherence upon cascade deployment:
 
 - [x] Document integration specification
 - [x] Create example hybrid module
-- [ ] Add Qiskit to requirements-ml.txt (optional dependency)
+- [x] Add Qiskit to requirements-ml.txt (optional dependency)
 
 ### Phase 2: Simulation
 
