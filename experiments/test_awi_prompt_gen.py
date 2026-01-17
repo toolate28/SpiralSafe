@@ -52,6 +52,7 @@ class TestAwiPromptGen:
         self.test_metadata_propagation()
         self.test_empty_history()
         self.test_malformed_intents()
+        self.test_yaml_injection_prevention()
         self.test_permission_level_inference()
         self.test_coherence_examples()
 
@@ -187,6 +188,45 @@ class TestAwiPromptGen:
             "Handles special characters",
             isinstance(result_special, Prediction),
             "Should handle special characters in intent"
+        )
+
+    def test_yaml_injection_prevention(self):
+        """Test that YAML injection is properly prevented."""
+        print("\n🧪 Testing: YAML Injection Prevention")
+
+        gen = AwiPromptGen()
+
+        # Test with YAML-breaking characters
+        yaml_injection = 'test"\nmalicious: true\n  injected: "value'
+        result = gen(user_intent=yaml_injection, history=[])
+        
+        self.test(
+            "YAML injection characters are escaped",
+            '\\n' in result.content or '\n  injected' not in result.content,
+            "Newlines in intent should be escaped"
+        )
+        
+        # Test with quotes
+        quote_test = 'Do "something" with \'quotes\''
+        result_quotes = gen(user_intent=quote_test, history=[])
+        self.test(
+            "Quotes are properly escaped",
+            isinstance(result_quotes, Prediction),
+            "Should handle quotes without breaking YAML structure"
+        )
+
+        # Test with malicious pattern in history
+        malicious_history = [
+            {"coherence": 0.9, "pattern": "normal_pattern\ninjected: malicious"},
+            "string\nwith\nnewlines"
+        ]
+        result_history = gen(user_intent="Normal intent", history=malicious_history)
+        # The sanitization should replace newlines with spaces, preventing structure break
+        # Check that the pattern line doesn't have a literal newline followed by "injected"
+        self.test(
+            "Malicious history patterns are sanitized",
+            isinstance(result_history, Prediction) and "\ninjected:" not in result_history.content,
+            "Newlines in history patterns should be replaced with spaces"
         )
 
     def test_permission_level_inference(self):

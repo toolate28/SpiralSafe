@@ -77,7 +77,55 @@ DIVERGENCE_CAP_THRESHOLD = 0.3
 
 # Output directory configuration (can be overridden via environment variable)
 DEFAULT_OUTPUT_DIR = Path(__file__).parent.parent / "media" / "output" / "awi_prompts"
-OUTPUT_DIR = Path(os.environ.get("AWI_OUTPUT_DIR", str(DEFAULT_OUTPUT_DIR)))
+_env_output_dir = os.environ.get("AWI_OUTPUT_DIR")
+if _env_output_dir:
+    # Validate path to prevent directory traversal attacks
+    _resolved = Path(_env_output_dir).resolve()
+    _base = DEFAULT_OUTPUT_DIR.parent.resolve()
+    if not str(_resolved).startswith(str(_base)):
+        raise ValueError(
+            f"AWI_OUTPUT_DIR must be within {_base}, got {_resolved}"
+        )
+    OUTPUT_DIR = _resolved
+else:
+    OUTPUT_DIR = DEFAULT_OUTPUT_DIR
+
+
+def _sanitize_yaml_string(value: str) -> str:
+    """
+    Sanitize a string for safe embedding in YAML templates.
+    
+    Escapes special characters that could break YAML structure
+    or enable injection attacks.
+    """
+    if not isinstance(value, str):
+        value = str(value)
+    # Escape backslashes first, then quotes and special chars
+    value = value.replace("\\", "\\\\")
+    value = value.replace('"', '\\"')
+    value = value.replace("'", "\\'")
+    value = value.replace("\n", "\\n")
+    value = value.replace("\r", "\\r")
+    value = value.replace("\t", "\\t")
+    # Remove any null bytes
+    value = value.replace("\x00", "")
+    return value
+
+
+def _sanitize_pattern_string(value: str) -> str:
+    """
+    Sanitize a pattern string for safe embedding in templates.
+    
+    Removes or escapes characters that could break template structure.
+    """
+    if not isinstance(value, str):
+        value = str(value)
+    # Remove newlines and control characters
+    value = value.replace("\n", " ").replace("\r", " ")
+    value = "".join(c for c in value if c.isprintable() or c == " ")
+    # Limit length to prevent abuse
+    return value[:100]
+
 
 # =============================================================================
 # DSPy-Style Base Classes
@@ -151,8 +199,8 @@ class ChainOfThought(Module):
                 f"Invalid signature format: {signature!r}. "
                 "Expected format like 'input_field1, input_field2 -> output_field'."
             )
-        self.input_fields = [p.strip() for p in parts[0].split(",")]
-        self.output_fields = [p.strip() for p in parts[1].split(",")]
+        self.input_fields = [p.strip() for p in parts[0].split(",") if p.strip()]
+        self.output_fields = [p.strip() for p in parts[1].split(",") if p.strip()]
 
     def forward(self, **kwargs) -> Prediction:
         """
@@ -249,15 +297,20 @@ class ChainOfThought(Module):
         self, analysis: Dict[str, Any], permission_level: int
     ) -> str:
         """Generate AWI-compliant prompt template."""
+        # Sanitize raw_intent to prevent YAML injection
+        safe_intent = _sanitize_yaml_string(analysis['raw_intent'])
+        safe_action = _sanitize_yaml_string(analysis['action'])
+        safe_category = _sanitize_yaml_string(analysis['category'])
+        
         template = f"""# AWI Session Request
 ## Generated: {analysis['timestamp']}
 
 ### Intent Declaration
 ```yaml
 intent:
-  action: {analysis['action']}
-  category: {analysis['category']}
-  description: "{analysis['raw_intent']}"
+  action: {safe_action}
+  category: {safe_category}
+  description: "{safe_intent}"
   reversible: {'true' if analysis['category'] == 'query' else 'false'}
   impact: {'low' if permission_level <= 1 else 'medium'}
 ```
@@ -266,14 +319,14 @@ intent:
 ```yaml
 authorization:
   requested_level: {permission_level}
-  scope: "{analysis['category']} operations"
+  scope: "{safe_category} operations"
   constraints:
     - "Operate within defined boundaries"
     - "Log all actions for audit trail"
 ```
 
 ### Execution Context
-- Category: {analysis['category']}
+- Category: {safe_category}
 - Confidence: {analysis['confidence']:.2f}
 - Requires confirmation: {'yes' if permission_level >= 2 else 'no'}
 
@@ -364,7 +417,9 @@ class Predict(Module):
 
         # Add session management hints from high-coherence examples
         if coherence_patterns:
-            hints = "\n".join(f"# Pattern: {p}" for p in coherence_patterns[:3])
+            # Sanitize patterns before embedding in template
+            safe_patterns = [_sanitize_pattern_string(p) for p in coherence_patterns[:3]]
+            hints = "\n".join(f"# Pattern: {p}" for p in safe_patterns)
             template = f"<!-- High-coherence patterns detected -->\n{hints}\n\n{template}"
 
         return template
@@ -408,9 +463,13 @@ class Predict(Module):
             for item in history[:MAX_HISTORY_ITEMS]:
                 if isinstance(item, dict):
                     if item.get("coherence", 0) > COHERENCE_HIGH_THRESHOLD:
-                        patterns.append(item.get("pattern", "high_coherence_session"))
+                        # Sanitize pattern from dict
+                        pattern = item.get("pattern", "high_coherence_session")
+                        patterns.append(_sanitize_pattern_string(str(pattern)))
                 elif isinstance(item, str):
-                    patterns.append(f"historical: {item[:30]}...")
+                    # Sanitize history string before embedding
+                    safe_item = _sanitize_pattern_string(item[:30])
+                    patterns.append(f"historical: {safe_item}...")
 
         return patterns
 
@@ -442,7 +501,7 @@ class AwiPromptGen(Module):
         self.scaffolder = ChainOfThought("user_intent -> prompt_template")
         self.refiner = Predict("template, history -> optimized_prompt")
 
-    def forward(self, user_intent: str, history: Optional[List[Any]] = None) -> Prediction:
+    def forward(self, **kwargs) -> Prediction:
         """
         Generate optimized AWI prompt from user intent.
 
@@ -453,6 +512,9 @@ class AwiPromptGen(Module):
         Returns:
             Prediction containing the optimized prompt and metadata
         """
+        user_intent = kwargs.get("user_intent", "")
+        history = kwargs.get("history", [])
+        
         if history is None:
             history = []
 
