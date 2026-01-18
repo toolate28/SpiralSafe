@@ -169,7 +169,7 @@ The system needs its **[0,0] origin points** to collapse into stable state. Once
 
 | Issue | Title | Classification | Linked PR | Notes |
 |-------|-------|----------------|-----------|-------|
-| [#41](https://github.com/toolate28/QDI/issues/41) | CORPUS_ISSUE_SPIRAL_ORIGINATION_PROTOCOL | 🎯 **ORIGIN** | - | **THIS ANALYSIS** - meta-issue for cascade |
+| [#41](https://github.com/toolate28/QDI/issues/41) | CORPUS_ISSUE_SPIRAL_ORIGINATION_PROTOCOL | 🎯 **ORIGIN** | - | Meta-issue requesting ecosystem cascade analysis |
 
 ### spiralsafe-mono Issues (1)
 

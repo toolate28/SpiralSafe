@@ -271,13 +271,14 @@ jobs:
                       decisions = len(phase_data['decisions'])
                       print(f"  {phase_name}: {decisions} decisions")
           
-          # Calculate basic coherence metrics
-          # In real implementation, this would fetch from API
-          coherence_score = 0.75  # Placeholder
-          total_prs = 17
-          total_issues = 18
-          origin_count = 4
-          doubt_count = 6
+          # Calculate basic coherence metrics from bootstrap configuration
+          # NOTE: These are static values from the analysis document, iteration 22.
+          # Future: Integrate with live GitHub API for dynamic metrics.
+          coherence_score = 0.75  # Estimated from phase distribution
+          total_prs = 17  # From ecosystem analysis
+          total_issues = 18  # From ecosystem analysis
+          origin_count = 4  # Phase 1 items
+          doubt_count = 6  # Phase 2 items
           
           # Output for GitHub Actions
           import os
@@ -385,9 +386,10 @@ jobs:
           echo "QDI Payload:"
           echo "$PAYLOAD" | jq .
           
-          # In real implementation, this would post to QDI webhook
-          # For now, just log the payload
-          echo "✓ QDI notification prepared (webhook not configured)"
+          # TODO: Implement actual QDI webhook posting when endpoint is available
+          # Expected endpoint: https://qdi.spiralsafe.org/api/coherence/ingest
+          # For now, just log the payload for verification
+          echo "✓ QDI notification prepared (webhook endpoint pending configuration)"
 
   # ─────────────────────────────────────────────────────────────
   # Generate Recommendations
