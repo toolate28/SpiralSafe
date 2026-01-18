@@ -37,13 +37,13 @@ _A visual guide to the API, Notebooks, and how they stay synced._
 
 ## 🧩 Key Components
 
-| Layer | Components | Purpose | Key Innovation |
-|---|---|---|---|
-| **Foundation** | [Isomorphism Principle](foundation/isomorphism-principle.md), [Constraints as Gifts](foundation/constraints-as-gifts.md) | Theoretical bedrock | Discrete ↔ continuous equivalence |
-| **Interface** | AWI, HOPE NPCs, BattleMedic, UnifiedComms | Contact surfaces | Authorization-with-intent |
-| **Methodology** | [ATOM](methodology/atom.md), SAIF, KENL, Day Zero Design | Cognitive tools | Atomic task orchestration |
-| **Protocol** | [wave-spec](protocol/wave-spec.md), [bump-spec](protocol/bump-spec.md), .context.yaml | Information transmission | Coherence detection |
-| **Manifestation** | [Quantum Valley](docs/quantum-minecraft-map.md), [Museum of Computation](museum/) | Theory made tangible | Pedagogical instantiation |
+| Layer             | Components                                                                                                               | Purpose                  | Key Innovation                    |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------ | --------------------------------- |
+| **Foundation**    | [Isomorphism Principle](foundation/isomorphism-principle.md), [Constraints as Gifts](foundation/constraints-as-gifts.md) | Theoretical bedrock      | Discrete ↔ continuous equivalence |
+| **Interface**     | AWI, HOPE NPCs, BattleMedic, UnifiedComms                                                                                | Contact surfaces         | Authorization-with-intent         |
+| **Methodology**   | [ATOM](methodology/atom.md), SAIF, KENL, Day Zero Design                                                                 | Cognitive tools          | Atomic task orchestration         |
+| **Protocol**      | [wave-spec](protocol/wave-spec.md), [bump-spec](protocol/bump-spec.md), .context.yaml                                    | Information transmission | Coherence detection               |
+| **Manifestation** | [Quantum Valley](docs/quantum-minecraft-map.md), [Museum of Computation](museum/)                                        | Theory made tangible     | Pedagogical instantiation         |
 
 **Unique Achievement:** Each layer demonstrates the core principle—constraint preservation generates emergence across all substrates.
 
@@ -59,6 +59,7 @@ _A visual guide to the API, Notebooks, and how they stay synced._
 **[📖 View Complete Portfolio →](PORTFOLIO.md)**
 
 Discover original work spanning mathematics, physics, philosophy, and pedagogy:
+
 - **Foundational Theory:** The Isomorphism Principle and Constraints as Gifts
 - **Mathematical Framework:** Constraint Mathematics with rigorous proofs
 - **Philosophical Insight:** The Exceptional Insight (no substrate, only constraint structure)
@@ -90,6 +91,7 @@ We follow **[Hope&&Sauced](CONTRIBUTING.md)** principles.
 ### One-Step Install
 
 **Unix/Linux/Mac:**
+
 ```bash
 # Recommended: Clone and inspect before running
 git clone https://github.com/toolate28/SpiralSafe.git
@@ -101,6 +103,7 @@ cd SpiralSafe
 ```
 
 **Windows:**
+
 ```powershell
 git clone https://github.com/toolate28/SpiralSafe.git
 cd SpiralSafe
@@ -109,13 +112,36 @@ cd SpiralSafe
 
 ### Quick Dependencies
 
-| Component | Required For | Install |
-|-----------|-------------|---------|
-| **Node.js 20+** | Operations API, CI/CD | [nodejs.org](https://nodejs.org) |
-| **Python 3.10+** | Hardware Bridges, Scripts | [python.org](https://python.org) |
-| **Git** | Version Control | [git-scm.com](https://git-scm.com) |
+| Component        | Required For              | Install                            |
+| ---------------- | ------------------------- | ---------------------------------- |
+| **Node.js 20+**  | Operations API, CI/CD     | [nodejs.org](https://nodejs.org)   |
+| **Python 3.10+** | Hardware Bridges, Scripts | [python.org](https://python.org)   |
+| **Git**          | Version Control           | [git-scm.com](https://git-scm.com) |
 
 All platforms are automatically detected and dependencies can be installed via `./install.sh --install-deps`.
+
+### Python Dependencies
+
+SpiralSafe uses a tiered dependency structure for reproducibility and platform compatibility:
+
+```bash
+# Core dependencies only (recommended for most contributors)
+pip install -r requirements.txt
+
+# Development tools (testing, linting, type checking)
+pip install -r requirements-dev.txt
+
+# ML/Quantum features (large download ~2GB, optional)
+pip install -r requirements-ml.txt
+
+# CPU-only PyTorch (lighter alternative)
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+
+# With constraints for reproducibility
+pip install -r requirements.txt -c constraints.txt
+```
+
+**Platform-specific setup**: See [`ops/CONTRIBUTION_ENV.md`](ops/CONTRIBUTION_ENV.md) for detailed platform-specific instructions (Windows, macOS, Linux, WSL).
 
 ### System Health Dashboard
 
@@ -124,6 +150,7 @@ Monitor API endpoints and system health in real-time:
 **[📊 Open Health Dashboard](health.html)** (after cloning locally)
 
 Or start the dev server:
+
 ```bash
 cd ops
 npm install
@@ -175,16 +202,22 @@ SpiralSafe unifies work across multiple repositories:
 The isomorphism principle has received independent confirmation from multiple sources:
 
 ### Shannon (1948)
+
 **"A Mathematical Theory of Communication"**
+
 - Bandlimited signals ↔ discrete samples (perfect reconstruction, not approximation)
 - First proof of discrete-continuous equivalence in information theory
 
 ### Lewis, Kempf, Menicucci (2023)
+
 **"Quantum lattice models that preserve continuous translation symmetry"** — [arXiv:2303.07649](https://arxiv.org/abs/2303.07649)
+
 > "Bandlimited continuous quantum fields are isomorphic to lattice theories—yet without requiring a fixed lattice."
 
 ### SpiralSafe (2024-2025)
+
 **Constraint-based implementation in Minecraft Redstone**
+
 - Topological invariants preserved exactly in discrete substrate
 - Working pedagogical implementations (Museum of Computation)
 - Mathematical framework with proofs (Constraint Mathematics)
@@ -196,9 +229,10 @@ The isomorphism principle has received independent confirmation from multiple so
 ## Key Visualizations
 
 ![Quantum-Discrete Isomorphism](quantum_discrete_isomorphism.png)
-*The core isomorphism: continuous quantum (|α|²+|β|²=1) ↔ discrete Redstone (ALPHA+OMEGA=15)*
+_The core isomorphism: continuous quantum (|α|²+|β|²=1) ↔ discrete Redstone (ALPHA+OMEGA=15)_
 
 **Additional Diagrams:**
+
 - [Constraint Mathematics Summary](constraint_mathematics_summary.png) — Mathematical framework
 - [Noether\'s Theorem](noether_theorem.png) — Conservation from symmetry
 - [Negative Space Methodology](negative_space.png) — Finding insights between disciplines
@@ -219,8 +253,8 @@ See [`meta/SIGNATURE.md`](meta/SIGNATURE.md) for attribution conventions and [PO
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_
 
-✦ *The Evenstar Guides Us* ✦
+✦ _The Evenstar Guides Us_ ✦
 
 [def]: https://github.com/toolate28/quantum-redstone

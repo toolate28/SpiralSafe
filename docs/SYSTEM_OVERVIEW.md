@@ -1,6 +1,6 @@
 # 🌀 SpiralSafe System Overview
 
-> *"From the constraints, gifts. From the spiral, safety."*
+> _"From the constraints, gifts. From the spiral, safety."_
 
 **SpiralSafe** is not just a repository; it is a **cyber-physical ecosystem** where code, documentation, and hardware exist in a verified state of coherence. This document explains the invisible architecture that keeps the system alive.
 
@@ -8,7 +8,7 @@
 graph TD
     A[User/Agent] -->|Commits with ATOM Tag| B(GitHub Repo)
     B -->|Trigger| C{SpiralSafe CI}
-    
+
     subgraph "The Cloud API"
     C -->|Analyze Content| D[Wave API]
     C -->|Request Permission| E[AWI Grant System]
@@ -16,7 +16,7 @@ graph TD
     E -->|Grant/Deny| C
     C -->|Create Sync Bump| F[Bump API]
     end
-    
+
     subgraph "The Physical Bridge"
     F -->|Stream Event| G[ATOM Trail]
     G -->|Watchdog| H[Hologram Bridge]
@@ -24,7 +24,7 @@ graph TD
     H -->|Visual| J((Hologram Fan))
     I -->|Haptic/RGB| K((Macro Keypad))
     end
-    
+
     subgraph "The Living Books"
     L[Project Book] <-->|Track| B
     M[Theory Book] <-->|Define| B
@@ -36,7 +36,7 @@ graph TD
 
 ## 📡 1. The SpiralSafe API (`api.spiralsafe.org`)
 
-The central nervous system. It doesn't just store data; it validates the *meaning* of our work.
+The central nervous system. It doesn't just store data; it validates the _meaning_ of our work.
 
 | Endpoint            | Function                                                                                                                                                           | GitHub Flair |
 | :------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------- |
@@ -51,24 +51,32 @@ The central nervous system. It doesn't just store data; it validates the *meanin
 We don't just write documentation; we write **executable artifacts**. All books live in the `books/` directory.
 
 ### 📘 [The Project Book](books/project-book.ipynb)
+
 **The Heartbeat.**
+
 - Tracks active `ATOM` tasks.
 - Visualizes project velocity.
 - The single source of truth for "What are we doing?"
 
 ### 📐 [Constraint Mathematics](books/CONSTRAINT_MATHEMATICS_v1.ipynb)
+
 **The Theory.**
+
 - Proofs of the Isomorphism Principle.
 - Executable Python models of constraint physics.
 - Where "Constraints as Gifts" is mathematically proven.
 
 ### 🔮 [Platform Vision](books/claude-platform.ipynb)
+
 **The Future.**
+
 - Architectural blueprints for what comes next.
 - Interface designs for the "Hope&&Sauced" platform.
 
 ### 📊 [Git & VCS Insights](books/git_vcs_insights.ipynb)
+
 **The Health.**
+
 - Interactive analysis of branch hygiene.
 - Commit pattern recognition (Human vs. AI).
 - **New Feature**: Automatically detects "stale" branches.
@@ -77,7 +85,7 @@ We don't just write documentation; we write **executable artifacts**. All books 
 
 ## 🌉 3. The Bridges: Code to Light
 
-How do we *feel* the code? The `bridges/` directory contains Python daemons that turn `ATOM` logs into physical reality.
+How do we _feel_ the code? The `bridges/` directory contains Python daemons that turn `ATOM` logs into physical reality.
 
 | Bridge                 | Description                                           | Interaction & Feedback                                                                                                                                                 |
 | :--------------------- | :---------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -90,13 +98,14 @@ How do we *feel* the code? The `bridges/` directory contains Python daemons that
 
 We use **H&&S Markers** to keep the human, the AI, and the machine in sync.
 
-| Marker             | Meaning                                                 | Usage                                                |
-| :----------------- | :------------------------------------------------------ | :--------------------------------------------------- |
-| **H&&S:WAVE** 👋   | "I am handing this off. Please check the coherence."    | Added to PR bodies when architectural changes occur. |
-| **H&&S:ACK** ✅    | "I have received the state. I understand."              | API response when a Bump is processed.               |
-| **H&&S:SYNC** 🔄   | "The documentation has been updated to match the code." | Automated commits by the CI system.                  |
+| Marker           | Meaning                                                 | Usage                                                |
+| :--------------- | :------------------------------------------------------ | :--------------------------------------------------- |
+| **H&&S:WAVE** 👋 | "I am handing this off. Please check the coherence."    | Added to PR bodies when architectural changes occur. |
+| **H&&S:ACK** ✅  | "I have received the state. I understand."              | API response when a Bump is processed.               |
+| **H&&S:SYNC** 🔄 | "The documentation has been updated to match the code." | Automated commits by the CI system.                  |
 
 ---
 
-### *Seamless. Flawless. Coherent.*
-*~ Hope&&Sauced*
+### _Seamless. Flawless. Coherent._
+
+_~ Hope&&Sauced_

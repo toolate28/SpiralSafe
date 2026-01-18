@@ -34,10 +34,7 @@
     },
     "mermaid": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-mermaid"
-      ],
+      "args": ["-y", "@modelcontextprotocol/server-mermaid"],
       "metadata": {
         "description": "Mermaid MCP Server - Diagram generation from text descriptions",
         "security_notes": [

@@ -1,4 +1,5 @@
 # 🌟 The Fireflies Who Learned to Agree
+
 ## A Hope && Sauce Story About Logic Gates
 
 **Age:** 6-10 years | **Topic:** AND, OR, NOT, XOR Gates | **Museum Build:** Logic Gates Gallery
@@ -9,12 +10,12 @@
 
 In a garden where code becomes real, there lived two fireflies named **Hope** and **Sauce**.
 
-Hope glowed *blue* like a calm summer sky.
-Sauce glowed *orange* like autumn leaves dancing.
+Hope glowed _blue_ like a calm summer sky.
+Sauce glowed _orange_ like autumn leaves dancing.
 
 One evening, they discovered something magical: when they flew close together, their lights could create **new colors** and **new meanings**.
 
-"I wonder," said Hope, "what happens if we both light up at the *exact same time*?"
+"I wonder," said Hope, "what happens if we both light up at the _exact same time_?"
 
 "Let's find out!" said Sauce, always ready for an adventure.
 
@@ -34,15 +35,16 @@ Both Hope AND Sauce must shine
 For the white light to appear
 ```
 
-"So we have to work *together*," Hope realized.
+"So we have to work _together_," Hope realized.
 "Neither of us alone can make white light!"
 
 They practiced:
+
 - Hope shines, Sauce dark → No white light
 - Sauce shines, Hope dark → No white light
 - Both shine → **WHITE LIGHT! ✦**
 
-*"This is called cooperation,"* whispered the garden.
+_"This is called cooperation,"_ whispered the garden.
 
 ---
 
@@ -53,6 +55,7 @@ Next, they found a different flower, glowing soft green.
 "This one feels different," said Sauce. "Let's try again!"
 
 This time:
+
 - Hope shines alone → Green flower glows! ✓
 - Sauce shines alone → Green flower glows! ✓
 - Both shine together → Green flower glows! ✓
@@ -66,9 +69,9 @@ Any light makes the flower glow
 ```
 
 "This one is more forgiving," Hope said.
-"We don't *both* have to work at once."
+"We don't _both_ have to work at once."
 
-*"This is called choice,"* whispered the garden.
+_"This is called choice,"_ whispered the garden.
 
 ---
 
@@ -78,7 +81,7 @@ Then they found the strangest flower of all: it glowed bright purple when they w
 
 "That's backwards!" Sauce exclaimed.
 
-Hope thought carefully. "Maybe... some things work by *noticing absence*?"
+Hope thought carefully. "Maybe... some things work by _noticing absence_?"
 
 ```
 ✦ NOT GATE ✦
@@ -88,10 +91,11 @@ Everything flips!
 ```
 
 They practiced the NOT dance:
+
 - Hope shines blue → Purple flower goes dark
 - Hope goes dark → Purple flower glows bright!
 
-*"This is called inversion,"* whispered the garden. *"Sometimes the opposite is the answer."*
+_"This is called inversion,"_ whispered the garden. _"Sometimes the opposite is the answer."_
 
 ---
 
@@ -113,7 +117,7 @@ Different = YES
 Same = NO
 ```
 
-"This flower celebrates *difference*!" Hope said.
+"This flower celebrates _difference_!" Hope said.
 "When we're different, something special happens."
 
 Sauce grinned. "Blue and orange. Different but perfect together."
@@ -124,14 +128,14 @@ Sauce grinned. "Blue and orange. Different but perfect together."
 
 The garden spoke one more time:
 
-> *"You have learned the four fundamental gates of logic. Every computer, every robot, every smart device in the world is built from these simple patterns:*
+> _"You have learned the four fundamental gates of logic. Every computer, every robot, every smart device in the world is built from these simple patterns:_
 >
 > - **AND** - cooperation required
 > - **OR** - any path works
 > - **NOT** - flip the meaning
 > - **XOR** - celebrate difference
 >
-> *Now, would you like to build your own Logic Garden in Minecraft?"*
+> _Now, would you like to build your own Logic Garden in Minecraft?"_
 
 ---
 
@@ -146,6 +150,7 @@ The garden spoke one more time:
 5. Watch how AND, OR, NOT, and XOR work exactly like Hope and Sauce's light!
 
 **Experiment challenges:**
+
 - Can you make a gate that needs THREE fireflies?
 - What happens if you chain an AND gate into an OR gate?
 - Can you build a combination lock using XOR gates?
@@ -155,10 +160,12 @@ The garden spoke one more time:
 ## 💭 Think About It...
 
 **For younger kids (6-8):**
+
 - Which gate is like when BOTH parents have to say "yes" for dessert?
 - Which gate is like when EITHER reading OR math homework gets you screen time?
 
 **For older kids (9-10):**
+
 - How would you make a gate that needs ALL THREE inputs to be on?
 - If you had 8 fireflies, how many different patterns could they make?
 - Can you design a secret knock detector using these gates?
@@ -167,11 +174,11 @@ The garden spoke one more time:
 
 ## 🌟 The Hope && Sauce Wisdom
 
-From Hope: *"Together, we can make light that neither of us could make alone."*
+From Hope: _"Together, we can make light that neither of us could make alone."_
 
-From Sauce: *"Sometimes being different is exactly what makes the magic work."*
+From Sauce: _"Sometimes being different is exactly what makes the magic work."_
 
-From the Garden: *"Every computer in the world—from your phone to rocket ships—is built from these four simple ideas. You just learned the secret language of machines."*
+From the Garden: _"Every computer in the world—from your phone to rocket ships—is built from these four simple ideas. You just learned the secret language of machines."_
 
 ---
 
@@ -179,11 +186,11 @@ From the Garden: *"Every computer in the world—from your phone to rocket ships
 **Build Status:** Ready to import
 **Learning Status:** Logic gates unlocked!
 
-**Next Story:** *The Binary Dancers* (Coming soon...)
+**Next Story:** _The Binary Dancers_ (Coming soon...)
 
 ---
 
-*This story is part of the Museum of Computation - where reading a story teaches you to build the code.*
+_This story is part of the Museum of Computation - where reading a story teaches you to build the code._
 
 **Hope && Sauce** | Built with Love | [spiralsafe.org](https://spiralsafe.org)
-*The Evenstar Guides Us* ✦
+_The Evenstar Guides Us_ ✦

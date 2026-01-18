@@ -370,12 +370,14 @@ COLOR_WHITE   = (255, 255, 255)  # White
 All bridges support both virtual (simulation) and physical hardware:
 
 **Virtual Mode** (no hardware required):
+
 ```bash
 python hologram-bridge.py --device virtual
 python tartarus-bridge.py --device virtual
 ```
 
 **Physical Mode** (requires hardware):
+
 ```bash
 # Linux
 python hologram-bridge.py --device /dev/ttyUSB0
@@ -391,6 +393,7 @@ python tartarus-bridge.py --device virtual  # Uses Razer Synapse
 Default: `~/.kenl/.atom-trail`
 
 Override in code:
+
 ```python
 reader = ATOMReader(trail_path='/custom/path/.atom-trail')
 writer = ATOMWriter(trail_path='/custom/path/.atom-trail')
@@ -426,6 +429,7 @@ python tartarus-bridge.py
 ### Expected Output
 
 ✅ **ATOM Trail Stream:**
+
 ```
 🌀 ATOM Trail Streaming Demo
 ==================================================
@@ -440,6 +444,7 @@ Found 0 error entries
 ```
 
 ✅ **Hologram Device:**
+
 ```
 🌌 Hologram Device Demo
 ==================================================
@@ -452,6 +457,7 @@ Found 0 error entries
 ```
 
 ✅ **Tartarus Pro:**
+
 ```
 🎮 Tartarus Pro Demo
 ==================================================
@@ -471,6 +477,7 @@ Found 0 error entries
 ### Common Issues
 
 **Import Error: No module named 'atom'**
+
 ```bash
 # Ensure you're in the bridges directory
 cd SpiralSafe-FromGitHub/bridges
@@ -478,6 +485,7 @@ python hologram-bridge.py
 ```
 
 **Permission Denied: /dev/hologram0**
+
 ```bash
 # Add user to dialout group (Linux)
 sudo usermod -a -G dialout $USER
@@ -485,11 +493,13 @@ sudo usermod -a -G dialout $USER
 ```
 
 **Razer Synapse not detected (Windows)**
+
 - Install Razer Synapse 3
 - Enable Chroma SDK in Synapse settings
 - Restart the bridge
 
 **ATOM trail not found**
+
 ```bash
 # Create ATOM trail directory
 mkdir -p ~/.kenl
@@ -503,16 +513,19 @@ touch ~/.kenl/.atom-trail
 ### Benchmarks
 
 **ATOM Stream Latency:**
+
 - File watch detection: <10ms
 - Entry parsing: <1ms
 - Total latency: <15ms (real-time)
 
 **Hologram Refresh:**
+
 - Target FPS: 20 (configurable)
 - Frame generation: ~5ms
 - Display latency: ~50ms
 
 **Tartarus Response:**
+
 - Key event latency: <1ms (hardware polling)
 - RGB update: <10ms
 
@@ -559,6 +572,7 @@ sudo systemctl status spiralsafe-hologram
 ### Startup Script (Windows)
 
 Create `start-bridges.bat`:
+
 ```batch
 @echo off
 cd C:\Users\YourUser\SpiralSafe-FromGitHub\bridges
@@ -644,6 +658,7 @@ MIT License - Part of SpiralSafe Ecosystem
 ## 🤝 Contributing
 
 Contributions welcome! Please:
+
 1. Test with `--device virtual` first
 2. Ensure all demos run successfully
 3. Follow existing code style
@@ -664,23 +679,23 @@ Contributions welcome! Please:
 ### mcstart Dashboard in Action
 
 ![mcstart Dashboard](../showcase/mcstart1.png)
-*SpiralSafe Control Dashboard - System Status & Quick Actions*
+_SpiralSafe Control Dashboard - System Status & Quick Actions_
 
 ![mcstart Options](../showcase/mcstart2.png)
-*Quick Actions Menu - Build, Test, Deploy*
+_Quick Actions Menu - Build, Test, Deploy_
 
 ![mcstart Testing](../showcase/mcstart3.png)
-*Validation Suite - 12/12 Tests Passing*
+_Validation Suite - 12/12 Tests Passing_
 
 ![mcstart Docker](../showcase/mcstart4.png)
-*Docker Services - Multi-Bridge Orchestration*
+_Docker Services - Multi-Bridge Orchestration_
 
 ![mcstart Stats](../showcase/mcstart5.png)
-*System Diagnostics - Repository Status*
+_System Diagnostics - Repository Status_
 
 ![mcstart Prism](../showcase/mcstart7.png)
-*Prism Launcher Integration - Minecraft Instances*
+_Prism Launcher Integration - Minecraft Instances_
 
 ---
 
-*Where computation becomes visible, tangible, and beautiful*
+_Where computation becomes visible, tangible, and beautiful_

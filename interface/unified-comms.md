@@ -8,7 +8,7 @@
 
 Information fragments across channels: SMS, Signal, browser tabs, CLI, desktop apps. You become the orchestration layer—manually routing messages, switching contexts, re-integrating scattered threads.
 
-This violates the isomorphism principle. The *message* is substrate-independent; the *channels* are projections. The routing should be automated.
+This violates the isomorphism principle. The _message_ is substrate-independent; the _channels_ are projections. The routing should be automated.
 
 ---
 
@@ -33,13 +33,13 @@ This violates the isomorphism principle. The *message* is substrate-independent;
 
 ## Channel Adapters
 
-| Channel | Adapter | Status |
-|---------|---------|--------|
-| Signal | `signal-cli-rest-api` (Docker) | Available |
-| SMS | Twilio, various gateways | Available |
-| Browser | Extension + native messaging | Buildable |
-| CLI | Named pipes, REST | Buildable |
-| Desktop | System tray, notifications | Buildable |
+| Channel | Adapter                        | Status    |
+| ------- | ------------------------------ | --------- |
+| Signal  | `signal-cli-rest-api` (Docker) | Available |
+| SMS     | Twilio, various gateways       | Available |
+| Browser | Extension + native messaging   | Buildable |
+| CLI     | Named pipes, REST              | Buildable |
+| Desktop | System tray, notifications     | Buildable |
 
 ---
 
@@ -51,11 +51,11 @@ channels:
   signal:
     adapter: signal-cli-rest-api
     endpoint: http://localhost:8080
-    
+
   browser:
     adapter: websocket
     port: 9001
-    
+
   cli:
     adapter: named-pipe
     path: \\.\pipe\spiralsafe-comms
@@ -64,11 +64,11 @@ rules:
   - match: { from: signal, contains_image: true }
     action: store_and_thumbnail
     forward_to: [browser, cli]
-    
+
   - match: { from: browser, url_pattern: "github.com/copilot/*" }
     action: extract_content
     tag: copilot-session
-    
+
   - match: { contains: "H&&S:" }
     action: parse_bump_marker
     route_by: marker_type
@@ -84,10 +84,10 @@ message:
   timestamp: ISO8601
   origin:
     channel: signal|sms|browser|cli|desktop
-    identifier: string  # phone, url, session-id
+    identifier: string # phone, url, session-id
   content:
     text: string
-    media: []  # attachments
+    media: [] # attachments
     metadata: {}
   routing:
     tags: []
@@ -117,6 +117,7 @@ message:
 ## Implementation Path
 
 ### Phase 1: Signal + CLI Bridge
+
 ```bash
 # Docker compose for signal-cli-rest-api
 docker-compose up -d signal-api
@@ -126,11 +127,13 @@ spiralsafe-comms listen --channel cli
 ```
 
 ### Phase 2: Browser Extension
+
 - Capture tab URLs and content
 - Route to message bus
 - Display unified inbox overlay
 
 ### Phase 3: Full Orchestration
+
 - Rule engine for routing
 - Thumbnail/summarize media
 - Claude session integration
@@ -147,4 +150,4 @@ UnifiedComms is the isomorphism principle applied to your daily workflow.
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_

@@ -1,0 +1,37 @@
+# SpiralSafe Core Python Dependencies
+# Install: pip install -r requirements.txt
+#
+# For ML/quantum features: pip install -r requirements-ml.txt
+# For development: pip install -r requirements-dev.txt
+#
+# ATOM-INFRA-FIX-20260112-001
+
+# Core async and file system monitoring
+watchdog==3.0.0
+psutil==5.9.8
+
+# Serial/USB communication (for physical devices)
+pyserial==3.5
+pyusb==1.2.1
+
+# HTTP client
+httpx==0.27.0
+requests==2.32.4
+
+# Configuration and environment
+python-dotenv==1.0.1
+pydantic==2.5.3
+
+# Async file operations
+aiofiles==24.1.0
+asyncio-atexit==1.0.1
+
+# Documentation
+markdown==3.10
+
+# File system utilities
+Pillow==10.3.0
+
+# CLI utilities
+click==8.1.7
+rich==13.7.0

@@ -1,0 +1,106 @@
+{
+  "$schema": "https://spiralsafe.dev/nano-banana-v1.json",
+  "meta": {
+    "title": "Stake-to-Access Code Distribution",
+    "type": "pipeline",
+    "version": "0.1.0",
+    "timestamp": "2026-01-18T12:00:00Z"
+  },
+  "nodes": [
+    {
+      "id": "user",
+      "type": "actor",
+      "label": "User",
+      "position": {"x": 0, "y": 0},
+      "properties": {
+        "wallet": "user.near",
+        "balance": "100 NEAR"
+      }
+    },
+    {
+      "id": "stake_tx",
+      "type": "transaction",
+      "label": "stake(amount)",
+      "position": {"x": 1, "y": 0},
+      "properties": {
+        "method": "stake",
+        "args": {"amount": "10000000000000000000000000"}
+      }
+    },
+    {
+      "id": "vault",
+      "type": "contract",
+      "label": "Snippet Vault",
+      "position": {"x": 2, "y": 0},
+      "properties": {
+        "address": "snippet-vault.spiralsafe.near",
+        "tvl": "50000 NEAR",
+        "tiers": [
+          {"name": "basic", "stake": 1, "access": ["utilities", "helpers"]},
+          {"name": "advanced", "stake": 10, "access": ["wave", "atom"]},
+          {"name": "full", "stake": 100, "access": ["sphinx", "kenl"]}
+        ]
+      }
+    },
+    {
+      "id": "access_key",
+      "type": "credential",
+      "label": "Access Key",
+      "position": {"x": 3, "y": 0},
+      "properties": {
+        "tier": "advanced",
+        "expiry": "perpetual_while_staked",
+        "permissions": ["read", "execute", "verify"]
+      }
+    },
+    {
+      "id": "ipfs",
+      "type": "storage",
+      "label": "IPFS Gateway",
+      "position": {"x": 4, "y": 0},
+      "properties": {
+        "gateway": "ipfs.spiralsafe.org",
+        "pinned_snippets": 142
+      }
+    },
+    {
+      "id": "code",
+      "type": "artifact",
+      "label": "Verified Code",
+      "position": {"x": 5, "y": 0},
+      "properties": {
+        "hash": "Qm...",
+        "coherence_score": 92,
+        "atom_tag": "ATOM-SNIPPET-20260118-042"
+      }
+    },
+    {
+      "id": "treasury",
+      "type": "pool",
+      "label": "Treasury",
+      "position": {"x": 2, "y": 1},
+      "properties": {
+        "yield_source": "staked_tokens",
+        "apr": "8.5%",
+        "allocation": {
+          "development": 0.6,
+          "community": 0.2,
+          "reserve": 0.2
+        }
+      }
+    }
+  ],
+  "edges": [
+    {"from": "user", "to": "stake_tx", "label": "initiate", "type": "action"},
+    {"from": "stake_tx", "to": "vault", "label": "lock_tokens", "type": "transfer"},
+    {"from": "vault", "to": "access_key", "label": "generate", "type": "response"},
+    {"from": "access_key", "to": "ipfs", "label": "authenticate", "type": "auth"},
+    {"from": "ipfs", "to": "code", "label": "fetch", "type": "data"},
+    {"from": "vault", "to": "treasury", "label": "yield", "type": "flow"}
+  ],
+  "flow": {
+    "direction": "left-to-right",
+    "style": "pipeline",
+    "animation": "sequential"
+  }
+}

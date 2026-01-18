@@ -38,5 +38,6 @@ Usage examples (PowerShell / Windows):
 ```
 
 Notes:
+
 - All scripts default to DryRun mode; use `-Apply` to perform actions that modify files.
 - The built-in signatures are SHA256 digests for convenience and are not a substitute for PKI/GPG signing.

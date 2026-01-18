@@ -2,7 +2,8 @@ name: MCP Audit
 
 on:
   pull_request:
-    branches: [ "main", "develop", "feat/**", "feature/**", "copilot/**", "agent/**" ]
+    branches:
+      ["main", "develop", "feat/**", "feature/**", "copilot/**", "agent/**"]
 
 jobs:
   mcp-audit:

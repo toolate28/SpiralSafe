@@ -25,13 +25,13 @@ on:
   workflow_dispatch:
     inputs:
       skip_coherence:
-        description: 'Skip coherence checks'
+        description: "Skip coherence checks"
         type: boolean
         default: false
 
 env:
   SPIRALSAFE_API_BASE: ${{ vars.SPIRALSAFE_API_BASE || 'https://api.spiralsafe.org' }}
-  NODE_VERSION: '20'
+  NODE_VERSION: "20"
 
 jobs:
   # ─────────────────────────────────────────────────────────────
@@ -163,17 +163,69 @@ jobs:
             }' || true
 
   # ─────────────────────────────────────────────────────────────
+  # Phase 1.5: Dependency Validation
+  # ─────────────────────────────────────────────────────────────
+  validate-deps:
+    name: Validate Dependencies
+    runs-on: ubuntu-latest
+    needs: [coherence]
+    if: always() && (needs.coherence.result == 'success' || needs.coherence.result == 'skipped')
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Run Dependency Verification
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  Dependency Validation"
+          echo "═══════════════════════════════════════════════════════════════"
+          echo ""
+          python3 scripts/verify-dependencies.py
+
+      - name: Check for security vulnerabilities
+        continue-on-error: true
+        run: |
+          pip install safety
+          echo "Checking core dependencies..."
+          safety check --file requirements.txt || echo "⚠ Safety check warnings (non-blocking)"
+
+  # ─────────────────────────────────────────────────────────────
   # Lint: Static Analysis (ShellCheck + PSScriptAnalyzer)
   # ─────────────────────────────────────────────────────────────
   lint:
     name: Lint & Static Analysis
     runs-on: ubuntu-latest
-    needs: [coherence]
+    needs: [coherence, validate-deps]
     permissions:
       contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+            requirements-ml.txt
+
+      - name: Validate Python Dependencies
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  Python Dependency Validation"
+          echo "═══════════════════════════════════════════════════════════════"
+          python3 scripts/verify-dependencies.py
 
       - name: Install ShellCheck
         run: |
@@ -192,7 +244,7 @@ jobs:
       - name: Setup PowerShell
         uses: PowerShell/Setup-PowerShell@v2
         with:
-          pwsh-version: '7.3.8'
+          pwsh-version: "7.3.8"
 
       - name: Install PSScriptAnalyzer
         run: |
@@ -225,7 +277,7 @@ jobs:
   build:
     name: Build & Test
     runs-on: ubuntu-latest
-    needs: [coherence, lint]
+    needs: [coherence, validate-deps, lint]
     if: always() && (needs.coherence.result == 'success' || needs.coherence.result == 'skipped')
     permissions:
       contents: read
@@ -238,7 +290,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
+
+      - name: Setup Python (for optional scripts)
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Install Python Core Dependencies
+        continue-on-error: true
+        run: |
+          pip install -r requirements.txt || echo "⚠ Python dependencies skipped (optional)"
 
       - name: Install Dependencies
         run: npm ci
@@ -275,7 +341,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install Dependencies
         run: npm ci

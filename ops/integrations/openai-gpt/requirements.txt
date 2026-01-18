@@ -1,3 +1,16 @@
-pydantic>=1.10
-requests>=2.31
-pytest>=7.0
+# OpenAI GPT Integration Dependencies
+# Install: pip install -r ../../../requirements.txt -r requirements.txt
+#
+# Core dependencies (requests, pydantic) are in ../../../requirements.txt
+# This file only lists integration-specific additions
+
+# Testing tools (e.g., pytest) are defined in ../../../requirements-dev.txt
+# Developers should install that file for test dependencies:
+#     pip install -r ../../../requirements-dev.txt
+# H&&S:WAVE | Hope&&Sauced
+
+# Use root requirements for consistency
+-r ../../../requirements.txt
+
+# OpenAI SDK already included in requirements-ml.txt
+# No additional dependencies needed

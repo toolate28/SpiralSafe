@@ -11,10 +11,7 @@
       "0j",
       "0j"
     ],
-    "operations": [
-      "superpose",
-      "tunnel"
-    ],
+    "operations": ["superpose", "tunnel"],
     "discoveries": [
       {
         "type": "interference",
@@ -70,10 +67,7 @@
       "(0.3535533905932738+0j)",
       "(0.3535533905932738+0j)"
     ],
-    "operations": [
-      "superpose",
-      "tunnel"
-    ],
+    "operations": ["superpose", "tunnel"],
     "discoveries": [
       {
         "type": "interference",
@@ -129,10 +123,7 @@
       "(0.3535533905932738+0j)",
       "(0.3535533905932738+0j)"
     ],
-    "operations": [
-      "superpose",
-      "tunnel"
-    ],
+    "operations": ["superpose", "tunnel"],
     "discoveries": [
       {
         "type": "interference",
@@ -188,10 +179,7 @@
       "(0.3535533905932738+0j)",
       "(0.3535533905932738+0j)"
     ],
-    "operations": [
-      "superpose",
-      "tunnel"
-    ],
+    "operations": ["superpose", "tunnel"],
     "discoveries": [
       {
         "type": "interference",
@@ -247,10 +235,7 @@
       "(0.3535533905932738+0j)",
       "(0.3535533905932738+0j)"
     ],
-    "operations": [
-      "superpose",
-      "tunnel"
-    ],
+    "operations": ["superpose", "tunnel"],
     "discoveries": [
       {
         "type": "interference",

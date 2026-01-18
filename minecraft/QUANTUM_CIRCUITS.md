@@ -32,11 +32,13 @@ SpiralCraft adds **quantum logic gates** as redstone components. Players can bui
 **Appearance**: Glowing cyan/purple sphere with rotating particles
 
 **States**:
+
 - `|0⟩` - Ground state (cyan glow)
 - `|1⟩` - Excited state (purple glow)
 - `α|0⟩ + β|1⟩` - Superposition (both colors shimmering)
 
 **Crafting**:
+
 ```
 [Quantum Crystal] [Observer] [Quantum Crystal]
 [Redstone]        [Diamond]  [Redstone]
@@ -44,6 +46,7 @@ SpiralCraft adds **quantum logic gates** as redstone components. Players can bui
 ```
 
 **Properties**:
+
 ```java
 public class QubitBlock {
   private Complex alpha;  // Amplitude of |0⟩
@@ -94,6 +97,7 @@ public class QubitBlock {
 
 **Function**: Creates equal superposition
 **Matrix**:
+
 ```
 H = 1/√2 [ 1   1 ]
          [ 1  -1 ]
@@ -102,6 +106,7 @@ H = 1/√2 [ 1   1 ]
 **Effect**: `|0⟩ → (|0⟩ + |1⟩)/√2`
 
 **Crafting**:
+
 ```
 [Redstone] [Quantum Crystal] [Redstone]
 [Observer] [Diamond Block]   [Observer]
@@ -116,6 +121,7 @@ H = 1/√2 [ 1   1 ]
 
 **Function**: Entangles two qubits
 **Matrix**:
+
 ```
 CNOT = [ 1  0  0  0 ]
        [ 0  1  0  0 ]
@@ -126,6 +132,7 @@ CNOT = [ 1  0  0  0 ]
 **Effect**: Flips target if control is |1⟩
 
 **Crafting**:
+
 ```
 [Quantum Crystal] [Comparator] [Quantum Crystal]
 [Redstone]        [Diamond]    [Redstone]
@@ -135,6 +142,7 @@ CNOT = [ 1  0  0  0 ]
 **Visual**: Two-block structure with control (top) and target (bottom)
 
 **Behavior**:
+
 ```java
 public void applyCNOT(QubitBlock control, QubitBlock target) {
   // Create entanglement
@@ -156,6 +164,7 @@ public void applyCNOT(QubitBlock control, QubitBlock target) {
 
 **Function**: Adds relative phase
 **Matrix**:
+
 ```
 P(θ) = [ 1      0    ]
        [ 0   e^(iθ)  ]
@@ -164,6 +173,7 @@ P(θ) = [ 1      0    ]
 **Effect**: `|1⟩ → e^(iθ)|1⟩`
 
 **Crafting**:
+
 ```
 [Glowstone] [Quantum Crystal] [Glowstone]
 [Redstone]  [Ender Pearl]     [Redstone]
@@ -177,24 +187,30 @@ P(θ) = [ 1      0    ]
 #### Pauli Gates (X, Y, Z)
 
 **X Gate (NOT)**:
+
 ```
 X = [ 0  1 ]
     [ 1  0 ]
 ```
+
 Effect: Bit flip (|0⟩ ↔ |1⟩)
 
 **Y Gate**:
+
 ```
 Y = [ 0  -i ]
     [ i   0 ]
 ```
+
 Effect: Bit flip + phase flip
 
 **Z Gate**:
+
 ```
 Z = [ 1   0 ]
     [ 0  -1 ]
 ```
+
 Effect: Phase flip (|1⟩ → -|1⟩)
 
 ### 3. Measurement Block
@@ -204,6 +220,7 @@ Effect: Phase flip (|1⟩ → -|1⟩)
 **Function**: Collapses qubit superposition to |0⟩ or |1⟩
 
 **Crafting**:
+
 ```
 [Observer] [Redstone] [Observer]
 [Gold]     [Diamond]  [Gold]
@@ -211,6 +228,7 @@ Effect: Phase flip (|1⟩ → -|1⟩)
 ```
 
 **Behavior**:
+
 ```java
 public class MeasurementBlock {
   public void measure(QubitBlock qubit) {
@@ -241,6 +259,7 @@ public class MeasurementBlock {
 **Function**: Visual circuit builder UI
 
 **UI**:
+
 ```
 ┌────────────────────────────────────────┐
 │   Quantum Circuit Designer             │
@@ -266,6 +285,7 @@ public class MeasurementBlock {
 ### 1. Bell State Creator
 
 **Circuit**:
+
 ```
 Q1: |0⟩ ─[H]─●─[M]
 Q2: |0⟩ ─────X─[M]
@@ -274,6 +294,7 @@ Q2: |0⟩ ─────X─[M]
 **Effect**: Creates maximally entangled state (|00⟩ + |11⟩)/√2
 
 **In-Game**:
+
 ```java
 public void createBellState() {
   QubitBlock q1 = new QubitBlock(); // |0⟩
@@ -291,6 +312,7 @@ public void createBellState() {
 ```
 
 **Quest**: "Quantum Entanglement 101"
+
 - Build Bell state circuit
 - Measure 100 times
 - Verify correlation (should see 50% |00⟩, 50% |11⟩, never |01⟩ or |10⟩)
@@ -299,6 +321,7 @@ public void createBellState() {
 ### 2. Quantum Teleportation
 
 **Circuit**:
+
 ```
 Q1 (Alice): |ψ⟩ ─[Bell]─[M]───────────────
 Q2 (Shared):|0⟩ ─[Bell]─[M]─●───────────
@@ -308,6 +331,7 @@ Q3 (Bob):   |0⟩ ───────────X─[Z?]─[X?]─
 **Effect**: Teleports quantum state from Q1 to Q3 using entanglement
 
 **In-Game Implementation**:
+
 ```java
 public void quantumTeleport(QubitBlock psi, Location bobLocation) {
   // 1. Create Bell pair between Alice and Bob
@@ -345,6 +369,7 @@ public void quantumTeleport(QubitBlock psi, Location bobLocation) {
 ```
 
 **Quest**: "Quantum Courier"
+
 - Set up teleportation circuit across two BUMP portals
 - Teleport 10 different quantum states successfully
 - Reward: Portal Entangler (allows quantum teleportation of items)
@@ -354,12 +379,14 @@ public void quantumTeleport(QubitBlock psi, Location bobLocation) {
 **Purpose**: Quantum database search (finds item in unsorted list in √N time)
 
 **Circuit** (simplified 2-qubit):
+
 ```
 Q1: |0⟩ ─[H]─[Oracle]─[Diffusion]─[M]
 Q2: |0⟩ ─[H]─[Oracle]─[Diffusion]─[M]
 ```
 
 **In-Game**:
+
 ```java
 public int groverSearch(List<Item> database, Item target) {
   int n = (int) Math.ceil(Math.log(database.size()) / Math.log(2));
@@ -387,6 +414,7 @@ public int groverSearch(List<Item> database, Item target) {
 ```
 
 **Quest**: "Quantum Archaeologist"
+
 - Build Grover circuit
 - Search for hidden treasure in 16-item chest array
 - Prove it's faster than linear search
@@ -395,11 +423,13 @@ public int groverSearch(List<Item> database, Item target) {
 ### 4. Quantum Random Number Generator (QRNG)
 
 **Circuit**:
+
 ```
 Q1: |0⟩ ─[H]─[M] → Random bit
 ```
 
 **In-Game**:
+
 ```java
 public boolean quantumRandomBit() {
   QubitBlock q = new QubitBlock();
@@ -421,6 +451,7 @@ public int quantumRandomInt(int bits) {
 **Application**: Loot table RNG, world generation, quantum lottery
 
 **Quest**: "Entropy Master"
+
 - Generate 1000 quantum random numbers
 - Verify statistical randomness (chi-squared test)
 - Reward: Quantum Dice (unbreakable RNG tool)
@@ -436,6 +467,7 @@ public int quantumRandomInt(int bits) {
 **Function**: Displays qubit state on Bloch sphere
 
 **Visual**:
+
 ```
        |0⟩ (North Pole)
          ↑
@@ -447,6 +479,7 @@ public int quantumRandomInt(int bits) {
 ```
 
 **Rendering**:
+
 ```java
 public void renderBlochSphere(QubitBlock qubit) {
   // Calculate Bloch vector
@@ -478,6 +511,7 @@ public void renderBlochSphere(QubitBlock qubit) {
 **Appearance**: Particle beams connecting entangled qubits
 
 **Visual Effect**:
+
 ```
 Qubit A ◉━━━━━━━━━━◉ Qubit B
          ╲        ╱
@@ -487,6 +521,7 @@ Qubit A ◉━━━━━━━━━━◉ Qubit B
 ```
 
 **Rendering**:
+
 ```java
 public void renderEntanglementWeb() {
   List<QubitBlock> entangled = getEntangledQubits();
@@ -517,6 +552,7 @@ public void renderEntanglementWeb() {
 **Function**: Displays detailed qubit statistics
 
 **UI**:
+
 ```
 ┌────────────────────────────────────────┐
 │   Quantum State Analyzer               │
@@ -552,6 +588,7 @@ public void renderEntanglementWeb() {
 ### Lab Structure
 
 **Build Requirements**:
+
 - 16x16 obsidian platform
 - Beacon at center (provides "Quantum Stability" buff)
 - 4 Quantum Circuit Boards at corners
@@ -559,12 +596,14 @@ public void renderEntanglementWeb() {
 - Coherence Amplifier (diamond block + 4 quantum crystals)
 
 **Lab Benefits**:
+
 - +20% coherence in lab area
 - Qubits maintain superposition longer
 - Reduced measurement noise
 - Access to advanced gates (Toffoli, Fredkin)
 
 **Quest**: "Quantum Architect"
+
 - Build a complete quantum lab
 - Set up 8-qubit quantum computer
 - Run Shor's algorithm (factor number 15 = 3 × 5)
@@ -581,6 +620,7 @@ public void renderEntanglementWeb() {
 **Solution**: 3-qubit bit flip code
 
 **Circuit**:
+
 ```
 Data:   |ψ⟩ ─●─●───────────[Error]─────────●─●─[M]
 Ancilla1: |0⟩ ─X─┼───────────────────────────X─┼─[M]
@@ -588,6 +628,7 @@ Ancilla2: |0⟩ ───X──────────────────
 ```
 
 **In-Game**:
+
 ```java
 public QubitBlock errorCorrection(QubitBlock data) {
   // Encode: create 3-qubit state
@@ -621,6 +662,7 @@ public QubitBlock errorCorrection(QubitBlock data) {
 **Purpose**: Basis change for period finding (used in Shor's algorithm)
 
 **Circuit** (3-qubit):
+
 ```
 Q1: ─[H]─[P(π/2)]─[P(π/4)]─[SWAP]─
 Q2: ─────●────────[H]──────[P(π/2)]─[SWAP]─

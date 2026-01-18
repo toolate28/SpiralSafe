@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   signal-cli-rest-api:
@@ -9,7 +9,7 @@ services:
     volumes:
       - signal-cli-config:/home/.local/share/signal-cli
     environment:
-      - MODE=json-rpc  # or "normal" for REST mode
+      - MODE=json-rpc # or "normal" for REST mode
     restart: unless-stopped
     networks:
       - signal-bridge

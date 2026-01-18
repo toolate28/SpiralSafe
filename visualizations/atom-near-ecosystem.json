@@ -1,0 +1,121 @@
+{
+  "$schema": "https://spiralsafe.dev/nano-banana-v1.json",
+  "meta": {
+    "title": "ATOM-NEAR Ecosystem Map",
+    "type": "topology",
+    "version": "0.1.0",
+    "timestamp": "2026-01-18T12:00:00Z"
+  },
+  "nodes": [
+    {
+      "id": "spiralsafe",
+      "type": "vortex",
+      "label": "SpiralSafe Core",
+      "position": {"x": 0, "y": 0},
+      "properties": {
+        "fib_weight": 8,
+        "role": "philosophy",
+        "protocols": ["ATOM", "WAVE", "SPHINX", "KENL"]
+      },
+      "style": {"color": "#7C3AED", "size": "large"}
+    },
+    {
+      "id": "near",
+      "type": "blockchain",
+      "label": "NEAR Protocol",
+      "position": {"x": 3, "y": 0},
+      "properties": {
+        "network": "mainnet",
+        "features": ["TEE", "Sharding", "Chain Sigs", "AITP"]
+      },
+      "style": {"color": "#00EC97", "size": "large"}
+    },
+    {
+      "id": "bridge",
+      "type": "connector",
+      "label": "ATOM-NEAR Bridge",
+      "position": {"x": 1.5, "y": 0},
+      "properties": {
+        "contract": "atom-near.spiralsafe.near",
+        "functions": ["record_atom", "verify_coherence", "check_sphinx", "rollback"]
+      },
+      "style": {"color": "#F59E0B", "size": "medium"}
+    },
+    {
+      "id": "tee",
+      "type": "compute",
+      "label": "TEE Enclave",
+      "position": {"x": 3, "y": 1},
+      "properties": {
+        "provider": "NEAR AI Cloud",
+        "attestation": true,
+        "privacy": "encrypted"
+      },
+      "style": {"color": "#10B981", "size": "small"}
+    },
+    {
+      "id": "shade",
+      "type": "agent",
+      "label": "Shade Agents",
+      "position": {"x": 4, "y": 0},
+      "properties": {
+        "autonomous": true,
+        "verifiable": true,
+        "integration": "AITP"
+      },
+      "style": {"color": "#8B5CF6", "size": "medium"}
+    },
+    {
+      "id": "snippet_vault",
+      "type": "contract",
+      "label": "Snippet Vault",
+      "position": {"x": 2, "y": 1},
+      "properties": {
+        "model": "stake-to-access",
+        "tiers": 3,
+        "tvl_target": "100k NEAR"
+      },
+      "style": {"color": "#EC4899", "size": "medium"}
+    },
+    {
+      "id": "users",
+      "type": "collective",
+      "label": "Stakers/Users",
+      "position": {"x": 0, "y": 1},
+      "properties": {
+        "access": "code_snippets",
+        "stake_range": "1-100 NEAR"
+      },
+      "style": {"color": "#6366F1", "size": "medium"}
+    }
+  ],
+  "edges": [
+    {"from": "spiralsafe", "to": "bridge", "label": "protocols", "type": "export"},
+    {"from": "bridge", "to": "near", "label": "on-chain", "type": "contract"},
+    {"from": "near", "to": "tee", "label": "attestation", "type": "verify"},
+    {"from": "near", "to": "shade", "label": "agents", "type": "spawn"},
+    {"from": "bridge", "to": "snippet_vault", "label": "distribution", "type": "service"},
+    {"from": "users", "to": "snippet_vault", "label": "stake", "type": "deposit"},
+    {"from": "snippet_vault", "to": "spiralsafe", "label": "yield", "type": "fund"}
+  ],
+  "clusters": [
+    {
+      "id": "spiralsafe_layer",
+      "label": "SpiralSafe Layer",
+      "nodes": ["spiralsafe", "users"],
+      "style": {"border": "#7C3AED"}
+    },
+    {
+      "id": "near_layer",
+      "label": "NEAR Layer",
+      "nodes": ["near", "tee", "shade"],
+      "style": {"border": "#00EC97"}
+    },
+    {
+      "id": "bridge_layer",
+      "label": "Bridge Layer",
+      "nodes": ["bridge", "snippet_vault"],
+      "style": {"border": "#F59E0B"}
+    }
+  ]
+}

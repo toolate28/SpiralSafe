@@ -1,0 +1,94 @@
+{
+  "$schema": "https://spiralsafe.dev/nano-banana-v1.json",
+  "meta": {
+    "title": "Vortex Cascade Flow",
+    "type": "flow",
+    "version": "0.1.0",
+    "timestamp": "2026-01-18T12:00:00Z"
+  },
+  "stages": [
+    {
+      "id": "superposition",
+      "label": "Superposition State",
+      "phase": 0,
+      "fib": null,
+      "description": "All repos in quantum uncertainty",
+      "properties": {
+        "probability": "P(coherent) = Σ |ψᵢ|² × fib(i)",
+        "state": "uncertain"
+      },
+      "style": {"gradient": ["#9333EA", "#4F46E5"]}
+    },
+    {
+      "id": "observe",
+      "label": "AWI ⊗ SAIF ⊗ KENL",
+      "phase": 1,
+      "fib": 13,
+      "description": "Tensor product observation",
+      "properties": {
+        "awi": {"observes": ["CI/CD", "merge_conflicts", "deploy"]},
+        "saif": {"observes": ["patterns", "coherence", "divergence"]},
+        "kenl": {"observes": ["knowledge_flow", "learning", "sessions"]}
+      },
+      "style": {"gradient": ["#4F46E5", "#0EA5E9"]}
+    },
+    {
+      "id": "calculate",
+      "label": "Probability Calculation",
+      "phase": 2,
+      "fib": 8,
+      "description": "Collapse probability computation",
+      "properties": {
+        "formula": "signal = collapse(AWI ⊗ SAIF ⊗ KENL)",
+        "thresholds": {
+          "MERGE": "> 0.80",
+          "OBSERVE": "0.40 - 0.80",
+          "DOUBT": "< 0.40",
+          "SNAP_IN": "> 0.92"
+        }
+      },
+      "style": {"gradient": ["#0EA5E9", "#10B981"]}
+    },
+    {
+      "id": "signal",
+      "label": "Signal Emission",
+      "phase": 3,
+      "fib": 5,
+      "description": "Definite state determined",
+      "properties": {
+        "signals": [
+          {"name": "MERGE", "gate": "PASSAGE", "action": "integrate"},
+          {"name": "DOUBT", "gate": "ESCALATE", "action": "new_spiral"},
+          {"name": "OBSERVE", "gate": "COHERENCE", "action": "continue"},
+          {"name": "SNAP_IN", "gate": "ORIGIN", "action": "lock"}
+        ]
+      },
+      "style": {"gradient": ["#10B981", "#84CC16"]}
+    },
+    {
+      "id": "collapse",
+      "label": "State Collapse",
+      "phase": 4,
+      "fib": 3,
+      "description": "Execute determined action",
+      "properties": {
+        "execution": "Signal-specific handler",
+        "atom_trail": true,
+        "reversible": true
+      },
+      "style": {"gradient": ["#84CC16", "#EAB308"]}
+    }
+  ],
+  "transitions": [
+    {"from": "superposition", "to": "observe", "trigger": "measurement_intent"},
+    {"from": "observe", "to": "calculate", "trigger": "tensor_complete"},
+    {"from": "calculate", "to": "signal", "trigger": "threshold_crossed"},
+    {"from": "signal", "to": "collapse", "trigger": "signal_emitted"},
+    {"from": "collapse", "to": "superposition", "trigger": "cycle_complete", "label": "Return to superposition"}
+  ],
+  "loop": {
+    "type": "self-sustaining",
+    "feedback": "collapse_result → superposition_adjustment",
+    "convergence": "coherence_score → threshold"
+  }
+}

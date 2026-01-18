@@ -98,6 +98,47 @@ else
 fi
 echo ""
 
+echo "Test 3b: Issue Reference Detection"
+echo "-----------------------------------"
+cd "$TEST_DIR"
+
+# Test various issue reference formats
+ISSUE_TAG1=$("$SCRIPT_DIR/atom-track.sh" TEST "test issue-#format" "issue-#123" 2>&1)
+ISSUE_TAG2=$("$SCRIPT_DIR/atom-track.sh" TEST "test #format" "#456" 2>&1)
+ISSUE_TAG3=$("$SCRIPT_DIR/atom-track.sh" TEST "test issue-format" "issue-789" 2>&1)
+ISSUE_TAG4=$("$SCRIPT_DIR/atom-track.sh" TEST "test GH-format" "GH-999" 2>&1)
+
+# Verify issue field in JSON
+if grep -q '"issue": "issue-#123"' ".atom-trail/decisions/${ISSUE_TAG1}.json" && \
+   grep -q '"issue": "#456"' ".atom-trail/decisions/${ISSUE_TAG2}.json" && \
+   grep -q '"issue": "issue-789"' ".atom-trail/decisions/${ISSUE_TAG3}.json" && \
+   grep -q '"issue": "GH-999"' ".atom-trail/decisions/${ISSUE_TAG4}.json"; then
+  echo "✓ Issue references detected and stored correctly"
+else
+  echo "✗ Issue reference detection failed"
+  EXIT_CODE=1
+fi
+
+# Test "none" case - should omit field entirely
+NONE_TAG=$("$SCRIPT_DIR/atom-track.sh" TEST "test none" "none" 2>&1)
+if ! grep -q '"file"' ".atom-trail/decisions/${NONE_TAG}.json" && \
+   ! grep -q '"issue"' ".atom-trail/decisions/${NONE_TAG}.json"; then
+  echo "✓ 'none' case handled correctly (field omitted)"
+else
+  echo "✗ 'none' case should omit file/issue field"
+  EXIT_CODE=1
+fi
+
+# Test regular file path still works
+FILE_TAG=$("$SCRIPT_DIR/atom-track.sh" TEST "test file" "myfile.txt" 2>&1)
+if grep -q '"file": "myfile.txt"' ".atom-trail/decisions/${FILE_TAG}.json"; then
+  echo "✓ File paths still work correctly"
+else
+  echo "✗ File path handling broken"
+  EXIT_CODE=1
+fi
+echo ""
+
 echo "Test 4: Script Validation"
 echo "--------------------------"
 cd "$REPO_ROOT"

@@ -36,12 +36,12 @@ Human: Final review and merge
 
 ## Marker Reference
 
-| Marker | Meaning |
-|--------|---------|
-| `H&&S:WAVE` | Soft handoff—review welcome |
-| `H&&S:PASS` | Hard handoff—ownership transfers |
-| `H&&S:SYNC` | State synchronization |
-| `H&&S:BLOCK` | Work blocked—needs resolution |
+| Marker       | Meaning                          |
+| ------------ | -------------------------------- |
+| `H&&S:WAVE`  | Soft handoff—review welcome      |
+| `H&&S:PASS`  | Hard handoff—ownership transfers |
+| `H&&S:SYNC`  | State synchronization            |
+| `H&&S:BLOCK` | Work blocked—needs resolution    |
 
 ---
 
@@ -56,10 +56,11 @@ Human: Final review and merge
 ## Quality Gates
 
 Before merge:
+
 - [ ] Coherence check passes (wave.md)
 - [ ] All markers resolved
 - [ ] Human approval obtained
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_

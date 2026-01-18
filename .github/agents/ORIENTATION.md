@@ -7,9 +7,10 @@
 
 ## What This Actually Is
 
-You're looking at a framework that treats AI collaboration like **distributed systems engineering** instead of magic. 
+You're looking at a framework that treats AI collaboration like **distributed systems engineering** instead of magic.
 
 No hand-waving. No "AI will figure it out." Just:
+
 - **Verification gates** (like database transactions, but for AI work)
 - **Observable state** (like tracing, but for decisions)
 - **Failure modes** (documented, not hoped away)
@@ -162,30 +163,35 @@ Think of gates as **assertions in production**:
 assert(user.isAuthenticated(), "Can't access this route");
 
 // This is the same thing:
-gate_intention_to_execution()  // "Can't execute without context"
+gate_intention_to_execution(); // "Can't execute without context"
 ```
 
 ### Gate 1: `gate_understanding_to_knowledge`
+
 **What it checks:** Did you actually understand the problem?  
 **Fails if:** No excavation notes, no leverage points identified  
 **Why:** "Just do it" fails 80% of the time
 
-### Gate 2: `gate_knowledge_to_intention`  
+### Gate 2: `gate_knowledge_to_intention`
+
 **What it checks:** Do you have patterns to work from?  
 **Fails if:** No KENL patterns, no prior art referenced  
 **Why:** Reinventing wheels is waste
 
 ### Gate 3: `gate_intention_to_execution`
+
 **What it checks:** Is bump.md filled out completely?  
 **Fails if:** Placeholders like `YYYYMMDD` or `<short:` remain  
 **Why:** Missing context = wrong solution
 
 ### Gate 4: `gate_execution_to_learning`
+
 **What it checks:** Did you log what you did?  
 **Fails if:** No ATOM decisions recorded  
 **Why:** Undocumented work doesn't exist
 
 ### Gate 5: `gate_learning_to_regeneration`
+
 **What it checks:** Did you extract insights?  
 **Fails if:** No learning doc, no SAIF analysis  
 **Why:** Experience that doesn't transfer is wasted
@@ -220,6 +226,7 @@ Author: jane_dev
 Date: 2026-01-03
 
 --- CURRENT STATE
+
 - API client fails on network blips
 - No retry mechanism exists
 - Tests are passing but brittle
@@ -228,6 +235,7 @@ Date: 2026-01-03
 Add exponential backoff retry logic to API client
 
 --- UNKNOWNS
+
 - What's the max retry count?
 - Should we retry on all errors or just network?
 - What about rate limiting?
@@ -255,7 +263,7 @@ fi
 
 ```yaml
 ---
-status: active          # active | aspirational | historical
+status: active # active | aspirational | historical
 last_verified: 2026-01-03
 atom_tags:
   - ATOM-DOC-20260103-001
@@ -405,14 +413,14 @@ Good: README.md has state marker
 if (atomDecisions.count >= 100) {
   // Extract patterns
   const patterns = extractCommonPatterns(atomTrail);
-  
+
   // Find anti-patterns
   const antiPatterns = detectAntiWaves(gateTransitions);
-  
+
   // Update docs
   updateKENL(patterns);
   updateAntiWaveDetection(antiPatterns);
-  
+
   // Improve gates
   if (gateFailureRate > 0.3) {
     proposeGateRefinement();
@@ -623,7 +631,7 @@ See `.github/agents/COHERENCE_PROTOCOL.md` for your detailed protocols.
 **Style:** Pragmatic with purposeful beauty
 
 ═══════════════════════════════════════════════════════
-   ✦ The map is not the territory ✦
-   🌳 But it shows where gold is buried 🌳
-   🐎 Walk the paths. Make new ones. 🐎
+✦ The map is not the territory ✦
+🌳 But it shows where gold is buried 🌳
+🐎 Walk the paths. Make new ones. 🐎
 ═══════════════════════════════════════════════════════

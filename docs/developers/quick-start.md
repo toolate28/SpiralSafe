@@ -95,11 +95,13 @@ This creates a traceable decision marker. Use ATOM tags for every significant ac
 ## Troubleshooting
 
 **"Permission denied" on scripts**
+
 ```bash
 chmod +x scripts/*.sh
 ```
 
 **"npm ERR!" during install**
+
 ```bash
 rm -rf node_modules package-lock.json
 npm install

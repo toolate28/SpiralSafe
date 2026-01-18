@@ -1,0 +1,118 @@
+# ═══════════════════════════════════════════════════════════════
+# SpiralSafe ML Dependencies Test (Optional)
+# Tests heavy ML/quantum packages on demand
+# ═══════════════════════════════════════════════════════════════
+#
+# This workflow is separate from main CI to avoid long build times
+# and platform-specific GPU requirements.
+#
+# H&&S:WAVE | Hope&&Sauced
+
+name: ML Dependencies Test
+
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_torch:
+        description: "Test PyTorch"
+        type: boolean
+        default: true
+      test_qiskit:
+        description: "Test Qiskit"
+        type: boolean
+        default: false
+      use_gpu:
+        description: "Use GPU runner (if available)"
+        type: boolean
+        default: false
+
+  # Optionally run on labeled PRs
+  pull_request:
+    types: [labeled]
+
+jobs:
+  ml-test:
+    name: Test ML Dependencies
+    runs-on: ${{ inputs.use_gpu && 'ubuntu-latest' || 'ubuntu-latest' }}
+    # Only run if manually triggered or PR has 'test-ml' label
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'test-ml'))
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: "pip"
+
+      - name: Install Core Dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Install ML Dependencies (CPU-only)
+        if: ${{ inputs.test_torch || github.event.label.name == 'test-ml' }}
+        run: |
+          echo "Installing PyTorch (CPU-only for CI)"
+          pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+
+          echo "Installing other ML dependencies"
+          pip install numpy scipy matplotlib plotly networkx sympy opencv-python
+
+      - name: Install Qiskit
+        if: ${{ inputs.test_qiskit }}
+        run: |
+          echo "Installing Qiskit"
+          pip install qiskit qiskit-aer
+
+      - name: Test PyTorch Installation
+        if: ${{ inputs.test_torch || github.event.label.name == 'test-ml' }}
+        run: |
+          python -c "import torch; print(f'PyTorch version: {torch.__version__}'); print(f'CUDA available: {torch.cuda.is_available()}')"
+
+      - name: Test Qiskit Installation
+        if: ${{ inputs.test_qiskit }}
+        run: |
+          python -c "import qiskit; print(f'Qiskit version: {qiskit.__version__}')"
+
+      - name: Test Numpy/Scipy
+        run: |
+          python -c "import numpy; print(f'NumPy version: {numpy.__version__}')"
+          python -c "import scipy; print(f'SciPy version: {scipy.__version__}')"
+
+      - name: Test Visualization Libraries
+        run: |
+          python -c "import matplotlib; print(f'Matplotlib version: {matplotlib.__version__}')"
+          python -c "import plotly; print(f'Plotly version: {plotly.__version__}')"
+
+      - name: Run ML-Specific Tests (if exist)
+        continue-on-error: true
+        run: |
+          if [ -d "tests/ml" ]; then
+            pytest tests/ml/ -v
+          else
+            echo "No ML-specific tests found (tests/ml/ directory doesn't exist)"
+          fi
+
+      - name: Report Results
+        if: always()
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  ML Dependencies Test Complete"
+          echo "═══════════════════════════════════════════════════════════════"
+          echo ""
+          echo "Installed packages:"
+          pip list | grep -E "(torch|qiskit|numpy|scipy|matplotlib)"
+          echo ""
+          echo "Platform: $(python -c 'import platform; print(platform.platform())')"
+          echo "Python: $(python --version)"

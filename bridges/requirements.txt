@@ -1,18 +1,24 @@
 # SpiralSafe Hardware Integration Bridges
 # Python dependencies for ATOM trail streaming, hologram display, and Tartarus control
+# Install: pip install -r ../requirements.txt -r requirements.txt
+#
+# Note: Core dependencies are in ../requirements.txt
+# This file only lists bridge-specific additions
 
-# Core async I/O
-asyncio-atexit>=1.0.1
+# Core dependencies (asyncio-atexit, watchdog, psutil, pyserial, pyusb) 
+# are in ../requirements.txt
+#
+# Install: pip install -r requirements.txt
+# Or from repository root: pip install -r requirements.txt
+#
+# H&&S:WAVE | Hope&&Sauced
 
-# File system watching for ATOM trail streaming
-watchdog>=3.0.0
+# Use root requirements for consistency
+-r ../requirements.txt
 
-# System resource monitoring (optional, for stats mode)
-psutil>=5.9.0
-
-# Serial/USB communication (for physical devices)
-pyserial>=3.5
-pyusb>=1.2.1
+# Additional bridge-specific dependencies
+# (asyncio-atexit is for cleanup handlers, NOT the asyncio stdlib module)
+asyncio-atexit==1.0.1
 
 # Razer Chroma SDK support (Linux)
 # Note: On Linux, install OpenRazer:
@@ -23,18 +29,20 @@ pyusb>=1.2.1
 # Note: Requires Razer Synapse installed
 # razer-chroma-sdk-python>=1.0.0  # Uncomment if using physical Razer devices on Windows
 
-# Optional: PIL for advanced text rendering on hologram
-# Pillow>=10.0.0
+# Optional: PIL for advanced text rendering on hologram (see ../requirements-ml.txt)
+# Pillow==10.2.0
 
+# Optional: numpy for advanced 3D rendering (see ../requirements-ml.txt)
+# numpy==1.26.3
+
+# Development dependencies are defined in ../requirements-dev.txt
+# Install from this directory with:
+#   pip install -r ../requirements-dev.txt
+# Or from the repository root with:
+#   pip install -r requirements-dev.txt
+
+# Documentation (in ../requirements.txt)
+# markdown==3.4.4
 # Optional: numpy for advanced 3D rendering
+# See requirements-ml.txt in root for ML dependencies
 # numpy>=1.24.0
-
-# Development dependencies
-pytest>=7.4.0
-pytest-asyncio>=0.21.0
-black>=23.0.0
-flake8>=6.0.0
-mypy>=1.5.0
-
-# Documentation
-markdown>=3.4.0

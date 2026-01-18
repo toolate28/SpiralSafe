@@ -12,12 +12,12 @@ AI-human collaboration can drift into incoherent states: talking past each other
 
 ## Coherence Indicators
 
-| Indicator | Healthy | Unhealthy |
-|-----------|---------|-----------|
+| Indicator         | Healthy    | Unhealthy |
+| ----------------- | ---------- | --------- |
 | **Understanding** | Converging | Diverging |
-| **Progress** | Measurable | Spinning |
-| **Trust** | Building | Eroding |
-| **Scope** | Stable | Creeping |
+| **Progress**      | Measurable | Spinning  |
+| **Trust**         | Building   | Eroding   |
+| **Scope**         | Stable     | Creeping  |
 
 ---
 
@@ -57,10 +57,10 @@ POTENTIAL = unresolved_threads / active_capacity
 
 ## Wave Types
 
-| Type | Meaning | Response |
-|------|---------|----------|
-| `H&&S:WAVE` | Soft signal—review welcome | Continue, mark for review |
-| Anti-wave | Coherence violation detected | Stop, diagnose, repair |
+| Type        | Meaning                      | Response                  |
+| ----------- | ---------------------------- | ------------------------- |
+| `H&&S:WAVE` | Soft signal—review welcome   | Continue, mark for review |
+| Anti-wave   | Coherence violation detected | Stop, diagnose, repair    |
 
 ---
 
@@ -96,10 +96,11 @@ if POTENTIAL > 0.8:
 ## Integration
 
 WAVE integrates with:
+
 - **BUMP**: Handoff includes coherence state
 - **AWI**: Permission levels adjust based on trust
 - **ATOM**: Task decomposition prevents overload
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_

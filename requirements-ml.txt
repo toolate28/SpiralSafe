@@ -1,0 +1,70 @@
+# SpiralSafe ML/Quantum Dependencies (Optional)
+# Install: pip install -r requirements.txt -r requirements-ml.txt
+#
+# WARNING: These packages are large (>1GB) and may require GPU support.
+# For CPU-only PyTorch: pip install torch --index-url https://download.pytorch.org/whl/cpu
+#
+# H&&S:WAVE | Hope&&Sauced
+
+# Core dependencies
+-r requirements.txt
+
+# Scientific computing
+numpy==2.4.1
+scipy==1.17.0
+
+# Visualization
+matplotlib==3.8.2
+plotly==5.18.0
+
+# Advanced visualization
+networkx==3.2.1
+sympy==1.12
+
+# Mathematical animations (large dependency)
+manim==0.19.2
+
+# Image processing
+opencv-python==4.9.0.80
+
+# DSPy - Language Model Programming Framework
+# Used for SAIF NPC AI behavior optimization
+# Supports MIPROv2 teleprompter and BootstrapFinetune
+dspy==3.1.0
+
+# Machine Learning (Optional - Large packages)
+# Uncomment only if ML features are needed
+# torch==2.1.2
+# torchvision==0.16.2
+# torchaudio==2.1.2
+
+# Quantum computing (Optional - Large packages)
+# Uncomment only if quantum features are needed
+# See: experiments/qiskit_dspy_integration.md for integration guide
+# 
+# Qiskit v1.0+ required for modern API compatibility
+# qiskit>=1.0.0,<2.0.0
+# qiskit-aer>=0.14.0,<1.0.0
+# 
+# Qiskit Machine Learning for hybrid quantum-classical pipelines
+# Enables TorchConnector and quantum kernels for DSPy integration
+# qiskit-machine-learning>=0.7.0,<1.0.0
+
+# DSPy for LLM prompt optimization (Optional)
+# Uncomment for QRC-DSPy integration (see experiments/qrc_reservoir.py)
+# dspy-ai==2.4.0
+
+# Generative AI (Optional - Large packages)
+# Uncomment only if local model support is needed
+# diffusers==0.25.1
+# transformers==4.36.2
+# accelerate==0.25.0
+
+# Qiskit-DSPy hybrid integration uses the `dspy` package specified above.
+# See: experiments/qiskit_dspy_integration.md
+# NOTE: Older docs may reference the legacy PyPI name `dspy-ai`; this project
+#       standardizes on `dspy==3.1.0` (see above) to avoid duplication.
+
+# API Clients for external AI services
+openai==1.12.0
+replicate==1.0.7

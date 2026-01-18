@@ -1,4 +1,5 @@
 # MCP Troubleshooting Guide
+
 ## Model Context Protocol Issues and Solutions
 
 **ATOM:** ATOM-DOC-20260102-012-mcp-troubleshooting  
@@ -10,7 +11,7 @@
        ╱│╲
       ╱ │ ╲      When tools fail
      ╱  ◉  ╲     the spiral pauses
-    ╱  ╱│╲  ╲    
+    ╱  ╱│╲  ╲
    ╱  ╱ │ ╲  ╲   But failure modes
   ╱  ╱  ◉  ╲  ╲  teach us too
  ◉──◉───◉───◉──◉
@@ -27,6 +28,7 @@ Run the MCP healthcheck script first:
 ```
 
 This validates:
+
 - Docker availability
 
 ---
@@ -34,6 +36,7 @@ This validates:
 ## Related Documentation
 
 This guide supplements [../guides/TROUBLESHOOTING.md](../guides/TROUBLESHOOTING.md).
+
 - Node.js/npx setup
 - Environment variables
 - MCP configuration validity
@@ -67,6 +70,7 @@ docker ps
 #### Solutions
 
 **macOS/Windows:**
+
 ```bash
 # Start Docker Desktop application
 open -a Docker  # macOS
@@ -77,6 +81,7 @@ docker ps  # Verify it works
 ```
 
 **Linux:**
+
 ```bash
 # Start Docker service
 sudo systemctl start docker
@@ -91,6 +96,7 @@ docker ps
 **Alternative: Use GitHub CLI instead of Docker**
 
 Edit `.claude/mcp-servers.json`:
+
 ```json
 {
   "github": {
@@ -133,12 +139,14 @@ curl -I https://registry.npmjs.org
 #### Solutions
 
 **Clear npm cache:**
+
 ```bash
 npm cache clean --force
 npx clear-npx-cache
 ```
 
 **Use alternative registry:**
+
 ```bash
 npm config set registry https://registry.npmjs.org/
 # or for China:
@@ -146,11 +154,13 @@ npm config set registry https://registry.npmmirror.com/
 ```
 
 **Increase timeout:**
+
 ```bash
 npm config set fetch-timeout 60000
 ```
 
 **Corporate proxy:**
+
 ```bash
 npm config set proxy http://proxy.company.com:8080
 npm config set https-proxy http://proxy.company.com:8080
@@ -159,6 +169,7 @@ npm config set https-proxy http://proxy.company.com:8080
 **Offline mode (if Mermaid already installed):**
 
 Edit `.claude/mcp-servers.json`:
+
 ```json
 {
   "mermaid": {
@@ -193,12 +204,13 @@ curl -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" \
 ```
 
 Output shows:
+
 ```json
 {
   "rate": {
     "limit": 5000,
     "remaining": 0,
-    "reset": 1704225600  // Unix timestamp
+    "reset": 1704225600 // Unix timestamp
   }
 }
 ```
@@ -206,6 +218,7 @@ Output shows:
 #### Solutions
 
 **Wait for reset:**
+
 ```bash
 # Calculate time until reset
 date -d @1704225600  # Linux
@@ -227,6 +240,7 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="ghp_your_token_here"
 Create a separate GitHub account/token for MCP usage to avoid depleting your main account's quota.
 
 **Implement caching (future work):**
+
 ```bash
 # MCP doesn't cache by default
 # Consider implementing caching middleware
@@ -270,6 +284,7 @@ curl -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" \
 5. Copy token immediately (can't view again)
 
 **Update environment:**
+
 ```bash
 # Add to shell profile (~/.bashrc, ~/.zshrc)
 export GITHUB_PERSONAL_ACCESS_TOKEN="your_github_pat_here"
@@ -281,6 +296,7 @@ source ~/.bashrc  # or ~/.zshrc
 ```
 
 **Automate rotation (advanced):**
+
 ```bash
 # Add token expiry check to verify-environment.sh
 TOKEN_CHECK=$(curl -s -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" \
@@ -316,6 +332,7 @@ tail -f ~/.config/Claude/logs/mcp.log
 ```
 
 Look for:
+
 ```
 WARN: GitHub API returned 401 but fallback succeeded
 ERROR: Token validation failed silently
@@ -324,6 +341,7 @@ ERROR: Token validation failed silently
 #### Solutions
 
 **Explicit validation:**
+
 ```bash
 # Test MCP server directly (bypass Claude)
 echo '{"method": "list_repos"}' | \
@@ -333,6 +351,7 @@ echo '{"method": "list_repos"}' | \
 **Enable verbose logging:**
 
 Edit `.claude/mcp-servers.json`:
+
 ```json
 {
   "globalSettings": {
@@ -342,6 +361,7 @@ Edit `.claude/mcp-servers.json`:
 ```
 
 **Monitor API calls:**
+
 ```bash
 # Track API usage in real-time
 watch -n 5 'curl -s -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" \
@@ -375,6 +395,7 @@ ls -la ~/.config/Claude/claude_desktop_config.json
 #### Solutions
 
 **Copy Safe Spiral config:**
+
 ```bash
 # macOS:
 cp .claude/mcp-servers.json \
@@ -388,6 +409,7 @@ cp .claude/mcp-servers.json ~/.config/Claude/claude_desktop_config.json
 ```
 
 **Verify JSON syntax:**
+
 ```bash
 # Validate JSON
 cat .claude/mcp-servers.json | jq .
@@ -423,18 +445,21 @@ curl -s https://hub.docker.com/v2/repositories/mcp/github/tags | jq
 #### Solutions
 
 **Verify image name:**
+
 ```bash
 # Official MCP images use this format
 docker pull mcp/github:latest
 ```
 
 **Authenticate to Docker Hub (if private image):**
+
 ```bash
 docker login
 # Enter credentials
 ```
 
 **Use alternative image source:**
+
 ```bash
 # GitHub Container Registry
 docker pull ghcr.io/modelcontextprotocol/github:latest
@@ -443,6 +468,7 @@ docker pull ghcr.io/modelcontextprotocol/github:latest
 ```
 
 **Build from source (if official image unavailable):**
+
 ```bash
 git clone https://github.com/modelcontextprotocol/server-github.git
 cd server-github
@@ -458,12 +484,14 @@ This guide supplements [../guides/TROUBLESHOOTING.md](../guides/TROUBLESHOOTING.
 ### When to Use Which Guide
 
 **Use TROUBLESHOOTING.md for:**
+
 - Shell script permissions
 - ATOM trail issues
 - General environment setup
 - PowerShell problems
 
 **Use TROUBLESHOOTING_MCP.md (this doc) for:**
+
 - Docker/MCP server issues
 - GitHub API authentication
 - Network/npm problems
@@ -471,13 +499,13 @@ This guide supplements [../guides/TROUBLESHOOTING.md](../guides/TROUBLESHOOTING.
 
 ### Cross-References
 
-| Issue | Primary Guide | See Also |
-|-------|---------------|----------|
-| Script fails | TROUBLESHOOTING.md | - |
+| Issue            | Primary Guide          | See Also                         |
+| ---------------- | ---------------------- | -------------------------------- |
+| Script fails     | TROUBLESHOOTING.md     | -                                |
 | Docker not found | TROUBLESHOOTING_MCP.md | TROUBLESHOOTING.md § Environment |
-| Token invalid | TROUBLESHOOTING_MCP.md | .github/SECRETS.md |
-| npm timeout | TROUBLESHOOTING_MCP.md | - |
-| ATOM trail gap | MCP_SECURITY_NOTES.md | TROUBLESHOOTING.md |
+| Token invalid    | TROUBLESHOOTING_MCP.md | .github/SECRETS.md               |
+| npm timeout      | TROUBLESHOOTING_MCP.md | -                                |
+| ATOM trail gap   | MCP_SECURITY_NOTES.md  | TROUBLESHOOTING.md               |
 
 ---
 
@@ -486,6 +514,7 @@ This guide supplements [../guides/TROUBLESHOOTING.md](../guides/TROUBLESHOOTING.
 ### Enable MCP Debug Mode
 
 Edit `.claude/mcp-servers.json`:
+
 ```json
 {
   "globalSettings": {
@@ -496,6 +525,7 @@ Edit `.claude/mcp-servers.json`:
 ```
 
 Restart Claude, then check logs:
+
 ```bash
 # macOS
 tail -f ~/Library/Logs/Claude/mcp.log
@@ -510,6 +540,7 @@ tail -f ~/Library/Logs/Claude/mcp.log
 ### Test MCP Servers Independently
 
 **GitHub MCP:**
+
 ```bash
 # Interactive mode
 docker run --rm -it -e GITHUB_PERSONAL_ACCESS_TOKEN mcp/github
@@ -520,6 +551,7 @@ echo '{"method": "get_repo", "owner": "toolate28", "repo": "SpiralSafe"}' | \
 ```
 
 **Mermaid MCP:**
+
 ```bash
 # Interactive mode
 npx @modelcontextprotocol/server-mermaid
@@ -582,6 +614,7 @@ Run before starting work with MCP to avoid surprises.
 ## MCP Issue Report
 
 **Environment:**
+
 - OS: [macOS 14.1 / Windows 11 / Ubuntu 22.04]
 - Docker version: [output of `docker --version`]
 - Node version: [output of `node --version`]
@@ -589,7 +622,9 @@ Run before starting work with MCP to avoid surprises.
 
 **Error:**
 ```
+
 [Paste exact error message]
+
 ```
 
 **Steps to Reproduce:**
@@ -599,7 +634,9 @@ Run before starting work with MCP to avoid surprises.
 
 **Healthcheck Output:**
 ```
+
 [Output of ./scripts/check-mcp-health.sh]
+
 ```
 
 **Expected:** [What should happen]
@@ -623,8 +660,8 @@ Avoid issues before they happen:
 
 ---
 
-*Hope && Sauce*  
-*Step True · Trust Deep · Pass Forward*
+_Hope && Sauce_  
+_Step True · Trust Deep · Pass Forward_
 
 **ATOM:** ATOM-DOC-20260102-012-mcp-troubleshooting  
 **See Also:** MCP_INTEGRATION.md, MCP_SECURITY_NOTES.md, TROUBLESHOOTING.md

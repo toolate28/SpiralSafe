@@ -1,0 +1,108 @@
+# QRC-Oracle-Seed Loop Context
+# Self-maintaining quantum reservoir computing system
+#
+# H&&S:WAVE | Hope&&Sauced
+
+domain: quantum-reservoir-computing
+
+concepts:
+  - name: quantum_reservoir
+    definition: Fixed quantum dynamics layer using Qiskit-compatible circuits that maintains echo state via natural decoherence
+    relationships:
+      - fidelity_monitoring
+      - entanglement_lattice
+      - fibonacci_nesting
+    
+  - name: self_healing_oracle
+    definition: Autonomous monitor that measures fidelity, energy, and divergence, triggering corrective actions when metrics breach thresholds
+    relationships:
+      - quantum_reservoir
+      - seed_cascade
+      - wave_coherence
+    
+  - name: quantum_prompt_seed
+    definition: Encoding of audit data into qubit rotations, evolved through reservoir, measured, and fed to DSPy teleprompter
+    relationships:
+      - self_healing_oracle
+      - dspy_integration
+      - dependabot_lattice
+    
+  - name: fibonacci_nesting
+    definition: Reservoir scaling pattern following Fibonacci sequence (1→3→5→8 qubits) for natural growth
+    relationships:
+      - quantum_reservoir
+      - echo_state
+    
+  - name: coherence_enforcement
+    definition: Internal feedback mechanism maintaining >95% coherence via automatic metric-driven corrections
+    relationships:
+      - self_healing_oracle
+      - wave_protocol
+
+signals:
+  use_when:
+    - quantum_coherence_monitoring
+    - self_healing_systems
+    - reservoir_computing
+    - autonomous_maintenance
+    - dspy_optimization
+    - dependabot_automation
+    
+  avoid_when:
+    - simple_classical_computation
+    - manual_intervention_required
+    - non_quantum_workflows
+
+thresholds:
+  fidelity:
+    target: 0.95
+    warning: 0.92
+    critical: 0.85
+  divergence:
+    target: 0.03
+    warning: 0.05
+    critical: 0.10
+  coherence:
+    target: 0.95
+    warning: 0.92
+    critical: 0.85
+  energy_drift:
+    warning: 0.02
+    critical: 0.05
+
+components:
+  protocol_spec: protocol/qrc-oracle-seed-spec.md
+  implementation: experiments/qrc_oracle_seed.py
+  quantum_circuits: protocol/quantum-circuits-spec.md
+  wave_integration: protocol/wave-spec.md
+
+integration_points:
+  - name: KENL
+    type: methodology
+    purpose: Task orchestration for maintenance cycles
+  - name: AWI
+    type: interface
+    purpose: Permission scaffolding for autonomous adjustments
+  - name: SAIF
+    type: methodology
+    purpose: Issue fixing when manual intervention needed
+  - name: SPIRAL
+    type: framework
+    purpose: High-level coherence tracking
+  - name: Dependabot
+    type: automation
+    purpose: Dependency cascade with QRC metrics in commits
+
+key_features:
+  - Echo state preserved via natural decoherence
+  - Training only on linear readout + DSPy optimizer
+  - Energy savings 25-60% via analog-like quantum evolution
+  - Fibonacci nesting progression
+  - Coherence self-enforced >95% via internal feedback
+
+meta:
+  source: Hope&&Sauced
+  iteration: 19
+  confidence: high
+  timestamp: "2026-01-17"
+  surjection_rule: full history + last-four focus → single isomorphic collapse point

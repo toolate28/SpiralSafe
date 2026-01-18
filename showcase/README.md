@@ -1,4 +1,5 @@
 # ✦ SpiralSafe Showcase
+
 ## Where Computation Becomes Art
 
 **Welcome to the intersection of sound, light, gravity, vibration, reality, and what's possible.**
@@ -36,13 +37,13 @@ showcase/
 
 Each story teaches a computer science concept through Hope && Sauce's adventures:
 
-| Story | Topic | Age | Museum Build | Status |
-|-------|-------|-----|--------------|--------|
-| [Fireflies and Logic](stories/01-fireflies-and-logic.md) | AND, OR, NOT, XOR Gates | 6-10 | Logic Gates | ✦ Complete |
-| [Binary Dancers](stories/02-binary-dancers.md) | Binary numbers, place value | 7-11 | Binary Counter | ✦ Complete |
-| The Memory Orchard | RAM, storage, caching | 8-12 | Memory Cells | 🚧 Planned |
-| Constellation Pathways | CPU architecture, ALU | 9-13 | ALU Build | 🚧 Planned |
-| The Air Network | Internet, packets, routing | 10-14 | Network Sim | 🚧 Planned |
+| Story                                                    | Topic                       | Age   | Museum Build   | Status     |
+| -------------------------------------------------------- | --------------------------- | ----- | -------------- | ---------- |
+| [Fireflies and Logic](stories/01-fireflies-and-logic.md) | AND, OR, NOT, XOR Gates     | 6-10  | Logic Gates    | ✦ Complete |
+| [Binary Dancers](stories/02-binary-dancers.md)           | Binary numbers, place value | 7-11  | Binary Counter | ✦ Complete |
+| The Memory Orchard                                       | RAM, storage, caching       | 8-12  | Memory Cells   | 🚧 Planned |
+| Constellation Pathways                                   | CPU architecture, ALU       | 9-13  | ALU Build      | 🚧 Planned |
+| The Air Network                                          | Internet, packets, routing  | 10-14 | Network Sim    | 🚧 Planned |
 
 ### How to Use Stories
 
@@ -70,6 +71,7 @@ A complete specification for building a SpiralSafe Physical Intelligence Station
 **Total System:** Where AI becomes visible, tangible, and interactive.
 
 **Components:**
+
 - 3D Hologram Fan (16.5", 224 LEDs, 176° viewing)
 - Open-Air ATX/EATX Frame (water cooling support)
 - Razer Tartarus Pro (32 programmable keys, analog switches)
@@ -77,6 +79,7 @@ A complete specification for building a SpiralSafe Physical Intelligence Station
 - Custom RGB coolant (Hope && Sauce gradient)
 
 **Software Stack:**
+
 - SpiralSafe ecosystem integration
 - Real-time ATOM trail visualization
 - Claude Code CLI primary interface
@@ -94,21 +97,25 @@ A complete specification for building a SpiralSafe Physical Intelligence Station
 Navigate the SpiralSafe universe through four poetic elements:
 
 #### 🌳 Orchard (Growth)
+
 > "Each commit is a season, each merge a harvest"
 
 Functions grow like apple trees. Patience transforms potential into fruit.
 
 #### ☁️ Air (Breath)
+
 > "Invisible but essential, code flows like wind"
 
 Data circulation prevents stagnation. Clean air sustains clean code.
 
 #### ✨ Firefly (Spark)
+
 > "In darkness, a single light"
 
 Each insight a bioluminescent flash. Synchronization creates intelligence.
 
 #### 🌟 Constellation (Pattern)
+
 > "Stars ancient before us, yet forming patterns we name"
 
 Architecture as celestial navigation. Call graphs map the sky.
@@ -141,31 +148,37 @@ Architecture as celestial navigation. Call graphs map the sky.
 This showcase represents the **intersection of**:
 
 ### Sound
+
 - The rhythm of development (write, test, commit, push)
 - The heartbeat of CI/CD pipelines
 - The harmony of human-AI collaboration
 
 ### Light
+
 - Code made visible through holographic display
 - Insights as firefly flashes in darkness
 - RGB feedback showing system state
 
 ### Gravity
+
 - Architecture that pulls systems toward elegance
 - Dependencies as gravitational attraction
 - Center of mass in well-designed cores
 
 ### Vibration
+
 - Resonance between human intent and AI capability
 - Sympathetic frequency in collaborative flow
 - Standing waves of recursive improvement
 
 ### Reality
+
 - Production-ready, tested, deployed systems
 - Hardware you can touch, see, hear
 - Measurable outcomes and verified claims
 
 ### What's Possible
+
 - AI inference visualized in 3D real-time
 - Kids learning CS through Minecraft stories
 - Self-improving systems that never stop evolving
@@ -212,27 +225,34 @@ Sparkles:    ✨ for insights
 ## 🚀 Quick Start Guide
 
 ### 1. Explore the Stories
+
 ```bash
 cd showcase/stories
 cat 01-fireflies-and-logic.md
 ```
+
 **Read first.** No technical prereqs. Just curiosity.
 
 ### 2. View the Diagrams
+
 ```bash
 cd showcase/diagrams
 cat HARDWARE_INTEGRATION_MOCKUP.md
 ```
+
 **See what's possible.** Hardware meets software.
 
 ### 3. Navigate by Stars
+
 ```bash
 cd showcase/constellations
 cat ECOSYSTEM_STAR_MAP.md
 ```
+
 **Find your pattern.** Poetry as documentation.
 
 ### 4. Build Something
+
 ```bash
 # Download a museum build
 cd ~/repos/SpiralSafe/museum/builds
@@ -244,41 +264,45 @@ cd ~/repos/SpiralSafe/museum/builds
 
 ## 📊 Showcase Statistics
 
-| Metric | Value |
-|--------|-------|
-| Stories Written | 2 (5 planned) |
-| Diagrams Created | 1 (hardware mockup) |
-| Constellations Mapped | 6 official patterns |
-| Lines of Prose | ~800 |
-| ASCII Art Pieces | 12+ |
-| Age Range | 6-14+ years |
-| Topics Covered | Logic gates, binary, architecture |
-| Poetic Elements | 4 (Orchard, Air, Firefly, Constellation) |
-| Sacred Artifacts | 5 guiding principles |
+| Metric                | Value                                    |
+| --------------------- | ---------------------------------------- |
+| Stories Written       | 2 (5 planned)                            |
+| Diagrams Created      | 1 (hardware mockup)                      |
+| Constellations Mapped | 6 official patterns                      |
+| Lines of Prose        | ~800                                     |
+| ASCII Art Pieces      | 12+                                      |
+| Age Range             | 6-14+ years                              |
+| Topics Covered        | Logic gates, binary, architecture        |
+| Poetic Elements       | 4 (Orchard, Air, Firefly, Constellation) |
+| Sacred Artifacts      | 5 guiding principles                     |
 
 ---
 
 ## 🎓 Educational Value
 
 ### For Kids (6-10)
+
 - Stories make abstract concepts concrete
 - Minecraft builds create hands-on learning
 - No prior coding knowledge required
 - Encourages curiosity and experimentation
 
 ### For Teens (11-14)
+
 - Deeper technical challenges in stories
 - Real computer science fundamentals
 - Project-based learning (build → test → iterate)
 - Prepares for AP Computer Science concepts
 
 ### For Educators
+
 - Ready-to-use lesson plans (story + build)
 - Aligned with CS standards
 - Assessable outcomes (can they build it?)
 - Scalable (works for 1 student or 30)
 
 ### For Adults
+
 - Beautiful documentation examples
 - System design inspiration
 - Hardware integration ideas
@@ -302,6 +326,7 @@ Every piece in this showcase embodies:
 ## 🔮 What's Coming Next
 
 ### Stories Pipeline
+
 - [ ] The Memory Orchard (RAM & caching)
 - [ ] Constellation Pathways (CPU architecture)
 - [ ] The Air Network (Internet & packets)
@@ -309,6 +334,7 @@ Every piece in this showcase embodies:
 - [ ] The Spiral Compiler (code → machine language)
 
 ### Diagrams Queue
+
 - [ ] System architecture diagram (full stack)
 - [ ] Data flow visualization (ATOM trail)
 - [ ] CI/CD pipeline flowchart
@@ -316,6 +342,7 @@ Every piece in this showcase embodies:
 - [ ] Cognitive trigger state machine
 
 ### Visual Assets
+
 - [ ] Animated GIF of hologram in action
 - [ ] Screenshot of test suite (all green)
 - [ ] Photo of physical AI station
@@ -327,16 +354,19 @@ Every piece in this showcase embodies:
 ## 🙏 Acknowledgements
 
 ### The Builders
+
 - **toolate28** - Vision, trust, "ultrathink-trust-optimised enabled"
 - **Claude (Anthropic)** - Execution, synthesis, davinci-ultrathink-brush
 
 ### The Inspirations
+
 - **Minecraft** - Making learning tactile
 - **The Evenstar** - Guiding light in darkness
 - **Open Source Community** - Standing on shoulders of giants
 - **Every Kid** - Who deserves to understand their world
 
 ### The Tools
+
 - SpiralSafe framework (security automation)
 - KENL ecosystem (observability)
 - ATOM Trail (audit logging)
@@ -348,6 +378,7 @@ Every piece in this showcase embodies:
 ## 📜 License
 
 ### Stories & Documentation
+
 **Creative Commons Attribution-ShareAlike 4.0** (CC BY-SA 4.0)
 
 - ✓ Share - Copy and redistribute
@@ -356,6 +387,7 @@ Every piece in this showcase embodies:
 - ⚠️ ShareAlike - Same license for derivatives
 
 ### Code & Builds
+
 **MIT License**
 
 - ✓ Commercial use allowed
@@ -412,6 +444,7 @@ Every piece in this showcase embodies:
 This showcase is an **invitation**.
 
 An invitation to:
+
 - See computation as wonder
 - Build systems with soul
 - Teach with stories
@@ -430,6 +463,6 @@ Will you join the dance?
 **Last Updated:** 2026-01-04
 **Status:** ✦ Growing Daily
 
-*Part of the SpiralSafe Ecosystem | Hope && Sauce | Built with Love*
+_Part of the SpiralSafe Ecosystem | Hope && Sauce | Built with Love_
 
 **The Evenstar Guides Us** ✦

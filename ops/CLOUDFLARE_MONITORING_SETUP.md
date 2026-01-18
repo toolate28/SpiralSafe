@@ -29,17 +29,20 @@
 ### Available Metrics
 
 **Request Metrics**:
+
 - Total requests (24h, 7d, 30d views)
 - Requests per second (real-time)
 - Success rate percentage
 - Error breakdown (4xx vs 5xx)
 
 **Performance Metrics**:
+
 - CPU time (avg, p50, p75, p99)
 - Duration (avg, p50, p75, p99)
 - Wall time vs CPU time
 
 **Geographic Distribution**:
+
 - Requests by country
 - Requests by Cloudflare data center
 
@@ -179,6 +182,7 @@ done
 ```
 
 Run in background:
+
 ```bash
 nohup ./ops/scripts/collect-logs.sh &
 ```
@@ -192,24 +196,28 @@ nohup ./ops/scripts/collect-logs.sh &
 **Access**: Cloudflare Dashboard → Workers & Pages → spiralsafe-api → Analytics
 
 **Custom Time Ranges**:
+
 - Last 24 hours
 - Last 7 days
 - Last 30 days
 - Custom date range
 
 **Export Options**:
+
 - Download CSV
 - API export (for external dashboards)
 
 ### Option B: Grafana Dashboard
 
 **Prerequisites**:
+
 - Grafana instance (self-hosted or Grafana Cloud)
 - Cloudflare API token with Analytics read permissions
 
 **Setup Steps**:
 
 1. **Install Cloudflare Grafana Plugin**:
+
    ```bash
    grafana-cli plugins install cloudflare-app
    ```
@@ -221,6 +229,7 @@ nohup ./ops/scripts/collect-logs.sh &
    - Select account
 
 3. **Import Dashboard Template**:
+
    ```bash
    # Download SpiralSafe dashboard template
    curl -o grafana-dashboard.json https://gist.github.com/.../spiralsafe-dashboard.json
@@ -242,6 +251,7 @@ nohup ./ops/scripts/collect-logs.sh &
 ### Option C: Custom Analytics with Workers Analytics Engine
 
 **Enable Analytics Engine**:
+
 ```toml
 # ops/wrangler.toml
 [analytics_engine_datasets]
@@ -249,16 +259,18 @@ binding = "ANALYTICS"
 ```
 
 **Write Custom Events**:
+
 ```typescript
 // In spiralsafe-worker.ts
 env.ANALYTICS.writeDataPoint({
   blobs: [path, ip, userAgent],
   doubles: [responseTime, status],
-  indexes: [timestamp]
+  indexes: [timestamp],
 });
 ```
 
 **Query via GraphQL**:
+
 ```bash
 curl -X POST https://api.cloudflare.com/client/v4/graphql \
   -H "Authorization: Bearer $CF_API_TOKEN" \
@@ -362,6 +374,7 @@ echo "$(date -Iseconds) - Health check passed" >> logs/health-check.log
 ```
 
 Run via cron (every 5 minutes):
+
 ```cron
 */5 * * * * /path/to/ops/scripts/health-check.sh
 ```
@@ -401,6 +414,7 @@ done
 ### Test Downtime Alert
 
 **Simulate downtime** (NOT recommended for production):
+
 ```bash
 # Disable worker temporarily
 npx wrangler publish --name spiralsafe-api-down --route "api-down.spiralsafe.org/*"
@@ -423,11 +437,13 @@ npx wrangler publish
 ### Datadog
 
 **Setup**:
+
 1. Install Datadog Cloudflare integration
 2. Add API token to Datadog
 3. Configure log forwarding (Logpush)
 
 **Benefits**:
+
 - Unified monitoring with other services
 - Advanced log querying
 - Anomaly detection
@@ -436,6 +452,7 @@ npx wrangler publish
 ### Sentry (Error Tracking)
 
 **Add to worker**:
+
 ```typescript
 // ops/api/spiralsafe-worker.ts
 import * as Sentry from '@sentry/cloudflare';
@@ -453,6 +470,7 @@ catch (error) {
 ```
 
 **Configure**:
+
 ```bash
 npx wrangler secret put SENTRY_DSN
 # Enter: https://YOUR_KEY@o12345.ingest.sentry.io/67890
@@ -461,6 +479,7 @@ npx wrangler secret put SENTRY_DSN
 ### PagerDuty (On-call Alerts)
 
 **Integration Steps**:
+
 1. PagerDuty → Services → Add Service
 2. Integration Type: Cloudflare
 3. Copy Integration Key
@@ -468,6 +487,7 @@ npx wrangler secret put SENTRY_DSN
 5. Paste Integration Key
 
 **Escalation Policy**:
+
 - Level 1 (5 min): On-call engineer (email + SMS)
 - Level 2 (15 min): Team lead (phone call)
 - Level 3 (30 min): VP Engineering (phone call)
@@ -515,6 +535,7 @@ fi
 ```
 
 Run hourly via cron:
+
 ```cron
 0 * * * * /path/to/ops/scripts/security-check.sh
 ```
@@ -564,14 +585,17 @@ npx wrangler d1 execute spiralsafe-ops --command="PRAGMA query_only = ON"
 ### Track Worker Invocations
 
 **Free Tier Limits**:
+
 - 100,000 requests/day
 - 10ms CPU time per request
 
 **Paid Plan** ($5/month):
+
 - 10 million requests/month included
 - $0.50 per additional million
 
 **Check Current Usage**:
+
 ```bash
 curl -X GET "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/scripts/spiralsafe-api/usage" \
   -H "Authorization: Bearer $CF_API_TOKEN"
@@ -580,18 +604,22 @@ curl -X GET "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/s
 ### Monitor Storage Costs
 
 **D1 Database**:
+
 - Free: 5 GB storage, 5 million reads/day
 - Paid: $0.50/GB/month, $0.001 per 1000 reads
 
 **KV Namespace**:
+
 - Free: 100,000 reads/day, 1000 writes/day
 - Paid: $0.50 per million reads, $5 per million writes
 
 **R2 Storage**:
+
 - Free: 10 GB storage, 1 million Class A operations/month
 - Paid: $0.015/GB/month
 
 **Check Storage Usage**:
+
 ```bash
 # D1
 npx wrangler d1 info spiralsafe-ops

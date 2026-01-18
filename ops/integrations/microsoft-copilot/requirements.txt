@@ -1,3 +1,15 @@
-pydantic>=1.10
-requests>=2.31
-pytest>=7.0
+# Microsoft Copilot Integration Dependencies
+# Install: pip install -r ../../../requirements.txt -r requirements.txt
+#
+# Core dependencies (requests, pydantic) are in ../../../requirements.txt
+# This file only lists integration-specific additions
+
+# Testing tools (e.g., pytest) are provided by ../../../requirements-dev.txt.
+# Developers should install both ../../../requirements.txt and
+# ../../../requirements-dev.txt when working on or testing this integration.
+# H&&S:WAVE | Hope&&Sauced
+
+# Use root requirements for consistency
+-r ../../../requirements.txt
+
+# No additional dependencies needed

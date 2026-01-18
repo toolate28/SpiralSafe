@@ -12,7 +12,7 @@ SpiralSafe operates on **Hope&&Sauced** principles:
 
 2. **Constraints enable.** We don't fight limitations—we use them as design material. If a tool can't do something, that boundary often reveals where the interesting work lives.
 
-3. **Dual-format by default.** Documentation should serve both human readers and agent systems. Write prose that resonates *and* structure that parses.
+3. **Dual-format by default.** Documentation should serve both human readers and agent systems. Write prose that resonates _and_ structure that parses.
 
 4. **Day Zero Design.** Get it right from the start rather than patching later. This applies to code, documentation, and architectural decisions.
 
@@ -32,7 +32,7 @@ For substantial changes, open an issue first to discuss the direction. SpiralSaf
 
 ### Want to extend the framework?
 
-The best contributions extend the *principle*, not just the code:
+The best contributions extend the _principle_, not just the code:
 
 - New manifestations of the isomorphism principle
 - Additional dual-format documentation patterns
@@ -70,6 +70,7 @@ We encourage it. If you collaborate with Claude, Copilot, or other AI systems:
 Format: `[layer] Brief description`
 
 Layers:
+
 - `[foundation]` - Core principles, theoretical work
 - `[interface]` - AWI, ClaudeNPC, BattleMedic
 - `[methodology]` - ATOM, SAIF, KENL, Day Zero
@@ -89,12 +90,15 @@ The work exists because the principle is true: structure is substrate-independen
 
 ---
 
-*~ Hope&&Sauced*
+_~ Hope&&Sauced_
 
 ---
+
 <!-- H&&S:WAVE -->
+
 Structural work complete. @copilot please review for:
-- Markdown formatting consistency  
+
+- Markdown formatting consistency
 - Link validation
 - Badge syntax standardization
 - Typo detection
