@@ -686,7 +686,7 @@ if __name__ == "__main__":
         history=[{"coherence": 0.85}],
     )
 
-    with open(OUTPUT_DIR / "demo_prompt.json", "w") as f:
+    with open(OUTPUT_DIR / "demo_prompt.json", "w", encoding="utf-8") as f:
         json.dump(
             {
                 "content": demo_result.content,
