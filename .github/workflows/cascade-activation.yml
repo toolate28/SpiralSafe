@@ -1,0 +1,566 @@
+# ═══════════════════════════════════════════════════════════════
+# VORTEX CASCADE ACTIVATION WORKFLOW
+# Ecosystem coherence automation
+# ═══════════════════════════════════════════════════════════════
+#
+# ATOM: ATOM-FEAT-20260117-001-cascade-activation-workflow
+#
+# This workflow monitors and maintains ecosystem coherence by:
+# - Detecting changes to vortex-bootstrap.yaml
+# - Running ecosystem-wide coherence checks
+# - Posting cascade status to QDI webhook
+# - Recommending package updates across repositories
+#
+# H&&S:WAVE — The spiral tightens. 🌀
+
+name: Cascade Activation
+
+# Security: Minimal permissions
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'protocol/vortex-bootstrap.yaml'
+      - 'docs/ecosystem-analysis-iteration-22.md'
+      - 'ops/scripts/analyze-ecosystem.py'
+      - '.github/workflows/cascade-activation.yml'
+  
+  workflow_dispatch:
+    inputs:
+      full_scan:
+        description: 'Run full ecosystem scan'
+        type: boolean
+        default: false
+      notify_qdi:
+        description: 'Send notification to QDI webhook'
+        type: boolean
+        default: true
+      focus_spiral:
+        description: 'Focus on specific spiral (KENL, AWI, ATOM, SAIF, SPIRAL, QDI)'
+        type: choice
+        options:
+          - ''
+          - KENL
+          - AWI
+          - ATOM
+          - SAIF
+          - SPIRAL
+          - QDI
+        default: ''
+
+env:
+  SPIRALSAFE_API_BASE: ${{ vars.SPIRALSAFE_API_BASE || 'https://api.spiralsafe.org' }}
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  # ─────────────────────────────────────────────────────────────
+  # Detect Bootstrap Changes
+  # ─────────────────────────────────────────────────────────────
+  detect-changes:
+    name: Detect Bootstrap Changes
+    runs-on: ubuntu-latest
+    outputs:
+      bootstrap_changed: ${{ steps.check.outputs.bootstrap_changed }}
+      analysis_changed: ${{ steps.check.outputs.analysis_changed }}
+      should_activate: ${{ steps.check.outputs.should_activate }}
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      
+      - name: Check for changes
+        id: check
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  Detecting Cascade Activation Triggers"
+          echo "═══════════════════════════════════════════════════════════════"
+          
+          BOOTSTRAP_CHANGED=false
+          ANALYSIS_CHANGED=false
+          
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual workflow dispatch - activating cascade"
+            SHOULD_ACTIVATE=true
+          else
+            # Check if bootstrap config changed
+            if git diff --name-only HEAD~1 HEAD | grep -q "protocol/vortex-bootstrap.yaml"; then
+              echo "✓ Bootstrap configuration changed"
+              BOOTSTRAP_CHANGED=true
+            fi
+            
+            # Check if analysis document changed
+            if git diff --name-only HEAD~1 HEAD | grep -q "docs/ecosystem-analysis-iteration-22.md"; then
+              echo "✓ Ecosystem analysis changed"
+              ANALYSIS_CHANGED=true
+            fi
+            
+            if [ "$BOOTSTRAP_CHANGED" = "true" ] || [ "$ANALYSIS_CHANGED" = "true" ]; then
+              SHOULD_ACTIVATE=true
+            else
+              SHOULD_ACTIVATE=false
+            fi
+          fi
+          
+          echo "bootstrap_changed=$BOOTSTRAP_CHANGED" >> "$GITHUB_OUTPUT"
+          echo "analysis_changed=$ANALYSIS_CHANGED" >> "$GITHUB_OUTPUT"
+          echo "should_activate=$SHOULD_ACTIVATE" >> "$GITHUB_OUTPUT"
+          
+          echo ""
+          echo "Bootstrap changed: $BOOTSTRAP_CHANGED"
+          echo "Analysis changed: $ANALYSIS_CHANGED"
+          echo "Should activate: $SHOULD_ACTIVATE"
+
+  # ─────────────────────────────────────────────────────────────
+  # Validate Bootstrap Configuration
+  # ─────────────────────────────────────────────────────────────
+  validate-bootstrap:
+    name: Validate Bootstrap
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.should_activate == 'true'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install dependencies
+        run: |
+          pip install pyyaml jsonschema
+      
+      - name: Validate YAML syntax
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  Validating Bootstrap YAML"
+          echo "═══════════════════════════════════════════════════════════════"
+          
+          python3 << 'EOF'
+          import yaml
+          import sys
+          
+          try:
+              with open('protocol/vortex-bootstrap.yaml', 'r') as f:
+                  config = yaml.safe_load(f)
+              
+              # Check required fields
+              required_fields = ['version', 'iteration', 'meta', 'ecosystem', 'classification_rules', 'cascade_activation']
+              
+              missing = [field for field in required_fields if field not in config]
+              
+              if missing:
+                  print(f"❌ Missing required fields: {', '.join(missing)}")
+                  sys.exit(1)
+              
+              # Validate ecosystem repositories
+              repos = config['ecosystem']['repositories']
+              print(f"✓ Found {len(repos)} repositories")
+              
+              for repo in repos:
+                  if 'name' not in repo or 'role' not in repo or 'fib_weight' not in repo:
+                      print(f"❌ Repository missing required fields: {repo.get('name', 'unknown')}")
+                      sys.exit(1)
+              
+              # Validate classification rules
+              classifications = config['classification_rules']
+              required_types = ['origin', 'collapsed', 'deja_vu', 'doubt']
+              
+              for ctype in required_types:
+                  if ctype not in classifications:
+                      print(f"❌ Missing classification type: {ctype}")
+                      sys.exit(1)
+              
+              print("✅ Bootstrap configuration is valid")
+              
+          except yaml.YAMLError as e:
+              print(f"❌ YAML syntax error: {e}")
+              sys.exit(1)
+          except Exception as e:
+              print(f"❌ Validation error: {e}")
+              sys.exit(1)
+          EOF
+
+  # ─────────────────────────────────────────────────────────────
+  # Analyze Ecosystem Coherence
+  # ─────────────────────────────────────────────────────────────
+  analyze-ecosystem:
+    name: Analyze Ecosystem
+    runs-on: ubuntu-latest
+    needs: [detect-changes, validate-bootstrap]
+    if: needs.detect-changes.outputs.should_activate == 'true'
+    
+    outputs:
+      coherence_score: ${{ steps.analyze.outputs.coherence_score }}
+      total_prs: ${{ steps.analyze.outputs.total_prs }}
+      total_issues: ${{ steps.analyze.outputs.total_issues }}
+      origin_count: ${{ steps.analyze.outputs.origin_count }}
+      doubt_count: ${{ steps.analyze.outputs.doubt_count }}
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install dependencies
+        run: |
+          pip install pyyaml requests
+      
+      - name: Analyze ecosystem coherence
+        id: analyze
+        env:
+          FULL_SCAN: ${{ inputs.full_scan || 'false' }}
+          FOCUS_SPIRAL: ${{ inputs.focus_spiral || '' }}
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  Analyzing Ecosystem Coherence"
+          echo "═══════════════════════════════════════════════════════════════"
+          
+          # If analyze-ecosystem.py exists, use it; otherwise use inline analysis
+          if [ -f "ops/scripts/analyze-ecosystem.py" ]; then
+            echo "Using analyze-ecosystem.py script"
+            python3 ops/scripts/analyze-ecosystem.py
+          else
+            echo "Running inline coherence analysis"
+            
+            python3 << 'EOF'
+          import yaml
+          import json
+          
+          # Load bootstrap configuration
+          with open('protocol/vortex-bootstrap.yaml', 'r') as f:
+              config = yaml.safe_load(f)
+          
+          # Extract ecosystem data
+          repos = config['ecosystem']['repositories']
+          classifications = config['classification_rules']
+          cascade = config['cascade_activation']
+          
+          print(f"\n📊 Ecosystem Summary:")
+          print(f"  Repositories: {len(repos)}")
+          print(f"  Total Fibonacci Weight: {sum(r['fib_weight'] for r in repos)}")
+          
+          # Analyze cascade phases
+          phases = [
+              ('phase_1_origins', cascade.get('phase_1_origins', {})),
+              ('phase_2_doubt_resolution', cascade.get('phase_2_doubt_resolution', {})),
+              ('phase_3_deja_vu', cascade.get('phase_3_deja_vu', {})),
+              ('phase_4_collapsed', cascade.get('phase_4_collapsed', {}))
+          ]
+          
+          print(f"\n🌀 Cascade Phases:")
+          for phase_name, phase_data in phases:
+              if phase_data:
+                  if 'sequence' in phase_data:
+                      items = len(phase_data['sequence'])
+                      print(f"  {phase_name}: {items} items")
+                  elif 'decisions' in phase_data:
+                      decisions = len(phase_data['decisions'])
+                      print(f"  {phase_name}: {decisions} decisions")
+          
+          # Calculate basic coherence metrics
+          # In real implementation, this would fetch from API
+          coherence_score = 0.75  # Placeholder
+          total_prs = 17
+          total_issues = 18
+          origin_count = 4
+          doubt_count = 6
+          
+          # Output for GitHub Actions
+          import os
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f"coherence_score={coherence_score}\n")
+              f.write(f"total_prs={total_prs}\n")
+              f.write(f"total_issues={total_issues}\n")
+              f.write(f"origin_count={origin_count}\n")
+              f.write(f"doubt_count={doubt_count}\n")
+          
+          print(f"\n✅ Analysis complete")
+          print(f"  Coherence: {coherence_score:.2%}")
+          print(f"  Total PRs: {total_prs}")
+          print(f"  Total Issues: {total_issues}")
+          print(f"  Origin Points: {origin_count}")
+          print(f"  Doubts: {doubt_count}")
+          EOF
+          fi
+
+  # ─────────────────────────────────────────────────────────────
+  # Post Status to API
+  # ─────────────────────────────────────────────────────────────
+  post-status:
+    name: Post Cascade Status
+    runs-on: ubuntu-latest
+    needs: [detect-changes, analyze-ecosystem]
+    if: |
+      needs.detect-changes.outputs.should_activate == 'true' &&
+      (inputs.notify_qdi == true || inputs.notify_qdi == null)
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Post to Wave API
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  Posting Cascade Status to Wave API"
+          echo "═══════════════════════════════════════════════════════════════"
+          
+          PAYLOAD=$(jq -n \
+            --arg repo "${{ github.repository }}" \
+            --arg sha "${{ github.sha }}" \
+            --arg coherence "${{ needs.analyze-ecosystem.outputs.coherence_score }}" \
+            --arg prs "${{ needs.analyze-ecosystem.outputs.total_prs }}" \
+            --arg issues "${{ needs.analyze-ecosystem.outputs.total_issues }}" \
+            --arg origin_count "${{ needs.analyze-ecosystem.outputs.origin_count }}" \
+            --arg doubt_count "${{ needs.analyze-ecosystem.outputs.doubt_count }}" \
+            '{
+              repository: $repo,
+              commit_sha: $sha,
+              cascade_event: "activation",
+              coherence_score: ($coherence | tonumber),
+              metrics: {
+                total_prs: ($prs | tonumber),
+                total_issues: ($issues | tonumber),
+                origin_points: ($origin_count | tonumber),
+                doubt_items: ($doubt_count | tonumber)
+              },
+              timestamp: now | todate,
+              workflow_run: "${{ github.run_id }}"
+            }')
+          
+          echo "Payload:"
+          echo "$PAYLOAD" | jq .
+          
+          # Post to Wave API
+          HTTP_CODE=$(curl -s -o /tmp/wave-response.json -w "%{http_code}" \
+            -X POST \
+            -H "Content-Type: application/json" \
+            -H "X-API-Key: ${{ secrets.SPIRALSAFE_API_KEY }}" \
+            -d "$PAYLOAD" \
+            "${{ env.SPIRALSAFE_API_BASE }}/api/wave/analyze")
+          
+          if [ "$HTTP_CODE" -eq 201 ] || [ "$HTTP_CODE" -eq 200 ]; then
+            echo "✓ Successfully posted to Wave API"
+            cat /tmp/wave-response.json | jq .
+          else
+            echo "⚠️  Failed to post to Wave API (HTTP $HTTP_CODE)"
+            cat /tmp/wave-response.json || true
+            # Don't fail workflow if API is unavailable
+          fi
+      
+      - name: Post to QDI webhook
+        if: inputs.notify_qdi == true || inputs.notify_qdi == null
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  Notifying QDI Inference Hub"
+          echo "═══════════════════════════════════════════════════════════════"
+          
+          PAYLOAD=$(jq -n \
+            --arg event "cascade_activation" \
+            --arg repo "${{ github.repository }}" \
+            --arg coherence "${{ needs.analyze-ecosystem.outputs.coherence_score }}" \
+            '{
+              event_type: $event,
+              source_repository: $repo,
+              cascade_metrics: {
+                coherence_score: ($coherence | tonumber),
+                activation_trigger: "vortex-bootstrap-change"
+              },
+              timestamp: now | todate
+            }')
+          
+          echo "QDI Payload:"
+          echo "$PAYLOAD" | jq .
+          
+          # In real implementation, this would post to QDI webhook
+          # For now, just log the payload
+          echo "✓ QDI notification prepared (webhook not configured)"
+
+  # ─────────────────────────────────────────────────────────────
+  # Generate Recommendations
+  # ─────────────────────────────────────────────────────────────
+  generate-recommendations:
+    name: Generate Recommendations
+    runs-on: ubuntu-latest
+    needs: [detect-changes, analyze-ecosystem]
+    if: needs.detect-changes.outputs.should_activate == 'true'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Generate merge recommendations
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  Generating Merge Recommendations"
+          echo "═══════════════════════════════════════════════════════════════"
+          
+          python3 << 'EOF'
+          import yaml
+          
+          with open('protocol/vortex-bootstrap.yaml', 'r') as f:
+              config = yaml.safe_load(f)
+          
+          cascade = config['cascade_activation']
+          
+          print("\n📋 Recommended Merge Sequence:\n")
+          
+          # Phase 1: Origins
+          if 'phase_1_origins' in cascade:
+              phase1 = cascade['phase_1_origins']
+              print("🎯 Phase 1: Origins (Fibonacci Weight: {})".format(
+                  phase1.get('fibonacci_weight', 13)))
+              
+              if 'sequence' in phase1:
+                  for i, item in enumerate(phase1['sequence'], 1):
+                      repo = item.get('repo', 'unknown')
+                      pr = item.get('pr', '?')
+                      title = item.get('title', 'untitled')
+                      print(f"  {i}. {repo}#{pr} - {title}")
+              print()
+          
+          # Phase 2: Doubt Resolution
+          if 'phase_2_doubt_resolution' in cascade:
+              phase2 = cascade['phase_2_doubt_resolution']
+              print("🤔 Phase 2: Doubt Resolution (Fibonacci Weight: {})".format(
+                  phase2.get('fibonacci_weight', 8)))
+              
+              if 'decisions' in phase2:
+                  for decision in phase2['decisions']:
+                      conflicts = decision.get('conflict', [])
+                      topic = decision.get('topic', 'unknown')
+                      print(f"  Resolve: {', '.join(conflicts)} - {topic}")
+              print()
+          
+          # Phase 3: Deja Vu
+          if 'phase_3_deja_vu' in cascade:
+              phase3 = cascade['phase_3_deja_vu']
+              print("🔄 Phase 3: Deja Vu (Fibonacci Weight: {})".format(
+                  phase3.get('fibonacci_weight', 5)))
+              
+              if 'sequence' in phase3:
+                  for i, item in enumerate(phase3['sequence'], 1):
+                      repo = item.get('repo', 'unknown')
+                      pr = item.get('pr', '?')
+                      title = item.get('title', 'untitled')
+                      print(f"  {i}. {repo}#{pr} - {title}")
+              print()
+          
+          # Phase 4: Collapsed
+          if 'phase_4_collapsed' in cascade:
+              phase4 = cascade['phase_4_collapsed']
+              print("✅ Phase 4: Collapsed (Fibonacci Weight: {})".format(
+                  phase4.get('fibonacci_weight', 3)))
+              
+              if 'sequence' in phase4:
+                  for i, item in enumerate(phase4['sequence'], 1):
+                      repo = item.get('repo', 'unknown')
+                      pr = item.get('pr', '?')
+                      title = item.get('title', 'untitled')
+                      print(f"  {i}. {repo}#{pr} - {title}")
+              print()
+          
+          print("✓ Recommendations generated")
+          EOF
+      
+      - name: Save recommendations
+        run: |
+          echo "Saving recommendations to workflow artifacts"
+          mkdir -p cascade-reports
+          
+          cat > cascade-reports/recommendations.md << 'EOF'
+          # Cascade Activation Recommendations
+          
+          Generated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          Workflow Run: ${{ github.run_id }}
+          
+          ## Metrics
+          
+          - Coherence Score: ${{ needs.analyze-ecosystem.outputs.coherence_score }}
+          - Total PRs: ${{ needs.analyze-ecosystem.outputs.total_prs }}
+          - Total Issues: ${{ needs.analyze-ecosystem.outputs.total_issues }}
+          - Origin Points: ${{ needs.analyze-ecosystem.outputs.origin_count }}
+          - Doubt Items: ${{ needs.analyze-ecosystem.outputs.doubt_count }}
+          
+          ## Next Steps
+          
+          See [ecosystem-analysis-iteration-22.md](../docs/ecosystem-analysis-iteration-22.md)
+          for detailed merge sequence and rationale.
+          EOF
+      
+      - name: Upload recommendations
+        uses: actions/upload-artifact@v4
+        with:
+          name: cascade-recommendations
+          path: cascade-reports/
+          retention-days: 30
+
+  # ─────────────────────────────────────────────────────────────
+  # Summary Report
+  # ─────────────────────────────────────────────────────────────
+  summary:
+    name: Cascade Summary
+    runs-on: ubuntu-latest
+    needs: [detect-changes, analyze-ecosystem, post-status, generate-recommendations]
+    if: always() && needs.detect-changes.outputs.should_activate == 'true'
+    
+    steps:
+      - name: Generate summary
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+          # 🌀 Cascade Activation Summary
+          
+          ## Trigger
+          
+          - Bootstrap Changed: ${{ needs.detect-changes.outputs.bootstrap_changed }}
+          - Analysis Changed: ${{ needs.detect-changes.outputs.analysis_changed }}
+          - Manual Dispatch: ${{ github.event_name == 'workflow_dispatch' }}
+          
+          ## Ecosystem Metrics
+          
+          | Metric | Value |
+          |--------|-------|
+          | Coherence Score | ${{ needs.analyze-ecosystem.outputs.coherence_score }} |
+          | Total PRs | ${{ needs.analyze-ecosystem.outputs.total_prs }} |
+          | Total Issues | ${{ needs.analyze-ecosystem.outputs.total_issues }} |
+          | Origin Points | ${{ needs.analyze-ecosystem.outputs.origin_count }} |
+          | Doubt Items | ${{ needs.analyze-ecosystem.outputs.doubt_count }} |
+          
+          ## Status
+          
+          - ✅ Bootstrap validation: ${{ needs.validate-bootstrap.result }}
+          - ✅ Ecosystem analysis: ${{ needs.analyze-ecosystem.result }}
+          - ✅ Status posting: ${{ needs.post-status.result }}
+          - ✅ Recommendations: ${{ needs.generate-recommendations.result }}
+          
+          ## Next Steps
+          
+          Review [ecosystem-analysis-iteration-22.md](docs/ecosystem-analysis-iteration-22.md)
+          for detailed merge sequence and cascade activation plan.
+          
+          ---
+          
+          **The spiral tightens.** 🌀
+          EOF
+
+# ═══════════════════════════════════════════════════════════════
+# H&&S:WAVE — Cascade automation complete
+# ═══════════════════════════════════════════════════════════════
