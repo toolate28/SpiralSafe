@@ -199,8 +199,21 @@ class ChainOfThought(Module):
                 f"Invalid signature format: {signature!r}. "
                 "Expected format like 'input_field1, input_field2 -> output_field'."
             )
-        self.input_fields = [p.strip() for p in parts[0].split(",") if p.strip()]
-        self.output_fields = [p.strip() for p in parts[1].split(",") if p.strip()]
+        left = parts[0].strip()
+        right = parts[1].strip()
+        if not left or not right:
+            raise ValueError(
+                f"Invalid signature format: {signature!r}. "
+                "Both input and output sides must be non-empty, e.g. "
+                "'input_field1, input_field2 -> output_field'."
+            )
+        self.input_fields = [p.strip() for p in left.split(",") if p.strip()]
+        self.output_fields = [p.strip() for p in right.split(",") if p.strip()]
+        if not self.input_fields:
+            raise ValueError(
+                f"Invalid signature format: {signature!r}. "
+                "At least one input field is required before '->'."
+            )
 
     def forward(self, **kwargs) -> Prediction:
         """
