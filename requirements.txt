@@ -27,7 +27,7 @@ aiofiles==24.1.0
 asyncio-atexit==1.0.1
 
 # Documentation
-markdown==3.4.4
+markdown==3.10
 
 # File system utilities
 Pillow==10.3.0
