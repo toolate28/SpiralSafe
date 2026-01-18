@@ -9,22 +9,22 @@ The SpiralSafe ecosystem relies on **Coherence**—the synchronization between d
 ```mermaid
 graph TD
     subgraph "📚 The Library (Notebooks)"
-        PB[Project Book<br/>(Task Tracking)]
-        CM[Constraint Math<br/>(Theory & Proofs)]
-        GV[Git Insights<br/>(Health Analytics)]
+        PB[Project Book<br>Task Tracking]
+        CM[Constraint Math<br>Theory & Proofs]
+        GV[Git Insights<br>Health Analytics]
     end
 
     subgraph "⚙️ Ops Core (API)"
-        API[SpiralSafe API<br/>(Cloudflare Worker)]
-        D1[(D1 Database<br/>State Storage)]
-        Wave[Wave Engine<br/>(Coherence Checks)]
-        AWI[AWI<br/>(Permission Scaffolding)]
+        API[SpiralSafe API<br>Cloudflare Worker]
+        D1[(D1 Database<br>State Storage)]
+        Wave[Wave Engine<br>Coherence Checks]
+        AWI[AWI<br>Permission Scaffolding]
     end
 
     subgraph "🌐 Constellation (External)"
-        KENL[KENL Ecosystem<br/>(Observability)]
-        Redstone[Quantum Redstone<br/>(Circuit Logic)]
-        Toolkit[Wave Toolkit<br/>(Doc Tools)]
+        KENL[KENL Ecosystem<br>Observability]
+        Redstone[Quantum Redstone<br>Circuit Logic]
+        Toolkit[Wave Toolkit<br>Doc Tools]
     end
 
     subgraph "🌉 Bridges (Physical)"
