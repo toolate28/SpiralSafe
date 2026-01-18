@@ -82,7 +82,7 @@ if _env_output_dir:
     # Validate path to prevent directory traversal attacks
     _resolved = Path(_env_output_dir).resolve()
     _base = DEFAULT_OUTPUT_DIR.parent.resolve()
-    if not str(_resolved).startswith(str(_base)):
+    if not _resolved.is_relative_to(_base):
         raise ValueError(
             f"AWI_OUTPUT_DIR must be within {_base}, got {_resolved}"
         )
