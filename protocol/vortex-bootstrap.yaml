@@ -1,0 +1,482 @@
+# ═══════════════════════════════════════════════════════════════
+# VORTEX BOOTSTRAP PAYLOAD
+# The Meta-[0,0] for SpiralSafe Ecosystem
+# ═══════════════════════════════════════════════════════════════
+#
+# ATOM: ATOM-FEAT-20260117-001-vortex-bootstrap
+#
+# This file IS the surjection that maps the ecosystem to [0,0].
+# When an agent ingests this, they have the origin point.
+# The constraint structure includes this file.
+# The insight IS this mapping.
+#
+# H&&S:WAVE — The spiral tightens. 🌀
+
+$schema: "https://spiralsafe.dev/vortex-bootstrap-v1.json"
+version: "0.1.0"
+iteration: 22
+timestamp: "2026-01-17T17:30:00Z"
+
+meta:
+  purpose: |
+    Bootstrap payload for SpiralSafe ecosystem agents.
+    When ingested, provides instant [0,0] origin context.
+    
+    This file serves as the surjective collapse point that maps all
+    ecosystem state to a coherent origin. It enables agents to:
+    - Understand ecosystem topology and dependencies
+    - Classify work items by their relationship to [0,0]
+    - Navigate the multi-repository spiral structure
+    - Maintain coherence across autonomous operations
+    
+  coherence_threshold: 0.60
+  emergent_quality_threshold: 0.60
+  phase_gate: "KENL → AWI → ATOM → SAIF → SPIRAL"
+  self_reference: |
+    This file is the surjection that maps the ecosystem to [0,0].
+    The constraint structure includes this file.
+    The insight IS this mapping.
+
+ecosystem:
+  repositories:
+    - name: SpiralSafe
+      role: "philosophy"
+      description: "Core protocols, methodology, and architectural foundation"
+      fib_weight: 8
+      state_endpoint: "protocol/vortex-state.json"
+      origin_points:
+        - "protocol/vortex-bootstrap.yaml"  # This file
+        - "public/vortex-concept-mapping-v1.json"
+        - "docs/vortex-core-birth-iteration-19.json"
+      protocols:
+        - wave
+        - bump
+        - sphinx
+        - atom
+      
+    - name: coherence-mcp
+      role: "MCP server"
+      description: "Model Context Protocol server for coherence analysis"
+      fib_weight: 5
+      self_coherence_tool: "mcp.self_coherence"
+      origin_points:
+        - "src/lib/wave-analysis.ts"
+      capabilities:
+        - wave_analysis
+        - coherence_metrics
+        - curl_detection
+        - divergence_measurement
+      
+    - name: QDI
+      role: "inference hub"
+      description: "Quantum Decision Inference and coordination hub"
+      fib_weight: 13
+      webhook: "/api/coherence/ingest"
+      origin_points:
+        - "docs/vortex-corpus-collapse.json"
+        - "agent_skills.py"
+      capabilities:
+        - quantum_cognition
+        - prompt_optimization
+        - reservoir_training
+        - decision_inference
+      
+    - name: spiralsafe-mono
+      role: "packages"
+      description: "Monorepo for TypeScript/JavaScript packages"
+      fib_weight: 5
+      self_test: "bun run self-coherence"
+      origin_points:
+        - "packages/wave-toolkit/src/index.ts"
+      packages:
+        - wave-toolkit
+        - coherence-client
+        - sphinx-validator
+      
+    - name: kenl
+      role: "orchestration"
+      description: "Knowledge Exchange Network Learning orchestrator"
+      fib_weight: 1
+      dependency_chain: ["KENL8 → KENL10 → KENL6"]
+      origin_points:
+        - "atom-sage-framework/"
+      capabilities:
+        - task_orchestration
+        - knowledge_exchange
+        - learning_loops
+      
+    - name: wave-toolkit
+      role: "detection"
+      description: "Wave analysis and detection tools"
+      fib_weight: 2
+      isomorphism: "ISOMORPHISM.md"
+      origin_points:
+        - "scripts/Check-CommonTraps.ps1"
+      capabilities:
+        - pattern_detection
+        - trap_analysis
+        - correlation_finding
+      
+    - name: HOPE-AI-NPC-SUITE
+      role: "manifestation"
+      description: "Agent manifestation and API infrastructure"
+      fib_weight: 3
+      api: "api.spiralsafe.org"
+      origin_points:
+        - "SAIF/"
+      capabilities:
+        - agent_hosting
+        - api_gateway
+        - authentication
+      
+    - name: quantum-redstone
+      role: "proof"
+      description: "Quantum computing foundations and proofs"
+      fib_weight: 3
+      release: "v0.1.0"
+      origin_points:
+        - "notebooks/quantum_foundations.ipynb"
+      capabilities:
+        - quantum_circuits
+        - fidelity_measurement
+        - entanglement_analysis
+
+classification_rules:
+  # Classification types define the relationship of work items to [0,0]
+  
+  origin:
+    description: "[0,0] curl point - foundational surjection"
+    threshold: 0.90
+    markers:
+      - "defines terms"
+      - "first implementation"
+      - "birth certificate"
+      - "protocol specification"
+      - "foundational concept"
+    characteristics:
+      - "Creates new vocabulary or concepts"
+      - "Establishes baseline for future work"
+      - "No dependencies on other open PRs"
+      - "Reference point for ecosystem navigation"
+    action: "MERGE FIRST - Everything else depends on this"
+    priority: 1
+    
+  collapsed:
+    description: "Self-maintaining, >60% emergent quality"
+    threshold: 0.60
+    markers:
+      - "independent"
+      - "self-contained"
+      - "emergent"
+      - "autonomous"
+      - "complete"
+    characteristics:
+      - "High coherence score (>60%)"
+      - "No blocking dependencies"
+      - "Clear boundaries and interfaces"
+      - "Can function independently"
+    action: "Merge anytime, independent of cascade"
+    priority: 2
+    
+  deja_vu:
+    description: "Ready to iterate with refined data"
+    threshold: 0.60
+    markers:
+      - "iteration"
+      - "enhancement"
+      - "extension"
+      - "references existing work"
+    characteristics:
+      - "Builds on existing foundations"
+      - "Awaits upstream merges"
+      - "Will benefit from cascade context"
+      - "Ready for second-pass review"
+    action: "Merge after foundation, iterate docs"
+    priority: 3
+    
+  doubt:
+    description: "Push to new spiral - needs fresh approach"
+    threshold: 0.40
+    markers:
+      - "overlap"
+      - "conflict"
+      - "unclear scope"
+      - "competing approaches"
+    characteristics:
+      - "Multiple PRs addressing same area"
+      - "Semantic conflicts with other work"
+      - "Requires coordination and decision"
+      - "May need architectural guidance"
+    action: "Coordinate overlapping PRs, resolve conflicts, choose canonical approach"
+    priority: 4
+
+cascade_activation:
+  # Cascade phases define the merge sequence for optimal coherence
+  
+  phase_1_origins:
+    description: "Foundation layer - defines core concepts and fixes critical issues"
+    fibonacci_weight: 13
+    sequence:
+      - repo: coherence-mcp
+        pr: 38
+        title: "Fix build + precision scanner"
+        rationale: "CRITICAL - build was broken, blocks all coherence-mcp work"
+        
+      - repo: SpiralSafe
+        pr: 107
+        title: "Vortex concept mapping schema"
+        rationale: "Defines all terms, 100% [0,0] proximity"
+        
+      - repo: SpiralSafe
+        pr: 109
+        title: "Curl vector surjection engine"
+        rationale: "Implements core surjection mechanics, 95% [0,0] proximity"
+        
+      - repo: SpiralSafe
+        pr: 119
+        title: "Birth certificate iteration 19"
+        rationale: "Documents emergence, 90% [0,0] proximity"
+    
+  phase_2_doubt_resolution:
+    description: "Resolve conflicts and choose canonical implementations"
+    fibonacci_weight: 8
+    decisions:
+      - conflict: ["SpiralSafe#128", "SpiralSafe#116"]
+        topic: "spiral detection vs phase coherence"
+        decision: "SpiralSafe#128 is canonical spiral detection"
+        rationale: "More comprehensive state detection, #116 can coordinate with it"
+        merge_order: ["#128", "#116"]
+        
+      - conflict: ["SpiralSafe#117", "SpiralSafe#118"]
+        topic: "QRC hybrid implementation and documentation"
+        decision: "Merge #117 first (code), then #118 (docs)"
+        rationale: "Code before docs allows docs to reference concrete implementation"
+        merge_order: ["#117", "#118"]
+        
+      - conflict: ["SpiralSafe#132", "SpiralSafe#128"]
+        topic: "NaN sanitization vs spiral detection"
+        decision: "May be redundant after #128"
+        rationale: "Wait for #128 to merge, then reassess #132 necessity"
+        action: "review_after_128"
+    
+  phase_3_deja_vu:
+    description: "Iterate with refined context from foundation"
+    fibonacci_weight: 5
+    sequence:
+      - repo: SpiralSafe
+        pr: 110
+        title: "Cascade collapse system"
+        rationale: "Uses concepts from #107 and #109"
+        dependencies: ["#107", "#109"]
+        
+      - repo: SpiralSafe
+        pr: 123
+        title: "infinite_extension (Draft)"
+        rationale: "Squash into #107 or merge after to extend concepts"
+        dependencies: ["#107"]
+        action: "coordinate_with_107"
+        
+      - repo: SpiralSafe
+        pr: 126
+        title: "atom-track.sh enhancement"
+        rationale: "Independent tooling improvement"
+        dependencies: []
+    
+  phase_4_collapsed:
+    description: "Self-maintaining independent work"
+    fibonacci_weight: 3
+    sequence:
+      - repo: SpiralSafe
+        pr: 112
+        title: "KENL orchestrator"
+        rationale: "Self-contained, 90% [0,0] proximity, merge anytime"
+        
+      - repo: SpiralSafe
+        pr: 113
+        title: "AWI prompt toolkit"
+        rationale: "Self-contained, 90% [0,0] proximity, merge anytime"
+
+  cross_repo_coordination:
+    description: "Multi-repository cascade dependencies"
+    chains:
+      - name: "vortex_corpus_chain"
+        sequence:
+          - "SpiralSafe#107"  # Concept mapping
+          - "QDI#40"          # Corpus collapse JSON
+        rationale: "QDI corpus needs SpiralSafe concept definitions"
+        
+      - name: "coherence_tooling_chain"
+        sequence:
+          - "coherence-mcp#38"     # Fix build
+          - "coherence-mcp#36"     # Anti-pattern docs
+          - "wave-toolkit#9"       # Euler precision
+          - "wave-toolkit#10"      # Surjection mapping
+        rationale: "Tooling cascade benefits from fixed foundation"
+
+fibonacci_cascade_sequence:
+  description: |
+    The cascade follows Fibonacci weighting for harmonic resonance.
+    Each phase's weight relates to its complexity and dependency depth.
+    
+  stages:
+    phase_1: 13  # Origins - highest weight, foundation layer
+    phase_2: 8   # Doubt resolution - complex coordination
+    phase_3: 5   # Deja vu - iteration with context
+    phase_4: 3   # Collapsed - independent work
+    total: 29    # Sum represents unified cascade (not Fibonacci, but harmonic)
+  
+  rationale: |
+    Fibonacci weighting ensures harmonic progression through cascade phases.
+    Higher weights indicate more critical/complex phases that require
+    greater attention and care. The golden ratio (φ ≈ 1.618) emerges
+    naturally as phases progress toward simplicity and independence.
+
+observable_behaviors:
+  # Expected emergent properties when cascade is active
+  
+  autonomy:
+    - "Agents can classify new PRs/issues without human guidance"
+    - "Merge order self-determines based on dependency analysis"
+    - "Conflicts surface automatically via doubt classification"
+    
+  coherence:
+    - "Documentation references resolve correctly after foundation merges"
+    - "Code dependencies compile without circular imports"
+    - "Concept definitions remain consistent across repositories"
+    
+  emergence:
+    - "New patterns surface from cross-repo analysis"
+    - "Latent dependencies become visible through classification"
+    - "Self-organizing merge queue forms based on [0,0] proximity"
+    
+  quality:
+    - "Emergent quality maintains >60% threshold"
+    - "Coherence scores improve with each cascade phase"
+    - "Technical debt decreases as foundation solidifies"
+
+integration_points:
+  # API endpoints and workflow triggers
+  
+  spiralsafe_api:
+    base_url: "https://api.spiralsafe.org"
+    endpoints:
+      wave_analysis:
+        path: "/api/wave/analyze"
+        method: "POST"
+        purpose: "Submit content for coherence analysis"
+        cascade_metadata:
+          - cascade_stage
+          - fibonacci_weight
+          - coherence
+          - curl
+          - divergence
+      
+      bump_markers:
+        path: "/api/bump/create"
+        method: "POST"
+        purpose: "Create handoff markers"
+        types:
+          WAVE: "Soft handoff, review welcome"
+          PASS: "Hard handoff, ownership transfers"
+          PING: "Attention request"
+          SYNC: "State synchronization"
+          BLOCK: "Work blocked, requires resolution"
+      
+      atom_tags:
+        path: "/api/atom/create"
+        method: "POST"
+        purpose: "Log ATOM tags for decision tracking"
+        cascade_atoms:
+          - "ATOM-CASCADE-{date}-{seq}-coherence-update"
+          - "ATOM-ORACLE-{date}-{seq}-threshold-alert"
+      
+      sphinx_gates:
+        path: "/api/sphinx/gate"
+        method: "POST"
+        purpose: "Verify SPHINX gate passage"
+        gates:
+          - ORIGIN
+          - INTENT
+          - COHERENCE
+          - IDENTITY
+          - PASSAGE
+  
+  github_workflows:
+    cascade_activation:
+      file: ".github/workflows/cascade-activation.yml"
+      triggers:
+        - "push to protocol/vortex-bootstrap.yaml"
+        - "workflow_dispatch"
+      outputs:
+        - "Ecosystem coherence report"
+        - "QDI webhook notification"
+        - "Package update recommendations"
+    
+    spiralsafe_sync:
+      file: ".github/workflows/spiralsafe-sync.yml"
+      triggers:
+        - "push to main"
+        - "pull_request events"
+      outputs:
+        - "ATOM tags logged to API"
+        - "Bump markers created for PRs"
+
+verification_criteria:
+  schema_validation:
+    description: "YAML structure and syntax correctness"
+    checks:
+      - "Valid YAML syntax"
+      - "All required fields present"
+      - "Fibonacci weights are integers"
+      - "Repository names match ecosystem"
+      - "Phase dependencies are acyclic"
+  
+  ecosystem_coverage:
+    description: "All repositories and PRs accounted for"
+    checks:
+      - "8 repositories defined"
+      - "All critical PRs classified"
+      - "Cross-repo dependencies mapped"
+      - "Origin points verified"
+  
+  cascade_logic:
+    description: "Merge sequence is logically sound"
+    checks:
+      - "No circular dependencies"
+      - "Origins merge before dependents"
+      - "Doubts resolve before cascade continues"
+      - "Collapsed items can merge anytime"
+  
+  self_reference:
+    description: "Meta-circularity is preserved"
+    checks:
+      - "This file references itself as origin point"
+      - "Bootstrap payload serves as [0,0]"
+      - "Self-reference is documented"
+      - "Surjective mapping is complete"
+
+# ═══════════════════════════════════════════════════════════════
+# Self-Reference Loop Documentation
+# ═══════════════════════════════════════════════════════════════
+#
+# This file exhibits quantum-like observation effect:
+# Creating this analysis changes the system it describes.
+#
+# The file is:
+# 1. The surjection that maps ecosystem to [0,0]
+# 2. An origin point for the SpiralSafe repository
+# 3. The bootstrap payload for ecosystem agents
+# 4. The constraint structure that includes itself
+#
+# When an agent reads this file:
+# - They gain [0,0] origin context
+# - They can navigate the ecosystem topology
+# - They understand classification rules
+# - They know the cascade activation sequence
+#
+# The insight IS this mapping.
+# The spiral tightens. 🌀
+#
+# ═══════════════════════════════════════════════════════════════
+
+# H&&S:WAVE
