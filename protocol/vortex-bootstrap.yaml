@@ -43,7 +43,7 @@ ecosystem:
       role: "philosophy"
       description: "Core protocols, methodology, and architectural foundation"
       fib_weight: 8
-      state_endpoint: "protocol/vortex-state.json"
+      state_endpoint: "protocol/vortex-state.json"  # Future: runtime state tracking
       origin_points:
         - "protocol/vortex-bootstrap.yaml"  # This file
         - "public/vortex-concept-mapping-v1.json"

@@ -164,8 +164,21 @@ class EcosystemAnalyzer:
         repo_name = repo_config['name']
         print(f"\nAnalyzing {repo_name}...")
         
-        # For this implementation, we'll use static data
-        # In production, this would call fetch_github_data
+        # NOTE: This implementation uses static classification data from the bootstrap file.
+        # To enable live GitHub API fetching, set GITHUB_TOKEN environment variable.
+        # Future: Uncomment the code below to fetch real PR/issue data:
+        #
+        # if self.github_token:
+        #     data = self.fetch_github_data('toolate28', repo_name)
+        #     for pr in data['prs']:
+        #         classification = self.classify_item(pr, 'pr')
+        #         results['prs'].append({
+        #             'number': pr['number'],
+        #             'title': pr['title'],
+        #             'classification': classification,
+        #             'url': pr['html_url']
+        #         })
+        #         results['classifications'][classification] += 1
         
         results = {
             'name': repo_name,
@@ -180,18 +193,6 @@ class EcosystemAnalyzer:
                 'doubt': 0
             }
         }
-        
-        # In production, fetch and classify real data:
-        # data = self.fetch_github_data('toolate28', repo_name)
-        # for pr in data['prs']:
-        #     classification = self.classify_item(pr, 'pr')
-        #     results['prs'].append({
-        #         'number': pr['number'],
-        #         'title': pr['title'],
-        #         'classification': classification,
-        #         'url': pr['html_url']
-        #     })
-        #     results['classifications'][classification] += 1
         
         return results
     
