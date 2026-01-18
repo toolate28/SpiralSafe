@@ -48,7 +48,7 @@ numpy==2.4.1
 opencv-python==4.9.0.80
 openai==1.12.0
 plotly==5.18.0
-replicate==0.25.0
+replicate==1.0.7
 scipy==1.17.0
 sympy==1.12
 manim==0.19.2
