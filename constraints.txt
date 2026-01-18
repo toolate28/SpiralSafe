@@ -35,10 +35,10 @@ mkdocs-material==9.5.3
 mypy==1.8.0
 pre-commit==3.6.0
 pylint==3.0.3
-pytest==7.4.3
-pytest-asyncio==0.21.1
-pytest-cov==4.1.0
-pytest-timeout==2.2.0
+pytest==9.0.2
+pytest-asyncio==1.3.0
+pytest-cov==7.0.0
+pytest-timeout==2.4.0
 types-requests==2.31.0.10
 
 # ML/Scientific dependencies (if needed)
@@ -48,7 +48,7 @@ numpy==2.4.1
 opencv-python==4.9.0.80
 openai==1.12.0
 plotly==5.18.0
-replicate==0.25.0
+replicate==1.0.7
 scipy==1.17.0
 sympy==1.12
-manim==0.18.0
+manim==0.19.2
