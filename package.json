@@ -8,7 +8,8 @@
   },
   "workspaces": [
     "ops",
-    "packages/*"
+    "packages/*",
+    "packages/atom-trail"
   ],
   "devDependencies": {
     "prettier": "^3.8.0"

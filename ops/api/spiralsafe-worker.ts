@@ -13,6 +13,8 @@
  * H&&S: Structure-preserving operations across substrates
  */
 
+import { logATOMToD1, queryATOMFromD1 } from './atom-logger.js';
+
 export interface Env {
   SPIRALSAFE_DB: D1Database;
   SPIRALSAFE_KV: KVNamespace;
@@ -517,35 +519,25 @@ async function handleWave(
       )
       .run();
 
-    // Auto-log to ATOM trail if vortexId provided
-    if (body.vortexId) {
-      // Calculate coherence score: combines low curl and low divergence
-      // Score = (1 - |divergence|) * (1 - curl)
-      // High score means low curl (no repetition) and low divergence (well-resolved)
-      const coherenceScore = analysis.coherent ? 
-        (1 - Math.abs(analysis.divergence)) * (1 - analysis.curl) : 
-        0;
-      
-      await env.SPIRALSAFE_DB.prepare(
-        "INSERT INTO atom_trail (id, timestamp, vortex_id, decision, rationale, outcome, coherence_score, context) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-      )
-        .bind(
-          crypto.randomUUID(),
-          new Date().toISOString(),
-          body.vortexId,
-          `WAVE analysis completed`,
-          `Coherence: ${analysis.coherent ? 'PASS' : 'FAIL'}, Curl: ${analysis.curl.toFixed(2)}, Divergence: ${analysis.divergence.toFixed(2)}`,
-          analysis.coherent ? 'success' : 'failure',
-          coherenceScore,
-          JSON.stringify({
-            curl: analysis.curl,
-            divergence: analysis.divergence,
-            potential: analysis.potential,
-            regions: analysis.regions.length
-          }),
-        )
-        .run();
-    }
+    // Log to ATOM trail for decision provenance
+    const coherenceScore = analysis.coherent 
+      ? 1 - (analysis.curl + Math.abs(analysis.divergence)) / 2
+      : 0.4;
+    
+    await logATOMToD1(env.SPIRALSAFE_DB, {
+      vortexId: 'wave-validator',
+      decision: `Document coherence: ${analysis.coherent ? 'COHERENT' : 'INCOHERENT'}`,
+      rationale: `Curl: ${analysis.curl.toFixed(3)}, Divergence: ${analysis.divergence.toFixed(3)}, Potential: ${analysis.potential.toFixed(3)}`,
+      outcome: analysis.coherent ? 'success' : 'failure',
+      coherenceScore,
+      context: {
+        curl: analysis.curl,
+        divergence: analysis.divergence,
+        potential: analysis.potential,
+        regionCount: analysis.regions.length,
+        contentLength: body.content.length
+      }
+    });
 
     return jsonResponse(analysis);
   }
@@ -843,8 +835,26 @@ async function handleAtom(
   env: Env,
   path: string,
 ): Promise<Response> {
-  // ATOM Trail logging endpoints
-  if (request.method === "POST" && path === "/api/atom/log") {
+  // ATOM Trail Query - Get decision provenance
+  if (request.method === "GET" && path === "/api/atom/trail") {
+    const url = new URL(request.url);
+    const vortexId = url.searchParams.get("vortex");
+    const outcome = url.searchParams.get("outcome") as 'success' | 'failure' | 'pending' | null;
+    const limit = parseInt(url.searchParams.get("limit") || "100");
+    const offset = parseInt(url.searchParams.get("offset") || "0");
+
+    const entries = await queryATOMFromD1(env.SPIRALSAFE_DB, {
+      vortexId: vortexId || undefined,
+      outcome: outcome || undefined,
+      limit,
+      offset
+    });
+
+    return jsonResponse(entries);
+  }
+
+  // ATOM Trail Log - Manual logging endpoint
+  if (request.method === "POST" && path === "/api/atom/trail/log") {
     const body = (await request.json()) as {
       vortexId: string;
       decision: string;
@@ -853,215 +863,21 @@ async function handleAtom(
       coherenceScore?: number;
       fibonacciWeight?: number;
       context?: Record<string, unknown>;
-      signature?: string;
     };
 
-    const entry = {
-      timestamp: new Date().toISOString(),
+    const entry = await logATOMToD1(env.SPIRALSAFE_DB, {
       vortexId: body.vortexId,
       decision: body.decision,
       rationale: body.rationale,
       outcome: body.outcome,
       coherenceScore: body.coherenceScore,
       fibonacciWeight: body.fibonacciWeight,
-      context: body.context || {},
-      signature: body.signature
-    };
-
-    // Store in D1 for persistence and querying
-    await env.SPIRALSAFE_DB.prepare(
-      "INSERT INTO atom_trail (id, timestamp, vortex_id, decision, rationale, outcome, coherence_score, fibonacci_weight, context, signature) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    )
-      .bind(
-        crypto.randomUUID(),
-        entry.timestamp,
-        entry.vortexId,
-        entry.decision,
-        entry.rationale,
-        entry.outcome,
-        entry.coherenceScore ?? null,
-        entry.fibonacciWeight ?? null,
-        JSON.stringify(entry.context),
-        entry.signature ?? null,
-      )
-      .run();
+      context: body.context || {}
+    });
 
     return jsonResponse(entry, 201);
   }
 
-  if (request.method === "GET" && path === "/api/atom/query") {
-    const url = new URL(request.url);
-    const vortexId = url.searchParams.get("vortexId");
-    const outcome = url.searchParams.get("outcome");
-    const startTime = url.searchParams.get("startTime");
-    const endTime = url.searchParams.get("endTime");
-    const minCoherence = url.searchParams.get("minCoherence");
-    const limit = parseInt(url.searchParams.get("limit") || "100");
-
-    let query = "SELECT * FROM atom_trail WHERE 1=1";
-    const params: (string | number)[] = [];
-
-    if (vortexId) {
-      query += " AND vortex_id = ?";
-      params.push(vortexId);
-    }
-
-    if (outcome) {
-      query += " AND outcome = ?";
-      params.push(outcome);
-    }
-
-    if (startTime) {
-      query += " AND timestamp >= ?";
-      params.push(startTime);
-    }
-
-    if (endTime) {
-      query += " AND timestamp <= ?";
-      params.push(endTime);
-    }
-
-    if (minCoherence) {
-      query += " AND coherence_score >= ?";
-      params.push(parseFloat(minCoherence));
-    }
-
-    query += " ORDER BY timestamp DESC LIMIT ?";
-    params.push(limit);
-
-    const result = await env.SPIRALSAFE_DB.prepare(query)
-      .bind(...params)
-      .all();
-
-    return jsonResponse(result.results);
-  }
-
-  if (request.method === "GET" && path === "/api/atom/stats") {
-    const statsQuery = await env.SPIRALSAFE_DB.prepare(`
-      SELECT 
-        COUNT(*) as total_entries,
-        SUM(CASE WHEN outcome = 'success' THEN 1 ELSE 0 END) as success_count,
-        SUM(CASE WHEN outcome = 'failure' THEN 1 ELSE 0 END) as failure_count,
-        SUM(CASE WHEN outcome = 'pending' THEN 1 ELSE 0 END) as pending_count,
-        AVG(coherence_score) as avg_coherence,
-        COUNT(DISTINCT vortex_id) as vortex_count,
-        MIN(timestamp) as oldest_entry,
-        MAX(timestamp) as newest_entry
-      FROM atom_trail
-    `).first();
-
-    return jsonResponse(statsQuery || {});
-  }
-
-  if (request.method === "GET" && path === "/api/atom/export") {
-    const url = new URL(request.url);
-    const format = url.searchParams.get("format") || "json";
-    const vortexId = url.searchParams.get("vortexId");
-    const outcome = url.searchParams.get("outcome");
-
-    let query = "SELECT * FROM atom_trail WHERE 1=1";
-    const params: string[] = [];
-
-    if (vortexId) {
-      query += " AND vortex_id = ?";
-      params.push(vortexId);
-    }
-
-    if (outcome) {
-      query += " AND outcome = ?";
-      params.push(outcome);
-    }
-
-    query += " ORDER BY timestamp";
-
-    const result = await env.SPIRALSAFE_DB.prepare(query)
-      .bind(...params)
-      .all();
-
-    const entries = result.results;
-
-    if (format === "csv") {
-      const headers = ["timestamp", "vortex_id", "decision", "rationale", "outcome", "coherence_score", "fibonacci_weight"];
-      const rows = entries.map((e: Record<string, unknown>) => 
-        headers.map(h => {
-          const val = e[h];
-          if (typeof val === 'string' && (val.includes(',') || val.includes('"'))) {
-            return `"${val.replace(/"/g, '""')}"`;
-          }
-          return val || '';
-        }).join(',')
-      );
-      const csv = [headers.join(','), ...rows].join('\n');
-      return new Response(csv, {
-        headers: { 'Content-Type': 'text/csv' }
-      });
-    } else if (format === "markdown") {
-      let md = '# ATOM Trail Export\n\n';
-      md += `Total Entries: ${entries.length}\n\n`;
-      entries.forEach((e: Record<string, unknown>, i: number) => {
-        md += `## Entry ${i + 1}\n\n`;
-        md += `- **Timestamp**: ${e.timestamp}\n`;
-        md += `- **Vortex ID**: ${e.vortex_id}\n`;
-        md += `- **Decision**: ${e.decision}\n`;
-        md += `- **Rationale**: ${e.rationale}\n`;
-        md += `- **Outcome**: ${e.outcome}\n`;
-        if (e.coherence_score) md += `- **Coherence Score**: ${e.coherence_score}\n`;
-        if (e.fibonacci_weight) md += `- **Fibonacci Weight**: ${e.fibonacci_weight}\n`;
-        md += '\n';
-      });
-      return new Response(md, {
-        headers: { 'Content-Type': 'text/markdown' }
-      });
-    }
-
-    return jsonResponse(entries);
-  }
-
-  if (request.method === "GET" && path === "/api/atom/visualize") {
-    const url = new URL(request.url);
-    const vortexId = url.searchParams.get("vortexId");
-    const limit = parseInt(url.searchParams.get("limit") || "50");
-
-    let query = "SELECT * FROM atom_trail WHERE 1=1";
-    const params: (string | number)[] = [];
-
-    if (vortexId) {
-      query += " AND vortex_id = ?";
-      params.push(vortexId);
-    }
-
-    query += " ORDER BY timestamp DESC LIMIT ?";
-    params.push(limit);
-
-    const result = await env.SPIRALSAFE_DB.prepare(query)
-      .bind(...params)
-      .all();
-
-    const entries = result.results as Array<Record<string, unknown>>;
-    
-    // Generate Mermaid diagram
-    let mermaid = 'graph TD\n';
-    const vortexNodes = new Set<string>();
-    
-    entries.forEach((entry, i) => {
-      const vortexId = entry.vortex_id as string;
-      if (!vortexNodes.has(vortexId)) {
-        mermaid += `  V_${vortexId}[Vortex ${vortexId}]\n`;
-        vortexNodes.add(vortexId);
-      }
-      
-      const outcome = entry.outcome as string;
-      const style = outcome === 'success' ? 'fill:#90EE90' : outcome === 'failure' ? 'fill:#FFB6C6' : 'fill:#FFE4B5';
-      const decision = (entry.decision as string).substring(0, 30);
-      mermaid += `  D_${i}["${decision}..."]\n`;
-      mermaid += `  style D_${i} ${style}\n`;
-      mermaid += `  V_${vortexId} --> D_${i}\n`;
-    });
-
-    return jsonResponse({ mermaid, nodes: entries.length });
-  }
-
-  // Original task orchestration endpoints
   if (request.method === "POST" && path === "/api/atom/create") {
     const body = (await request.json()) as Partial<Atom>;
 
