@@ -526,25 +526,13 @@ async function handleWave(
       )
       .run();
 
-    // Log to ATOM trail
-    const atomPersister = new ATOMPersister('sqlite', env.SPIRALSAFE_DB, env.SPIRALSAFE_KV);
-    await atomPersister.log({
-      actor: 'wave-validator',
-      decision: `Analyzed content coherence`,
-      rationale: `Threshold check: curl=${analysis.curl.toFixed(2)}, divergence=${analysis.divergence.toFixed(2)}`,
-      outcome: analysis.coherent ? 'PASS' : 'FAIL',
-      // NOTE: This is a simplified coherence score for trail logging.
-      // It represents the combined magnitude of structural issues (curl + |divergence|).
-      // A proper coherence metric might use: 1.0 - (curl * 0.5 + Math.abs(divergence) * 0.5)
-      // or weight them differently based on domain requirements.
-      coherenceScore: analysis.curl + Math.abs(analysis.divergence),
     // Log to ATOM trail for decision provenance
     const coherenceScore = analysis.coherent 
       ? 1 - (analysis.curl + Math.abs(analysis.divergence)) / 2
       : 0.4;
     
     await logATOMToD1(env.SPIRALSAFE_DB, {
-      vortexId: 'wave-validator',
+      vortexId: body.vortexId || 'wave-validator',
       decision: `Document coherence: ${analysis.coherent ? 'COHERENT' : 'INCOHERENT'}`,
       rationale: `Curl: ${analysis.curl.toFixed(3)}, Divergence: ${analysis.divergence.toFixed(3)}, Potential: ${analysis.potential.toFixed(3)}`,
       outcome: analysis.coherent ? 'success' : 'failure',
@@ -554,8 +542,6 @@ async function handleWave(
         divergence: analysis.divergence,
         potential: analysis.potential,
         regions: analysis.regions.length,
-      },
-        regionCount: analysis.regions.length,
         contentLength: body.content.length
       }
     });
