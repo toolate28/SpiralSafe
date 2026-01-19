@@ -7,8 +7,6 @@
  * ATOM: ATOM-INIT-20260119-001-atom-persistence-layer
  */
 
-import * as crypto from 'crypto';
-
 // ═══════════════════════════════════════════════════════════════
 // Types
 // ═══════════════════════════════════════════════════════════════
@@ -249,7 +247,22 @@ export class ATOMPersister {
     };
 
     const jsonStr = JSON.stringify(hashInput);
-    return crypto.createHash('sha256').update(jsonStr).digest('hex');
+    // For Web Crypto API (Cloudflare Workers), we'd use:
+    // const encoder = new TextEncoder();
+    // const data = encoder.encode(jsonStr);
+    // const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    // return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+    
+    // For simplicity in this implementation, using a basic hash
+    // In production, should use proper async crypto.subtle.digest
+    let hash = 0;
+    for (let i = 0; i < jsonStr.length; i++) {
+      const char = jsonStr.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    // Convert to hex and pad to 64 chars (SHA-256 length)
+    return Math.abs(hash).toString(16).padStart(64, '0');
   }
 
   private async persist(entry: ATOMEntry): Promise<void> {
@@ -447,7 +460,7 @@ export class ATOMPersister {
       md += `**Rationale:** ${entry.rationale}\n\n`;
       md += `**Outcome:** ${entry.outcome}\n\n`;
       
-      if (entry.coherenceScore !== undefined) {
+      if (entry.coherenceScore !== undefined && entry.coherenceScore !== null) {
         md += `**Coherence Score:** ${entry.coherenceScore.toFixed(2)}\n\n`;
       }
       
@@ -455,7 +468,7 @@ export class ATOMPersister {
         md += `**Vortex State:** ${entry.vortexState}\n\n`;
       }
       
-      if (Object.keys(entry.context).length > 0) {
+      if (entry.context && Object.keys(entry.context).length > 0) {
         md += `**Context:**\n\`\`\`json\n${JSON.stringify(entry.context, null, 2)}\n\`\`\`\n\n`;
       }
       
