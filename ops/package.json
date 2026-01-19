@@ -46,7 +46,7 @@
   "homepage": "https://spiralsafe.org",
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260118.0",
-    "@types/node": "^20.11.0",
+    "@types/node": "^25.0.9",
     "eslint": "^8.56.0",
     "typescript": "^5.3.3",
     "vitest": "^4.0.17",
