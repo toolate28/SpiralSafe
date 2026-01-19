@@ -471,7 +471,6 @@ def test_radiating_state():
         "entropy": 2.0  # Base gives 4.0005
     }
     # Add extra to push over threshold
-    wave_metrics["curl"] = 1.0
     wave_metrics["potential"] = 1.01  # Push slightly over
     result = filter_signal_4_0005(wave_metrics)
     
