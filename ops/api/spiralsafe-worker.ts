@@ -532,7 +532,7 @@ async function handleWave(
       : 0.4;
     
     await logATOMToD1(env.SPIRALSAFE_DB, {
-      vortexId: body.vortexId || 'wave-validator',
+      vortexId: body.vortexId || 'wave-validator-default',
       decision: `Document coherence: ${analysis.coherent ? 'COHERENT' : 'INCOHERENT'}`,
       rationale: `Curl: ${analysis.curl.toFixed(3)}, Divergence: ${analysis.divergence.toFixed(3)}, Potential: ${analysis.potential.toFixed(3)}`,
       outcome: analysis.coherent ? 'success' : 'failure',
