@@ -293,12 +293,7 @@ class TestAwiPromptGen:
             )
 
 
-def main():
-    """Run tests."""
-    suite = TestAwiPromptGen()
-    success = suite.run_all()
-    return 0 if success else 1
-
-
-if __name__ == "__main__":
-    sys.exit(main())
+# Note: Tests in this module are intended to be run via pytest's
+# discovery (e.g., `pytest experiments/test_awi_prompt_gen.py`).
+# A custom `main()` runner is intentionally omitted to keep test
+# execution consistent with the rest of the codebase.
