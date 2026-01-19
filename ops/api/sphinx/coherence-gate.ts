@@ -9,6 +9,19 @@
 
 import type { Artifact, GateResult, Evidence, SPHINXOptions } from './types';
 
+// WAVE analysis configuration constants
+const CURL_MULTIPLIER = 10;
+const QUESTION_WEIGHT = 0.1;
+const CONCLUSION_WEIGHT = 0.15;
+const COHERENCE_CURL_WEIGHT = 50;
+const COHERENCE_DIVERGENCE_WEIGHT = 30;
+const COHERENCE_POTENTIAL_WEIGHT = 20;
+const CURL_WARNING_THRESHOLD = 0.4;
+const CURL_CRITICAL_THRESHOLD = 0.6;
+const DIVERGENCE_THRESHOLD = 0.4;
+const DIVERGENCE_CRITICAL_THRESHOLD = 0.6;
+const POTENTIAL_THRESHOLD = 0.7;
+
 // Import WAVE analysis from worker (will be integrated)
 // For now, we'll use a simplified version
 interface WaveAnalysis {
@@ -20,8 +33,9 @@ interface WaveAnalysis {
 }
 
 async function analyzeWAVE(content: string, threshold: number): Promise<WaveAnalysis> {
-  // Simplified WAVE analysis
-  // In production, this would call the full WAVE analysis from spiralsafe-worker
+  // Simplified WAVE analysis for SPHINX gate validation
+  // Note: This uses a simplified algorithm. For full WAVE analysis,
+  // integrate with spiralsafe-worker's analyzeCoherence function
   
   const sentences = content.split(/[.!?]+/).filter(s => s.trim().length > 0);
   
@@ -36,12 +50,12 @@ async function analyzeWAVE(content: string, threshold: number): Promise<WaveAnal
   const repetitionScore = Array.from(wordFreq.values())
     .filter(count => count > 2)
     .reduce((sum, count) => sum + (count - 2), 0);
-  const curl = Math.min(1.0, repetitionScore / Math.max(1, words.length) * 10);
+  const curl = Math.min(1.0, repetitionScore / Math.max(1, words.length) * CURL_MULTIPLIER);
   
   // Calculate divergence (questions vs conclusions)
   const questions = (content.match(/\?/g) || []).length;
   const conclusions = (content.match(/\b(therefore|thus|in conclusion|to summarize|finally)\b/gi) || []).length;
-  const divergence = (questions * 0.1) - (conclusions * 0.15);
+  const divergence = (questions * QUESTION_WEIGHT) - (conclusions * CONCLUSION_WEIGHT);
   
   // Calculate potential (complexity)
   const avgSentenceLength = words.length / Math.max(1, sentences.length);
@@ -49,7 +63,7 @@ async function analyzeWAVE(content: string, threshold: number): Promise<WaveAnal
   
   // Overall coherence score (0-100)
   const overall = Math.max(0, Math.min(100, 
-    100 - (curl * 50) - (Math.abs(divergence) * 30) - (potential * 20)
+    100 - (curl * COHERENCE_CURL_WEIGHT) - (Math.abs(divergence) * COHERENCE_DIVERGENCE_WEIGHT) - (potential * COHERENCE_POTENTIAL_WEIGHT)
   ));
   
   const coherent = overall >= threshold;
@@ -77,18 +91,18 @@ export async function validateCoherence(
   reasoning.push(`WAVE score: ${waveScore.overall.toFixed(1)} (threshold: ${threshold})`);
   
   // Check curl
-  if (waveScore.curl > 0.4) {
+  if (waveScore.curl > CURL_WARNING_THRESHOLD) {
     evidence.push({
       type: 'high_curl',
       description: 'High curl detected - circular reasoning or excessive repetition',
       value: waveScore.curl,
-      severity: waveScore.curl > 0.6 ? 'critical' : 'warning',
+      severity: waveScore.curl > CURL_CRITICAL_THRESHOLD ? 'critical' : 'warning',
     });
     reasoning.push(`High curl: ${waveScore.curl.toFixed(2)}`);
   }
   
   // Check divergence
-  if (Math.abs(waveScore.divergence) > 0.4) {
+  if (Math.abs(waveScore.divergence) > DIVERGENCE_THRESHOLD) {
     const divergenceType = waveScore.divergence > 0 ? 'positive' : 'negative';
     evidence.push({
       type: `${divergenceType}_divergence`,
@@ -96,13 +110,13 @@ export async function validateCoherence(
         ? 'Ideas expanding without resolution'
         : 'Premature closure or over-compression',
       value: waveScore.divergence,
-      severity: Math.abs(waveScore.divergence) > 0.6 ? 'critical' : 'warning',
+      severity: Math.abs(waveScore.divergence) > DIVERGENCE_CRITICAL_THRESHOLD ? 'critical' : 'warning',
     });
     reasoning.push(`${divergenceType} divergence: ${Math.abs(waveScore.divergence).toFixed(2)}`);
   }
   
   // Check potential
-  if (waveScore.potential > 0.7) {
+  if (waveScore.potential > POTENTIAL_THRESHOLD) {
     evidence.push({
       type: 'high_potential',
       description: 'High complexity - may need simplification',

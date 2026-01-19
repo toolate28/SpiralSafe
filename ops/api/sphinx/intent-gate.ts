@@ -9,6 +9,9 @@
 
 import type { Artifact, GateResult, Evidence, SPHINXOptions } from './types';
 
+// Intent validation constants
+const MIN_TERM_LENGTH = 3; // Minimum length for meaningful terms in intent matching
+
 export async function validateIntent(
   artifact: Artifact,
   _options?: SPHINXOptions
@@ -79,7 +82,7 @@ export async function validateIntent(
     const undeclaredPatterns = detectedPatterns.filter(pattern => {
       // Extract key terms from pattern name (e.g., "eval" from "eval() usage")
       const keyTerms = pattern.toLowerCase().replace(/[()]/g, '').split(/\s+/);
-      return !keyTerms.some(term => term.length > 2 && lowerIntent.includes(term));
+      return !keyTerms.some(term => term.length > MIN_TERM_LENGTH && lowerIntent.includes(term));
     });
     
     if (undeclaredPatterns.length > 0) {

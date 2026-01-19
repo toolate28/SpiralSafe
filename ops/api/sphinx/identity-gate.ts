@@ -125,8 +125,9 @@ export async function validateIdentity(
   if (requiredInterface) {
     const interfaceChecks: string[] = [];
     for (const [method, _signature] of Object.entries(requiredInterface)) {
-      const regex = new RegExp(`\\b${method}\\s*[(:=]`, 'i');
-      if (regex.test(content)) {
+      // Define regex once for efficiency
+      const methodRegex = new RegExp(`\\b${method}\\s*[(:=]`, 'i');
+      if (methodRegex.test(content)) {
         interfaceChecks.push(`${method}: found`);
       } else {
         interfaceChecks.push(`${method}: MISSING`);
