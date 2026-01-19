@@ -498,6 +498,7 @@ async function handleWave(
     const body = (await request.json()) as {
       content: string;
       thresholds?: Record<string, number>;
+      vortexId?: string;
     };
     const analysis = analyzeCoherence(body.content, body.thresholds);
 
@@ -515,6 +516,33 @@ async function handleWave(
         new Date().toISOString(),
       )
       .run();
+
+    // Auto-log to ATOM trail if vortexId provided
+    if (body.vortexId) {
+      const coherenceScore = analysis.coherent ? 
+        (1 - Math.abs(analysis.divergence)) * (1 - analysis.curl) : 
+        0;
+      
+      await env.SPIRALSAFE_DB.prepare(
+        "INSERT INTO atom_trail (id, timestamp, vortex_id, decision, rationale, outcome, coherence_score, context) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      )
+        .bind(
+          crypto.randomUUID(),
+          new Date().toISOString(),
+          body.vortexId,
+          `WAVE analysis completed`,
+          `Coherence: ${analysis.coherent ? 'PASS' : 'FAIL'}, Curl: ${analysis.curl.toFixed(2)}, Divergence: ${analysis.divergence.toFixed(2)}`,
+          analysis.coherent ? 'success' : 'failure',
+          coherenceScore,
+          JSON.stringify({
+            curl: analysis.curl,
+            divergence: analysis.divergence,
+            potential: analysis.potential,
+            regions: analysis.regions.length
+          }),
+        )
+        .run();
+    }
 
     return jsonResponse(analysis);
   }
