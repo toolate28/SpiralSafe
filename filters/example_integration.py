@@ -6,17 +6,11 @@ Demonstrates how the filter integrates with WAVE metrics for document analysis.
 ATOM: ATOM-FILTER-20260119-002-supergravity-4.0005
 """
 
-import sys
-from pathlib import Path
-
-# Add filters directory to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-from supergravity_4_0005 import (
+from filters.supergravity_4_0005 import (
     filter_signal_4_0005,
     calculate_4_0005_coherence,
     generate_tetrahedron_for_visualization,
-    CoherenceState
+    CoherenceState,
 )
 
 
