@@ -1034,7 +1034,6 @@ main() {
         awi)      cmd_awi "$@" ;;
         sphinx)   cmd_sphinx "$@" ;;
         atom)     echo "ATOM commands: Use PowerShell module or API directly" ;;
-        atom)     cmd_atom "$@" ;;
         saif)     echo "SAIF commands: Use PowerShell module or API directly" ;;
         status)   cmd_status ;;
         help|-h|--help) cmd_help ;;
