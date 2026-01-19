@@ -500,6 +500,7 @@ async function handleWave(
     const body = (await request.json()) as {
       content: string;
       thresholds?: Record<string, number>;
+      vortexId?: string;
     };
     const analysis = analyzeCoherence(body.content, body.thresholds);
 
@@ -826,7 +827,7 @@ async function handleAWI(
 }
 
 // ═══════════════════════════════════════════════════════════════
-// Atom Handlers - Task Orchestration & ATOM Trail
+// Atom Handlers - Task Orchestration & Trail Logging
 // ═══════════════════════════════════════════════════════════════
 
 async function handleAtom(
