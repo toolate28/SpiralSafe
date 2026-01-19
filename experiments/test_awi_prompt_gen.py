@@ -13,6 +13,8 @@ ATOM-TEST-20260117-001-awi-prompt-gen-tests
 import sys
 from pathlib import Path
 
+import pytest
+
 # Add experiments to path
 sys.path.insert(0, str(Path(__file__).parent))
 
