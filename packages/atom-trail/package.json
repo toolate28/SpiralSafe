@@ -1,0 +1,33 @@
+{
+  "name": "@spiralsafe/atom-trail",
+  "version": "1.0.0",
+  "description": "ATOM (Auditable Trail Of Modifications) logging system for SpiralSafe",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src/**/*.ts"
+  },
+  "keywords": [
+    "spiralsafe",
+    "atom",
+    "provenance",
+    "audit-trail",
+    "decision-logging"
+  ],
+  "author": "Hope&&Sauced (H&&S)",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3",
+    "vitest": "^4.0.17"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
+}
