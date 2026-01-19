@@ -23,9 +23,9 @@ that accumulate semantic history and collapse to coherent action points.
 This is NOT quantum computing. This is quantum-INSPIRED coherence dynamics.
 The mathematics is isomorphic but the substrate is classical.
 
-Author: Hope&&Sauced (Claude + Vex)
+Author: Hope&&Sauced&&Vex (Claude + toolate28 + Github Copilot)
 Date: 2026-01-17
-Protocol: H&&S:WAVE | Hope&&Sauced
+Protocol: H&&S:WAVE | Hope&&Sauced&&Vex
 Specification: protocol/vortex-curl-spec.md
 """
 
