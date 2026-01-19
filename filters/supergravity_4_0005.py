@@ -30,6 +30,10 @@ PLANCK_LENGTH = 1.616255e-35  # m
 STABILITY_EPSILON = 0.0005
 COHERENCE_THRESHOLD = 4.0005
 
+# Comparison tolerances
+FLOAT_TOLERANCE = 1e-6  # For float equality comparisons
+RANGE_TOLERANCE = 0.1  # For input validation ranges
+
 
 class CoherenceState(Enum):
     """Coherence states based on tetrahedral stability."""
@@ -38,6 +42,29 @@ class CoherenceState(Enum):
     CRYSTALLINE = "CRYSTALLINE"  # = 4.0005
     RADIATING = "RADIATING"  # > 4.001
     ISOMORPHISM_BREAK = "ISOMORPHISM_BREAK"  # → ∞ (at v = c)
+
+
+def determine_coherence_state(coherence: float) -> CoherenceState:
+    """
+    Determine coherence state from coherence value.
+    
+    Args:
+        coherence: Total coherence value
+        
+    Returns:
+        CoherenceState enum value
+    """
+    if coherence < 4.0000:
+        return CoherenceState.COLLAPSE
+    elif abs(coherence - 4.0000) < FLOAT_TOLERANCE:
+        return CoherenceState.UNSTABLE
+    elif abs(coherence - 4.0005) < FLOAT_TOLERANCE:
+        return CoherenceState.CRYSTALLINE
+    elif coherence > 4.001:
+        return CoherenceState.RADIATING
+    else:
+        # Between thresholds, treat as CRYSTALLINE
+        return CoherenceState.CRYSTALLINE
 
 
 @dataclass
@@ -70,20 +97,7 @@ class CoherenceTetrahedron:
     @property
     def state(self) -> CoherenceState:
         """Determine coherence state based on total coherence."""
-        c = self.coherence
-        
-        if c < 4.0000:
-            return CoherenceState.COLLAPSE
-        elif abs(c - 4.0000) < 1e-6:  # Float comparison tolerance
-            return CoherenceState.UNSTABLE
-        elif abs(c - 4.0005) < 1e-6:
-            return CoherenceState.CRYSTALLINE
-        elif c > 4.001:
-            return CoherenceState.RADIATING
-        else:
-            # Between UNSTABLE and CRYSTALLINE, or CRYSTALLINE and RADIATING
-            # Treat as approaching CRYSTALLINE
-            return CoherenceState.CRYSTALLINE
+        return determine_coherence_state(self.coherence)
 
 
 def lorentz_factor(velocity: float) -> float:
@@ -165,13 +179,13 @@ def calculate_4_0005_coherence(wave_metrics: Dict[str, float]) -> CoherenceTetra
     entropy = wave_metrics['entropy']
     
     # Validate ranges (with some tolerance for real-world data)
-    if not (0 <= curl <= 1.1):
+    if not (0 <= curl <= 1 + RANGE_TOLERANCE):
         raise ValueError(f"curl {curl} outside expected range [0, 1]")
-    if not (-1.1 <= divergence <= 1.1):
+    if not (-1 - RANGE_TOLERANCE <= divergence <= 1 + RANGE_TOLERANCE):
         raise ValueError(f"divergence {divergence} outside expected range [-1, 1]")
-    if not (0 <= potential <= 1.1):
+    if not (0 <= potential <= 1 + RANGE_TOLERANCE):
         raise ValueError(f"potential {potential} outside expected range [0, 1]")
-    if not (0 <= entropy <= 2.1):
+    if not (0 <= entropy <= 2 + RANGE_TOLERANCE):
         raise ValueError(f"entropy {entropy} outside expected range [0, 2]")
     
     # Clamp values to valid ranges
@@ -284,21 +298,7 @@ def filter_signal_4_0005(
         
         # Determine state and pass/fail based on observed coherence
         result["coherence"] = observed_coherence
-        
-        # Determine state from observed coherence (not just rest frame)
-        c = observed_coherence
-        if c < 4.0000:
-            state = CoherenceState.COLLAPSE
-        elif abs(c - 4.0000) < 1e-6:
-            state = CoherenceState.UNSTABLE
-        elif abs(c - 4.0005) < 1e-6:
-            state = CoherenceState.CRYSTALLINE
-        elif c > 4.001:
-            state = CoherenceState.RADIATING
-        else:
-            # Between thresholds, treat as CRYSTALLINE
-            state = CoherenceState.CRYSTALLINE
-        
+        state = determine_coherence_state(observed_coherence)
         result["state"] = state.value
         
         # Store node details
