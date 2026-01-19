@@ -5,6 +5,11 @@
  * ATOM: ATOM-INTEGRATION-20260119-001-api-logging
  */
 
+/**
+ * ATOMEntry interface for D1 database logging
+ * Note: Intentionally duplicated from packages/atom-trail/types.ts
+ * because Cloudflare Workers cannot import from workspace packages
+ */
 export interface ATOMEntry {
   timestamp: string;
   vortexId: string;

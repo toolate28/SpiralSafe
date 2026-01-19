@@ -102,14 +102,16 @@ export async function queryATOM(
   }
   
   if (filters.minCoherence !== undefined) {
+    const minCoherence = filters.minCoherence;
     entries = entries.filter(e => 
-      e.coherenceScore !== undefined && e.coherenceScore >= filters.minCoherence!
+      e.coherenceScore !== undefined && e.coherenceScore >= minCoherence
     );
   }
   
   if (filters.maxCoherence !== undefined) {
+    const maxCoherence = filters.maxCoherence;
     entries = entries.filter(e => 
-      e.coherenceScore !== undefined && e.coherenceScore <= filters.maxCoherence!
+      e.coherenceScore !== undefined && e.coherenceScore <= maxCoherence
     );
   }
   
@@ -333,7 +335,7 @@ export function generateMermaidDiagram(graph: ATOMGraph): string {
   
   graph.nodes.forEach((node, id) => {
     const entry = node.entry;
-    const label = `${entry.decision.substring(0, 30)}...`;
+    const label = `${entry.decision.substring(0, 30)}${entry.decision.length > 30 ? '...' : ''}`;
     const outcome = entry.outcome === 'success' ? '✓' : entry.outcome === 'failure' ? '✗' : '⋯';
     const coherence = entry.coherenceScore !== undefined 
       ? ` (${(entry.coherenceScore * 100).toFixed(0)}%)`
