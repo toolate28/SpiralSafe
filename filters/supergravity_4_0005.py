@@ -282,9 +282,23 @@ def filter_signal_4_0005(
         else:
             observed_coherence = rest_coherence
         
-        # Determine state and pass/fail
+        # Determine state and pass/fail based on observed coherence
         result["coherence"] = observed_coherence
-        state = tetrahedron.state
+        
+        # Determine state from observed coherence (not just rest frame)
+        c = observed_coherence
+        if c < 4.0000:
+            state = CoherenceState.COLLAPSE
+        elif abs(c - 4.0000) < 1e-6:
+            state = CoherenceState.UNSTABLE
+        elif abs(c - 4.0005) < 1e-6:
+            state = CoherenceState.CRYSTALLINE
+        elif c > 4.001:
+            state = CoherenceState.RADIATING
+        else:
+            # Between thresholds, treat as CRYSTALLINE
+            state = CoherenceState.CRYSTALLINE
+        
         result["state"] = state.value
         
         # Store node details
