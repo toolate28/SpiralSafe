@@ -39,8 +39,9 @@ class TestAwiPromptGen:
         assert len(result.content) > 0, "Content should not be empty"
         assert result.reasoning is not None, "Reasoning should be present"
         assert len(result.metadata) > 0, "Metadata should not be empty"
-        assert "AWI" in result.content or "intent" in result.content.lower(), \
+        assert ("AWI" in result.content or "intent" in result.content.lower()), (
             "Content should contain AWI-related text"
+        )
 
     def test_metadata_propagation(self):
         """Test that metadata propagates correctly through pipeline."""
@@ -52,10 +53,12 @@ class TestAwiPromptGen:
 
         assert "scaffolding" in result.metadata, "Missing 'scaffolding' in metadata"
         assert "refinement" in result.metadata, "Missing 'refinement' in metadata"
-        assert result.metadata.get("pipeline") == "AwiPromptGen", \
+        assert (result.metadata.get("pipeline") == "AwiPromptGen"), (
             f"Expected pipeline='AwiPromptGen', got {result.metadata.get('pipeline')}"
-        assert "permission_level" in result.metadata.get("scaffolding", {}), \
+        )
+        assert ("permission_level" in result.metadata.get("scaffolding", {})), (
             "Missing permission_level in scaffolding metadata"
+        )
 
     def test_empty_history(self):
         """Test handling of empty history."""
@@ -102,14 +105,16 @@ class TestAwiPromptGen:
         result = gen(user_intent=yaml_injection, history=[])
         
         # Newlines in intent should be escaped
-        assert '\\n' in result.content or '\n  injected' not in result.content, \
+        assert ('\\n' in result.content or '\n  injected' not in result.content), (
             "Newlines in intent should be escaped"
+        )
         
         # Test with quotes
         quote_test = 'Do "something" with \'quotes\''
         result_quotes = gen(user_intent=quote_test, history=[])
-        assert isinstance(result_quotes, Prediction), \
+        assert isinstance(result_quotes, Prediction), (
             "Should handle quotes without breaking YAML structure"
+        )
 
         # Test with malicious pattern in history
         malicious_history = [
@@ -120,8 +125,9 @@ class TestAwiPromptGen:
         # The sanitization should replace newlines with spaces, preventing structure break
         # Check that the pattern line doesn't have a literal newline followed by "injected"
         assert isinstance(result_history, Prediction), "Should handle malicious history"
-        assert "\ninjected:" not in result_history.content, \
+        assert "\ninjected:" not in result_history.content, (
             "Newlines in history patterns should be replaced with spaces"
+        )
 
     def test_permission_level_inference(self):
         """Test that permission levels are correctly inferred."""
@@ -135,10 +141,12 @@ class TestAwiPromptGen:
         system_result = gen(user_intent="Deploy to production", history=[])
         system_perm = system_result.metadata.get("scaffolding", {}).get("permission_level")
 
-        assert isinstance(query_perm, int) and isinstance(system_perm, int), \
+        assert (isinstance(query_perm, int) and isinstance(system_perm, int)), (
             f"Permission levels should be integers: query={query_perm}, system={system_perm}"
-        assert 0 <= query_perm <= 4 and 0 <= system_perm <= 4, \
+        )
+        assert (0 <= query_perm <= 4 and 0 <= system_perm <= 4), (
             f"Permission levels should be 0-4: query={query_perm}, system={system_perm}"
+        )
 
     def test_coherence_examples(self):
         """Test coherence examples for COPRO optimization."""
@@ -149,14 +157,16 @@ class TestAwiPromptGen:
 
         # Check positive examples have high coherence
         for ex in examples.get("positive", []):
-            assert ex.coherence_score >= COHERENCE_HIGH_THRESHOLD, \
+            assert ex.coherence_score >= COHERENCE_HIGH_THRESHOLD, (
                 f"Positive example has low coherence: {ex.coherence_score} < {COHERENCE_HIGH_THRESHOLD}"
+            )
             assert ex.is_positive is True, "Positive example should have is_positive=True"
 
         # Check negative examples have low coherence
         for ex in examples.get("negative", []):
-            assert ex.coherence_score < COHERENCE_HIGH_THRESHOLD, \
+            assert ex.coherence_score < COHERENCE_HIGH_THRESHOLD, (
                 f"Negative example has high coherence: {ex.coherence_score} >= {COHERENCE_HIGH_THRESHOLD}"
+            )
 
 if __name__ == "__main__":
     # Run tests via pytest when executed directly
