@@ -560,6 +560,21 @@ Include WAVE scores when applicable:
 
 ### Hash Verification
 
+**Note on Current Implementation:** The current hash function uses a simplified 32-bit hash for demonstration purposes. For production environments requiring cryptographic integrity, the implementation should be upgraded to use Web Crypto API's SHA-256:
+
+```typescript
+async calculateHash(entry: ATOMEntry): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(JSON.stringify(hashInput));
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hashBuffer))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+```
+
+This would require making the `log()` method async, but provides proper tamper detection.
+
 Always verify trail integrity before critical operations:
 ```typescript
 const verification = await atomPersister.verify();

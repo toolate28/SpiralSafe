@@ -247,14 +247,22 @@ export class ATOMPersister {
     };
 
     const jsonStr = JSON.stringify(hashInput);
-    // For Web Crypto API (Cloudflare Workers), we'd use:
-    // const encoder = new TextEncoder();
-    // const data = encoder.encode(jsonStr);
-    // const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    // return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
     
-    // For simplicity in this implementation, using a basic hash
-    // In production, should use proper async crypto.subtle.digest
+    // NOTE: This is a simplified hash function for demonstration.
+    // In production, this should use Web Crypto API:
+    //
+    // async calculateHash(entry: ATOMEntry): Promise<string> {
+    //   const encoder = new TextEncoder();
+    //   const data = encoder.encode(jsonStr);
+    //   const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    //   return Array.from(new Uint8Array(hashBuffer))
+    //     .map(b => b.toString(16).padStart(2, '0'))
+    //     .join('');
+    // }
+    //
+    // This would require making log() and related methods async,
+    // which is a breaking change but provides proper cryptographic integrity.
+    
     let hash = 0;
     for (let i = 0; i < jsonStr.length; i++) {
       const char = jsonStr.charCodeAt(i);

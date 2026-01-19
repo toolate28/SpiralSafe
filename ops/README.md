@@ -228,22 +228,16 @@ Base URL: `https://api.spiralsafe.org`
 | `/api/awi/audit/:id`    | GET    | View grant audit trail   |
 | `/api/atom/create`      | POST   | Create task atom         |
 | `/api/atom/status/:id`  | PUT    | Update atom status       |
+| `/api/atom/ready`       | GET    | Get executable atoms     |
 | `/api/atom/trail/log`   | POST   | Log decision to trail    |
 | `/api/atom/trail/query` | POST   | Query decision trail     |
 | `/api/atom/trail/chain/:id` | GET | Get decision chain    |
 | `/api/atom/trail/verify` | GET   | Verify trail integrity   |
 | `/api/atom/trail/export` | POST  | Export trail             |
-
-📖 **Complete ATOM API Reference:** [ATOM_API_REFERENCE.md](./ATOM_API_REFERENCE.md)
-| `/api/bump/resolve/:id` | PUT    | Resolve a bump           |
-| `/api/awi/request`      | POST   | Request permission grant |
-| `/api/awi/verify`       | POST   | Verify action permission |
-| `/api/awi/audit/:id`    | GET    | Permission audit trail   |
-| `/api/atom/create`      | POST   | Create task unit         |
-| `/api/atom/status/:id`  | PUT    | Update task status       |
-| `/api/atom/ready`       | GET    | Get executable atoms     |
 | `/api/context/store`    | POST   | Store knowledge unit     |
 | `/api/context/query`    | GET    | Query contexts           |
+
+📖 **Complete ATOM API Reference:** [ATOM_API_REFERENCE.md](./ATOM_API_REFERENCE.md)
 
 ---
 

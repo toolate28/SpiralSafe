@@ -525,6 +525,10 @@ async function handleWave(
       decision: `Analyzed content coherence`,
       rationale: `Threshold check: curl=${analysis.curl.toFixed(2)}, divergence=${analysis.divergence.toFixed(2)}`,
       outcome: analysis.coherent ? 'PASS' : 'FAIL',
+      // NOTE: This is a simplified coherence score for trail logging.
+      // It represents the combined magnitude of structural issues (curl + |divergence|).
+      // A proper coherence metric might use: 1.0 - (curl * 0.5 + Math.abs(divergence) * 0.5)
+      // or weight them differently based on domain requirements.
       coherenceScore: analysis.curl + Math.abs(analysis.divergence),
       context: {
         curl: analysis.curl,
