@@ -298,3 +298,50 @@ SELECT
     SUM(CASE WHEN divergence_detected = 1 THEN 1 ELSE 0 END) as divergence_count
 FROM provenance_validations
 WHERE timestamp > datetime('now', '-7 days');
+
+-- ═══════════════════════════════════════════════════════════════
+-- ATOM Trail Tables
+-- Auditable Trail of Metadata with cryptographic integrity
+-- ═══════════════════════════════════════════════════════════════
+
+-- ATOM Entries
+-- Individual decision records with blockchain-like integrity
+CREATE TABLE IF NOT EXISTS atom_entries (
+    id TEXT PRIMARY KEY,
+    timestamp TEXT NOT NULL,
+    actor TEXT NOT NULL,
+    decision TEXT NOT NULL,
+    rationale TEXT NOT NULL,
+    outcome TEXT NOT NULL,
+    coherence_score REAL,
+    context TEXT NOT NULL, -- JSON
+    parent_entry TEXT,
+    vortex_state TEXT,
+    hash TEXT,
+    previous_hash TEXT,
+    signature TEXT,
+    FOREIGN KEY (parent_entry) REFERENCES atom_entries(id)
+);
+
+CREATE INDEX idx_atom_timestamp ON atom_entries(timestamp);
+CREATE INDEX idx_atom_actor ON atom_entries(actor);
+CREATE INDEX idx_atom_parent ON atom_entries(parent_entry);
+CREATE INDEX idx_atom_vortex ON atom_entries(vortex_state);
+CREATE INDEX idx_atom_coherence ON atom_entries(coherence_score);
+CREATE INDEX idx_atom_hash ON atom_entries(hash);
+
+-- ATOM Trail View
+-- Recent trail entries for monitoring
+CREATE VIEW IF NOT EXISTS v_atom_trail AS
+SELECT 
+    id,
+    timestamp,
+    actor,
+    decision,
+    outcome,
+    coherence_score,
+    vortex_state,
+    parent_entry
+FROM atom_entries
+ORDER BY timestamp DESC
+LIMIT 1000;
