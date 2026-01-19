@@ -41,7 +41,7 @@
     "yaml": "^2.3.4"
   },
   "devDependencies": {
-    "@types/node": "^20.10.6",
+    "@types/node": "^25.0.9",
     "typescript": "^5.3.3",
     "jest": "^30.2.0",
     "@types/jest": "^30.0.0",
