@@ -99,6 +99,27 @@ CREATE INDEX idx_atom_molecule ON atoms(molecule);
 CREATE INDEX idx_atom_compound ON atoms(compound);
 CREATE INDEX idx_atom_assignee ON atoms(assignee);
 
+-- ATOM Trail (Decision Provenance Log)
+-- Foundational provenance logging for all SpiralSafe/QDI decisions
+CREATE TABLE IF NOT EXISTS atom_trail (
+    id TEXT PRIMARY KEY,
+    timestamp TEXT NOT NULL,
+    vortex_id TEXT NOT NULL,
+    decision TEXT NOT NULL,
+    rationale TEXT NOT NULL,
+    outcome TEXT NOT NULL CHECK (outcome IN ('success', 'failure', 'pending')),
+    coherence_score REAL,
+    fibonacci_weight INTEGER,
+    context TEXT, -- JSON
+    signature TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX idx_atom_trail_vortex ON atom_trail(vortex_id);
+CREATE INDEX idx_atom_trail_outcome ON atom_trail(outcome);
+CREATE INDEX idx_atom_trail_timestamp ON atom_trail(timestamp);
+CREATE INDEX idx_atom_trail_coherence ON atom_trail(coherence_score);
+
 -- Molecules (ATOM Task Groups)
 -- Collections of atoms forming sub-goals
 CREATE TABLE IF NOT EXISTS molecules (

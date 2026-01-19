@@ -430,6 +430,192 @@ awi_audit() {
 }
 
 # ═══════════════════════════════════════════════════════════════
+# ATOM Trail Commands
+# ═══════════════════════════════════════════════════════════════
+
+cmd_atom() {
+    local subcommand="${1:-help}"
+    shift || true
+    
+    case "$subcommand" in
+        log)
+            atom_log "$@"
+            ;;
+        query)
+            atom_query "$@"
+            ;;
+        export)
+            atom_export "$@"
+            ;;
+        viz|visualize)
+            atom_visualize "$@"
+            ;;
+        stats)
+            atom_stats
+            ;;
+        *)
+            echo "Usage: spiralsafe atom <log|query|export|viz|stats> [options]"
+            echo ""
+            echo "Commands:"
+            echo "  log       Log a new ATOM decision"
+            echo "  query     Query ATOM trail entries"
+            echo "  export    Export ATOM trail data"
+            echo "  viz       Visualize ATOM trail graph"
+            echo "  stats     Show trail statistics"
+            ;;
+    esac
+}
+
+atom_log() {
+    require_jq
+    
+    local vortex_id=""
+    local decision=""
+    local rationale=""
+    local outcome="pending"
+    local coherence=""
+    local fib_weight=""
+    local signature=""
+    
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --vortex|-v) vortex_id="$2"; shift 2 ;;
+            --decision|-d) decision="$2"; shift 2 ;;
+            --rationale|-r) rationale="$2"; shift 2 ;;
+            --outcome|-o) outcome="$2"; shift 2 ;;
+            --coherence|-c) coherence="$2"; shift 2 ;;
+            --fib-weight|-f) fib_weight="$2"; shift 2 ;;
+            --signature|-s) signature="$2"; shift 2 ;;
+            *) shift ;;
+        esac
+    done
+    
+    if [[ -z "$vortex_id" || -z "$decision" || -z "$rationale" ]]; then
+        log_error "Required: --vortex, --decision, --rationale"
+        exit 1
+    fi
+    
+    local data
+    data=$(jq -n \
+        --arg vortex "$vortex_id" \
+        --arg decision "$decision" \
+        --arg rationale "$rationale" \
+        --arg outcome "$outcome" \
+        --arg coherence "$coherence" \
+        --arg fib "$fib_weight" \
+        --arg sig "$signature" \
+        '{
+            vortexId: $vortex,
+            decision: $decision,
+            rationale: $rationale,
+            outcome: $outcome,
+            coherenceScore: (if $coherence != "" then ($coherence | tonumber) else null end),
+            fibonacciWeight: (if $fib != "" then ($fib | tonumber) else null end),
+            signature: (if $sig != "" then $sig else null end),
+            context: {}
+        }')
+    
+    local response
+    response=$(api_call POST "/api/atom/log" "$data")
+    
+    if echo "$response" | jq -e '.timestamp' > /dev/null 2>&1; then
+        log_success "ATOM logged"
+        echo "$response" | jq .
+    else
+        log_error "Failed to log ATOM"
+        echo "$response"
+        exit 1
+    fi
+}
+
+atom_query() {
+    require_jq
+    
+    local params=""
+    
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --vortex|-v) params+="&vortexId=$2"; shift 2 ;;
+            --outcome|-o) params+="&outcome=$2"; shift 2 ;;
+            --start) params+="&startTime=$2"; shift 2 ;;
+            --end) params+="&endTime=$2"; shift 2 ;;
+            --min-coherence) params+="&minCoherence=$2"; shift 2 ;;
+            --limit|-l) params+="&limit=$2"; shift 2 ;;
+            *) shift ;;
+        esac
+    done
+    
+    local response
+    response=$(api_call GET "/api/atom/query?${params#&}")
+    echo "$response" | jq .
+}
+
+atom_export() {
+    require_jq
+    
+    local format="json"
+    local params=""
+    
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --format|-f) format="$2"; shift 2 ;;
+            --vortex|-v) params+="&vortexId=$2"; shift 2 ;;
+            --outcome|-o) params+="&outcome=$2"; shift 2 ;;
+            *) shift ;;
+        esac
+    done
+    
+    local response
+    response=$(curl -s "${SPIRALSAFE_API_BASE}/api/atom/export?format=${format}${params}")
+    echo "$response"
+}
+
+atom_visualize() {
+    require_jq
+    
+    local params=""
+    
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --vortex|-v) params+="&vortexId=$2"; shift 2 ;;
+            --limit|-l) params+="&limit=$2"; shift 2 ;;
+            *) shift ;;
+        esac
+    done
+    
+    local response
+    response=$(api_call GET "/api/atom/visualize?${params#&}")
+    
+    log_info "ATOM Trail Visualization"
+    echo "$response" | jq -r '.mermaid'
+}
+
+atom_stats() {
+    require_jq
+    
+    local response
+    response=$(api_call GET "/api/atom/stats")
+    
+    if echo "$response" | jq -e '.total_entries' > /dev/null 2>&1; then
+        echo ""
+        echo -e "${CYAN}ATOM Trail Statistics${NC}"
+        echo "════════════════════════════════════════"
+        echo ""
+        echo -e "  Total Entries:    $(echo "$response" | jq -r '.total_entries')"
+        echo -e "  Success:          ${GREEN}$(echo "$response" | jq -r '.success_count')${NC}"
+        echo -e "  Failure:          ${RED}$(echo "$response" | jq -r '.failure_count')${NC}"
+        echo -e "  Pending:          ${YELLOW}$(echo "$response" | jq -r '.pending_count')${NC}"
+        echo -e "  Avg Coherence:    $(echo "$response" | jq -r '.avg_coherence // 0')"
+        echo -e "  Vortex Count:     $(echo "$response" | jq -r '.vortex_count')"
+        echo -e "  Oldest Entry:     $(echo "$response" | jq -r '.oldest_entry // "N/A"')"
+        echo -e "  Newest Entry:     $(echo "$response" | jq -r '.newest_entry // "N/A"')"
+        echo ""
+    else
+        echo "$response" | jq .
+    fi
+}
+
+# ═══════════════════════════════════════════════════════════════
 # Status Command
 # ═══════════════════════════════════════════════════════════════
 
@@ -525,7 +711,7 @@ main() {
         wave)     cmd_wave "$@" ;;
         bump)     cmd_bump "$@" ;;
         awi)      cmd_awi "$@" ;;
-        atom)     echo "ATOM commands: Use PowerShell module or API directly" ;;
+        atom)     cmd_atom "$@" ;;
         saif)     echo "SAIF commands: Use PowerShell module or API directly" ;;
         status)   cmd_status ;;
         help|-h|--help) cmd_help ;;
