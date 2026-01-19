@@ -519,6 +519,9 @@ async function handleWave(
 
     // Auto-log to ATOM trail if vortexId provided
     if (body.vortexId) {
+      // Calculate coherence score: combines low curl and low divergence
+      // Score = (1 - |divergence|) * (1 - curl)
+      // High score means low curl (no repetition) and low divergence (well-resolved)
       const coherenceScore = analysis.coherent ? 
         (1 - Math.abs(analysis.divergence)) * (1 - analysis.curl) : 
         0;

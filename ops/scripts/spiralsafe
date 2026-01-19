@@ -545,8 +545,13 @@ atom_query() {
         esac
     done
     
+    # Remove leading '&' and construct URL
+    local query_params="${params#&}"
+    local url="/api/atom/query"
+    [[ -n "$query_params" ]] && url="${url}?${query_params}"
+    
     local response
-    response=$(api_call GET "/api/atom/query?${params#&}")
+    response=$(api_call GET "$url")
     echo "$response" | jq .
 }
 
@@ -583,8 +588,13 @@ atom_visualize() {
         esac
     done
     
+    # Remove leading '&' and construct URL
+    local query_params="${params#&}"
+    local url="/api/atom/visualize"
+    [[ -n "$query_params" ]] && url="${url}?${query_params}"
+    
     local response
-    response=$(api_call GET "/api/atom/visualize?${params#&}")
+    response=$(api_call GET "$url")
     
     log_info "ATOM Trail Visualization"
     echo "$response" | jq -r '.mermaid'

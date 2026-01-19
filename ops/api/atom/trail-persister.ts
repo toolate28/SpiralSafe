@@ -105,11 +105,13 @@ export async function queryATOM(options: QueryOptions = {}, trailPath?: string):
   }
 
   if (options.startTime) {
-    entries = entries.filter((e: ATOMEntry) => e.timestamp >= options.startTime!);
+    const startTime = options.startTime;
+    entries = entries.filter((e: ATOMEntry) => e.timestamp >= startTime);
   }
 
   if (options.endTime) {
-    entries = entries.filter((e: ATOMEntry) => e.timestamp <= options.endTime!);
+    const endTime = options.endTime;
+    entries = entries.filter((e: ATOMEntry) => e.timestamp <= endTime);
   }
 
   if (options.outcome) {
@@ -117,7 +119,8 @@ export async function queryATOM(options: QueryOptions = {}, trailPath?: string):
   }
 
   if (options.minCoherence !== undefined) {
-    entries = entries.filter((e: ATOMEntry) => (e.coherenceScore ?? 0) >= options.minCoherence!);
+    const minCoherence = options.minCoherence;
+    entries = entries.filter((e: ATOMEntry) => (e.coherenceScore ?? 0) >= minCoherence);
   }
 
   if (options.limit) {
@@ -337,10 +340,12 @@ function detectCycles(entries: ATOMEntry[]): VisualizationNode[] {
   // Group by vortex
   const vortexGroups = new Map<string, ATOMEntry[]>();
   entries.forEach(entry => {
-    if (!vortexGroups.has(entry.vortexId)) {
-      vortexGroups.set(entry.vortexId, []);
+    const existing = vortexGroups.get(entry.vortexId);
+    if (existing) {
+      existing.push(entry);
+    } else {
+      vortexGroups.set(entry.vortexId, [entry]);
     }
-    vortexGroups.get(entry.vortexId)!.push(entry);
   });
 
   // Detect Fibonacci-weighted 42-cycle patterns
