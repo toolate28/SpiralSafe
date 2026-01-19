@@ -430,6 +430,38 @@ awi_audit() {
 }
 
 # ═══════════════════════════════════════════════════════════════
+# SPHINX Commands
+# ═══════════════════════════════════════════════════════════════
+
+cmd_sphinx() {
+    local subcommand="${1:-}"
+    shift || true
+    
+    case "$subcommand" in
+        validate)
+            sphinx_validate "$@"
+            ;;
+        gate)
+            sphinx_gate "$@"
+            ;;
+        report)
+            sphinx_report "$@"
+            ;;
+        *)
+            echo "Usage: spiralsafe sphinx <validate|gate|report> [options]"
+            echo ""
+            echo "Commands:"
+            echo "  validate <file>  Validate artifact through all SPHINX gates"
+            echo "  gate <name> <file>  Validate a single gate"
+            echo "  report <file>  Generate full gate report"
+            echo ""
+            echo "Options:"
+            echo "  --threshold <N>  Set coherence threshold (default: 80)"
+            echo "  --json          Output as JSON"
+            echo ""
+            ;;
+    esac
+}
 # ATOM Commands - Trail of Decisions
 # ═══════════════════════════════════════════════════════════════
 
@@ -472,6 +504,187 @@ cmd_atom() {
     esac
 }
 
+sphinx_validate() {
+    require_jq
+    local file=""
+    local threshold=80
+    local output_json=false
+    
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --threshold|-t) threshold="$2"; shift 2 ;;
+            --json|-j) output_json=true; shift ;;
+            *) file="$1"; shift ;;
+        esac
+    done
+    
+    if [[ -z "$file" ]]; then
+        log_error "File path required"
+        exit 1
+    fi
+    
+    if [[ ! -f "$file" ]]; then
+        log_error "File not found: $file"
+        exit 1
+    fi
+    
+    local content
+    content=$(cat "$file")
+    local filename
+    filename=$(basename "$file")
+    
+    local data
+    data=$(jq -n \
+        --arg id "$(uuidgen 2>/dev/null || echo "file-$(date +%s)")" \
+        --arg type "$(file -b --mime-type "$file" 2>/dev/null || echo 'text/plain')" \
+        --arg content "$content" \
+        --arg source "$file" \
+        --arg author "$USER" \
+        --argjson threshold "$threshold" \
+        '{
+            artifact: {
+                id: $id,
+                type: $type,
+                content: $content,
+                metadata: { intent: "Validate file", source_file: $source },
+                source: $source,
+                author: $author
+            },
+            options: { coherenceThreshold: $threshold }
+        }')
+    
+    log_info "Validating $filename through SPHINX gates..."
+    
+    local response
+    response=$(api_call POST "/api/sphinx/validate" "$data")
+    
+    if [[ "$output_json" == "true" ]]; then
+        echo "$response" | jq .
+    else
+        local overall_passed
+        overall_passed=$(echo "$response" | jq -r '.overallPassed')
+        
+        echo ""
+        echo -e "${CYAN}═════════════════════════════════════════${NC}"
+        echo -e "${CYAN}  SPHINX Gate Validation Report${NC}"
+        echo -e "${CYAN}═════════════════════════════════════════${NC}"
+        echo ""
+        echo -e "  File: ${YELLOW}$filename${NC}"
+        echo ""
+        
+        for gate in origin intent coherence identity passage; do
+            local gate_result
+            gate_result=$(echo "$response" | jq -r ".gates.$gate")
+            
+            if [[ "$gate_result" == "null" ]]; then
+                echo -e "  $gate: ${GRAY}SKIPPED${NC}"
+            else
+                local passed
+                passed=$(echo "$gate_result" | jq -r '.passed')
+                if [[ "$passed" == "true" ]]; then
+                    echo -e "  $gate: ${GREEN}✓ PASS${NC}"
+                else
+                    echo -e "  $gate: ${RED}✗ FAIL${NC}"
+                    local reasoning
+                    reasoning=$(echo "$gate_result" | jq -r '.reasoning')
+                    echo -e "    ${GRAY}$reasoning${NC}"
+                fi
+            fi
+        done
+        
+        echo ""
+        echo -e "${CYAN}─────────────────────────────────────────${NC}"
+        if [[ "$overall_passed" == "true" ]]; then
+            echo -e "  Overall: ${GREEN}✓ ALL GATES PASSED${NC}"
+        else
+            local failed_at
+            failed_at=$(echo "$response" | jq -r '.failedAt // "unknown"')
+            echo -e "  Overall: ${RED}✗ FAILED AT: $failed_at${NC}"
+        fi
+        echo -e "${CYAN}═════════════════════════════════════════${NC}"
+        echo ""
+    fi
+}
+
+sphinx_gate() {
+    require_jq
+    local gate_name=""
+    local file=""
+    local threshold=80
+    
+    gate_name="${1:-}"
+    shift || true
+    
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --threshold|-t) threshold="$2"; shift 2 ;;
+            *) file="$1"; shift ;;
+        esac
+    done
+    
+    if [[ -z "$gate_name" ]] || [[ -z "$file" ]]; then
+        log_error "Usage: spiralsafe sphinx gate <gate-name> <file>"
+        exit 1
+    fi
+    
+    if [[ ! -f "$file" ]]; then
+        log_error "File not found: $file"
+        exit 1
+    fi
+    
+    local content
+    content=$(cat "$file")
+    
+    local data
+    data=$(jq -n \
+        --arg gate "$gate_name" \
+        --arg id "$(uuidgen 2>/dev/null || echo "file-$(date +%s)")" \
+        --arg type "text" \
+        --arg content "$content" \
+        --arg source "$file" \
+        --argjson threshold "$threshold" \
+        '{
+            gateName: $gate,
+            artifact: {
+                id: $id,
+                type: $type,
+                content: $content,
+                metadata: { intent: "Gate validation" },
+                source: $source
+            },
+            options: { coherenceThreshold: $threshold }
+        }')
+    
+    local response
+    response=$(api_call POST "/api/sphinx/gate" "$data")
+    
+    local passed
+    passed=$(echo "$response" | jq -r '.passed')
+    local reasoning
+    reasoning=$(echo "$response" | jq -r '.reasoning')
+    
+    echo ""
+    echo -e "${CYAN}Gate: $gate_name${NC}"
+    if [[ "$passed" == "true" ]]; then
+        log_success "PASS"
+    else
+        log_error "FAIL"
+    fi
+    echo -e "${GRAY}$reasoning${NC}"
+    echo ""
+}
+
+sphinx_report() {
+    local file="${1:-}"
+    
+    if [[ -z "$file" ]]; then
+        log_error "File path required"
+        exit 1
+    fi
+    
+    # Full report is same as validate but with more detail
+    sphinx_validate --json "$file" | jq .
+}
 atom_log() {
     require_jq
     local decision="${1:-}"
@@ -776,6 +989,7 @@ Commands:
   wave      Coherence analysis (wave.md protocol)
   bump      Routing and handoff (bump.md protocol)
   awi       Permission scaffolding (AWI protocol)
+  sphinx    Security gate validation (SPHINX protocol)
   atom      Task orchestration (ATOM methodology)
   saif      Issue investigation (SAIF methodology)
   status    System health check
@@ -790,6 +1004,9 @@ Examples:
 
   # Request deployment permission
   spiralsafe awi request --intent "Deploy docs" --resources "docs/*" --actions "modify" --level 2
+
+  # Validate artifact through SPHINX gates
+  spiralsafe sphinx validate ./artifact.md --threshold 80
 
   # Check system status
   spiralsafe status
@@ -815,7 +1032,8 @@ main() {
         wave)     cmd_wave "$@" ;;
         bump)     cmd_bump "$@" ;;
         awi)      cmd_awi "$@" ;;
-        atom)     cmd_atom "$@" ;;
+        sphinx)   cmd_sphinx "$@" ;;
+        atom)     echo "ATOM commands: Use PowerShell module or API directly" ;;
         saif)     echo "SAIF commands: Use PowerShell module or API directly" ;;
         status)   cmd_status ;;
         help|-h|--help) cmd_help ;;

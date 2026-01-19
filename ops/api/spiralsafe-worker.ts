@@ -7,12 +7,15 @@
  *   /api/bump     - Routing and handoff
  *   /api/awi      - Permission scaffolding
  *   /api/atom     - Task orchestration
+ *   /api/sphinx   - Security gate validation
  *   /api/context  - Knowledge units
  *   /api/health   - System status
  *
  * H&&S: Structure-preserving operations across substrates
  */
 
+import { SPHINXGateway } from './sphinx/gates';
+import type { Artifact, SPHINXOptions } from './sphinx/types';
 import { ATOMPersister } from './atom-persister';
 import { logATOMToD1, queryATOMFromD1 } from './atom-logger.js';
 
@@ -410,6 +413,8 @@ export default {
         response = await handleAWI(request, env, path);
       } else if (path.startsWith("/api/atom")) {
         response = await handleAtom(request, env, path);
+      } else if (path.startsWith("/api/sphinx")) {
+        response = await handleSphinx(request, env, path);
       } else if (path.startsWith("/api/context")) {
         response = await handleContext(request, env, path);
       } else if (path === "/api/health") {
@@ -423,6 +428,7 @@ export default {
               "/api/bump",
               "/api/awi",
               "/api/atom",
+              "/api/sphinx",
               "/api/context",
               "/api/health",
             ],
@@ -1345,6 +1351,93 @@ async function handleContext(
   }
 
   return jsonResponse({ error: "Invalid context endpoint" }, 400);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SPHINX Gate Validation
+// ═══════════════════════════════════════════════════════════════
+
+async function handleSphinx(
+  request: Request,
+  env: Env,
+  path: string,
+): Promise<Response> {
+  // Create ATOM logger for SPHINX
+  const atomLogger = async (entry: { 
+    actor: string; 
+    decision: string; 
+    rationale: string; 
+    outcome: string; 
+  }) => {
+    const id = crypto.randomUUID();
+    try {
+      await env.SPIRALSAFE_DB.prepare(
+        `INSERT INTO atom_decisions (id, actor, decision, rationale, outcome, created_at)
+         VALUES (?, ?, ?, ?, ?, ?)`
+      ).bind(
+        id,
+        entry.actor,
+        entry.decision,
+        entry.rationale,
+        entry.outcome,
+        new Date().toISOString()
+      ).run();
+    } catch (error) {
+      console.error('Failed to log ATOM entry:', error);
+    }
+    return id;
+  };
+
+  const gateway = new SPHINXGateway(atomLogger);
+
+  // POST /api/sphinx/validate - Validate artifact through all gates
+  if (path === '/api/sphinx/validate' && request.method === 'POST') {
+    const body = await request.json() as { 
+      artifact: Artifact; 
+      options?: SPHINXOptions 
+    };
+    
+    if (!body.artifact) {
+      return jsonResponse({ error: 'Artifact required' }, 400);
+    }
+
+    const result = await gateway.validate(body.artifact, body.options);
+    return jsonResponse(result);
+  }
+
+  // POST /api/sphinx/gate - Validate a single gate
+  if (path === '/api/sphinx/gate' && request.method === 'POST') {
+    const body = await request.json() as {
+      gateName: string;
+      artifact: Artifact;
+      options?: SPHINXOptions;
+    };
+
+    if (!body.gateName || !body.artifact) {
+      return jsonResponse({ error: 'gateName and artifact required' }, 400);
+    }
+
+    try {
+      const result = await gateway.validateGate(
+        body.gateName,
+        body.artifact,
+        body.options
+      );
+      return jsonResponse(result);
+    } catch (error) {
+      return jsonResponse({
+        error: error instanceof Error ? error.message : 'Unknown error',
+      }, 400);
+    }
+  }
+
+  // GET /api/sphinx/gates - List available gates
+  if (path === '/api/sphinx/gates' && request.method === 'GET') {
+    const gates = gateway.getAvailableGates();
+    return jsonResponse({ gates });
+  }
+
+  return jsonResponse({ error: 'Invalid SPHINX endpoint' }, 400);
 }
 
 // ═══════════════════════════════════════════════════════════════
