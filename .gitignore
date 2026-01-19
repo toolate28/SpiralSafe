@@ -54,3 +54,5 @@ htmlcov/
 media/output/
 # Temporary claude working directories
 tmpclaude-*-cwd
+# ATOM Trail runtime data
+.spiralsafe/atom-trail.jsonl
