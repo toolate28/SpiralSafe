@@ -680,6 +680,7 @@ sphinx_report() {
     
     # Full report is same as validate but with more detail
     sphinx_validate --json "$file" | jq .
+}
 atom_log() {
     require_jq
     local decision="${1:-}"
