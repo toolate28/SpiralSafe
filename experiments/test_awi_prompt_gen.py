@@ -13,6 +13,8 @@ ATOM-TEST-20260117-001-awi-prompt-gen-tests
 import sys
 from pathlib import Path
 
+import pytest
+
 # Add experiments to path
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -104,9 +106,12 @@ class TestAwiPromptGen:
         yaml_injection = 'test"\nmalicious: true\n  injected: "value'
         result = gen(user_intent=yaml_injection, history=[])
         
-        # Newlines in intent should be escaped
-        assert ('\\n' in result.content or '\n  injected' not in result.content), (
-            "Newlines in intent should be escaped"
+        # The system should either escape newlines as literal \n strings,
+        # or sanitize them in a way that prevents the injected structure from appearing
+        has_escaped_newlines = '\\n' in result.content
+        has_no_injected_structure = '\n  injected' not in result.content
+        assert (has_escaped_newlines or has_no_injected_structure), (
+            "Newlines in intent should be escaped or sanitized to prevent YAML injection"
         )
         
         # Test with quotes
@@ -170,7 +175,4 @@ class TestAwiPromptGen:
 
 if __name__ == "__main__":
     # Run tests via pytest when executed directly
-    import pytest
-    import sys
-    
     sys.exit(pytest.main([__file__, "-v"]))
