@@ -166,6 +166,30 @@ spiralsafe awi verify --action "modify:README.md"
 spiralsafe awi audit <grant-id>
 ```
 
+### ATOM - Decision Trail
+
+```bash
+# Log a decision
+spiralsafe atom log "Deploy to production" "All tests passed" "SUCCESS" \
+  --actor "human-operator" \
+  --coherence 0.95
+
+# Query the trail
+spiralsafe atom query --actor claude --since 2026-01-19 --limit 10
+
+# Show decision chain
+spiralsafe atom chain <entry-id>
+
+# Verify trail integrity
+spiralsafe atom verify
+
+# Export trail
+spiralsafe atom export --format markdown --output trail.md
+spiralsafe atom export --format json --since 2026-01-19 > trail.json
+```
+
+📖 **Complete ATOM CLI Reference:** [ATOM_API_REFERENCE.md](./ATOM_API_REFERENCE.md)
+
 ### Session Reports
 
 Run and export session reports from the command line (creates `.atom-trail/sessions/*.json` and optional encrypted bundle):
@@ -199,14 +223,21 @@ Base URL: `https://api.spiralsafe.org`
 | `/api/bump/create`      | POST   | Create handoff marker    |
 | `/api/bump/pending`     | GET    | List unresolved bumps    |
 | `/api/bump/resolve/:id` | PUT    | Resolve a bump           |
-| `/api/awi/request`      | POST   | Request permission grant |
+| `/api/awi/request`      | POST   | Request AWI grant        |
 | `/api/awi/verify`       | POST   | Verify action permission |
-| `/api/awi/audit/:id`    | GET    | Permission audit trail   |
-| `/api/atom/create`      | POST   | Create task unit         |
-| `/api/atom/status/:id`  | PUT    | Update task status       |
+| `/api/awi/audit/:id`    | GET    | View grant audit trail   |
+| `/api/atom/create`      | POST   | Create task atom         |
+| `/api/atom/status/:id`  | PUT    | Update atom status       |
 | `/api/atom/ready`       | GET    | Get executable atoms     |
+| `/api/atom/trail/log`   | POST   | Log decision to trail    |
+| `/api/atom/trail/query` | POST   | Query decision trail     |
+| `/api/atom/trail/chain/:id` | GET | Get decision chain    |
+| `/api/atom/trail/verify` | GET   | Verify trail integrity   |
+| `/api/atom/trail/export` | POST  | Export trail             |
 | `/api/context/store`    | POST   | Store knowledge unit     |
 | `/api/context/query`    | GET    | Query contexts           |
+
+📖 **Complete ATOM API Reference:** [ATOM_API_REFERENCE.md](./ATOM_API_REFERENCE.md)
 
 ---
 
