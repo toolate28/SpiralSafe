@@ -458,6 +458,44 @@ cmd_sphinx() {
             echo "Options:"
             echo "  --threshold <N>  Set coherence threshold (default: 80)"
             echo "  --json          Output as JSON"
+# ATOM Commands - Trail of Decisions
+# ═══════════════════════════════════════════════════════════════
+
+cmd_atom() {
+    local subcommand="${1:-help}"
+    shift || true
+    
+    case "$subcommand" in
+        log)
+            atom_log "$@"
+            ;;
+        query)
+            atom_query "$@"
+            ;;
+        chain)
+            atom_chain "$@"
+            ;;
+        verify)
+            atom_verify
+            ;;
+        export)
+            atom_export "$@"
+            ;;
+        *)
+            echo "Usage: spiralsafe atom <log|query|chain|verify|export> [options]"
+            echo ""
+            echo "Commands:"
+            echo "  log <decision> <rationale> <outcome>  Log a decision"
+            echo "  query [--actor <actor>] [--since <date>]  Query trail"
+            echo "  chain <entry-id>                      Show decision chain"
+            echo "  verify                                Verify trail integrity"
+            echo "  export [--format <format>] [--since <date>]  Export trail"
+            echo ""
+            echo "Examples:"
+            echo "  spiralsafe atom log \"Deploy to prod\" \"All tests pass\" \"Success\""
+            echo "  spiralsafe atom query --actor claude --since 2026-01-19"
+            echo "  spiralsafe atom verify"
+            echo "  spiralsafe atom export --format markdown"
             ;;
     esac
 }
@@ -642,6 +680,251 @@ sphinx_report() {
     
     # Full report is same as validate but with more detail
     sphinx_validate --json "$file" | jq .
+atom_log() {
+    require_jq
+    local decision="${1:-}"
+    local rationale="${2:-}"
+    local outcome="${3:-}"
+    
+    if [[ -z "$decision" ]] || [[ -z "$rationale" ]] || [[ -z "$outcome" ]]; then
+        log_error "Usage: spiralsafe atom log <decision> <rationale> <outcome>"
+        echo ""
+        echo "Options:"
+        echo "  --actor <actor>              Actor making the decision (default: cli)"
+        echo "  --coherence <score>          Coherence score (0-1)"
+        echo "  --parent <entry-id>          Parent entry ID"
+        echo "  --vortex <state>             Vortex state"
+        exit 1
+    fi
+    
+    local actor="cli"
+    local coherence=""
+    local parent=""
+    local vortex=""
+    
+    shift 3
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --actor|-a) actor="$2"; shift 2 ;;
+            --coherence|-c) coherence="$2"; shift 2 ;;
+            --parent|-p) parent="$2"; shift 2 ;;
+            --vortex|-v) vortex="$2"; shift 2 ;;
+            *) shift ;;
+        esac
+    done
+    
+    local data
+    if [[ -n "$coherence" ]]; then
+        data=$(jq -n \
+            --arg actor "$actor" \
+            --arg decision "$decision" \
+            --arg rationale "$rationale" \
+            --arg outcome "$outcome" \
+            --arg coherence "$coherence" \
+            --arg parent "$parent" \
+            --arg vortex "$vortex" \
+            '{actor: $actor, decision: $decision, rationale: $rationale, outcome: $outcome, coherenceScore: ($coherence | tonumber), parentEntry: (if $parent == "" then null else $parent end), vortexState: (if $vortex == "" then null else $vortex end), context: {}}')
+    else
+        data=$(jq -n \
+            --arg actor "$actor" \
+            --arg decision "$decision" \
+            --arg rationale "$rationale" \
+            --arg outcome "$outcome" \
+            --arg parent "$parent" \
+            --arg vortex "$vortex" \
+            '{actor: $actor, decision: $decision, rationale: $rationale, outcome: $outcome, parentEntry: (if $parent == "" then null else $parent end), vortexState: (if $vortex == "" then null else $vortex end), context: {}}')
+    fi
+    
+    local response
+    response=$(api_call POST "/api/atom/trail/log" "$data")
+    
+    if echo "$response" | jq -e '.success' > /dev/null 2>&1; then
+        local id
+        id=$(echo "$response" | jq -r '.id')
+        log_success "ATOM entry logged: $id"
+        log_dim "Decision: $decision"
+        log_dim "Outcome: $outcome"
+    else
+        log_error "Failed to log ATOM entry"
+        echo "$response" | jq .
+    fi
+}
+
+atom_query() {
+    require_jq
+    
+    local actor=""
+    local since=""
+    local until=""
+    local decision=""
+    local outcome=""
+    local limit="50"
+    
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --actor|-a) actor="$2"; shift 2 ;;
+            --since|-s) since="$2"; shift 2 ;;
+            --until|-u) until="$2"; shift 2 ;;
+            --decision|-d) decision="$2"; shift 2 ;;
+            --outcome|-o) outcome="$2"; shift 2 ;;
+            --limit|-l) limit="$2"; shift 2 ;;
+            *) shift ;;
+        esac
+    done
+    
+    local data
+    data=$(jq -n \
+        --arg actor "$actor" \
+        --arg since "$since" \
+        --arg until "$until" \
+        --arg decision "$decision" \
+        --arg outcome "$outcome" \
+        --arg limit "$limit" \
+        '{actor: (if $actor == "" then null else $actor end), since: (if $since == "" then null else $since end), until: (if $until == "" then null else $until end), decision: (if $decision == "" then null else $decision end), outcome: (if $outcome == "" then null else $outcome end), limit: ($limit | tonumber)}')
+    
+    local response
+    response=$(api_call POST "/api/atom/trail/query" "$data")
+    
+    local count
+    count=$(echo "$response" | jq -r '.count')
+    
+    if [[ "$count" == "0" ]]; then
+        log_success "No entries found"
+        return
+    fi
+    
+    echo -e "${CYAN}ATOM Trail Entries (${count}):${NC}"
+    echo "$response" | jq -r '.entries[] | "  [\(.timestamp)] \(.actor)\n    Decision: \(.decision)\n    Outcome: \(.outcome)\n    ID: \(.id)\n"'
+}
+
+atom_chain() {
+    require_jq
+    local entry_id="${1:-}"
+    
+    if [[ -z "$entry_id" ]]; then
+        log_error "Usage: spiralsafe atom chain <entry-id>"
+        exit 1
+    fi
+    
+    local response
+    response=$(api_call GET "/api/atom/trail/chain/$entry_id")
+    
+    if echo "$response" | jq -e '.entries' > /dev/null 2>&1; then
+        local depth valid
+        depth=$(echo "$response" | jq -r '.depth')
+        valid=$(echo "$response" | jq -r '.integrityValid')
+        
+        echo -e "${CYAN}Decision Chain (depth: $depth):${NC}"
+        
+        if [[ "$valid" == "true" ]]; then
+            log_success "Chain integrity: VALID"
+        else
+            log_error "Chain integrity: INVALID"
+        fi
+        
+        echo ""
+        echo "$response" | jq -r '.entries[] | "  [\(.timestamp)] \(.actor)\n    Decision: \(.decision)\n    Outcome: \(.outcome)\n    ID: \(.id)\n"'
+    else
+        log_error "Failed to retrieve chain"
+        echo "$response" | jq .
+    fi
+}
+
+atom_verify() {
+    require_jq
+    
+    log_info "Verifying ATOM trail integrity..."
+    
+    local response
+    response=$(api_call GET "/api/atom/trail/verify")
+    
+    if echo "$response" | jq -e '.valid' > /dev/null 2>&1; then
+        local valid total broken tampered
+        valid=$(echo "$response" | jq -r '.valid')
+        total=$(echo "$response" | jq -r '.totalEntries')
+        broken=$(echo "$response" | jq -r '.brokenChains')
+        tampered=$(echo "$response" | jq -r '.tamperedEntries | length')
+        
+        if [[ "$valid" == "true" ]]; then
+            log_success "Trail integrity: VALID"
+        else
+            log_error "Trail integrity: INVALID"
+        fi
+        
+        echo ""
+        echo "  Total entries: $total"
+        echo "  Broken chains: $broken"
+        echo "  Tampered entries: $tampered"
+        
+        if [[ "$tampered" -gt 0 ]]; then
+            echo ""
+            echo -e "${YELLOW}Tampered entries:${NC}"
+            echo "$response" | jq -r '.tamperedEntries[]'
+        fi
+        
+        if [[ "$(echo "$response" | jq -r '.details | length')" -gt 0 ]]; then
+            echo ""
+            echo -e "${YELLOW}Details:${NC}"
+            echo "$response" | jq -r '.details[] | "  - \(.)"'
+        fi
+    else
+        log_error "Failed to verify trail"
+        echo "$response" | jq .
+    fi
+}
+
+atom_export() {
+    require_jq
+    
+    local format="markdown"
+    local since=""
+    local actor=""
+    local limit="1000"
+    local output=""
+    
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --format|-f) format="$2"; shift 2 ;;
+            --since|-s) since="$2"; shift 2 ;;
+            --actor|-a) actor="$2"; shift 2 ;;
+            --limit|-l) limit="$2"; shift 2 ;;
+            --output|-o) output="$2"; shift 2 ;;
+            *) shift ;;
+        esac
+    done
+    
+    if [[ ! "$format" =~ ^(markdown|json|csv)$ ]]; then
+        log_error "Format must be: markdown, json, or csv"
+        exit 1
+    fi
+    
+    local filter_data
+    filter_data=$(jq -n \
+        --arg actor "$actor" \
+        --arg since "$since" \
+        --arg limit "$limit" \
+        '{actor: (if $actor == "" then null else $actor end), since: (if $since == "" then null else $since end), limit: ($limit | tonumber)}')
+    
+    local data
+    data=$(jq -n \
+        --arg format "$format" \
+        --argjson filter "$filter_data" \
+        '{format: $format, filter: $filter}')
+    
+    log_info "Exporting ATOM trail to $format..."
+    
+    local response
+    response=$(curl -s -X POST \
+        -H "Content-Type: application/json" \
+        -d "$data" \
+        "${SPIRALSAFE_API_BASE}/api/atom/trail/export")
+    
+    if [[ -n "$output" ]]; then
+        echo "$response" > "$output"
+        log_success "Exported to: $output"
+    else
+        echo "$response"
+    fi
 }
 
 # ═══════════════════════════════════════════════════════════════
@@ -746,6 +1029,7 @@ main() {
         awi)      cmd_awi "$@" ;;
         sphinx)   cmd_sphinx "$@" ;;
         atom)     echo "ATOM commands: Use PowerShell module or API directly" ;;
+        atom)     cmd_atom "$@" ;;
         saif)     echo "SAIF commands: Use PowerShell module or API directly" ;;
         status)   cmd_status ;;
         help|-h|--help) cmd_help ;;

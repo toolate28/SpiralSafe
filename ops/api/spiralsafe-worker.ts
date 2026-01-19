@@ -16,6 +16,8 @@
 
 import { SPHINXGateway } from './sphinx/gates';
 import type { Artifact, SPHINXOptions } from './sphinx/types';
+import { ATOMPersister } from './atom-persister';
+import { logATOMToD1, queryATOMFromD1 } from './atom-logger.js';
 
 export interface Env {
   SPIRALSAFE_DB: D1Database;
@@ -505,6 +507,7 @@ async function handleWave(
     const body = (await request.json()) as {
       content: string;
       thresholds?: Record<string, number>;
+      vortexId?: string;
     };
     const analysis = analyzeCoherence(body.content, body.thresholds);
 
@@ -522,6 +525,40 @@ async function handleWave(
         new Date().toISOString(),
       )
       .run();
+
+    // Log to ATOM trail
+    const atomPersister = new ATOMPersister('sqlite', env.SPIRALSAFE_DB, env.SPIRALSAFE_KV);
+    await atomPersister.log({
+      actor: 'wave-validator',
+      decision: `Analyzed content coherence`,
+      rationale: `Threshold check: curl=${analysis.curl.toFixed(2)}, divergence=${analysis.divergence.toFixed(2)}`,
+      outcome: analysis.coherent ? 'PASS' : 'FAIL',
+      // NOTE: This is a simplified coherence score for trail logging.
+      // It represents the combined magnitude of structural issues (curl + |divergence|).
+      // A proper coherence metric might use: 1.0 - (curl * 0.5 + Math.abs(divergence) * 0.5)
+      // or weight them differently based on domain requirements.
+      coherenceScore: analysis.curl + Math.abs(analysis.divergence),
+    // Log to ATOM trail for decision provenance
+    const coherenceScore = analysis.coherent 
+      ? 1 - (analysis.curl + Math.abs(analysis.divergence)) / 2
+      : 0.4;
+    
+    await logATOMToD1(env.SPIRALSAFE_DB, {
+      vortexId: 'wave-validator',
+      decision: `Document coherence: ${analysis.coherent ? 'COHERENT' : 'INCOHERENT'}`,
+      rationale: `Curl: ${analysis.curl.toFixed(3)}, Divergence: ${analysis.divergence.toFixed(3)}, Potential: ${analysis.potential.toFixed(3)}`,
+      outcome: analysis.coherent ? 'success' : 'failure',
+      coherenceScore,
+      context: {
+        curl: analysis.curl,
+        divergence: analysis.divergence,
+        potential: analysis.potential,
+        regions: analysis.regions.length,
+      },
+        regionCount: analysis.regions.length,
+        contentLength: body.content.length
+      }
+    });
 
     return jsonResponse(analysis);
   }
@@ -674,6 +711,21 @@ async function handleBump(
       expirationTtl: 86400 * 7,
     });
 
+    // Log to ATOM trail
+    const atomPersister = new ATOMPersister('sqlite', env.SPIRALSAFE_DB, env.SPIRALSAFE_KV);
+    await atomPersister.log({
+      actor: bump.from,
+      decision: `H&&S:${bump.type} to ${bump.to}`,
+      rationale: `Agent handoff: ${bump.state}`,
+      outcome: 'Context transferred',
+      context: {
+        handoffType: bump.type,
+        nextAgent: bump.to,
+        bumpId: bump.id,
+        ...bump.context,
+      },
+    });
+
     return jsonResponse(bump, 201);
   }
 
@@ -811,7 +863,7 @@ async function handleAWI(
 }
 
 // ═══════════════════════════════════════════════════════════════
-// Atom Handlers - Task Orchestration
+// Atom Handlers - Task Orchestration & Trail Logging
 // ═══════════════════════════════════════════════════════════════
 
 async function handleAtom(
@@ -819,6 +871,49 @@ async function handleAtom(
   env: Env,
   path: string,
 ): Promise<Response> {
+  // ATOM Trail Query - Get decision provenance
+  if (request.method === "GET" && path === "/api/atom/trail") {
+    const url = new URL(request.url);
+    const vortexId = url.searchParams.get("vortex");
+    const outcome = url.searchParams.get("outcome") as 'success' | 'failure' | 'pending' | null;
+    const limit = parseInt(url.searchParams.get("limit") || "100");
+    const offset = parseInt(url.searchParams.get("offset") || "0");
+
+    const entries = await queryATOMFromD1(env.SPIRALSAFE_DB, {
+      vortexId: vortexId || undefined,
+      outcome: outcome || undefined,
+      limit,
+      offset
+    });
+
+    return jsonResponse(entries);
+  }
+
+  // ATOM Trail Log - Manual logging endpoint
+  if (request.method === "POST" && path === "/api/atom/trail/log") {
+    const body = (await request.json()) as {
+      vortexId: string;
+      decision: string;
+      rationale: string;
+      outcome: 'success' | 'failure' | 'pending';
+      coherenceScore?: number;
+      fibonacciWeight?: number;
+      context?: Record<string, unknown>;
+    };
+
+    const entry = await logATOMToD1(env.SPIRALSAFE_DB, {
+      vortexId: body.vortexId,
+      decision: body.decision,
+      rationale: body.rationale,
+      outcome: body.outcome,
+      coherenceScore: body.coherenceScore,
+      fibonacciWeight: body.fibonacciWeight,
+      context: body.context || {}
+    });
+
+    return jsonResponse(entry, 201);
+  }
+
   if (request.method === "POST" && path === "/api/atom/create") {
     const body = (await request.json()) as Partial<Atom>;
 
@@ -898,6 +993,105 @@ async function handleAtom(
     ).all();
 
     return jsonResponse(result.results);
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // ATOM Trail Endpoints
+  // ═══════════════════════════════════════════════════════════════
+
+  if (request.method === "POST" && path === "/api/atom/trail/log") {
+    const body = (await request.json()) as {
+      actor: string;
+      decision: string;
+      rationale: string;
+      outcome: string;
+      coherenceScore?: number;
+      context?: Record<string, unknown>;
+      parentEntry?: string;
+      vortexState?: string;
+    };
+
+    const atomPersister = new ATOMPersister('sqlite', env.SPIRALSAFE_DB, env.SPIRALSAFE_KV);
+    const entryId = await atomPersister.log({
+      actor: body.actor,
+      decision: body.decision,
+      rationale: body.rationale,
+      outcome: body.outcome,
+      coherenceScore: body.coherenceScore,
+      context: body.context ?? {},
+      parentEntry: body.parentEntry,
+      vortexState: body.vortexState,
+    });
+
+    return jsonResponse({ id: entryId, success: true }, 201);
+  }
+
+  if (request.method === "POST" && path === "/api/atom/trail/query") {
+    const body = (await request.json()) as {
+      actor?: string;
+      since?: string;
+      until?: string;
+      decision?: string;
+      outcome?: string;
+      minCoherence?: number;
+      maxCoherence?: number;
+      vortexState?: string;
+      parentEntry?: string;
+      limit?: number;
+      offset?: number;
+    };
+
+    const atomPersister = new ATOMPersister('sqlite', env.SPIRALSAFE_DB, env.SPIRALSAFE_KV);
+    const entries = await atomPersister.query(body);
+
+    return jsonResponse({ entries, count: entries.length });
+  }
+
+  if (request.method === "GET" && path.startsWith("/api/atom/trail/chain/")) {
+    const entryId = path.split("/").pop();
+    if (!entryId) {
+      return jsonResponse({ error: "Entry ID required" }, 400);
+    }
+
+    const atomPersister = new ATOMPersister('sqlite', env.SPIRALSAFE_DB, env.SPIRALSAFE_KV);
+    const chain = await atomPersister.getChain(entryId);
+
+    return jsonResponse(chain);
+  }
+
+  if (request.method === "GET" && path === "/api/atom/trail/verify") {
+    const atomPersister = new ATOMPersister('sqlite', env.SPIRALSAFE_DB, env.SPIRALSAFE_KV);
+    const verification = await atomPersister.verify();
+
+    return jsonResponse(verification);
+  }
+
+  if (request.method === "POST" && path === "/api/atom/trail/export") {
+    const body = (await request.json()) as {
+      format: 'markdown' | 'json' | 'csv';
+      filter?: {
+        actor?: string;
+        since?: string;
+        until?: string;
+        limit?: number;
+      };
+    };
+
+    const atomPersister = new ATOMPersister('sqlite', env.SPIRALSAFE_DB, env.SPIRALSAFE_KV);
+    const entries = await atomPersister.query(body.filter ?? {});
+    const exported = atomPersister.export(entries, body.format);
+
+    const contentType = 
+      body.format === 'json' ? 'application/json' :
+      body.format === 'csv' ? 'text/csv' :
+      'text/markdown';
+
+    return new Response(exported, {
+      headers: {
+        'Content-Type': contentType,
+        'Content-Disposition': `attachment; filename="atom-trail.${body.format}"`,
+      },
+    });
   }
 
   return jsonResponse({ error: "Invalid atom endpoint" }, 400);
