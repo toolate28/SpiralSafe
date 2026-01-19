@@ -11,7 +11,7 @@ import type { Artifact, GateResult, Evidence, SPHINXOptions } from './types';
 
 export async function validateIdentity(
   artifact: Artifact,
-  options?: SPHINXOptions
+  _options?: SPHINXOptions
 ): Promise<GateResult> {
   const evidence: Evidence[] = [];
   let passed = true;
@@ -123,7 +123,7 @@ export async function validateIdentity(
   const requiredInterface = artifact.metadata?.requiredInterface as Record<string, string> | undefined;
   if (requiredInterface) {
     const interfaceChecks: string[] = [];
-    for (const [method, signature] of Object.entries(requiredInterface)) {
+    for (const [method, _signature] of Object.entries(requiredInterface)) {
       const regex = new RegExp(`\\b${method}\\s*[(:=]`, 'i');
       if (regex.test(content)) {
         interfaceChecks.push(`${method}: found`);

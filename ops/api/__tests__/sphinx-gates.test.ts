@@ -381,7 +381,7 @@ Therefore, it should pass all validation gates.`,
     it('should allow registering custom gates', () => {
       const gateway = new SPHINXGateway();
       
-      gateway.registerCustomGate('custom', async (artifact) => ({
+      gateway.registerCustomGate('custom', async (_artifact) => ({
         passed: true,
         evidence: [],
         reasoning: 'Custom validation',
@@ -428,9 +428,9 @@ Therefore, it should pass all validation gates.`,
       };
       
       const gateway = new SPHINXGateway(atomLogger);
-      const artifact = createTestArtifact();
+      const _artifact = createTestArtifact();
       
-      const result = await gateway.validate(artifact, {
+      const result = await gateway.validate(_artifact, {
         coherenceThreshold: 60,
       });
       

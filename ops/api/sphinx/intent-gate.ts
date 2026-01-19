@@ -11,7 +11,7 @@ import type { Artifact, GateResult, Evidence, SPHINXOptions } from './types';
 
 export async function validateIntent(
   artifact: Artifact,
-  options?: SPHINXOptions
+  _options?: SPHINXOptions
 ): Promise<GateResult> {
   const evidence: Evidence[] = [];
   let passed = true;
@@ -94,7 +94,6 @@ export async function validateIntent(
   }
 
   // Check 3: Type vs Intent alignment
-  const declaredType = artifact.type;
   const intentKeywords = ['create', 'read', 'update', 'delete', 'modify', 'analyze', 'validate'];
   const hasActionKeyword = intentKeywords.some(kw => 
     declaredIntent.toLowerCase().includes(kw)

@@ -23,7 +23,6 @@ async function analyzeWAVE(content: string, threshold: number): Promise<WaveAnal
   // Simplified WAVE analysis
   // In production, this would call the full WAVE analysis from spiralsafe-worker
   
-  const paragraphs = content.split(/\n\n+/).filter(p => p.trim().length > 0);
   const sentences = content.split(/[.!?]+/).filter(s => s.trim().length > 0);
   
   // Calculate curl (repetition)

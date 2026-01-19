@@ -7,10 +7,10 @@
  * ATOM: ATOM-FEATURE-20260119-006-sphinx-passage-gate
  */
 
-import type { Artifact, GateResult, Evidence, SPHINXOptions, SPHINXGateContext } from './types';
+import type { Artifact, GateResult, Evidence, SPHINXGateContext } from './types';
 
 export async function validatePassage(
-  artifact: Artifact,
+  _artifact: Artifact,
   context: SPHINXGateContext
 ): Promise<GateResult> {
   const evidence: Evidence[] = [];

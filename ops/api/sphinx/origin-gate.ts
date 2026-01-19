@@ -11,7 +11,7 @@ import type { Artifact, GateResult, Evidence, SPHINXOptions } from './types';
 
 export async function validateOrigin(
   artifact: Artifact,
-  options?: SPHINXOptions
+  _options?: SPHINXOptions
 ): Promise<GateResult> {
   const evidence: Evidence[] = [];
   let passed = true;
