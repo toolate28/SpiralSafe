@@ -30,6 +30,14 @@ PLANCK_LENGTH = 1.616255e-35  # m
 STABILITY_EPSILON = 0.0005
 COHERENCE_THRESHOLD = 4.0005
 
+# Coherence state thresholds
+COHERENCE_MINIMUM = 4.0000  # Minimum tetrahedral structure
+COHERENCE_OPTIMAL = 4.0005  # Optimal with epsilon buffer
+COHERENCE_RADIATING = 4.001  # Excess energy threshold
+
+# Normalization constants
+ENTROPY_NORMALIZATION = 2.0  # Max entropy value for normalization
+
 # Comparison tolerances
 FLOAT_TOLERANCE = 1e-6  # For float equality comparisons
 RANGE_TOLERANCE = 0.1  # For input validation ranges
@@ -54,13 +62,13 @@ def determine_coherence_state(coherence: float) -> CoherenceState:
     Returns:
         CoherenceState enum value
     """
-    if coherence < 4.0000:
+    if coherence < COHERENCE_MINIMUM:
         return CoherenceState.COLLAPSE
-    elif abs(coherence - 4.0000) < FLOAT_TOLERANCE:
+    elif abs(coherence - COHERENCE_MINIMUM) < FLOAT_TOLERANCE:
         return CoherenceState.UNSTABLE
-    elif abs(coherence - 4.0005) < FLOAT_TOLERANCE:
+    elif abs(coherence - COHERENCE_OPTIMAL) < FLOAT_TOLERANCE:
         return CoherenceState.CRYSTALLINE
-    elif coherence > 4.001:
+    elif coherence > COHERENCE_RADIATING:
         return CoherenceState.RADIATING
     else:
         # Between thresholds, treat as CRYSTALLINE
@@ -219,7 +227,7 @@ def calculate_4_0005_coherence(wave_metrics: Dict[str, float]) -> CoherenceTetra
     
     # Node "be" has the stability epsilon built in
     # Scale entropy [0, 2] to contribute around 1.0, add epsilon
-    node_be_base = entropy / 2.0  # Normalize to [0, 1]
+    node_be_base = entropy / ENTROPY_NORMALIZATION  # Normalize to [0, 1]
     node_be = TetrahedralNode(
         name="be",
         value=node_be_base + STABILITY_EPSILON,
