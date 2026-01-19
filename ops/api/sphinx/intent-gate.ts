@@ -90,6 +90,8 @@ export async function validateIntent(
         severity: 'warning',
       });
       reasoning.push(`WARNING: Undeclared sensitive operations: ${undeclaredPatterns.join(', ')}`);
+      // Fail gate if sensitive operations are undeclared
+      passed = false;
     }
   }
 

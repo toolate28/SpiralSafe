@@ -256,7 +256,10 @@ circular circular circular reasoning reasoning reasoning`,
   describe('Gate 5: PASSAGE', () => {
     it('should pass when all previous gates passed', async () => {
       const gateway = new SPHINXGateway();
-      const artifact = createTestArtifact();
+      const artifact = createTestArtifact({
+        type: 'markdown',
+        content: '# Test\n\nThis is markdown content.',
+      });
       
       const result = await gateway.validate(artifact, {
         coherenceThreshold: 60,
@@ -283,7 +286,10 @@ circular circular circular reasoning reasoning reasoning`,
 
     it('should check context permissions', async () => {
       const gateway = new SPHINXGateway();
-      const artifact = createTestArtifact();
+      const artifact = createTestArtifact({
+        type: 'markdown',
+        content: '# Test\n\nMarkdown content.',
+      });
       
       const result = await gateway.validate(artifact, {
         coherenceThreshold: 60,
@@ -292,9 +298,9 @@ circular circular circular reasoning reasoning reasoning`,
           grantedPermissions: ['read'], // Missing 'write'
         },
       });
-      
+
       expect(result.overallPassed).toBe(false);
-      expect(result.failedAt).toBe('passage');
+      expect(result.gates.passage?.passed).toBe(false);
       expect(result.gates.passage?.evidence).toContainEqual(
         expect.objectContaining({ type: 'insufficient_permissions' })
       );
@@ -302,7 +308,10 @@ circular circular circular reasoning reasoning reasoning`,
 
     it('should check environment constraints', async () => {
       const gateway = new SPHINXGateway();
-      const artifact = createTestArtifact();
+      const artifact = createTestArtifact({
+        type: 'markdown',
+        content: '# Test\n\nMarkdown content.',
+      });
       
       const result = await gateway.validate(artifact, {
         coherenceThreshold: 60,
@@ -311,8 +320,9 @@ circular circular circular reasoning reasoning reasoning`,
           environment: 'production',
         },
       });
-      
+
       expect(result.overallPassed).toBe(false);
+      expect(result.gates.passage?.passed).toBe(false);
       expect(result.gates.passage?.evidence).toContainEqual(
         expect.objectContaining({ type: 'environment_not_allowed' })
       );

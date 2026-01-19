@@ -83,9 +83,10 @@ export async function validateIdentity(
         type: 'type_content_mismatch',
         description: 'Content does not match declared type',
         value: false,
-        severity: 'warning',
+        severity: 'critical',
       });
-      reasoning.push('WARNING: Content structure inconsistent with declared type');
+      reasoning.push('FAIL: Content structure inconsistent with declared type');
+      passed = false;
     }
   } else {
     evidence.push({
