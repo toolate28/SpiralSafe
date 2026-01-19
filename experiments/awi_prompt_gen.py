@@ -193,7 +193,7 @@ class ChainOfThought(Module):
                        e.g., "user_intent -> prompt_template"
         """
         self.signature = signature
-        parts = signature.split("->")
+        parts = signature.split("->", 1)
         if len(parts) < 2:
             raise ValueError(
                 f"Invalid signature format: {signature!r}. "
