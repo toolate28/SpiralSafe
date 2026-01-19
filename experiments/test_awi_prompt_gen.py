@@ -293,7 +293,7 @@ class TestAwiPromptGen:
             )
 
 
-# Note: Tests in this module are intended to be run via pytest's
-# discovery (e.g., `pytest experiments/test_awi_prompt_gen.py`).
-# A custom `main()` runner is intentionally omitted to keep test
-# execution consistent with the rest of the codebase.
+# Note: Tests in this module are designed to be run via the repository's
+# standard test runner or tooling (see project documentation) rather than
+# relying on pytest's automatic test discovery for this file.
+# No standalone `main()` entrypoint is provided here.
