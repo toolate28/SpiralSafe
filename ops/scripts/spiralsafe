@@ -458,6 +458,10 @@ cmd_sphinx() {
             echo "Options:"
             echo "  --threshold <N>  Set coherence threshold (default: 80)"
             echo "  --json          Output as JSON"
+            echo ""
+            ;;
+    esac
+}
 # ATOM Commands - Trail of Decisions
 # ═══════════════════════════════════════════════════════════════
 
