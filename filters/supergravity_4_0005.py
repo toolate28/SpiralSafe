@@ -113,14 +113,18 @@ def lorentz_factor(velocity: float) -> float:
     Calculate Lorentz factor γ = 1 / √(1 - v²/c²)
     
     Args:
-        velocity: Speed in m/s (must be < c)
+        velocity: Speed in m/s (must be >= 0 and < c)
         
     Returns:
         Lorentz factor γ
         
     Raises:
-        ValueError: If velocity >= c
+        ValueError: If velocity < 0 or velocity >= c
     """
+    if velocity < 0:
+        raise ValueError(
+            f"Velocity {velocity} m/s is negative. Velocity must be non-negative."
+        )
     if velocity >= SPEED_OF_LIGHT:
         raise ValueError(
             f"Velocity {velocity} m/s >= c. Isomorphism breaks at v = c."
@@ -274,7 +278,7 @@ def filter_signal_4_0005(
         "isomorphism_preserved": True
     }
     
-    # Lineage check (required by schema; missing lineage blocks filtering)
+    # Lineage check (required by schema)
     if atom_lineage is None:
         result["details"]["lineage_error"] = "ATOM lineage is required but was not provided"
         result["message"] = "Filter rejected: missing required ATOM lineage for coherence evaluation."
@@ -282,6 +286,13 @@ def filter_signal_4_0005(
         return result
     else:
         result["details"]["atom_lineage"] = atom_lineage
+    
+    # Validate velocity
+    if velocity < 0:
+        result["details"]["error"] = f"Velocity {velocity} m/s is negative"
+        result["message"] = f"Filter error: Velocity must be non-negative, got {velocity} m/s"
+        result["passed"] = False
+        return result
     
     try:
         # Calculate base coherence in rest frame
@@ -412,6 +423,7 @@ def generate_tetrahedron_for_visualization(
 # Unit Tests
 # ============================================================================
 
+
 def test_collapse_state():
     """Test COLLAPSE state (< 4.0000)"""
     wave_metrics = {
@@ -420,7 +432,7 @@ def test_collapse_state():
         "potential": 0.5,
         "entropy": 0.8  # Will contribute ~0.4 + epsilon
     }
-    result = filter_signal_4_0005(wave_metrics)
+    result = filter_signal_4_0005(wave_metrics, atom_lineage="ATOM-TEST-COLLAPSE")
     
     assert result["state"] == CoherenceState.COLLAPSE.value
     assert result["passed"] is False
@@ -438,7 +450,7 @@ def test_unstable_state():
         "potential": 1.0,
         "entropy": 1.999  # Will contribute ~0.9995 + 0.0005 = 1.0
     }
-    result = filter_signal_4_0005(wave_metrics)
+    result = filter_signal_4_0005(wave_metrics, atom_lineage="ATOM-TEST-UNSTABLE")
     
     assert result["state"] == CoherenceState.UNSTABLE.value
     assert result["passed"] is False
@@ -456,7 +468,7 @@ def test_crystalline_state():
         "potential": 1.0,
         "entropy": 2.0  # Will contribute 1.0 + 0.0005 = 1.0005
     }
-    result = filter_signal_4_0005(wave_metrics)
+    result = filter_signal_4_0005(wave_metrics, atom_lineage="ATOM-TEST-CRYSTALLINE")
     
     assert result["state"] == CoherenceState.CRYSTALLINE.value
     assert result["passed"] is True
@@ -475,7 +487,7 @@ def test_radiating_state():
     }
     # Add extra to push over threshold
     wave_metrics["potential"] = 1.01  # Push slightly over
-    result = filter_signal_4_0005(wave_metrics)
+    result = filter_signal_4_0005(wave_metrics, atom_lineage="ATOM-TEST-RADIATING")
     
     # May be CRYSTALLINE or RADIATING depending on exact value
     assert result["passed"] is True
@@ -492,7 +504,11 @@ def test_isomorphism_break():
     }
     
     # At velocity = c, should break
-    result = filter_signal_4_0005(wave_metrics, velocity=SPEED_OF_LIGHT)
+    result = filter_signal_4_0005(
+        wave_metrics, 
+        velocity=SPEED_OF_LIGHT,
+        atom_lineage="ATOM-TEST-ISOMORPHISM"
+    )
     
     assert result["state"] == CoherenceState.ISOMORPHISM_BREAK.value
     assert result["passed"] is False
@@ -513,7 +529,7 @@ def test_lorentz_scaling():
     
     # At 0.5c, gamma ≈ 1.1547
     v = SPEED_OF_LIGHT * 0.5
-    result = filter_signal_4_0005(wave_metrics, velocity=v)
+    result = filter_signal_4_0005(wave_metrics, velocity=v, atom_lineage="ATOM-TEST-LORENTZ")
     
     assert result["isomorphism_preserved"] is True
     assert result["coherence"] > 4.0005  # Scaled up by gamma
@@ -566,11 +582,50 @@ def test_missing_metrics():
         # Missing potential and entropy
     }
     
-    result = filter_signal_4_0005(wave_metrics)
+    result = filter_signal_4_0005(wave_metrics, atom_lineage="ATOM-TEST-MISSING")
     
     assert result["passed"] is False
     assert "error" in result["details"]
     print(f"✓ Missing metrics handled: {result['message']}")
+
+
+def test_missing_lineage():
+    """Test error handling for missing lineage"""
+    wave_metrics = {
+        "curl": 1.0,
+        "divergence": 1.0,
+        "potential": 1.0,
+        "entropy": 2.0
+    }
+    
+    # Call without lineage - should fail now
+    result = filter_signal_4_0005(wave_metrics)
+    
+    assert result["passed"] is False
+    assert "lineage" in result["message"].lower()
+    assert "lineage_error" in result["details"]
+    print(f"✓ Missing lineage handled: {result['message']}")
+
+
+def test_negative_velocity():
+    """Test error handling for negative velocity"""
+    wave_metrics = {
+        "curl": 1.0,
+        "divergence": 1.0,
+        "potential": 1.0,
+        "entropy": 2.0
+    }
+    
+    # Try negative velocity
+    result = filter_signal_4_0005(
+        wave_metrics, 
+        velocity=-100,
+        atom_lineage="ATOM-TEST-NEGATIVE-V"
+    )
+    
+    assert result["passed"] is False
+    assert "error" in result["details"]
+    print(f"✓ Negative velocity handled: {result['message']}")
 
 
 def run_all_tests():
@@ -588,7 +643,9 @@ def run_all_tests():
         test_lorentz_scaling,
         test_visualization_generation,
         test_lineage_tracking,
-        test_missing_metrics
+        test_missing_metrics,
+        test_missing_lineage,
+        test_negative_velocity
     ]
     
     passed = 0
@@ -615,3 +672,4 @@ def run_all_tests():
 if __name__ == "__main__":
     success = run_all_tests()
     exit(0 if success else 1)
+

@@ -6,11 +6,10 @@ Demonstrates how the filter integrates with WAVE metrics for document analysis.
 ATOM: ATOM-FILTER-20260119-002-supergravity-4.0005
 """
 
-from filters.supergravity_4_0005 import (
+from supergravity_4_0005 import (
     filter_signal_4_0005,
     calculate_4_0005_coherence,
     generate_tetrahedron_for_visualization,
-    CoherenceState,
 )
 
 
@@ -156,7 +155,11 @@ def relativistic_example():
     
     print(f"\nRelativistic Coherence Analysis:")
     # Calculate rest coherence for comparison
-    rest_result = filter_signal_4_0005(crystalline_metrics, velocity=0)
+    rest_result = filter_signal_4_0005(
+        crystalline_metrics, 
+        velocity=0,
+        atom_lineage="ATOM-RELATIVISTIC-20260119-001-REST"
+    )
     rest_coherence = rest_result['coherence']
     
     print(f"  Rest coherence: {rest_coherence:.4f}")
@@ -214,20 +217,23 @@ def sphinx_integration_example():
     artifacts = [
         {
             "name": "Incomplete Document",
-            "metrics": {"curl": 0.2, "divergence": 0.3, "potential": 0.5, "entropy": 0.8}
+            "metrics": {"curl": 0.2, "divergence": 0.3, "potential": 0.5, "entropy": 0.8},
+            "lineage": "ATOM-SPHINX-TEST-001"
         },
         {
             "name": "Well-formed Code",
-            "metrics": {"curl": 0.9, "divergence": 0.85, "potential": 0.95, "entropy": 1.7}
+            "metrics": {"curl": 0.9, "divergence": 0.85, "potential": 0.95, "entropy": 1.7},
+            "lineage": "ATOM-SPHINX-TEST-002"
         },
         {
             "name": "Optimal Structure",
-            "metrics": {"curl": 1.0, "divergence": 1.0, "potential": 1.0, "entropy": 2.0}
+            "metrics": {"curl": 1.0, "divergence": 1.0, "potential": 1.0, "entropy": 2.0},
+            "lineage": "ATOM-SPHINX-TEST-003"
         }
     ]
     
     for artifact in artifacts:
-        result = filter_signal_4_0005(artifact["metrics"])
+        result = filter_signal_4_0005(artifact["metrics"], atom_lineage=artifact["lineage"])
         verdict = "PASSAGE ✅" if result["passed"] else "BLOCKED ❌"
         print(f"{artifact['name']:20s} | Coherence: {result['coherence']:.4f} | {verdict}")
         print(f"  State: {result['state']}")

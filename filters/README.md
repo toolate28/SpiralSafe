@@ -146,7 +146,7 @@ print(f"Message: {result['message']}")
 
 ```python
 {
-    "coherence": 2.2505,
+    "coherence": 1.8505,
     "state": "COLLAPSE",
     "passed": False,
     "message": "Coherence below minimum tetrahedral stability. Structure incomplete.",
@@ -155,7 +155,7 @@ print(f"Message: {result['message']}")
             "theorem": 0.8,
             "embody": 0.3,
             "connect": 0.15,
-            "be": 1.0005
+            "be": 0.6005
         },
         "velocity": 0.0,
         "atom_lineage": "ATOM-DOC-20260119-001-example"
