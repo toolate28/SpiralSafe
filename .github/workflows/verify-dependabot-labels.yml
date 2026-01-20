@@ -1,0 +1,110 @@
+name: Verify Dependabot Labels
+
+# Verifies that all labels referenced in dependabot.yml exist in the repository
+# Runs when dependabot.yml is modified
+
+on:
+  pull_request:
+    paths:
+      - '.github/dependabot.yml'
+      - 'scripts/setup-github-labels.sh'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  verify-labels:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract labels from dependabot.yml
+        id: extract
+        run: |
+          # Use dedicated Python script for extraction
+          LABELS=$(python3 scripts/extract-dependabot-labels.py | tr '\n' ',')
+          echo "LABELS=${LABELS%,}" >> $GITHUB_OUTPUT  # Remove trailing comma
+
+      - name: Check if labels exist
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REQUIRED_LABELS: ${{ steps.extract.outputs.LABELS }}
+        run: |
+          echo "## Dependabot Label Verification" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Get existing labels
+          EXISTING=$(gh label list --json name --jq '.[].name' | sort)
+          
+          MISSING_COUNT=0
+          MISSING_LABELS=""
+          
+          # Check each required label
+          IFS=',' read -ra LABELS_ARRAY <<< "$REQUIRED_LABELS"
+          for label in "${LABELS_ARRAY[@]}"; do
+            if echo "$EXISTING" | grep -q "^${label}$"; then
+              echo "- ✓ \`${label}\`" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "- ✗ \`${label}\` **MISSING**" >> $GITHUB_STEP_SUMMARY
+              MISSING_COUNT=$((MISSING_COUNT + 1))
+              MISSING_LABELS="${MISSING_LABELS}${label}, "
+            fi
+          done
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ $MISSING_COUNT -eq 0 ]; then
+            echo "**Status:** ✓ All ${#LABELS_ARRAY[@]} required labels exist" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Dependabot will function correctly." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**Status:** ✗ ${MISSING_COUNT} labels missing" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Fix the issue" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Run the label setup script to create missing labels:" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+            echo "./scripts/setup-github-labels.sh" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Or trigger the [Setup GitHub Labels workflow](https://github.com/${{ github.repository }}/actions/workflows/setup-labels.yml)" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Missing labels: ${MISSING_LABELS%, }" >> $GITHUB_STEP_SUMMARY
+            
+            # Create annotation
+            echo "::error title=Missing Dependabot Labels::${MISSING_COUNT} labels are missing: ${MISSING_LABELS%, }. Run ./scripts/setup-github-labels.sh to fix."
+            exit 1
+          fi
+
+      - name: Check for undefined labels in script
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Label Script Coverage" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Use script's --list-labels option for single source of truth
+          SCRIPT_LABELS=$(./scripts/setup-github-labels.sh --list-labels)
+          
+          # Check if all dependabot labels are in script
+          IFS=',' read -ra LABELS_ARRAY <<< "${{ steps.extract.outputs.LABELS }}"
+          UNCOVERED=0
+          
+          for label in "${LABELS_ARRAY[@]}"; do
+            if echo "$SCRIPT_LABELS" | grep -q "^${label}$"; then
+              echo "- ✓ \`${label}\` is in setup script" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "- ⚠️ \`${label}\` NOT in setup script" >> $GITHUB_STEP_SUMMARY
+              UNCOVERED=$((UNCOVERED + 1))
+            fi
+          done
+          
+          if [ $UNCOVERED -gt 0 ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Warning:** ${UNCOVERED} labels from dependabot.yml are not defined in setup-github-labels.sh" >> $GITHUB_STEP_SUMMARY
+            echo "::warning title=Script Coverage::${UNCOVERED} labels from dependabot.yml are not in setup-github-labels.sh"
+          fi

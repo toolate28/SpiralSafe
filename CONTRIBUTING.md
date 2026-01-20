@@ -20,6 +20,16 @@ SpiralSafe operates on **Hope&&Sauced** principles:
 
 ## How to Contribute
 
+### Setting up for the first time?
+
+If you're a repository maintainer or forking this project, initialize the required GitHub labels:
+
+```bash
+./scripts/setup-github-labels.sh
+```
+
+This creates all labels used by Dependabot, issue templates, SYNAPSE framework, and SPHINX protocol testing. See [`docs/GITHUB_LABELS.md`](docs/GITHUB_LABELS.md) for details.
+
 ### Found something broken?
 
 Open an issue. Describe what you expected, what happened, and what you were trying to accomplish. Context matters more than reproduction steps.
