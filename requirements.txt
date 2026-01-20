@@ -23,7 +23,7 @@ python-dotenv==1.0.1
 pydantic==2.5.3
 
 # Async file operations
-aiofiles==24.1.0
+aiofiles==25.1.0
 asyncio-atexit==1.0.1
 
 # Documentation
