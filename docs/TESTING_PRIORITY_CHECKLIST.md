@@ -29,6 +29,21 @@ This document tracks the testing priority matrix for all SpiralSafe quantum and 
 
 ---
 
+## 🔴 REQUIREMENT: Implementation Gap Coverage First
+
+**All test suites with <100% coverage MUST document their Implementation Gap and cover it before adding new features.**
+
+| Coverage Level | Requirement |
+|----------------|-------------|
+| 95-99% | Document gap, schedule for next sprint |
+| 80-94% | **PRIORITY**: Cover gap before new code |
+| <80% | **BLOCKING**: No new features until gap closed |
+| Missing | **CRITICAL**: Create test suite immediately |
+
+This policy ensures test debt doesn't accumulate and maintains coherence across the ecosystem.
+
+---
+
 ## ✅ Phase 1: Core Protocol Tests (COMPLETE)
 
 ### Wave Analysis Tests
@@ -39,6 +54,11 @@ This document tracks the testing priority matrix for all SpiralSafe quantum and 
   - [x] Edge cases (empty, single sentence)
   - [x] High curl detection
 
+**Implementation Gap (5%)**:
+- [ ] Potential field analysis (undeveloped areas)
+- [ ] Multi-language content coherence
+- [ ] Large document streaming analysis
+
 ### SPHINX Gates Tests
 - [x] `ops/api/__tests__/sphinx-gates.test.ts` - **Coverage: 85%**
   - [x] ORIGIN gate verification
@@ -47,17 +67,35 @@ This document tracks the testing priority matrix for all SpiralSafe quantum and 
   - [x] IDENTITY gate verification
   - [x] PASSAGE gate verification
 
+**Implementation Gap (15%)** — **PRIORITY: Cover before new code**:
+- [ ] Custom gate inheritance and composition
+- [ ] Gate timeout handling and fallback
+- [ ] Concurrent gate execution stress tests
+- [ ] Gate caching and invalidation
+
 ### SPHINX Adversarial Tests
 - [x] `ops/api/__tests__/sphinx-adversarial.test.ts` - **Coverage: 80%**
   - [x] Replay attack prevention
   - [x] Timing attack mitigation
   - [x] Gate bypass attempts
 
+**Implementation Gap (20%)** — **PRIORITY: Cover before new code**:
+- [ ] Prompt injection resistance
+- [ ] Unicode/encoding attack vectors
+- [ ] Rate limiting edge cases
+- [ ] Multi-step attack chain detection
+- [ ] Obfuscation technique coverage
+
 ### ATOM Persister Tests
 - [x] `ops/api/__tests__/atom-persister.test.ts` - **Coverage: 90%**
   - [x] ATOM tag creation
   - [x] Trail persistence
   - [x] Lineage linking
+
+**Implementation Gap (10%)**:
+- [ ] Database connection failure recovery
+- [ ] Concurrent write conflict resolution
+- [ ] Large chain traversal performance
 
 ### Vortex Surjection Tests
 - [x] `experiments/test_vortex_surjection.py` - **Coverage: 92%**
@@ -66,6 +104,11 @@ This document tracks the testing priority matrix for all SpiralSafe quantum and 
   - [x] Collapse proximity calculation
   - [x] Emergence quality metrics
   - [x] JSON serialization
+
+**Implementation Gap (8%)**:
+- [ ] Edge cases: negative resonance scores
+- [ ] Boundary conditions: max Fibonacci weight
+- [ ] Concurrent vortex iteration
 
 ---
 
@@ -123,11 +166,19 @@ This document tracks the testing priority matrix for all SpiralSafe quantum and 
   - [ ] Fibonacci cascade sequence
 
 ### SYNAPSE Quantum Rendering Tests
-- [ ] `synapse/__tests__/quantum-reservoir.test.ts` - **Coverage: 40%**
+- [ ] `synapse/__tests__/quantum-reservoir.test.ts` - **Coverage: 40%** — **BLOCKING: No new features until gap closed**
   - [ ] QRC substrate visualization
   - [ ] Superposition state rendering
   - [ ] Coherence metric display
   - [ ] Entanglement visualization
+
+**Implementation Gap (60%)** — **BLOCKING: Must cover before new code**:
+- [ ] Bloch sphere rendering
+- [ ] Multi-qubit state visualization
+- [ ] Decoherence animation
+- [ ] Probability distribution display
+- [ ] Gate operation visualization
+- [ ] Fibonacci-weighted scaling UI
 
 ---
 
@@ -150,20 +201,20 @@ This document tracks the testing priority matrix for all SpiralSafe quantum and 
 
 ## Summary Matrix (coherence-mcp Validated)
 
-| Test Suite | Coverage | Priority | coherence-mcp Validator | Status |
-|------------|----------|----------|------------------------|--------|
-| Wave Analysis | 95% | ✅ | `wave_validate` | Complete |
-| SPHINX Gates | 85% | ✅ | `anamnesis_validate` | Complete |
-| SPHINX Adversarial | 80% | ✅ | `anamnesis_validate` | Complete |
-| ATOM Persister | 90% | ✅ | `atom_track` | Complete |
-| Vortex Surjection | 92% | ✅ | `wave_validate` | Complete |
-| **Qiskit-DSPy Hybrid** | **Missing** | 🔴 | `anamnesis_validate` | **CRITICAL** |
-| **Quantum Cognition** | **Missing** | 🔴 | `wave_validate` | **CRITICAL** |
-| **QRC Oracle Seed** | **Missing** | 🔴 | `wave_validate` | **HIGH** |
-| NEAR ATOM Bridge | Missing | 🟡 | `atom_track` | Planned |
-| Vortex Cascade E2E | Missing | 🟡 | `gate_*` | Planned |
-| SYNAPSE Rendering | 40% | 🟢 | `wave_coherence_check` | Partial |
-| NEAR Contract Security | Missing | 🟢 | `anamnesis_validate` | Planned |
+| Test Suite | Coverage | Gap | Priority | coherence-mcp Validator | Status |
+|------------|----------|-----|----------|------------------------|--------|
+| Wave Analysis | 95% | 5% | ✅ | `wave_validate` | Complete |
+| SPHINX Gates | 85% | 15% | ⚠️ | `anamnesis_validate` | Gap Priority |
+| SPHINX Adversarial | 80% | 20% | ⚠️ | `anamnesis_validate` | Gap Priority |
+| ATOM Persister | 90% | 10% | ✅ | `atom_track` | Complete |
+| Vortex Surjection | 92% | 8% | ✅ | `wave_validate` | Complete |
+| SYNAPSE Rendering | 40% | 60% | 🚫 | `wave_coherence_check` | **BLOCKING** |
+| **Qiskit-DSPy Hybrid** | **0%** | **100%** | 🔴 | `anamnesis_validate` | **CRITICAL** |
+| **Quantum Cognition** | **0%** | **100%** | 🔴 | `wave_validate` | **CRITICAL** |
+| **QRC Oracle Seed** | **0%** | **100%** | 🔴 | `wave_validate` | **HIGH** |
+| NEAR ATOM Bridge | 0% | 100% | 🟡 | `atom_track` | Planned |
+| Vortex Cascade E2E | 0% | 100% | 🟡 | `gate_*` | Planned |
+| NEAR Contract Security | 0% | 100% | 🟢 | `anamnesis_validate` | Planned |
 
 ---
 
