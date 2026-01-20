@@ -423,9 +423,9 @@ testing_phase_3:
 | Wave Analysis | 95% | ✅ Complete | No |
 | SPHINX Gates | 85% | ✅ Complete | No |
 | Vortex Surjection | 92% | ✅ Complete | No |
-| Qiskit-DSPy Hybrid | 0% | 🔴 CRITICAL | Yes |
-| Quantum Cognition | 10% | 🔴 HIGH | Yes |
-| ATOM-NEAR Bridge | 0% | 🟡 PLANNED | Yes (for NEAR) |
+| Qiskit-DSPy Hybrid | Missing | 🔴 CRITICAL | Yes |
+| Quantum Cognition | Missing | 🔴 HIGH | Yes |
+| ATOM-NEAR Bridge | Missing | 🟡 PLANNED | Yes (for NEAR) |
 | SYNAPSE Rendering | 40% | 🟡 MEDIUM | No |
 
 ---

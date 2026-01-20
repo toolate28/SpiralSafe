@@ -8,7 +8,7 @@
 
 ## Philosophy: Tests Before Workable Code
 
-> "Prioritise completing testing suites before workable code."  
+> "Prioritize completing testing suites before workable code."  
 > — @toolate28
 
 This document tracks the testing priority matrix for all SpiralSafe quantum and integration components.
@@ -57,8 +57,8 @@ This document tracks the testing priority matrix for all SpiralSafe quantum and 
 
 ## 🔴 Phase 2: Critical Missing Tests (PRIORITY: CRITICAL)
 
-### Qiskit-DSPy Hybrid Tests
-- [ ] `experiments/test_qiskit_dspy_hybrid.py` - **Coverage: 0%** ⚠️
+### Qiskit-DSPy Hybrid Tests (NOT YET CREATED)
+- [ ] `experiments/test_qiskit_dspy_hybrid.py` - **Status: MISSING** ⚠️
   - [ ] `QuantumKernelSimilarity` fidelity calculation
   - [ ] `HybridQuantumLayer` forward pass
   - [ ] `QuantumEnhancedRetriever` document retrieval
@@ -68,8 +68,8 @@ This document tracks the testing priority matrix for all SpiralSafe quantum and 
 
 **Blocking**: Qiskit ecosystem submission
 
-### Quantum Cognition Engine Tests
-- [ ] `experiments/test_quantum_cognition_engine.py` - **Coverage: 10%** ⚠️
+### Quantum Cognition Engine Tests (NOT YET CREATED)
+- [ ] `experiments/test_quantum_cognition_engine.py` - **Status: MISSING** ⚠️
   - [ ] Interference pattern generation
   - [ ] Coherence threshold enforcement
   - [ ] Quantum-inspired processing
@@ -77,8 +77,8 @@ This document tracks the testing priority matrix for all SpiralSafe quantum and 
 
 **Blocking**: QDI inference hub stability
 
-### QRC Oracle Seed Tests
-- [ ] `experiments/test_qrc_oracle_seed.py` - **Coverage: 0%**
+### QRC Oracle Seed Tests (NOT YET CREATED)
+- [ ] `experiments/test_qrc_oracle_seed.py` - **Status: MISSING**
   - [ ] Closed-loop training validation
   - [ ] Fidelity threshold triggers (92%)
   - [ ] Fibonacci nesting pattern
@@ -143,13 +143,13 @@ This document tracks the testing priority matrix for all SpiralSafe quantum and 
 | SPHINX Adversarial | 80% | ✅ | Complete |
 | ATOM Persister | 90% | ✅ | Complete |
 | Vortex Surjection | 92% | ✅ | Complete |
-| **Qiskit-DSPy Hybrid** | **0%** | 🔴 | **CRITICAL** |
-| **Quantum Cognition** | **10%** | 🔴 | **CRITICAL** |
-| **QRC Oracle Seed** | **0%** | 🔴 | **HIGH** |
-| NEAR ATOM Bridge | 0% | 🟡 | Planned |
-| Vortex Cascade E2E | 0% | 🟡 | Planned |
+| **Qiskit-DSPy Hybrid** | **Missing** | 🔴 | **CRITICAL** |
+| **Quantum Cognition** | **Missing** | 🔴 | **CRITICAL** |
+| **QRC Oracle Seed** | **Missing** | 🔴 | **HIGH** |
+| NEAR ATOM Bridge | Missing | 🟡 | Planned |
+| Vortex Cascade E2E | Missing | 🟡 | Planned |
 | SYNAPSE Rendering | 40% | 🟢 | Partial |
-| NEAR Contract Security | 0% | 🟢 | Planned |
+| NEAR Contract Security | Missing | 🟢 | Planned |
 
 ---
 
