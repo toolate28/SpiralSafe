@@ -274,9 +274,12 @@ def filter_signal_4_0005(
         "isomorphism_preserved": True
     }
     
-    # Lineage check (warning if missing, but not blocking)
+    # Lineage check (required by schema; missing lineage blocks filtering)
     if atom_lineage is None:
-        result["details"]["lineage_warning"] = "No ATOM lineage provided"
+        result["details"]["lineage_error"] = "ATOM lineage is required but was not provided"
+        result["message"] = "Filter rejected: missing required ATOM lineage for coherence evaluation."
+        result["passed"] = False
+        return result
     else:
         result["details"]["atom_lineage"] = atom_lineage
     
