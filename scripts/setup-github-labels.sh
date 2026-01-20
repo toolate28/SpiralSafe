@@ -46,15 +46,51 @@ for arg in "$@"; do
             VERBOSE=true
             shift
             ;;
+        --list-labels)
+            # Output labels in machine-readable format (one per line, names only)
+            cat << 'EOF' | sed 's/"\([^|]*\)|.*/\1/' | sort
+"dependencies|0366d6|Dependency updates from Dependabot"
+"automated|1d76db|Automated processes and workflows"
+"cascade-stage-1|7057ff|Vortex Cascade Collapse Stage 1"
+"github-actions|000000|GitHub Actions workflow updates"
+"ops|d4c5f9|Operations and infrastructure"
+"python|3572A5|Python dependency updates"
+"bug|d73a4a|Something isn't working"
+"enhancement|a2eeef|New feature or request"
+"documentation|0075ca|Improvements or additions to documentation"
+"task|fbca04|Task or chore that needs to be done"
+"needs-atom-tag|ededed|Requires ATOM tag assignment"
+"atom-tagged|c2e0c6|Has been assigned an ATOM tag"
+"synapse|9C27B0|SYNAPSE visualization framework"
+"sphinx-gate|673AB7|SPHINX protocol gate verification"
+"wave-protocol|3F51B5|WAVE coherence protocol"
+"bump-protocol|2196F3|BUMP handoff protocol"
+"atom-protocol|00BCD4|ATOM tagging protocol"
+"coherence|00E676|Coherence metrics and quality"
+"testing|795548|Testing and quality assurance"
+"security|B71C1C|Security vulnerabilities and fixes"
+"in-progress|FFC107|Work in progress"
+"review-needed|FF9800|Needs review"
+"blocked|E91E63|Blocked by external dependency"
+"claude:help|512DA8|Claude AI assistance requested"
+"copilot:review|1976D2|GitHub Copilot review requested"
+"H&&S:WAVE|00ACC1|Hope&&Sauced soft handoff"
+"H&&S:PASS|00897B|Hope&&Sauced ownership transfer"
+"H&&S:SYNC|0097A7|Hope&&Sauced synchronization"
+"H&&S:BLOCK|D32F2F|Hope&&Sauced blocking issue"
+EOF
+            exit 0
+            ;;
         --help|-h)
-            echo "Usage: $0 [--dry-run] [--verbose]"
+            echo "Usage: $0 [--dry-run] [--verbose] [--list-labels]"
             echo ""
             echo "Creates all required GitHub labels for SpiralSafe repository."
             echo ""
             echo "Options:"
-            echo "  --dry-run    Show what would be created without making changes"
-            echo "  --verbose    Show detailed output"
-            echo "  --help       Show this help message"
+            echo "  --dry-run      Show what would be created without making changes"
+            echo "  --verbose      Show detailed output"
+            echo "  --list-labels  Output label names only (machine-readable)"
+            echo "  --help         Show this help message"
             exit 0
             ;;
     esac
@@ -147,18 +183,23 @@ UPDATED=0
 SKIPPED=0
 FAILED=0
 
-# Function to create or update a label
-create_or_update_label() {
-    local name="$1"
-    local color="$2"
-    local description="$3"
+# Process all labels
+echo -e "${BLUE}Processing labels...${NC}"
+echo ""
+
+# Fetch all existing labels once for efficiency (O(1) API call instead of O(n))
+echo -e "${BLUE}Fetching existing labels...${NC}"
+EXISTING_LABELS=$(gh label list --limit 1000 --json name --jq '.[].name' 2>/dev/null || echo "")
+
+for label_def in "${LABELS[@]}"; do
+    IFS='|' read -r name color description <<< "$label_def"
     
     if [ "$VERBOSE" = true ]; then
         echo -e "Processing: ${BLUE}${name}${NC}"
     fi
     
-    # Check if label exists
-    if gh label list --limit 1000 --json name --jq ".[] | select(.name == \"${name}\") | .name" 2>/dev/null | grep -q "^${name}$"; then
+    # Check if label exists in our cached list
+    if echo "$EXISTING_LABELS" | grep -q "^${name}$"; then
         # Label exists, update it
         if [ "$DRY_RUN" = true ]; then
             echo -e "  ${YELLOW}Would update:${NC} ${name}"
@@ -187,15 +228,6 @@ create_or_update_label() {
             fi
         fi
     fi
-}
-
-# Process all labels
-echo -e "${BLUE}Processing labels...${NC}"
-echo ""
-
-for label_def in "${LABELS[@]}"; do
-    IFS='|' read -r name color description <<< "$label_def"
-    create_or_update_label "$name" "$color" "$description"
 done
 
 # Summary

@@ -25,20 +25,9 @@ jobs:
       - name: Extract labels from dependabot.yml
         id: extract
         run: |
-          python3 -c "
-          import yaml
-          import sys
-          
-          with open('.github/dependabot.yml', 'r') as f:
-              config = yaml.safe_load(f)
-          
-          labels = set()
-          for update in config.get('updates', []):
-              for label in update.get('labels', []):
-                  labels.add(label)
-          
-          print('LABELS=' + ','.join(sorted(labels)))
-          " >> $GITHUB_OUTPUT
+          # Use dedicated Python script for extraction
+          LABELS=$(python3 scripts/extract-dependabot-labels.py)
+          echo "LABELS=${LABELS//$'\n'/,}" >> $GITHUB_OUTPUT
 
       - name: Check if labels exist
         env:
@@ -98,8 +87,8 @@ jobs:
           echo "### Label Script Coverage" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
-          # Extract labels from script
-          SCRIPT_LABELS=$(grep -oP '"\K[^"]+(?=\|)' scripts/setup-github-labels.sh | sort)
+          # Use script's --list-labels option for single source of truth
+          SCRIPT_LABELS=$(./scripts/setup-github-labels.sh --list-labels)
           
           # Check if all dependabot labels are in script
           IFS=',' read -ra LABELS_ARRAY <<< "${{ steps.extract.outputs.LABELS }}"

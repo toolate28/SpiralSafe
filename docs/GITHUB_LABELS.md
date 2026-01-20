@@ -34,12 +34,12 @@ These labels are automatically applied by Dependabot to dependency update PRs (c
 
 | Label | Color | Description | Usage |
 |-------|-------|-------------|-------|
-| `dependencies` | ![#0366d6](https://via.placeholder.com/15/0366d6/000000?text=+) `#0366d6` | Dependency updates from Dependabot | All Dependabot PRs |
-| `automated` | ![#1d76db](https://via.placeholder.com/15/1d76db/000000?text=+) `#1d76db` | Automated processes and workflows | Automated PRs and issues |
-| `cascade-stage-1` | ![#7057ff](https://via.placeholder.com/15/7057ff/000000?text=+) `#7057ff` | Vortex Cascade Collapse Stage 1 | First stage of coherence cascade |
-| `github-actions` | ![#000000](https://via.placeholder.com/15/000000/000000?text=+) `#000000` | GitHub Actions workflow updates | Action dependency updates |
-| `ops` | ![#d4c5f9](https://via.placeholder.com/15/d4c5f9/000000?text=+) `#d4c5f9` | Operations and infrastructure | Ops workspace dependencies |
-| `python` | ![#3572A5](https://via.placeholder.com/15/3572A5/000000?text=+) `#3572A5` | Python dependency updates | Python package updates |
+| `dependencies` | `#0366d6` | Dependency updates from Dependabot | All Dependabot PRs |
+| `automated` | `#1d76db` | Automated processes and workflows | Automated PRs and issues |
+| `cascade-stage-1` | `#7057ff` | Vortex Cascade Collapse Stage 1 | First stage of coherence cascade |
+| `github-actions` | `#000000` | GitHub Actions workflow updates | Action dependency updates |
+| `ops` | `#d4c5f9` | Operations and infrastructure | Ops workspace dependencies |
+| `python` | `#3572A5` | Python dependency updates | Python package updates |
 
 **SPHINX Gate Check:** Before accepting a Dependabot PR, verify:
 - `SPHINX:ORIGIN` - Dependency comes from trusted source
@@ -54,12 +54,12 @@ Applied automatically by issue templates (`.github/ISSUE_TEMPLATE/*.md`):
 
 | Label | Color | Description | Template |
 |-------|-------|-------------|----------|
-| `bug` | ![#d73a4a](https://via.placeholder.com/15/d73a4a/000000?text=+) `#d73a4a` | Something isn't working | bug_report.md |
-| `enhancement` | ![#a2eeef](https://via.placeholder.com/15/a2eeef/000000?text=+) `#a2eeef` | New feature or request | feature_request.md |
-| `documentation` | ![#0075ca](https://via.placeholder.com/15/0075ca/000000?text=+) `#0075ca` | Improvements or additions to documentation | documentation.md |
-| `task` | ![#fbca04](https://via.placeholder.com/15/fbca04/000000?text=+) `#fbca04` | Task or chore that needs to be done | task.md |
-| `needs-atom-tag` | ![#ededed](https://via.placeholder.com/15/ededed/000000?text=+) `#ededed` | Requires ATOM tag assignment | All templates (auto-removed) |
-| `atom-tagged` | ![#c2e0c6](https://via.placeholder.com/15/c2e0c6/000000?text=+) `#c2e0c6` | Has been assigned an ATOM tag | Added by auto-atom-tags.yml |
+| `bug` | `#d73a4a` | Something isn't working | bug_report.md |
+| `enhancement` | `#a2eeef` | New feature or request | feature_request.md |
+| `documentation` | `#0075ca` | Improvements or additions to documentation | documentation.md |
+| `task` | `#fbca04` | Task or chore that needs to be done | task.md |
+| `needs-atom-tag` | `#ededed` | Requires ATOM tag assignment | All templates (auto-removed) |
+| `atom-tagged` | `#c2e0c6` | Has been assigned an ATOM tag | Added by auto-atom-tags.yml |
 
 **ATOM Trail Integration:** Issues with these labels automatically receive ATOM tags via `.github/workflows/auto-atom-tags.yml`.
 
@@ -69,11 +69,11 @@ Used to categorize work related to the SYNAPSE visualization framework:
 
 | Label | Color | Description | Use Case |
 |-------|-------|-------------|----------|
-| `synapse` | ![#9C27B0](https://via.placeholder.com/15/9C27B0/000000?text=+) `#9C27B0` | SYNAPSE visualization framework | SYNAPSE component work |
-| `sphinx-gate` | ![#673AB7](https://via.placeholder.com/15/673AB7/000000?text=+) `#673AB7` | SPHINX protocol gate verification | Gate implementation/testing |
-| `wave-protocol` | ![#3F51B5](https://via.placeholder.com/15/3F51B5/000000?text=+) `#3F51B5` | WAVE coherence protocol | Coherence analysis work |
-| `bump-protocol` | ![#2196F3](https://via.placeholder.com/15/2196F3/000000?text=+) `#2196F3` | BUMP handoff protocol | Handoff marker work |
-| `atom-protocol` | ![#00BCD4](https://via.placeholder.com/15/00BCD4/000000?text=+) `#00BCD4` | ATOM tagging protocol | ATOM implementation work |
+| `synapse` | `#9C27B0` | SYNAPSE visualization framework | SYNAPSE component work |
+| `sphinx-gate` | `#673AB7` | SPHINX protocol gate verification | Gate implementation/testing |
+| `wave-protocol` | `#3F51B5` | WAVE coherence protocol | Coherence analysis work |
+| `bump-protocol` | `#2196F3` | BUMP handoff protocol | Handoff marker work |
+| `atom-protocol` | `#00BCD4` | ATOM tagging protocol | ATOM implementation work |
 
 **SYNAPSE Testing:** These labels help categorize issues for framework testing:
 - Issues labeled `sphinx-gate` must pass all five SPHINX riddles
@@ -86,9 +86,9 @@ Track code quality, testing, and security:
 
 | Label | Color | Description | Usage |
 |-------|-------|-------------|-------|
-| `coherence` | ![#00E676](https://via.placeholder.com/15/00E676/000000?text=+) `#00E676` | Coherence metrics and quality | Coherence-related work |
-| `testing` | ![#795548](https://via.placeholder.com/15/795548/000000?text=+) `#795548` | Testing and quality assurance | Test additions/fixes |
-| `security` | ![#B71C1C](https://via.placeholder.com/15/B71C1C/000000?text=+) `#B71C1C` | Security vulnerabilities and fixes | Security issues |
+| `coherence` | `#00E676` | Coherence metrics and quality | Coherence-related work |
+| `testing` | `#795548` | Testing and quality assurance | Test additions/fixes |
+| `security` | `#B71C1C` | Security vulnerabilities and fixes | Security issues |
 
 **42.00055 Framework:** Issues labeled `coherence` are tracked for impact on the 42.00055% quality threshold.
 
@@ -98,9 +98,9 @@ Track issue and PR progress:
 
 | Label | Color | Description | State |
 |-------|-------|-------------|-------|
-| `in-progress` | ![#FFC107](https://via.placeholder.com/15/FFC107/000000?text=+) `#FFC107` | Work in progress | Active development |
-| `review-needed` | ![#FF9800](https://via.placeholder.com/15/FF9800/000000?text=+) `#FF9800` | Needs review | Awaiting review |
-| `blocked` | ![#E91E63](https://via.placeholder.com/15/E91E63/000000?text=+) `#E91E63` | Blocked by external dependency | Blocked state |
+| `in-progress` | `#FFC107` | Work in progress | Active development |
+| `review-needed` | `#FF9800` | Needs review | Awaiting review |
+| `blocked` | `#E91E63` | Blocked by external dependency | Blocked state |
 
 ### 6. Agent Coordination Labels
 
@@ -108,8 +108,8 @@ Facilitate multi-agent collaboration (see `.github/AGENTS.md`):
 
 | Label | Color | Description | Agent |
 |-------|-------|-------------|-------|
-| `claude:help` | ![#512DA8](https://via.placeholder.com/15/512DA8/000000?text=+) `#512DA8` | Claude AI assistance requested | Claude |
-| `copilot:review` | ![#1976D2](https://via.placeholder.com/15/1976D2/000000?text=+) `#1976D2` | GitHub Copilot review requested | Copilot |
+| `claude:help` | `#512DA8` | Claude AI assistance requested | Claude |
+| `copilot:review` | `#1976D2` | GitHub Copilot review requested | Copilot |
 
 ### 7. Hope&&Sauced (H&&S) Protocol Labels
 
@@ -117,10 +117,10 @@ Mark handoff and synchronization points:
 
 | Label | Color | Description | H&&S Marker |
 |-------|-------|-------------|-------------|
-| `H&&S:WAVE` | ![#00ACC1](https://via.placeholder.com/15/00ACC1/000000?text=+) `#00ACC1` | Hope&&Sauced soft handoff | Soft handoff for review |
-| `H&&S:PASS` | ![#00897B](https://via.placeholder.com/15/00897B/000000?text=+) `#00897B` | Hope&&Sauced ownership transfer | Ownership transfer |
-| `H&&S:SYNC` | ![#0097A7](https://via.placeholder.com/15/0097A7/000000?text=+) `#0097A7` | Hope&&Sauced synchronization | Synchronization point |
-| `H&&S:BLOCK` | ![#D32F2F](https://via.placeholder.com/15/D32F2F/000000?text=+) `#D32F2F` | Hope&&Sauced blocking issue | Blocking issue |
+| `H&&S:WAVE` | `#00ACC1` | Hope&&Sauced soft handoff | Soft handoff for review |
+| `H&&S:PASS` | `#00897B` | Hope&&Sauced ownership transfer | Ownership transfer |
+| `H&&S:SYNC` | `#0097A7` | Hope&&Sauced synchronization | Synchronization point |
+| `H&&S:BLOCK` | `#D32F2F` | Hope&&Sauced blocking issue | Blocking issue |
 
 See `protocol/bump-spec.md` for detailed H&&S marker usage.
 
