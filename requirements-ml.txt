@@ -30,7 +30,7 @@ opencv-python==4.9.0.80
 # DSPy - Language Model Programming Framework
 # Used for SAIF NPC AI behavior optimization
 # Supports MIPROv2 teleprompter and BootstrapFinetune
-dspy==3.1.0
+dspy==3.1.2
 
 # Machine Learning (Optional - Large packages)
 # Uncomment only if ML features are needed
@@ -63,7 +63,7 @@ dspy==3.1.0
 # Qiskit-DSPy hybrid integration uses the `dspy` package specified above.
 # See: experiments/qiskit_dspy_integration.md
 # NOTE: Older docs may reference the legacy PyPI name `dspy-ai`; this project
-#       standardizes on `dspy==3.1.0` (see above) to avoid duplication.
+#       standardizes on `dspy==3.1.2` (see above) to avoid duplication.
 
 # API Clients for external AI services
 openai==1.12.0
