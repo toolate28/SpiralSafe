@@ -1,0 +1,115 @@
+name: Setup GitHub Labels
+
+# This workflow initializes all required GitHub labels for:
+# - Dependabot configuration
+# - Issue templates
+# - SYNAPSE framework
+# - SPHINX protocol testing
+# - H&&S coordination markers
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run mode (preview without changes)'
+        required: false
+        type: boolean
+        default: true
+      verbose:
+        description: 'Verbose output'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  setup-labels:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup script permissions
+        run: chmod +x scripts/setup-github-labels.sh
+
+      - name: Setup labels (dry-run)
+        if: ${{ inputs.dry_run == true }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "🔍 Running in DRY RUN mode - no changes will be made"
+          VERBOSE_FLAG=""
+          if [ "${{ inputs.verbose }}" == "true" ]; then
+            VERBOSE_FLAG="--verbose"
+          fi
+          ./scripts/setup-github-labels.sh --dry-run $VERBOSE_FLAG
+
+      - name: Setup labels (apply changes)
+        if: ${{ inputs.dry_run == false }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "✓ Applying label changes"
+          VERBOSE_FLAG=""
+          if [ "${{ inputs.verbose }}" == "true" ]; then
+            VERBOSE_FLAG="--verbose"
+          fi
+          ./scripts/setup-github-labels.sh $VERBOSE_FLAG
+
+      - name: Generate summary
+        if: always()
+        run: |
+          echo "## GitHub Labels Setup Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ inputs.dry_run }}" == "true" ]; then
+            echo "**Mode:** 🔍 Dry Run (preview only)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**Mode:** ✓ Applied Changes" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Label Categories" >> $GITHUB_STEP_SUMMARY
+          echo "- Dependabot labels (6)" >> $GITHUB_STEP_SUMMARY
+          echo "- Issue template labels (6)" >> $GITHUB_STEP_SUMMARY
+          echo "- SYNAPSE framework labels (5)" >> $GITHUB_STEP_SUMMARY
+          echo "- Quality and coherence labels (3)" >> $GITHUB_STEP_SUMMARY
+          echo "- Workflow state labels (3)" >> $GITHUB_STEP_SUMMARY
+          echo "- Agent coordination labels (2)" >> $GITHUB_STEP_SUMMARY
+          echo "- H&&S protocol labels (4)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Total:** 31 labels" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "For details, see [docs/GITHUB_LABELS.md](https://github.com/${{ github.repository }}/blob/main/docs/GITHUB_LABELS.md)" >> $GITHUB_STEP_SUMMARY
+
+      - name: Verify Dependabot labels
+        if: ${{ inputs.dry_run == false }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "## Verifying Dependabot Labels" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Get required Dependabot labels from config
+          REQUIRED_LABELS=$(python3 scripts/extract-dependabot-labels.py)
+          
+          # Check for each required Dependabot label
+          MISSING=0
+          for label in $REQUIRED_LABELS; do
+            if gh label list --json name --jq ".[] | select(.name == \"${label}\") | .name" | grep -q "^${label}$"; then
+              echo "- ✓ \`${label}\`" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "- ✗ \`${label}\` (MISSING)" >> $GITHUB_STEP_SUMMARY
+              MISSING=$((MISSING + 1))
+            fi
+          done
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ $MISSING -eq 0 ]; then
+            echo "**Status:** ✓ All Dependabot labels present" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**Status:** ✗ ${MISSING} labels missing" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi

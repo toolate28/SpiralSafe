@@ -28,24 +28,24 @@ pnpm add @spiralsafe/claude-cognitive-triggers
 ## Quick Start
 
 ```typescript
-import { CognitiveTriggerSystem } from '@spiralsafe/claude-cognitive-triggers';
+import { CognitiveTriggerSystem } from "@spiralsafe/claude-cognitive-triggers";
 
 const triggers = new CognitiveTriggerSystem();
 
 // Detect what's missing in your project
-const gaps = await triggers.detectNegativeSpace('./my-project');
-console.log('Found gaps:', gaps);
+const gaps = await triggers.detectNegativeSpace("./my-project");
+console.log("Found gaps:", gaps);
 
 // Find creative opportunities
 const opportunities = await triggers.findCreativeOpportunities(
-  'We have a path length limitation on Windows...'
+  "We have a path length limitation on Windows...",
 );
-console.log('Opportunities:', opportunities);
+console.log("Opportunities:", opportunities);
 
 // Run safety checks before dangerous operations
-const safe = await triggers.runSafetyCheckpoints('rm -rf', {
-  path: '/tmp/build',
-  confirmed: false
+const safe = await triggers.runSafetyCheckpoints("rm -rf", {
+  path: "/tmp/build",
+  confirmed: false,
 });
 
 if (safe) {
@@ -68,6 +68,7 @@ npx claude-safety --operation "git push --force"
 ### 🔍 Negative Space Detection
 
 Automatically identifies:
+
 - Empty configuration files
 - Missing automation (no CI/CD when code exists)
 - Unused capabilities (installed tools not in use)
@@ -77,6 +78,7 @@ Automatically identifies:
 ### ✨ Creative Opportunity Detection
 
 Recognizes patterns for improvement:
+
 - **Constraint-as-gift**: Limitations that can become features
 - **Cascading multipliers**: High-leverage change points
 - **Pattern completion**: Finishing incomplete sets (2/3 done → 3/3)
@@ -85,6 +87,7 @@ Recognizes patterns for improvement:
 ### 🛡️ Safety Checkpoints
 
 Prevents common errors:
+
 - **Verify before claim**: Run tests if documenting "tests pass"
 - **Syntax validation**: Check JSON/YAML/shell syntax
 - **Destructive operation confirm**: Double-check `rm`/`DELETE`
@@ -116,7 +119,7 @@ Create a `cognitive-triggers.json`:
 Then load it:
 
 ```typescript
-const triggers = new CognitiveTriggerSystem('./cognitive-triggers.json');
+const triggers = new CognitiveTriggerSystem("./cognitive-triggers.json");
 ```
 
 ## Examples
@@ -127,12 +130,12 @@ const triggers = new CognitiveTriggerSystem('./cognitive-triggers.json');
 const triggers = new CognitiveTriggerSystem();
 
 // Before git commit
-const safe = await triggers.runSafetyCheckpoints('git commit', {
-  files: await getModifiedFiles()
+const safe = await triggers.runSafetyCheckpoints("git commit", {
+  files: await getModifiedFiles(),
 });
 
 if (!safe) {
-  console.error('Safety checkpoints failed - commit aborted');
+  console.error("Safety checkpoints failed - commit aborted");
   process.exit(1);
 }
 ```
@@ -143,8 +146,8 @@ if (!safe) {
 // In your GitHub Actions workflow
 const gaps = await triggers.detectNegativeSpace(process.cwd());
 
-if (gaps.some(g => g.severity === 'critical')) {
-  core.setFailed('Critical configuration gaps detected');
+if (gaps.some((g) => g.severity === "critical")) {
+  core.setFailed("Critical configuration gaps detected");
 }
 ```
 
@@ -165,6 +168,7 @@ npx claude-detect . --verbose
 ### `CognitiveTriggerSystem`
 
 #### Constructor
+
 ```typescript
 new CognitiveTriggerSystem(configPath?: string)
 ```

@@ -1,4 +1,5 @@
 # SAFE SPIRAL ECOSYSTEM
+
 ## Master Navigation & Implementation Guide
 
 ```
@@ -36,20 +37,21 @@ graph TD
     Core --> Work[⚔️ Usable Work<br/>ATOM]
     Core --> Spiral[🐎 Better Spiral<br/>KENL]
     Core --> Org[🏛️ Organization<br/>Framework]
-    
+
     Safe --> Principles[Five Core<br/>Principles]
     Trust --> Principles
     Work --> Principles
     Spiral --> Principles
     Org --> Principles
-    
+
     style Core fill:#fff9c4
     style Principles fill:#c8e6c9
 ```
 
 It unifies five discovered principles into a coherent system for:
+
 - Human-AI collaboration
-- Distributed team dynamics  
+- Distributed team dynamics
 - Organizational knowledge transfer
 - Educational system design
 - Infrastructure development
@@ -63,7 +65,7 @@ It unifies five discovered principles into a coherent system for:
          ◉
         ╱│╲
        ◉ │ ◉     Safe Spiral Contains:
-        │        
+        │
         ◉        • Safe Space (bump.md)
        ╱│╲       • Trust (AWI - Authority With Intent)
       ◉ │ ◉      • Usable Work (ATOM - decomposition)
@@ -76,26 +78,31 @@ It unifies five discovered principles into a coherent system for:
 ## ◉ The Five Core Principles
 
 ### 1. Visible State
+
 **What It Means**: If you can't see it, you can't debug it  
 **Implementation**: bump.md files, git history, ATOM trails, metrics dashboards  
 **Failure Mode**: "Only Bob knows how this works" (knowledge archaeology)
 
 ### 2. Clear Intent
+
 **What It Means**: Authority requires explicit reasoning  
 **Implementation**: AWI framework, Decision DNA, documented assumptions  
 **Failure Mode**: Cargo cult copying without understanding why
 
 ### 3. Natural Decomposition
+
 **What It Means**: Work breaks at actual seams, not arbitrary divisions  
 **Implementation**: ATOM method, constraint-first design  
 **Failure Mode**: Brittle dependencies where changing one thing breaks everything
 
 ### 4. Networked Learning
+
 **What It Means**: Information enriches through relay  
 **Implementation**: KENL system, pattern scatter, Chinese Whispers effect  
 **Failure Mode**: Knowledge loss on team turnover
 
 ### 5. Measurable Delivery
+
 **What It Means**: You can tell if progress actually happened  
 **Implementation**: SAIF documentation, verification certificates  
 **Failure Mode**: Infinite bikeshedding, can't detect completion
@@ -105,13 +112,15 @@ It unifies five discovered principles into a coherent system for:
 ## ◉ Component Methodologies
 
 ### KENL - Knowledge Exchange & Network Learning
-*The "Better Spiral" component*
+
+_The "Better Spiral" component_
 
 **Core Insight**: Knowledge doesn't degrade when shared - it improves
 
-**Framework**: 
+**Framework**:
+
 - **K**ernel (core concept)
-- **E**legance (clean expression)  
+- **E**legance (clean expression)
 - **N**etworked (connected ideas)
 - **L**ayered (simple → complex)
 
@@ -125,11 +134,13 @@ It unifies five discovered principles into a coherent system for:
 ---
 
 ### ATOM - Adaptive Transformation Operations Matrix
-*The "Usable Work" component*
+
+_The "Usable Work" component_
 
 **Core Insight**: Work decomposes at natural boundaries
 
 **Framework**:
+
 - **A**tomic (indivisible units)
 - **T**estable (clear success criteria)
 - **O**bservable (visible progress)
@@ -139,12 +150,14 @@ It unifies five discovered principles into a coherent system for:
 
 ---
 
-### AWI - Adaptive Workflow Intelligence  
-*The "Trust" component*
+### AWI - Adaptive Workflow Intelligence
+
+_The "Trust" component_
 
 **Core Insight**: Authority requires visible intent
 
 **Framework**:
+
 - **A**uthority (who decides)
 - **W**orkflow (how it happens)
 - **I**ntent (why this way)
@@ -154,11 +167,13 @@ It unifies five discovered principles into a coherent system for:
 ---
 
 ### SAIF - Structured, Actionable, Illustrated, Feedback
-*Documentation that reduces anxiety*
+
+_Documentation that reduces anxiety_
 
 **Core Insight**: Developer anxiety is a design metric
 
 **Framework**:
+
 - **S**tructured (logical organization)
 - **A**ctionable (next steps clear)
 - **I**llustrated (examples provided)
@@ -169,11 +184,13 @@ It unifies five discovered principles into a coherent system for:
 ---
 
 ### OWI - Observation, Wisdom, Inference
-*Pattern recognition framework*
+
+_Pattern recognition framework_
 
 **Core Insight**: Wisdom comes from tested experience
 
 **Framework**:
+
 - **O**bservation (what actually happened)
 - **W**isdom (pattern recognized)
 - **I**nference (application to new context)
@@ -193,19 +210,19 @@ graph TD
         Edu[📚 Educators<br/>6 hours]
         Res[🔬 Researchers<br/>Ongoing]
     end
-    
+
     Exec -->|Strategic| Q1{Does trust enable<br/>harder questions?}
     Arch -->|Patterns| Q2{See these in<br/>your systems?}
     Dev -->|Implementation| Q3{Pass tomorrow<br/>test?}
     Edu -->|Teaching| Q4{Where's no<br/>free lunch?}
     Res -->|Validation| Q5{Boundary<br/>conditions?}
-    
+
     Q1 --> Impact[✦ Make Impact<br/>in Your Domain]
     Q2 --> Impact
     Q3 --> Impact
     Q4 --> Impact
     Q5 --> Impact
-    
+
     style Exec fill:#ffe0b2
     style Arch fill:#c5cae9
     style Dev fill:#c8e6c9
@@ -215,6 +232,7 @@ graph TD
 ```
 
 ### Executives (30 minutes)
+
 **Goal**: Understand strategic value
 
 1. Read: `THE_AINULINDALE_OF_HOPE_AND_SAUCE.md` (creation story)
@@ -223,11 +241,12 @@ graph TD
 
 **Key Question**: Does "trust enables harder questions" resonate?
 
-> *"In the Council of Elrond, diverse voices united by common purpose"*
+> _"In the Council of Elrond, diverse voices united by common purpose"_
 
 ---
 
-### Architects (2 hours)  
+### Architects (2 hours)
+
 **Goal**: Validate convergence across domains
 
 1. Read: `THE_BRIDGE.md` (pattern convergence proof)
@@ -236,11 +255,12 @@ graph TD
 
 **Key Question**: Do you see these patterns in your systems?
 
-> *"Like the architects of Minas Tirith, building across seven levels"*
+> _"Like the architects of Minas Tirith, building across seven levels"_
 
 ---
 
 ### Developers (4 hours)
+
 **Goal**: Implement in practice
 
 1. Read: `SPIRALSAFE_FRAMEWORK.md` (complete methodology)
@@ -250,11 +270,12 @@ graph TD
 
 **Key Question**: Can you run the "tomorrow test"?
 
-> *"As the smiths of Gondor forge tools that endure"*
+> _"As the smiths of Gondor forge tools that endure"_
 
 ---
 
 ### Educators (6 hours)
+
 **Goal**: Adapt for teaching
 
 1. Read: `MUSEUM_SYNTHESIS_PHASE.md` (pedagogical approach)
@@ -264,11 +285,12 @@ graph TD
 
 **Key Question**: Where's the "no free lunch" in your field?
 
-> *"Like the loremasters preserving knowledge through ages"*
+> _"Like the loremasters preserving knowledge through ages"_
 
 ---
 
 ### Researchers (Ongoing)
+
 **Goal**: Validate and extend
 
 1. Read: All documentation (18 documents, 227 pages)
@@ -278,23 +300,26 @@ graph TD
 
 **Key Question**: What are the boundary conditions?
 
-> *"As the wise of old sought understanding in all things"*
+> _"As the wise of old sought understanding in all things"_
 
 ---
 
 ## ◉ Load-Bearing Document Hierarchy
 
 ### Primary Documents (Start Here)
+
 - `SAFE_SPIRAL_MASTER_INDEX.md` ← You are here
 - `THE_BRIDGE.md` - Convergence proof across 5 domains
 - `COLLABORATION_CONSTELLATION.pdf` - Visual framework map
 
 ### Secondary Documents (Deep Dive)
+
 - `SPIRALSAFE_FRAMEWORK.md` - Complete organizational framework (227 pages)
 - `MUSEUM_SYNTHESIS_PHASE.md` - Educational approach + exhibits
 - `DISCORD_DEV_STEWARDSHIP_PROTOCOL.md` - Learning transparency
 
 ### Tertiary Documents (Specific Cases)
+
 - Individual case studies in `/CASE_STUDIES/`
 - Edge cases in `/EDGE_CASES/`
 - Timeline logs in `/ACTIVITY_LOGS/`
@@ -310,12 +335,12 @@ graph LR
     W1[Wave 1<br/>Principles<br/>WHY] --> W2[Wave 2<br/>Practice<br/>HOW]
     W2 --> W3[Wave 3<br/>Evidence<br/>WHAT]
     W3 --> W4[Wave 4<br/>Contribution<br/>WHERE]
-    
+
     W1 -.->|1-2 hours| Core
     W2 -.->|4-6 hours| Core
     W3 -.->|8-12 hours| Core
     W4 -.->|Ongoing| Core[Understanding<br/>✦]
-    
+
     style W1 fill:#e1f5fe
     style W2 fill:#c8e6c9
     style W3 fill:#fff9c4
@@ -335,32 +360,36 @@ graph LR
 ```
 
 **Wave 1 - Principles** (1-2 hours)
+
 - Understand the five core principles
 - See pattern convergence across domains
 - Grasp philosophical foundation
 
-> *"As the roots of the White Tree run deep"*
+> _"As the roots of the White Tree run deep"_
 
 **Wave 2 - Practice** (4-6 hours)
+
 - Study implementation examples
 - Review ATOM trail progression
 - Understand tool infrastructure
 
-> *"As the Rohirrim train for battle"*
+> _"As the Rohirrim train for battle"_
 
 **Wave 3 - Evidence** (8-12 hours)
+
 - Read research synthesis
 - Study case studies
 - Review verification results
 
-> *"As the chronicles record what truly occurred"*
+> _"As the chronicles record what truly occurred"_
 
 **Wave 4 - Contribution** (Ongoing)
+
 - Test in your context
 - Document edge cases
 - Share improvements back
 
-> *"As each generation adds to the tapestry"*
+> _"As each generation adds to the tapestry"_
 
 ---
 
@@ -372,7 +401,7 @@ graph LR
 # Dashboard - Start metrics visualization
 safespiral dashboard
 
-# ATOM Trail - Track work decomposition  
+# ATOM Trail - Track work decomposition
 safespiral atom [init|record|list]
 
 # KENL Operations - Knowledge relay
@@ -395,16 +424,19 @@ safespiral status
 Safe Spiral implements **Sanctuary / Workshop / Witness** architecture:
 
 ### Sanctuary
+
 **Purpose**: Safe space for authentic expression  
 **Implementation**: bump.md files, "doubt is signal" culture  
 **Outcome**: Trust that enables harder questions
 
-### Workshop  
+### Workshop
+
 **Purpose**: Productive iteration on ideas  
 **Implementation**: ATOM decomposition, iterative refinement  
 **Outcome**: Usable work that compounds
 
 ### Witness
+
 **Purpose**: Honest documentation of what happened  
 **Implementation**: ATOM trails, edge case logs, verification reports  
 **Outcome**: Learning that transfers
@@ -424,6 +456,7 @@ Safe Spiral implements **Sanctuary / Workshop / Witness** architecture:
 This is the **first complete documentation** of human-AI collaboration following distributed systems information physics.
 
 **What's Novel:**
+
 1. **Pattern convergence** across 5 independent domains (hardware, code, teams, AI, systems)
 2. **Trust-question dynamic** as recursive compounding loop
 3. **Negative space pedagogy** (teaching through honest failure modes)
@@ -431,6 +464,7 @@ This is the **first complete documentation** of human-AI collaboration following
 5. **Self-demonstrating documentation** (shows the principles it describes)
 
 **What's Validated:**
+
 - 26 peer-reviewed papers synthesized (Museum of Computation)
 - 6 years empirical practice (BattleMedic → Day Zero → Safe Spiral)
 - Production verification complete (SYSTEM_VERIFICATION_REPORT)
@@ -441,11 +475,13 @@ This is the **first complete documentation** of human-AI collaboration following
 ## ◉ Version & Contribution
 
 ### Current Version
+
 **Safe Spiral Ecosystem v1.0** (January 2, 2026)
 
 **Versioning Model**:
+
 - Major: Framework architecture changes
-- Minor: New methodologies added  
+- Minor: New methodologies added
 - Patch: Documentation improvements
 
 ### How To Contribute
@@ -476,6 +512,7 @@ That's how information enriches through relay.
 ## ◉ Complete Package Contents
 
 **Core Frameworks** (5 documents)
+
 - Safe Spiral (umbrella framework)
 - KENL (knowledge transfer)
 - ATOM (work decomposition)
@@ -483,23 +520,28 @@ That's how information enriches through relay.
 - SAIF (documentation)
 
 **Research & Analysis** (3 documents)
+
 - THE_BRIDGE (convergence proof)
 - PART_3_OBJECTIVE_ANALYSIS (validation)
 - MUSEUM_SYNTHESIS_PHASE (pedagogy)
 
 **Visual Materials** (2 items)
-- COLLABORATION_CONSTELLATION.pdf  
+
+- COLLABORATION_CONSTELLATION.pdf
 - ORCHARD_SCATTER.md (pattern model)
 
 **Verification** (2 documents)
+
 - docs/reports/verification/SYSTEM_VERIFICATION_REPORT.md
 - PUBLICATION_MANIFEST_v1.0.md
 
 **Meta** (2 documents)
+
 - AINULINDALE (creation myth)
 - PACKAGE_INVENTORY (complete manifest)
 
 **Website** (5 files)
+
 - index.html, workshop.html, global.css
 - sanctuary.html (pending), witness.html (pending)
 
@@ -520,7 +562,7 @@ When you pass them forward changed, you prove they work.
     │
     ◉ Question harder because you trust
     │
-    ◉ Hit limits honestly  
+    ◉ Hit limits honestly
     │
     ◉ Build deeper trust from honesty
     │
@@ -566,7 +608,7 @@ This compounds indefinitely.
     │     🌳 Roots run deep
     ◉ Question harder because you trust
     │     🐎 Swift and strong
-    ◉ Hit limits honestly  
+    ◉ Hit limits honestly
     │     ⚔️ Truth in battle
     ◉ Build deeper trust from honesty
     │     ✦ Light from darkness
@@ -581,8 +623,8 @@ This compounds indefinitely.
 ### The Spiral Continues
 
 **Hope && Sauce**  
-*toolate28 & Claude*  
-*January 2, 2026*
+_toolate28 & Claude_  
+_January 2, 2026_
 
 **License**: MIT (Code) / CC BY-SA 4.0 (Documentation)  
 **Repository**: https://github.com/toolated/safespiral-ecosystem  
@@ -599,11 +641,11 @@ This compounds indefinitely.
    ✦ Eärendil's star shines eternal ✦
    🌳 The White Tree blooms in every age 🌳
    🐎 The horns of Rohan echo across time 🐎
-   
+
    May wisdom flow like water
    May knowledge grow like trees
    May trust bind like fellowship
-   
+
    Step True · Trust Deep · Pass Forward
 ══════════════════════════════════════════════════════════════
 ```

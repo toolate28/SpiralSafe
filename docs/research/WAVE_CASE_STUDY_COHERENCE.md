@@ -61,13 +61,15 @@ ATOM-COHERENCE-20260103-001-unified-deployment
 ### Sanctuary: Safe Space for Discovery
 
 **The Setup:**
+
 - SpiralSafe claimed to be "self-verifying" and "coherent"
 - Yet no one had applied wave.md to SpiralSafe itself
 - The human architect asked: "What if we excavate ourselves?"
 
 **The Safe Space:**
+
 ```
-Human: "I want to use wave.md on SpiralSafe itself. 
+Human: "I want to use wave.md on SpiralSafe itself.
         Find our own anti-waves."
 
 AI: "That's uncomfortable but necessary. Let's excavate honestly."
@@ -76,6 +78,7 @@ AI: "That's uncomfortable but necessary. Let's excavate honestly."
 The sanctuary enabled **authentic excavation** without defensiveness. Instead of protecting the system, we questioned it ruthlessly.
 
 **3-Body Element: Sanctuary**
+
 - ✓ Doubt as signal: "Are we coherent or just claiming to be?"
 - ✓ Safe to question: "What fractures exist in our own boundaries?"
 - ✓ Trust enables harder questions
@@ -109,6 +112,7 @@ Anti-Wave: CI/Workflow Islands
 ```
 
 **3-Body Element: Workshop**
+
 - ✓ Productive iteration: Each question revealed a pattern
 - ✓ Usable work: Every anti-wave became a concrete fix
 - ✓ Compounding progress: Patterns informed each other
@@ -140,6 +144,7 @@ Every discovery was documented immediately:
    - docs/DOCUMENT_STATE_MARKERS.md
 
 **3-Body Element: Witness**
+
 - ✓ Honest documentation: Anti-waves documented unflinchingly
 - ✓ Learning transfers: Case study enables others to replicate
 - ✓ Audit trail: Complete journey from discovery to fix
@@ -151,6 +156,7 @@ Every discovery was documented immediately:
 ### Anti-Wave #1: Bedrock Illusion
 
 **The Discovery:**
+
 ```
 Question: "When should a decision become bedrock?"
 Analysis: scripts/update-freshness.sh migrates at 180 days
@@ -158,6 +164,7 @@ Finding: No verification step. Age = trust.
 ```
 
 **The Fracture:**
+
 ```bash
 # Before (scripts/update-freshness.sh:58-64)
 if [ "$BEDROCK_ELIGIBLE" = "true" ]; then
@@ -169,12 +176,14 @@ fi
 ```
 
 **Why It's an Anti-Wave:**
+
 - Temporal property (age) confers trust
 - No validity check before archival
 - Bad decisions ossify into "bedrock"
 - Age ≠ correctness
 
 **The Fix:**
+
 ```bash
 # After (scripts/update-freshness.sh:58-71)
 if [ "$BEDROCK_ELIGIBLE" = "true" ]; then
@@ -194,9 +203,11 @@ fi
 ```
 
 **New Tool Created:**
+
 - `scripts/verify-decision.sh` - Explicit verification before bedrock
 
 **Journey Tracking:**
+
 - **ATOM Tag:** ATOM-COHERENCE-20260103-001 (verification requirement added)
 - **Commits:** 1023686, 6f9d911
 - **Status:** ✓ Deployed, ✓ Tested, ✓ Documented
@@ -207,6 +218,7 @@ fi
 ### Anti-Wave #2: Context Orphaning
 
 **The Discovery:**
+
 ```
 Question: "How does bump.md ensure shared context?"
 Analysis: It's a template with placeholders
@@ -214,6 +226,7 @@ Finding: No enforcement. Execution can proceed with invalid bump.md
 ```
 
 **The Fracture:**
+
 ```bash
 # Before (scripts/validate-bump.sh)
 # Only checked for section presence, not content validity
@@ -221,12 +234,14 @@ Finding: No enforcement. Execution can proceed with invalid bump.md
 ```
 
 **Why It's an Anti-Wave:**
+
 - Intent documented but not enforced
 - Placeholders = incomplete context
 - Workers can execute without alignment
 - bump.md is guidance, not protocol
 
 **The Fix:**
+
 ```bash
 # After (scripts/validate-bump.sh:30-62)
 PLACEHOLDERS=(
@@ -259,6 +274,7 @@ fi
 ```
 
 **Journey Tracking:**
+
 - **ATOM Tag:** ATOM-COHERENCE-20260103-001 (placeholder detection)
 - **Commits:** 1023686
 - **Status:** ✓ Deployed, ✓ CI enforced
@@ -269,6 +285,7 @@ fi
 ### Anti-Wave #3: Scatter Without Verification
 
 **The Discovery:**
+
 ```
 Question: "Does KENL relay actually enrich information?"
 Analysis: Documented in theory, not measured in practice
@@ -276,6 +293,7 @@ Finding: No enrichment metrics. "Relay improves" is faith, not physics.
 ```
 
 **The Fracture:**
+
 - KENL patterns propagate
 - No before/after measurement
 - "Information enriches through relay" - claimed but not verified
@@ -289,20 +307,21 @@ Created lifecycle hooks with measurement:
 # scripts/hooks/on-knowledge-relay.sh
 main() {
     local kenl_artifact="${1:-}"
-    
+
     echo "[HOOK] on-knowledge-relay: $kenl_artifact"
-    
+
     # Record in ATOM trail (use absolute path)
     "$(dirname "$0")/../atom-track.sh" KENL "Knowledge relay: $kenl_artifact" "$kenl_artifact"
-    
+
     # Verify knowledge → intention gate
     gate_knowledge_to_intention
-    
+
     echo "[HOOK] Knowledge → Intention transition verified"
 }
 ```
 
 **Journey Tracking:**
+
 - **ATOM Tag:** ATOM-COHERENCE-20260103-001 (KENL hooks)
 - **Commits:** 28f5f5a, 1023686
 - **Status:** ✓ Deployed, ✓ Hooks functional
@@ -313,6 +332,7 @@ main() {
 ### Anti-Wave #4: CI/Workflow Islands
 
 **The Discovery:**
+
 ```
 Question: "Do CI workflows update ATOM trail?"
 Analysis: 8 workflows exist, none connect to ATOM
@@ -320,6 +340,7 @@ Finding: CI success ≠ coherence verification
 ```
 
 **The Fracture:**
+
 ```yaml
 # Before: Workflows isolated
 # ci.yml, validate-bump.yml, etc. all ran independently
@@ -343,7 +364,7 @@ jobs:
       - name: Validate document state markers
       - name: Check verification gates
       - name: Validate ATOM trail integrity
-  
+
   coherence-metrics:
     runs-on: ubuntu-latest
     steps:
@@ -352,6 +373,7 @@ jobs:
 ```
 
 **Journey Tracking:**
+
 - **ATOM Tag:** ATOM-COHERENCE-20260103-001 (CI integration)
 - **Commits:** 28f5f5a
 - **Status:** ✓ Deployed, ✓ Running on every PR
@@ -362,6 +384,7 @@ jobs:
 ### Anti-Wave #5: Documentation Archaeology
 
 **The Discovery:**
+
 ```
 Question: "Is this document active guidance or aspirational design?"
 Analysis: No way to tell without reading entire doc
@@ -369,6 +392,7 @@ Finding: Active, aspirational, historical all look identical
 ```
 
 **The Fracture:**
+
 - Readers waste time on outdated docs
 - Aspirational docs mistaken for reality
 - Historical context lost
@@ -380,7 +404,7 @@ Document state markers:
 
 ```yaml
 ---
-status: active  # active | aspirational | historical | archived
+status: active # active | aspirational | historical | archived
 coherence_phase: execution
 last_verified: 2026-01-03
 verification_method: manual
@@ -391,6 +415,7 @@ intent: "Why this document exists"
 ```
 
 **Validation Script:**
+
 ```bash
 # scripts/validate-document-state.sh
 # Checks all markdown for required state markers
@@ -399,6 +424,7 @@ intent: "Why this document exists"
 ```
 
 **Journey Tracking:**
+
 - **ATOM Tag:** ATOM-COHERENCE-20260103-001 (state markers)
 - **Commits:** 28f5f5a
 - **Status:** ✓ Deployed, ✓ CI validated
@@ -411,6 +437,7 @@ intent: "Why this document exists"
 ### Initial Discovery Phase
 
 **ATOM-COHERENCE-20260103-001-unified-deployment**
+
 ```json
 {
   "atom_tag": "ATOM-COHERENCE-20260103-001-unified-deployment",
@@ -428,12 +455,14 @@ intent: "Why this document exists"
 ### Implementation Commits
 
 **Commit 1: f624190 - Initial plan**
+
 - Created implementation checklist
 - Defined 6 layers
 - Established acceptance criteria
 - **Status:** Planning complete
 
 **Commit 2: 28f5f5a - Layers 1-6 implementation**
+
 - Created 16 new files
 - Modified 2 existing files
 - ~1,200 lines of bash
@@ -441,18 +470,21 @@ intent: "Why this document exists"
 - **Status:** Implementation complete
 
 **Commit 3: 6f9d911 - Testing validation**
+
 - Fixed shellcheck warnings
 - Ran comprehensive test suite (10/10 passed)
 - Validated all components
 - **Status:** Testing complete
 
 **Commit 4: 1023686 - Code review feedback**
+
 - Fixed gate logic (removed || true)
 - Used absolute paths in hooks
 - Improved CI warnings
 - **Status:** Review addressed
 
 **Commit 5: 9845551 - Merge to main branch**
+
 - Final merge preparation
 - All CI checks passing
 - **Status:** Ready for production
@@ -499,6 +531,7 @@ cat .atom-trail/decisions/ATOM-COHERENCE-20260103-001-unified-deployment.json
 ### Observability Metrics
 
 **Gate Transitions Logged:**
+
 ```bash
 cat .atom-trail/gate-transitions.jsonl | jq -r '. | "\(.timestamp) | \(.gate) | \(.passed)"'
 
@@ -509,6 +542,7 @@ cat .atom-trail/gate-transitions.jsonl | jq -r '. | "\(.timestamp) | \(.gate) | 
 ```
 
 **Coherence Metrics:**
+
 - Fresh decisions: 8
 - Aging decisions: 0
 - Settled decisions: 0
@@ -523,16 +557,19 @@ cat .atom-trail/gate-transitions.jsonl | jq -r '. | "\(.timestamp) | \(.gate) | 
 ### About the 3-Body Pattern
 
 **Sanctuary enabled discovery:**
+
 - Without safe space, we wouldn't have questioned our own system
 - Trust allowed "uncomfortable but necessary" excavation
 - Doubt became the signal that led to all 5 anti-waves
 
 **Workshop enabled iteration:**
+
 - Each anti-wave informed the next
 - Fixes compounded (gates → hooks → markers)
 - Usable work at every step
 
 **Witness enabled transfer:**
+
 - Complete documentation means others can replicate
 - ATOM trail provides audit log
 - Case study makes the pattern teachable
@@ -540,16 +577,19 @@ cat .atom-trail/gate-transitions.jsonl | jq -r '. | "\(.timestamp) | \(.gate) | 
 ### About Wave Methodology
 
 **wave.md works recursively:**
+
 - Applied SpiralSafe's own methodology to itself
 - Found fractures in the coherence framework
 - Proved wave.md by using it on wave.md's host
 
 **Anti-waves are gifts:**
+
 - Each revealed a systematic weakness
 - Each fix strengthened the whole system
 - Discovery ≠ failure, discovery = opportunity
 
 **Observability is critical:**
+
 - Can't fix what you can't see
 - Gate logging made coherence measurable
 - ATOM trail made decisions auditable
@@ -557,16 +597,19 @@ cat .atom-trail/gate-transitions.jsonl | jq -r '. | "\(.timestamp) | \(.gate) | 
 ### About Coherence
 
 **Verification gates work:**
+
 - 17 transitions logged
 - 6 failures caught and addressed
 - System is now provably coherent at boundaries
 
 **Enforcement > Documentation:**
+
 - bump.md was documented but not enforced
 - Adding enforcement prevented context orphaning
 - Protocol > guidance
 
 **Trust requires proof:**
+
 - Age alone doesn't confer trust (bedrock illusion)
 - Verification must be explicit
 - Observability makes trust rational
@@ -578,6 +621,7 @@ cat .atom-trail/gate-transitions.jsonl | jq -r '. | "\(.timestamp) | \(.gate) | 
 ### How to Apply This Pattern to Your System
 
 **Step 1: Create Sanctuary**
+
 ```
 Ask: "What if we excavate our own system?"
 Allow: Uncomfortable questions
@@ -585,6 +629,7 @@ Trust: The methodology will reveal truth
 ```
 
 **Step 2: Use wave.md on Yourself**
+
 ```bash
 # Apply wave.md to your own coherence boundaries
 # Ask about every phase transition:
@@ -594,6 +639,7 @@ Trust: The methodology will reveal truth
 ```
 
 **Step 3: Document Anti-Waves**
+
 ```
 For each fracture:
 1. Name it (e.g., "Bedrock Illusion")
@@ -604,6 +650,7 @@ For each fracture:
 ```
 
 **Step 4: Track the Journey**
+
 ```bash
 # Create ATOM tag for the wave event
 ./scripts/atom-track.sh WAVE "Self-excavation: [description]" "system"
@@ -615,6 +662,7 @@ For each fracture:
 ```
 
 **Step 5: Make It Observable**
+
 ```
 - Log all transitions
 - Report metrics
@@ -681,7 +729,7 @@ Each file contains complete metadata, timestamps, and verification status.
 **The spiral continues. The wave propagates. The learning transfers.**
 
 ═══════════════════════════════════════════════════════════════
-   ✦ May your excavations be honest ✦
-   🌳 May your anti-waves become gifts 🌳
-   🐎 May your journey be observable 🐎
+✦ May your excavations be honest ✦
+🌳 May your anti-waves become gifts 🌳
+🐎 May your journey be observable 🐎
 ═══════════════════════════════════════════════════════════════

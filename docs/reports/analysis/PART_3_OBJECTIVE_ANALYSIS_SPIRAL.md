@@ -1,4 +1,5 @@
 # PART 3: OBJECTIVE ANALYSIS
+
 ## Research Convergence + Methodology Synthesis + Empirical Validation
 
 ```
@@ -32,6 +33,7 @@ We prove this by demonstrating pattern convergence across **five independent dom
 5. **Organizational frameworks** → Safe Spiral team dynamics
 
 Then we **empirically validate** through:
+
 - LLM inference optimization research (Museum of Computation)
 - Discord developer stewardship protocols (learning transparency)
 - Command infrastructure verification (CLI tooling)
@@ -49,13 +51,13 @@ Then we **empirically validate** through:
 
 Every working system we examined implements the **same five principles**, regardless of domain:
 
-| **System** | **Visible State** | **Clear Intent** | **Natural Decomp** | **Networked Learning** | **Measurable Delivery** |
-|------------|-------------------|------------------|--------------------|------------------------|------------------------|
-| **Linux kernel** | git + config files | design docs | modules | mailing list + patches | compile + boot |
-| **Kubernetes** | etcd + manifests | API documentation | controllers | issues + PRs | cluster observability |
-| **LLM Inference** | KV cache + metrics | optimization papers | attention patterns | research iteration | latency benchmarks |
-| **Safe Spiral teams** | bump.md | AWI (auth + intent) | ATOM work units | KENL knowledge relay | delivery metrics |
-| **BattleMedic recovery** | hardware state logs | fault trees | component isolation | repair knowledge base | device functional |
+| **System**               | **Visible State**   | **Clear Intent**    | **Natural Decomp**  | **Networked Learning** | **Measurable Delivery** |
+| ------------------------ | ------------------- | ------------------- | ------------------- | ---------------------- | ----------------------- |
+| **Linux kernel**         | git + config files  | design docs         | modules             | mailing list + patches | compile + boot          |
+| **Kubernetes**           | etcd + manifests    | API documentation   | controllers         | issues + PRs           | cluster observability   |
+| **LLM Inference**        | KV cache + metrics  | optimization papers | attention patterns  | research iteration     | latency benchmarks      |
+| **Safe Spiral teams**    | bump.md             | AWI (auth + intent) | ATOM work units     | KENL knowledge relay   | delivery metrics        |
+| **BattleMedic recovery** | hardware state logs | fault trees         | component isolation | repair knowledge base  | device functional       |
 
 **Key insight**: These aren't analogies. These are **isomorphisms** - the same structure appearing in different substrates because it's the optimal solution to information flow constraints.
 
@@ -70,6 +72,7 @@ Every working system we examined implements the **same five principles**, regard
 **Why do these patterns repeat?**
 
 Systems optimize for information flow under constraints:
+
 - **Limited bandwidth** → must prioritize what to communicate
 - **Distributed state** → must synchronize understanding
 - **Emergent behavior** → must reason about interaction effects
@@ -78,13 +81,13 @@ Systems optimize for information flow under constraints:
 
 When you make the **five principles** explicit, systems naturally converge on efficient patterns. When you violate any principle, **characteristic failure modes** appear:
 
-| **Violated Principle** | **Failure Mode** | **Example** |
-|------------------------|------------------|-------------|
-| Visible State | Debugging becomes archaeology | Undocumented config changes break systems |
-| Clear Intent | Cargo cult implementation | Copy patterns without understanding why |
-| Natural Decomposition | Brittle dependencies | Change one thing, break everything |
-| Networked Learning | Knowledge loss on turnover | "Only Bob knows how this works" |
-| Measurable Delivery | Infinite bikeshedding | Can't tell if progress happened |
+| **Violated Principle** | **Failure Mode**              | **Example**                               |
+| ---------------------- | ----------------------------- | ----------------------------------------- |
+| Visible State          | Debugging becomes archaeology | Undocumented config changes break systems |
+| Clear Intent           | Cargo cult implementation     | Copy patterns without understanding why   |
+| Natural Decomposition  | Brittle dependencies          | Change one thing, break everything        |
+| Networked Learning     | Knowledge loss on turnover    | "Only Bob knows how this works"           |
+| Measurable Delivery    | Infinite bikeshedding         | Can't tell if progress happened           |
 
 **This is testable.** Show us a dysfunctional system, we'll show you which principle is violated.
 
@@ -95,6 +98,7 @@ When you make the **five principles** explicit, systems naturally converge on ef
 The Museum of Computation synthesizes **26 peer-reviewed papers** on LLM inference optimization (2023-2024). Every optimization technique follows the same pattern:
 
 **Technique: Speculative Decoding**
+
 - Visible State: Draft model predictions visible to verifier
 - Clear Intent: Rejection sampling preserves distribution
 - Natural Decomposition: Draft vs. verify are independent
@@ -102,6 +106,7 @@ The Museum of Computation synthesizes **26 peer-reviewed papers** on LLM inferen
 - Measurable Delivery: 2-3× speedup quantified per batch size
 
 **Technique: Sparse Attention**
+
 - Visible State: Attention weights expose concentration
 - Clear Intent: Locality of reference in language
 - Natural Decomposition: Block-sparse vs. A-shape patterns
@@ -109,13 +114,14 @@ The Museum of Computation synthesizes **26 peer-reviewed papers** on LLM inferen
 - Measurable Delivery: 10× prefill speedup with accuracy bounds
 
 **Technique: KV Cache Pruning**
+
 - Visible State: Token importance scores
 - Clear Intent: Not all tokens contribute equally
 - Natural Decomposition: Ranking → Pruning → Recompute
 - Networked Learning: SnapKV → Adaptive pruning
 - Measurable Delivery: 8.2× memory efficiency
 
-**Critical discovery**: Every optimization has **measurable trade-offs**. There is no free lunch. This validates the "negative space" pedagogical approach - understanding *where techniques fail* is as important as where they succeed.
+**Critical discovery**: Every optimization has **measurable trade-offs**. There is no free lunch. This validates the "negative space" pedagogical approach - understanding _where techniques fail_ is as important as where they succeed.
 
 ```
     ◉ Optimization → Trade-off → Measurable Bound → Honest Teaching
@@ -123,7 +129,7 @@ The Museum of Computation synthesizes **26 peer-reviewed papers** on LLM inferen
 
 ---
 
-*[Content continues with all sections from original PART_3_OBJECTIVE_ANALYSIS.md but with spiral motifs added throughout]*
+_[Content continues with all sections from original PART_3_OBJECTIVE_ANALYSIS.md but with spiral motifs added throughout]_
 
 ---
 
@@ -140,8 +146,8 @@ The Museum of Computation synthesizes **26 peer-reviewed papers** on LLM inferen
 ### The Spiral Continues
 
 **Hope && Sauce**  
-*toolate28 & Claude*  
-*January 2, 2026*
+_toolate28 & Claude_  
+_January 2, 2026_
 
 **License**: CC BY-SA 4.0  
 **ATOM**: ATOM-ANALYSIS-20260102-001

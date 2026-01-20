@@ -43,36 +43,46 @@ Regeneration → [loops back]
 ## Gate Functions
 
 ### gate_understanding_to_knowledge
+
 Verifies transition from wave.md excavation to KENL knowledge patterns.
 
 **Requirements:**
+
 - Excavation complete file exists or cascade diagram exists
 - Leverage points identified in excavation
 
 ### gate_knowledge_to_intention
+
 Verifies transition from KENL patterns to AWI intention.
 
 **Requirements:**
+
 - Pattern directory exists or KENL patterns document exists
 
 ### gate_intention_to_execution
+
 Verifies transition from AWI to ATOM execution.
 
 **Requirements:**
+
 - bump.md file exists
 - No template placeholders remain in bump.md
 
 ### gate_execution_to_learning
+
 Verifies transition from ATOM execution to SAIF learning.
 
 **Requirements:**
+
 - ATOM decisions directory exists
 - At least one decision file exists
 
 ### gate_learning_to_regeneration
+
 Verifies transition from SAIF learning back to regeneration.
 
 **Requirements:**
+
 - Coherence report exists or learning extraction file exists
 
 ## Usage
@@ -109,6 +119,7 @@ All gate transitions are logged to `.atom-trail/gate-transitions.jsonl`:
 ## Escalation
 
 Failed gates trigger escalation via `scripts/hooks/on-boundary-violated.sh`:
+
 - Logged to `.claude/logs/escalations.jsonl`
 - ATOM decision created for violation
 - Optionally triggers notifications

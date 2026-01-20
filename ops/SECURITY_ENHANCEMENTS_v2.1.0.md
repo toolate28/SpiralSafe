@@ -19,13 +19,15 @@ This release adds comprehensive security features to protect the SpiralSafe Oper
 **Protection Against**: Brute-force attacks, API abuse, DDoS attempts
 
 **Features**:
+
 - Per-IP request throttling
 - Configurable rate limits via environment variables
 - Separate stricter limits for failed authentication attempts
-- Standard rate limit headers (X-RateLimit-*)
+- Standard rate limit headers (X-RateLimit-\*)
 - Automatic IP blocking for excessive failures
 
 **Configuration** (via Cloudflare secrets):
+
 ```bash
 RATE_LIMIT_REQUESTS=100       # Max requests per IP per window
 RATE_LIMIT_WINDOW=60          # Time window in seconds
@@ -33,10 +35,12 @@ RATE_LIMIT_AUTH_FAILURES=5    # Max auth failures before block
 ```
 
 **Default Limits**:
+
 - General requests: 100 per minute per IP
 - Failed auth attempts: 5 per minute per IP (temporary block after)
 
 **Response Headers**:
+
 ```http
 X-RateLimit-Limit: 100
 X-RateLimit-Remaining: 87
@@ -44,6 +48,7 @@ X-RateLimit-Reset: 1704732120
 ```
 
 **Rate Limit Response** (HTTP 429):
+
 ```json
 {
   "error": "Too Many Requests",
@@ -61,12 +66,14 @@ X-RateLimit-Reset: 1704732120
 **Protection Against**: Unauthorized access, security incidents, compliance violations
 
 **Features**:
+
 - All requests logged to KV (30-day retention)
 - Failed auth attempts logged to D1 (permanent audit trail)
 - Includes IP, user agent, country, timestamp, status
 - Non-blocking (won't fail requests if logging fails)
 
 **Log Structure**:
+
 ```json
 {
   "timestamp": "2026-01-07T17:30:00.000Z",
@@ -82,10 +89,12 @@ X-RateLimit-Reset: 1704732120
 ```
 
 **Storage**:
+
 - KV: `log:{timestamp}:{uuid}` → 30-day TTL
 - D1: `system_health` table → permanent (failed auth only)
 
 **Query Examples**:
+
 ```bash
 # List recent logs
 npx wrangler kv:key list --binding=SPIRALSAFE_KV --prefix="log:"
@@ -106,6 +115,7 @@ npx wrangler d1 execute spiralsafe-ops --command="
 **Protection Against**: Key compromise, service isolation, environment separation
 
 **Features**:
+
 - Primary key via `SPIRALSAFE_API_KEY`
 - Additional keys via `SPIRALSAFE_API_KEYS` (comma-separated)
 - Backward compatible (existing code unchanged)
@@ -113,6 +123,7 @@ npx wrangler d1 execute spiralsafe-ops --command="
 - Supports overlapping rotation
 
 **Configuration**:
+
 ```bash
 # Primary key (existing)
 SPIRALSAFE_API_KEY=bee53792f93c8ae9f3dc15c106d7c3da...
@@ -122,6 +133,7 @@ SPIRALSAFE_API_KEYS=dev_key123,staging_key456,service_a_key789
 ```
 
 **Use Cases**:
+
 - Environment-specific keys (dev, staging, prod)
 - Service-specific keys (helpdesk, billing, analytics)
 - Zero-downtime key rotation (overlapping keys)
@@ -134,12 +146,14 @@ SPIRALSAFE_API_KEYS=dev_key123,staging_key456,service_a_key789
 **Protection Against**: Brute-force attacks, credential stuffing
 
 **Features**:
+
 - Stricter rate limits on failed auth attempts
 - Automatic temporary IP blocking after repeated failures
 - Failed auth attempts logged to permanent audit trail
 - Clear error messages for debugging
 
 **Auth Failure Rate Limiting**:
+
 ```json
 {
   "error": "Too Many Failed Authentication Attempts",
@@ -149,6 +163,7 @@ SPIRALSAFE_API_KEYS=dev_key123,staging_key456,service_a_key789
 ```
 
 **Audit Trail** (D1 `system_health` table):
+
 ```sql
 SELECT
   timestamp,
@@ -199,6 +214,7 @@ ORDER BY timestamp DESC;
 ### Modified Files
 
 **`ops/api/spiralsafe-worker.ts`**:
+
 - Added rate limiting logic (lines 105-144)
 - Added request logging function (lines 146-186)
 - Added multi-key validation (lines 188-201)
@@ -209,6 +225,7 @@ ORDER BY timestamp DESC;
 - Added error logging (line 357)
 
 **Environment Interface** (lines 16-25):
+
 ```typescript
 export interface Env {
   SPIRALSAFE_DB: D1Database;
@@ -358,14 +375,17 @@ npx wrangler tail spiralsafe-api --status error
 ## Performance Impact
 
 **Rate Limiting**:
+
 - +2ms average latency (KV read/write)
 - Negligible CPU time increase
 
 **Request Logging**:
+
 - +1ms average latency (async KV write)
 - Non-blocking (won't affect response time)
 
 **Multi-Key Validation**:
+
 - +0.5ms average latency (string array check)
 - Only runs on write operations
 
@@ -376,37 +396,41 @@ npx wrangler tail spiralsafe-api --status error
 
 ## Security Improvements Summary
 
-| Feature | Before | After | Improvement |
-|---------|--------|-------|-------------|
-| Rate Limiting | ❌ None | ✅ Per-IP, configurable | Prevents abuse |
-| Auth Failure Protection | ❌ Unlimited attempts | ✅ 5 attempts/min | Stops brute-force |
-| Request Logging | ❌ No logs | ✅ 30-day retention | Audit trail |
-| Failed Auth Audit | ❌ No audit | ✅ Permanent D1 log | Compliance |
-| Multiple API Keys | ❌ Single key only | ✅ Multiple keys | Service isolation |
-| Key Rotation | ⚠️ Manual, downtime | ✅ Overlapping, zero-downtime | Operational safety |
-| Monitoring Docs | ❌ None | ✅ Comprehensive guides | Operational readiness |
+| Feature                 | Before                | After                         | Improvement           |
+| ----------------------- | --------------------- | ----------------------------- | --------------------- |
+| Rate Limiting           | ❌ None               | ✅ Per-IP, configurable       | Prevents abuse        |
+| Auth Failure Protection | ❌ Unlimited attempts | ✅ 5 attempts/min             | Stops brute-force     |
+| Request Logging         | ❌ No logs            | ✅ 30-day retention           | Audit trail           |
+| Failed Auth Audit       | ❌ No audit           | ✅ Permanent D1 log           | Compliance            |
+| Multiple API Keys       | ❌ Single key only    | ✅ Multiple keys              | Service isolation     |
+| Key Rotation            | ⚠️ Manual, downtime   | ✅ Overlapping, zero-downtime | Operational safety    |
+| Monitoring Docs         | ❌ None               | ✅ Comprehensive guides       | Operational readiness |
 
 ---
 
 ## Compliance Impact
 
 ### GDPR
+
 - ✅ 30-day log retention (configurable)
 - ✅ IP anonymization option (future)
 - ✅ Right to deletion (clear KV logs)
 
 ### SOC 2
+
 - ✅ Comprehensive audit logging
 - ✅ Failed auth tracking
 - ✅ Access control enforcement
 
 ### PCI DSS
+
 - ✅ Rate limiting
 - ✅ Strong authentication
 - ✅ Encryption in transit (TLS)
 - ✅ Audit trails
 
 ### HIPAA
+
 - ✅ Access logging
 - ✅ Authentication required
 - ✅ Audit trail retention
@@ -430,6 +454,7 @@ npx wrangler tail spiralsafe-api --status error
 **No changes required** if staying within rate limits (100 req/min).
 
 **Recommended**:
+
 1. Check response headers for rate limit status
 2. Implement exponential backoff for 429 responses
 3. Cache health check results (don't query every second)
@@ -437,11 +462,13 @@ npx wrangler tail spiralsafe-api --status error
 ### For Operators
 
 **Required**:
+
 1. Pull latest code
 2. Deploy worker
 3. (Optional) Configure custom rate limits
 
 **Recommended**:
+
 1. Set up Cloudflare email alerts
 2. Configure external health monitoring
 3. Review security documentation

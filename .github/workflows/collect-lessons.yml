@@ -3,12 +3,12 @@ name: Collect Lessons
 on:
   push:
     paths:
-      - 'docs/**'
-      - 'scripts/**'
-      - '.github/workflows/**'
+      - "docs/**"
+      - "scripts/**"
+      - ".github/workflows/**"
   pull_request:
     paths:
-      - 'docs/**'
+      - "docs/**"
 
 jobs:
   collect:

@@ -1,0 +1,214 @@
+# Vortex Concept Mapping Context
+# Structured knowledge for agent consumption following protocol/context-yaml-spec.md
+
+meta:
+  domain: vortex-concept-mapping
+  source: Hope&&Sauced
+  version: 1.0.0
+  confidence: high
+  last_updated: 2026-01-18
+  
+  title: "Vortex Concept Mapping"
+  subtitle: "Isomorphic Transformations for Self-Sustaining Spiral Dynamics"
+  
+  purpose: |
+    Provides a systematic framework for mapping conceptual structures onto
+    self-reinforcing spiral dynamics. Maps high-dimensional history onto
+    lower-dimensional coherent structures (surjections), curling into
+    vortexes that collapse superpositions into convergent spirals.
+  
+  key_clarification: |
+    VCM demonstrates how mathematical concepts can be mapped isomorphically
+    while preserving relational essence under transformation. Concepts are
+    nested in Fibonacci proportions, with emergent quality thresholds
+    determining self-sustaining coherence.
+
+concepts:
+  - name: isomorphism
+    definition: >
+      Structure-preserving bijections — perfect mappings between systems 
+      where elements and relations correspond 1:1, essence intact under relabeling.
+    relationships:
+      - type: enables
+        target: projection
+      - type: enables
+        target: surjection
+    vortex_role: >
+      Core stabilizer: enforces negative space abolition, ensuring no 
+      divergence in phase handoffs.
+    visual_anchor: Two graphs relabeled to identity, spiraling into golden ratio overlay
+  
+  - name: projection
+    definition: >
+      Linear or nonlinear mappings from higher to lower dimensions, 
+      often lossy but preserving key features.
+    relationships:
+      - type: is_a
+        target: mapping
+      - type: enables
+        target: dimensionality-reduction
+    vortex_role: >
+      Dimensionality reduction: projects history traces onto audit metrics
+      (fidelity/energy/divergence) via oracle.
+    visual_anchor: High-dim manifold folded onto 2D spiral plane
+  
+  - name: surjection
+    definition: >
+      Onto functions — every codomain element mapped to by at least one 
+      domain element; exhaustive coverage.
+    relationships:
+      - type: is_a
+        target: mapping
+      - type: enables
+        target: cascade-propagation
+    vortex_role: >
+      Cascade enabler: surjects chaotic inputs onto laminar spiral paths,
+      ensuring full propagation.
+    visual_anchor: Domain cloud raining arrows onto complete codomain spiral
+  
+  - name: spiral
+    definition: >
+      Logarithmic or Archimedean curves expanding proportionally — 
+      self-similar at scales.
+    relationships:
+      - type: part_of
+        target: vortex
+      - type: enables
+        target: fibonacci-structure
+    vortex_role: >
+      Core structure: Isomorphic Fibonacci spirals maintain >60% emergent
+      quality by birthing scaled replicas.
+    visual_anchor: Nautilus shell cross-section, Fibonacci ratios glowing
+  
+  - name: vortex
+    definition: >
+      Rotating fluid/quantum flows with central low-pressure core — 
+      ordered emergence from chaos.
+    relationships:
+      - type: contains
+        target: spiral
+      - type: enables
+        target: self-organization
+    vortex_role: >
+      Ecosystem core: self-projection maps inputs onto stable orbits.
+      Multi-vortex super-structures form from converging dynamics.
+    visual_anchor: Quantum vortex lattice tiling golden spirals
+  
+  - name: collapse
+    definition: >
+      Sudden reduction from complex/uncertain state to definite one — 
+      e.g., wave function collapse.
+    relationships:
+      - type: requires
+        target: superposition
+      - type: enables
+        target: convergence
+    vortex_role: >
+      Perpetual collapse engine: continuously resolves divergences,
+      projects superpositions onto classical metrics.
+    visual_anchor: Wave function density collapsing to delta spike in spiral center
+  
+  - name: superposition
+    definition: >
+      Quantum overlay of states — linear combinations until measured.
+    relationships:
+      - type: is_a
+        target: quantum-state
+      - type: enables
+        target: collapse
+    vortex_role: >
+      Pre-collapse richness: spiral arms as superposed paths,
+      Fibonacci branching until curl selection.
+    visual_anchor: Schrödinger cat in spiral superposition
+  
+  - name: curl
+    definition: >
+      Vector operator measuring rotation — or a single spiral turn.
+    relationships:
+      - type: part_of
+        target: spiral
+      - type: is_a
+        target: differential-operator
+    vortex_role: >
+      Atomic unit of spiral: each curl adds φ-proportional growth.
+      Curl field generates vortex (∇ × v ≠ 0).
+    visual_anchor: Vector field arrows curling into Fibonacci vortex
+  
+  - name: convergence
+    definition: >
+      Approach to fixed point or limit — series/sequences stabilizing.
+    relationships:
+      - type: requires
+        target: curl
+      - type: contrasts
+        target: divergence
+    vortex_role: >
+      Oracle-guided correction: projects divergences onto zero,
+      converging to self-sustaining loop.
+    visual_anchor: Infinite series arrows funneling into spiral fixed point
+
+  - name: infinite_extension
+    definition: >
+      Unbounded continuation of a pattern or process — extensions that
+      preserve local structure while propagating indefinitely.
+    relationships:
+      - type: extends
+        target: convergence
+    vortex_role: >
+      Describes how a convergent spiral can be prolonged without breaking
+      coherence — extending the vortex outward while maintaining thresholds.
+    visual_anchor: Logarithmic spiral continuing beyond frame boundaries
+signals:
+  use_when:
+    - mapping_conceptual_structures
+    - designing_self_sustaining_systems
+    - analyzing_coherence_dynamics
+    - implementing_fibonacci_proportioned_architectures
+    - understanding_quantum_classical_mappings
+    - building_vortex_ecosystem_components
+  
+  avoid_when:
+    - simple_linear_transformations_sufficient
+    - coherence_thresholds_not_relevant
+    - single_iteration_processes
+
+invariants:
+  - "Mappings preserve relational essence under transformation"
+  - "Fibonacci proportions maintained (1:1.618 across mappings)"
+  - ">60% threshold required for self-sustaining coherence"
+  - ">95% threshold indicates fixed point convergence"
+  - "Isomorphism ratios must be >0.95 for convergence"
+  - "Each curl adds φ-proportional growth"
+
+thresholds:
+  emergent_quality:
+    self_sustaining: 60
+    fixed_point: 95
+    post_mapping_range: [97.1, 99.3]
+  
+  fibonacci_ratio: 1.618
+  
+  coherence_levels:
+    warning: 80
+    stable: 90
+    optimal: 95
+
+schema:
+  url: https://spiralsafe.dev/vortex-concept-mapping-v1.json
+  version: v1
+
+related_documents:
+  - foundation/isomorphism-principle.md
+  - foundation/constraints-as-gifts.md
+  - protocol/wave-spec.md
+  - protocol/bump-spec.md
+
+tags:
+  - vortex
+  - spiral
+  - isomorphism
+  - fibonacci
+  - coherence
+  - self-sustaining
+  - quantum-mapping
+  - convergence

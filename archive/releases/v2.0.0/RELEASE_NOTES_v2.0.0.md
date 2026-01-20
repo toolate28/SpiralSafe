@@ -31,6 +31,7 @@ All 6 core API endpoints are now live and accepting requests from anywhere in th
 ### 2. Full-Stack Database Layer
 
 #### **Cloudflare D1 (SQLite)**
+
 - 7 tables for structured data
 - ACID transactions
 - Foreign key constraints
@@ -38,6 +39,7 @@ All 6 core API endpoints are now live and accepting requests from anywhere in th
 - **ID**: `d47d04ca-7d74-41a8-b489-0af373a2bb2c`
 
 #### **Cloudflare KV (Key-Value Store)**
+
 - Fast caching layer
 - TTL-based expiration
 - Sub-10ms reads
@@ -45,6 +47,7 @@ All 6 core API endpoints are now live and accepting requests from anywhere in th
 - **ID**: `79d496efbfab4d54a6277ed80dc29d1f`
 
 #### **Cloudflare R2 (Object Storage)**
+
 - Unlimited context storage
 - S3-compatible API
 - Zero egress fees
@@ -55,7 +58,9 @@ All 6 core API endpoints are now live and accepting requests from anywhere in th
 All endpoints validated and operational:
 
 #### **🌊 WAVE Analysis** - `POST /api/wave/analyze`
+
 Coherence detection using H&&S:WAVE protocol
+
 - Calculate curl (repetition/circularity)
 - Measure divergence (expansion without resolution)
 - Detect potential (undeveloped ideas)
@@ -63,7 +68,9 @@ Coherence detection using H&&S:WAVE protocol
 - Return actionable metrics
 
 #### **🔄 BUMP Markers** - `POST /api/bump/create`
+
 Routing and handoff coordination
+
 - Create state transition markers
 - Track handoffs between agents
 - Store context for continuity
@@ -71,7 +78,9 @@ Routing and handoff coordination
 - Enable asynchronous workflows
 
 #### **🎯 AWI Grants** - `POST /api/awi/request`
+
 Authority-With-Intent permission scaffolding
+
 - Request scoped permissions
 - Define resource access
 - Set expiration times
@@ -79,7 +88,9 @@ Authority-With-Intent permission scaffolding
 - Verify grants at runtime
 
 #### **⚛️ ATOM Sessions** - `POST /api/atom/create`
+
 Task orchestration with dependencies
+
 - Create atomic work units
 - Define verification criteria
 - Track dependencies (requires/blocks)
@@ -87,7 +98,9 @@ Task orchestration with dependencies
 - Enable automated verification
 
 #### **💾 Context Storage** - `POST /api/context/store`
+
 Knowledge unit persistence
+
 - Store rich context objects
 - Domain-based categorization
 - Signal-based retrieval
@@ -95,7 +108,9 @@ Knowledge unit persistence
 - D1 indexing for fast queries
 
 #### **❤️ Health Check** - `GET /api/health`
+
 System status monitoring
+
 - Infrastructure validation (D1, KV, R2)
 - Real-time health metrics
 - Version information
@@ -138,12 +153,12 @@ Architectural design for toolate28.near account:
 
 **Endpoint paths now require sub-paths:**
 
-| Old (v1.x) | New (v2.0) |
-|-----------|-----------|
-| `POST /api/wave` | `POST /api/wave/analyze` |
-| `POST /api/bump` | `POST /api/bump/create` |
-| `POST /api/awi` | `POST /api/awi/request` |
-| `POST /api/atom` | `POST /api/atom/create` |
+| Old (v1.x)          | New (v2.0)                |
+| ------------------- | ------------------------- |
+| `POST /api/wave`    | `POST /api/wave/analyze`  |
+| `POST /api/bump`    | `POST /api/bump/create`   |
+| `POST /api/awi`     | `POST /api/awi/request`   |
+| `POST /api/atom`    | `POST /api/atom/create`   |
 | `POST /api/context` | `POST /api/context/store` |
 
 ### Migration Guide
@@ -152,16 +167,16 @@ Architectural design for toolate28.near account:
 
 ```javascript
 // ❌ Old (v1.x)
-await fetch('https://api.spiralsafe.org/api/wave', {
-  method: 'POST',
-  body: JSON.stringify({ content })
-})
+await fetch("https://api.spiralsafe.org/api/wave", {
+  method: "POST",
+  body: JSON.stringify({ content }),
+});
 
 // ✅ New (v2.0)
-await fetch('https://api.spiralsafe.org/api/wave/analyze', {
-  method: 'POST',
-  body: JSON.stringify({ content, thresholds })
-})
+await fetch("https://api.spiralsafe.org/api/wave/analyze", {
+  method: "POST",
+  body: JSON.stringify({ content, thresholds }),
+});
 ```
 
 **Refer to ENDPOINT_VALIDATION_RESULTS.md** for exact request/response schemas for all endpoints.
@@ -172,16 +187,17 @@ await fetch('https://api.spiralsafe.org/api/wave/analyze', {
 
 Based on production validation (2026-01-07):
 
-| Endpoint | Avg Response Time | Storage |
-|----------|------------------|---------|
-| `/api/health` | ~50ms | Read-only |
-| `/api/wave/analyze` | ~150ms | D1 write |
-| `/api/bump/create` | ~100ms | D1 + KV write |
-| `/api/awi/request` | ~120ms | D1 + KV write |
-| `/api/atom/create` | ~90ms | D1 write |
-| `/api/context/store` | ~180ms | D1 + R2 write |
+| Endpoint             | Avg Response Time | Storage       |
+| -------------------- | ----------------- | ------------- |
+| `/api/health`        | ~50ms             | Read-only     |
+| `/api/wave/analyze`  | ~150ms            | D1 write      |
+| `/api/bump/create`   | ~100ms            | D1 + KV write |
+| `/api/awi/request`   | ~120ms            | D1 + KV write |
+| `/api/atom/create`   | ~90ms             | D1 write      |
+| `/api/context/store` | ~180ms            | D1 + R2 write |
 
 **Overall**:
+
 - ✅ Average response time: 115ms
 - ✅ Success rate: 100% (6/6 endpoints)
 - ✅ All infrastructure checks passing
@@ -198,6 +214,7 @@ Based on production validation (2026-01-07):
 - **Audit Trails**: All AWI actions logged to D1
 
 **Future Enhancements**:
+
 - JWT authentication (planned)
 - Rate limiting via KV (planned)
 - API key management (planned)
@@ -298,6 +315,7 @@ Complete documentation available:
 ## 🎯 What's Next
 
 ### v2.1.0 (Short-term)
+
 - [ ] JWT authentication layer
 - [ ] Rate limiting (KV-based)
 - [ ] Swagger/OpenAPI documentation
@@ -305,6 +323,7 @@ Complete documentation available:
 - [ ] Cloudflare Analytics dashboard
 
 ### v2.2.0 (Medium-term)
+
 - [ ] NEAR AI integration (toolate28.near)
 - [ ] Python bridges connection (ATOM Trail, Hologram Device)
 - [ ] WebSocket support for real-time updates
@@ -312,6 +331,7 @@ Complete documentation available:
 - [ ] Admin dashboard
 
 ### v3.0.0 (Long-term)
+
 - [ ] Multi-region deployment
 - [ ] Advanced coherence algorithms (transformer-based)
 - [ ] Blockchain-based audit trails
@@ -351,6 +371,7 @@ This release represents the culmination of:
 ### v2.0.0 (2026-01-07)
 
 **Added**:
+
 - Production deployment to Cloudflare Workers
 - Full infrastructure provisioning (D1, KV, R2)
 - Custom domain (api.spiralsafe.org) with SSL/TLS
@@ -366,15 +387,18 @@ This release represents the culmination of:
 - Cloudflare URL troubleshooting guide
 
 **Changed**:
+
 - API endpoints now require specific sub-paths
 - Version bumped from 1.0.0 to 2.0.0
 - Health check now reports v2.0.0
 
 **Fixed**:
+
 - Test script endpoint paths corrected
 - TypeScript unused parameter warning resolved
 
 **Breaking Changes**:
+
 - Endpoint paths changed (see API Changes section above)
 
 ---

@@ -14,15 +14,15 @@ This PR addresses the feedback to add ATOM tags to archive documentation files f
 
 All commits in this PR are tracked under the ATOM tag above:
 
-| Commit Hash | Message | ATOM Reference |
-|-------------|---------|----------------|
-| `6f627de` | Document mathematical concepts for Redstone implementation | ATOM-DOC-20260112-001 |
-| `48b4fad` | Document Museum of Computation plan and exhibits | ATOM-DOC-20260112-001 |
-| `a240233` | Add files via upload | ATOM-DOC-20260112-001 |
-| `c8435d0` | Initial plan | ATOM-DOC-20260112-001 |
-| `642dbbb` | Initial plan | ATOM-DOC-20260112-001 |
-| `3686940` | Add ATOM tags to all archive documentation files | ATOM-DOC-20260112-001 |
-| `dde8e77` | Add footer ATOM tags to all archive documentation for consistency | ATOM-DOC-20260112-001 |
+| Commit Hash | Message                                                           | ATOM Reference        |
+| ----------- | ----------------------------------------------------------------- | --------------------- |
+| `6f627de`   | Document mathematical concepts for Redstone implementation        | ATOM-DOC-20260112-001 |
+| `48b4fad`   | Document Museum of Computation plan and exhibits                  | ATOM-DOC-20260112-001 |
+| `a240233`   | Add files via upload                                              | ATOM-DOC-20260112-001 |
+| `c8435d0`   | Initial plan                                                      | ATOM-DOC-20260112-001 |
+| `642dbbb`   | Initial plan                                                      | ATOM-DOC-20260112-001 |
+| `3686940`   | Add ATOM tags to all archive documentation files                  | ATOM-DOC-20260112-001 |
+| `dde8e77`   | Add footer ATOM tags to all archive documentation for consistency | ATOM-DOC-20260112-001 |
 
 ## Files Modified
 

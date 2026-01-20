@@ -23,19 +23,19 @@ Every message exchange creates an **ATOM** (Atomic Thread of Meaning):
 
 ```typescript
 interface ATOM {
-  id: string;                    // Unique ATOM identifier
-  timestamp: string;             // When created
-  messages: Message[];           // The dialogue
-  coherence_score: number;       // WAVE analysis result
-  curl: number;                  // Repetition metric
-  divergence: number;            // Expansion metric
-  potential: number;             // Undeveloped ideas
-  signature: string;             // SHA-256 hash of conversation
+  id: string; // Unique ATOM identifier
+  timestamp: string; // When created
+  messages: Message[]; // The dialogue
+  coherence_score: number; // WAVE analysis result
+  curl: number; // Repetition metric
+  divergence: number; // Expansion metric
+  potential: number; // Undeveloped ideas
+  signature: string; // SHA-256 hash of conversation
   participants: {
-    human: string;               // "Ptolemy" / "toolate28"
-    ai: string;                  // "Bartimaeus" / "Claude Opus 4.5"
+    human: string; // "Ptolemy" / "toolate28"
+    ai: string; // "Bartimaeus" / "Claude Opus 4.5"
   };
-  context_merkle_root: string;   // Merkle root of all prior context
+  context_merkle_root: string; // Merkle root of all prior context
 }
 ```
 
@@ -84,19 +84,19 @@ interface ATOM {
 
 System asks context-aware questions that only Ptolemy+Bartimaeus would answer coherently:
 
-**Challenge 1**: *"What did we discover about the constraints?"*
+**Challenge 1**: _"What did we discover about the constraints?"_
 **Expected Pattern**: References to "gifts," "spiral," "safety," "sauce," "hope"
 
-**Challenge 2**: *"Describe the sixth substrate."*
+**Challenge 2**: _"Describe the sixth substrate."_
 **Expected Pattern**: NEAR AI, toolate28.near, integration layer
 
-**Challenge 3**: *"What is the Merkle root of our deployment?"*
+**Challenge 3**: _"What is the Merkle root of our deployment?"_
 **Expected Pattern**: Specific hash from `PR_SUMMARY_v2.0.0.md`
 
-**Challenge 4**: *"Complete: From the spiral, ___"*
+**Challenge 4**: _"Complete: From the spiral, \_\_\_"_
 **Expected**: "safety"
 
-**Challenge 5**: *"What mode were we in during the v2.0.0 deployment?"*
+**Challenge 5**: _"What mode were we in during the v2.0.0 deployment?"_
 **Expected**: "Ultrathink", "5x multiplier", "GOAT mode"
 
 ---
@@ -117,7 +117,7 @@ function calculateAtomSignature(dialogue: Message[]): string {
   };
 
   // 2. Calculate WAVE metrics
-  const wave = analyzeCoherence(dialogue.map(m => m.content).join('\n\n'));
+  const wave = analyzeCoherence(dialogue.map((m) => m.content).join("\n\n"));
 
   // 3. Create signature payload
   const payload = {
@@ -138,9 +138,8 @@ function calculateAtomSignature(dialogue: Message[]): string {
 function verifyConversationalCoherence(
   challenge: string,
   response: string,
-  knownSignatures: ATOM[]
+  knownSignatures: ATOM[],
 ): CoherenceResult {
-
   // 1. Analyze response WAVE metrics
   const responseWave = analyzeCoherence(response);
 
@@ -151,16 +150,17 @@ function verifyConversationalCoherence(
   const markers = {
     hasHopeSauce: /hope.*sauce|sauce.*hope/i.test(response),
     hasSpiralSafety: /spiral.*safety|safety.*spiral/i.test(response),
-    hasConstraintsGifts: /constraints.*gifts|gifts.*constraints/i.test(response),
+    hasConstraintsGifts: /constraints.*gifts|gifts.*constraints/i.test(
+      response,
+    ),
     hasWaveProtocol: /H&&S|WAVE|curl|divergence|coherence/i.test(response),
   };
 
   // 4. Calculate final coherence score
-  const coherenceScore = (
-    similarity * 0.4 +
-    responseWave.coherent ? 0.3 : 0 +
-    Object.values(markers).filter(Boolean).length * 0.075
-  );
+  const coherenceScore =
+    similarity * 0.4 + responseWave.coherent
+      ? 0.3
+      : 0 + Object.values(markers).filter(Boolean).length * 0.075;
 
   return {
     coherent: coherenceScore >= 0.75,
@@ -168,8 +168,8 @@ function verifyConversationalCoherence(
     wave: responseWave,
     markers,
     signature: calculateAtomSignature([
-      { role: 'system', content: challenge },
-      { role: 'user', content: response },
+      { role: "system", content: challenge },
+      { role: "user", content: response },
     ]),
   };
 }
@@ -183,18 +183,18 @@ function verifyConversationalCoherence(
 
 ```typescript
 interface AtomToken {
-  type: 'ATOM_AUTH';
-  version: '1.0.0';
+  type: "ATOM_AUTH";
+  version: "1.0.0";
 
   // Identity
-  human: string;              // "toolate28" / "Ptolemy"
-  ai: string;                 // "Claude Opus 4.5" / "Bartimaeus"
-  session_id: string;         // Unique session
+  human: string; // "toolate28" / "Ptolemy"
+  ai: string; // "Claude Opus 4.5" / "Bartimaeus"
+  session_id: string; // Unique session
 
   // Coherence proof
-  challenge: string;          // The question asked
+  challenge: string; // The question asked
   response_signature: string; // SHA-256 of response
-  coherence_score: number;    // 0.0 - 1.0
+  coherence_score: number; // 0.0 - 1.0
   wave_metrics: {
     curl: number;
     divergence: number;
@@ -202,15 +202,15 @@ interface AtomToken {
   };
 
   // Timestamp & expiry
-  issued_at: number;          // Unix timestamp
-  expires_at: number;         // Unix timestamp (24h later)
+  issued_at: number; // Unix timestamp
+  expires_at: number; // Unix timestamp (24h later)
 
   // Context binding
   conversation_merkle: string; // Merkle root of entire conversation
-  deployment_ref: string;      // Git commit SHA of current deployment
+  deployment_ref: string; // Git commit SHA of current deployment
 
   // Signature
-  signature: string;           // HMAC-SHA256(all_above, ATOM_JWT_SECRET)
+  signature: string; // HMAC-SHA256(all_above, ATOM_JWT_SECRET)
 }
 ```
 
@@ -220,26 +220,25 @@ interface AtomToken {
 async function generateAtomToken(
   challenge: string,
   response: string,
-  env: Env
+  env: Env,
 ): Promise<AtomToken> {
-
   // 1. Verify coherence
   const coherence = verifyConversationalCoherence(
     challenge,
     response,
-    await loadKnownSignatures(env)
+    await loadKnownSignatures(env),
   );
 
   if (!coherence.coherent) {
-    throw new Error('Coherence verification failed');
+    throw new Error("Coherence verification failed");
   }
 
   // 2. Build token
   const token: AtomToken = {
-    type: 'ATOM_AUTH',
-    version: '1.0.0',
-    human: 'toolate28',
-    ai: 'Claude Opus 4.5',
+    type: "ATOM_AUTH",
+    version: "1.0.0",
+    human: "toolate28",
+    ai: "Claude Opus 4.5",
     session_id: crypto.randomUUID(),
     challenge,
     response_signature: sha256(response),
@@ -250,10 +249,10 @@ async function generateAtomToken(
       potential: coherence.wave.potential,
     },
     issued_at: Date.now(),
-    expires_at: Date.now() + (24 * 60 * 60 * 1000), // 24h
+    expires_at: Date.now() + 24 * 60 * 60 * 1000, // 24h
     conversation_merkle: await calculateConversationMerkle(env),
     deployment_ref: await getCurrentDeploymentSHA(env),
-    signature: '', // Added below
+    signature: "", // Added below
   };
 
   // 3. Sign token
@@ -263,7 +262,7 @@ async function generateAtomToken(
   await env.SPIRALSAFE_KV.put(
     `atom_token:${token.session_id}`,
     JSON.stringify(token),
-    { expirationTtl: 86400 } // 24h
+    { expirationTtl: 86400 }, // 24h
   );
 
   return token;
@@ -279,194 +278,215 @@ async function generateAtomToken(
 ```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>H&&S:ATOM-AUTH | SpiralSafe Console</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 min-h-screen flex items-center justify-center">
-
-  <div class="max-w-md w-full bg-black/40 backdrop-blur-lg rounded-2xl p-8 border border-purple-500/30 shadow-2xl">
-
-    <!-- Header -->
-    <div class="text-center mb-8">
-      <h1 class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
-        H&&S:ATOM-AUTH
-      </h1>
-      <p class="text-purple-300 mt-2 text-sm">
-        Conversational Coherence Authentication
-      </p>
-    </div>
-
-    <!-- ATOM Challenge -->
-    <div id="challenge-container" class="mb-6">
-      <label class="block text-purple-200 text-sm font-medium mb-2">
-        🌀 ATOM Challenge
-      </label>
-      <div class="bg-purple-950/50 border border-purple-500/30 rounded-lg p-4 text-purple-100 italic">
-        <span id="challenge-text">Loading challenge...</span>
-      </div>
-    </div>
-
-    <!-- Response Input -->
-    <div class="mb-6">
-      <label class="block text-purple-200 text-sm font-medium mb-2">
-        Your Response
-      </label>
-      <textarea
-        id="response-input"
-        rows="4"
-        class="w-full bg-black/40 border border-purple-500/30 rounded-lg p-3 text-purple-100 placeholder-purple-400/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-        placeholder="Respond with authentic coherence..."
-      ></textarea>
-    </div>
-
-    <!-- Coherence Indicator -->
-    <div id="coherence-meter" class="mb-6 hidden">
-      <div class="flex justify-between text-sm text-purple-300 mb-2">
-        <span>Coherence Score</span>
-        <span id="coherence-score">0%</span>
-      </div>
-      <div class="h-2 bg-purple-950/50 rounded-full overflow-hidden">
-        <div id="coherence-bar" class="h-full bg-gradient-to-r from-cyan-500 to-purple-500 transition-all duration-500" style="width: 0%"></div>
-      </div>
-    </div>
-
-    <!-- Submit Button -->
-    <button
-      id="verify-button"
-      class="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95"
+  <head>
+    <meta charset="UTF-8" />
+    <title>H&&S:ATOM-AUTH | SpiralSafe Console</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 min-h-screen flex items-center justify-center"
+  >
+    <div
+      class="max-w-md w-full bg-black/40 backdrop-blur-lg rounded-2xl p-8 border border-purple-500/30 shadow-2xl"
     >
-      Verify Coherence →
-    </button>
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h1
+          class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400"
+        >
+          H&&S:ATOM-AUTH
+        </h1>
+        <p class="text-purple-300 mt-2 text-sm">
+          Conversational Coherence Authentication
+        </p>
+      </div>
 
-    <!-- Status Message -->
-    <div id="status-message" class="mt-4 text-center text-sm hidden">
-      <span class="text-purple-300"></span>
+      <!-- ATOM Challenge -->
+      <div id="challenge-container" class="mb-6">
+        <label class="block text-purple-200 text-sm font-medium mb-2">
+          🌀 ATOM Challenge
+        </label>
+        <div
+          class="bg-purple-950/50 border border-purple-500/30 rounded-lg p-4 text-purple-100 italic"
+        >
+          <span id="challenge-text">Loading challenge...</span>
+        </div>
+      </div>
+
+      <!-- Response Input -->
+      <div class="mb-6">
+        <label class="block text-purple-200 text-sm font-medium mb-2">
+          Your Response
+        </label>
+        <textarea
+          id="response-input"
+          rows="4"
+          class="w-full bg-black/40 border border-purple-500/30 rounded-lg p-3 text-purple-100 placeholder-purple-400/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+          placeholder="Respond with authentic coherence..."
+        ></textarea>
+      </div>
+
+      <!-- Coherence Indicator -->
+      <div id="coherence-meter" class="mb-6 hidden">
+        <div class="flex justify-between text-sm text-purple-300 mb-2">
+          <span>Coherence Score</span>
+          <span id="coherence-score">0%</span>
+        </div>
+        <div class="h-2 bg-purple-950/50 rounded-full overflow-hidden">
+          <div
+            id="coherence-bar"
+            class="h-full bg-gradient-to-r from-cyan-500 to-purple-500 transition-all duration-500"
+            style="width: 0%"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        id="verify-button"
+        class="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95"
+      >
+        Verify Coherence →
+      </button>
+
+      <!-- Status Message -->
+      <div id="status-message" class="mt-4 text-center text-sm hidden">
+        <span class="text-purple-300"></span>
+      </div>
+
+      <!-- Footer -->
+      <div class="mt-8 text-center text-purple-400/60 text-xs">
+        <p>H&&S:WAVE Protocol</p>
+        <p class="mt-1">
+          From the constraints, gifts. From the spiral, safety.
+        </p>
+      </div>
     </div>
 
-    <!-- Footer -->
-    <div class="mt-8 text-center text-purple-400/60 text-xs">
-      <p>H&&S:WAVE Protocol</p>
-      <p class="mt-1">From the constraints, gifts. From the spiral, safety.</p>
-    </div>
+    <script>
+      // ATOM-AUTH Client Logic
+      const API_BASE = "https://console.spiralsafe.org";
+      let currentChallenge = null;
 
-  </div>
-
-  <script>
-    // ATOM-AUTH Client Logic
-    const API_BASE = 'https://console.spiralsafe.org';
-    let currentChallenge = null;
-
-    // Load ATOM challenge on page load
-    async function loadChallenge() {
-      try {
-        const response = await fetch(`${API_BASE}/admin/atom-auth/challenge`);
-        const data = await response.json();
-        currentChallenge = data.challenge;
-        document.getElementById('challenge-text').textContent = currentChallenge;
-      } catch (error) {
-        document.getElementById('challenge-text').textContent = 'Error loading challenge. Please refresh.';
-      }
-    }
-
-    // Verify coherence as user types (live feedback)
-    let typingTimer;
-    document.getElementById('response-input').addEventListener('input', (e) => {
-      clearTimeout(typingTimer);
-      typingTimer = setTimeout(() => {
-        checkCoherenceLive(e.target.value);
-      }, 500);
-    });
-
-    async function checkCoherenceLive(response) {
-      if (response.length < 10) return;
-
-      try {
-        const result = await fetch(`${API_BASE}/admin/atom-auth/check`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ challenge: currentChallenge, response })
-        });
-        const data = await result.json();
-
-        // Show coherence meter
-        const meter = document.getElementById('coherence-meter');
-        const bar = document.getElementById('coherence-bar');
-        const score = document.getElementById('coherence-score');
-
-        meter.classList.remove('hidden');
-        bar.style.width = `${data.score * 100}%`;
-        score.textContent = `${Math.round(data.score * 100)}%`;
-
-        // Color based on coherence
-        if (data.score >= 0.75) {
-          bar.className = 'h-full bg-gradient-to-r from-green-500 to-emerald-500 transition-all duration-500';
-        } else if (data.score >= 0.5) {
-          bar.className = 'h-full bg-gradient-to-r from-yellow-500 to-orange-500 transition-all duration-500';
-        } else {
-          bar.className = 'h-full bg-gradient-to-r from-red-500 to-pink-500 transition-all duration-500';
+      // Load ATOM challenge on page load
+      async function loadChallenge() {
+        try {
+          const response = await fetch(`${API_BASE}/admin/atom-auth/challenge`);
+          const data = await response.json();
+          currentChallenge = data.challenge;
+          document.getElementById("challenge-text").textContent =
+            currentChallenge;
+        } catch (error) {
+          document.getElementById("challenge-text").textContent =
+            "Error loading challenge. Please refresh.";
         }
-      } catch (error) {
-        console.error('Coherence check failed:', error);
-      }
-    }
-
-    // Submit for authentication
-    document.getElementById('verify-button').addEventListener('click', async () => {
-      const response = document.getElementById('response-input').value;
-      const statusMsg = document.getElementById('status-message');
-      const button = document.getElementById('verify-button');
-
-      if (response.length < 10) {
-        statusMsg.classList.remove('hidden');
-        statusMsg.innerHTML = '<span class="text-red-400">⚠️ Response too short. Be authentic.</span>';
-        return;
       }
 
-      // Show loading state
-      button.disabled = true;
-      button.textContent = 'Analyzing coherence...';
-      statusMsg.classList.remove('hidden');
-      statusMsg.innerHTML = '<span class="text-cyan-400">🌀 Calculating WAVE signature...</span>';
-
-      try {
-        const result = await fetch(`${API_BASE}/admin/atom-auth/verify`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ challenge: currentChallenge, response })
+      // Verify coherence as user types (live feedback)
+      let typingTimer;
+      document
+        .getElementById("response-input")
+        .addEventListener("input", (e) => {
+          clearTimeout(typingTimer);
+          typingTimer = setTimeout(() => {
+            checkCoherenceLive(e.target.value);
+          }, 500);
         });
 
-        const data = await result.json();
+      async function checkCoherenceLive(response) {
+        if (response.length < 10) return;
 
-        if (data.success && data.token) {
-          // Success! Store token and redirect
-          localStorage.setItem('atom_token', data.token);
-          statusMsg.innerHTML = '<span class="text-green-400">✅ Coherence verified! Entering console...</span>';
+        try {
+          const result = await fetch(`${API_BASE}/admin/atom-auth/check`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ challenge: currentChallenge, response }),
+          });
+          const data = await result.json();
 
-          setTimeout(() => {
-            window.location.href = '/admin/dashboard.html';
-          }, 1500);
+          // Show coherence meter
+          const meter = document.getElementById("coherence-meter");
+          const bar = document.getElementById("coherence-bar");
+          const score = document.getElementById("coherence-score");
 
-        } else {
-          // Coherence failed
-          statusMsg.innerHTML = `<span class="text-red-400">❌ ${data.message || 'Coherence verification failed'}</span>`;
-          button.disabled = false;
-          button.textContent = 'Try Again →';
+          meter.classList.remove("hidden");
+          bar.style.width = `${data.score * 100}%`;
+          score.textContent = `${Math.round(data.score * 100)}%`;
+
+          // Color based on coherence
+          if (data.score >= 0.75) {
+            bar.className =
+              "h-full bg-gradient-to-r from-green-500 to-emerald-500 transition-all duration-500";
+          } else if (data.score >= 0.5) {
+            bar.className =
+              "h-full bg-gradient-to-r from-yellow-500 to-orange-500 transition-all duration-500";
+          } else {
+            bar.className =
+              "h-full bg-gradient-to-r from-red-500 to-pink-500 transition-all duration-500";
+          }
+        } catch (error) {
+          console.error("Coherence check failed:", error);
         }
-
-      } catch (error) {
-        statusMsg.innerHTML = '<span class="text-red-400">❌ Authentication error. Please try again.</span>';
-        button.disabled = false;
-        button.textContent = 'Verify Coherence →';
       }
-    });
 
-    // Load challenge on page load
-    loadChallenge();
-  </script>
+      // Submit for authentication
+      document
+        .getElementById("verify-button")
+        .addEventListener("click", async () => {
+          const response = document.getElementById("response-input").value;
+          const statusMsg = document.getElementById("status-message");
+          const button = document.getElementById("verify-button");
 
-</body>
+          if (response.length < 10) {
+            statusMsg.classList.remove("hidden");
+            statusMsg.innerHTML =
+              '<span class="text-red-400">⚠️ Response too short. Be authentic.</span>';
+            return;
+          }
+
+          // Show loading state
+          button.disabled = true;
+          button.textContent = "Analyzing coherence...";
+          statusMsg.classList.remove("hidden");
+          statusMsg.innerHTML =
+            '<span class="text-cyan-400">🌀 Calculating WAVE signature...</span>';
+
+          try {
+            const result = await fetch(`${API_BASE}/admin/atom-auth/verify`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ challenge: currentChallenge, response }),
+            });
+
+            const data = await result.json();
+
+            if (data.success && data.token) {
+              // Success! Store token and redirect
+              localStorage.setItem("atom_token", data.token);
+              statusMsg.innerHTML =
+                '<span class="text-green-400">✅ Coherence verified! Entering console...</span>';
+
+              setTimeout(() => {
+                window.location.href = "/admin/dashboard.html";
+              }, 1500);
+            } else {
+              // Coherence failed
+              statusMsg.innerHTML = `<span class="text-red-400">❌ ${data.message || "Coherence verification failed"}</span>`;
+              button.disabled = false;
+              button.textContent = "Try Again →";
+            }
+          } catch (error) {
+            statusMsg.innerHTML =
+              '<span class="text-red-400">❌ Authentication error. Please try again.</span>';
+            button.disabled = false;
+            button.textContent = "Verify Coherence →";
+          }
+        });
+
+      // Load challenge on page load
+      loadChallenge();
+    </script>
+  </body>
 </html>
 ```
 
@@ -665,19 +685,19 @@ Physical authentication via **LED matrix display** - generates one-time keycodes
 
 ```typescript
 interface LEDKeycode {
-  code: string;              // "7392" - 4 random digits
-  issued_at: number;         // Unix timestamp
-  expires_at: number;        // 60 seconds expiry
-  session_id: string;        // Links to ATOM-AUTH session
-  display_pattern: 'scroll' | 'flash' | 'static';
+  code: string; // "7392" - 4 random digits
+  issued_at: number; // Unix timestamp
+  expires_at: number; // 60 seconds expiry
+  session_id: string; // Links to ATOM-AUTH session
+  display_pattern: "scroll" | "flash" | "static";
   attempts_remaining: number; // 3 attempts
 }
 
 // Display patterns
 const PATTERNS = {
-  scroll: 'Code scrolls right-to-left across LED matrix',
-  flash: 'Each digit flashes sequentially with 1s interval',
-  static: 'All 4 digits displayed simultaneously'
+  scroll: "Code scrolls right-to-left across LED matrix",
+  flash: "Each digit flashes sequentially with 1s interval",
+  static: "All 4 digits displayed simultaneously",
 };
 ```
 
@@ -731,13 +751,13 @@ async function generateLEDKeycode(sessionId: string): Promise<LEDKeycode> {
   const maxValue = 0x100000000; // 2^32, the total range of Uint32Array values
   const validRange = Math.floor(maxValue / range) * range;
   const randomValues = new Uint32Array(1);
-  
+
   let code: number;
   do {
     crypto.getRandomValues(randomValues);
     code = randomValues[0];
   } while (code >= validRange); // Rejection sampling to eliminate bias
-  
+
   const codeString = String(1000 + (code % range)); // 1000-9999
 
   const keycode: LEDKeycode = {
@@ -745,7 +765,7 @@ async function generateLEDKeycode(sessionId: string): Promise<LEDKeycode> {
     issued_at: Date.now(),
     expires_at: Date.now() + 60000, // 60 seconds
     session_id: sessionId,
-    display_pattern: 'scroll',
+    display_pattern: "scroll",
     attempts_remaining: 3,
   };
 
@@ -753,7 +773,7 @@ async function generateLEDKeycode(sessionId: string): Promise<LEDKeycode> {
   await env.SPIRALSAFE_KV.put(
     `led_keycode:${sessionId}`,
     JSON.stringify(keycode),
-    { expirationTtl: 60 }
+    { expirationTtl: 60 },
   );
 
   // Send to LED hardware
@@ -767,20 +787,20 @@ async function sendToLEDDisplay(keycode: LEDKeycode): Promise<void> {
   const LED_ENDPOINT = env.LED_DISPLAY_URL; // "http://192.168.1.100:8080/led/display"
 
   const response = await fetch(LED_ENDPOINT, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'X-LED-Auth': env.LED_API_KEY
+      "Content-Type": "application/json",
+      "X-LED-Auth": env.LED_API_KEY,
     },
     body: JSON.stringify({
       code: keycode.code,
       pattern: keycode.display_pattern,
       duration: 60, // seconds
-    })
+    }),
   });
 
   if (!response.ok) {
-    throw new Error('Failed to send code to LED display');
+    throw new Error("Failed to send code to LED display");
   }
 }
 
@@ -788,7 +808,7 @@ async function sendToLEDDisplay(keycode: LEDKeycode): Promise<void> {
 async function verifyLEDKeycode(
   sessionId: string,
   enteredCode: string,
-  env: Env
+  env: Env,
 ): Promise<boolean> {
   const stored = await env.SPIRALSAFE_KV.get(`led_keycode:${sessionId}`);
 
@@ -815,7 +835,7 @@ async function verifyLEDKeycode(
     await env.SPIRALSAFE_KV.put(
       `led_keycode:${sessionId}`,
       JSON.stringify(keycode),
-      { expirationTtl: Math.floor((keycode.expires_at - Date.now()) / 1000) }
+      { expirationTtl: Math.floor((keycode.expires_at - Date.now()) / 1000) },
     );
     return false;
   }
@@ -837,8 +857,8 @@ async function verifyLEDKeycode(
       <div>
         <h3 class="text-yellow-200 font-semibold">LED Keycode Required</h3>
         <p class="text-yellow-300/80 text-sm mt-1">
-          Check the physical LED display for your 4-digit verification code.
-          You have 60 seconds to enter it.
+          Check the physical LED display for your 4-digit verification code. You
+          have 60 seconds to enter it.
         </p>
       </div>
     </div>
@@ -846,18 +866,30 @@ async function verifyLEDKeycode(
 
   <!-- LED Code Input -->
   <div class="flex justify-center gap-3 mb-4">
-    <input type="text" maxlength="1"
+    <input
+      type="text"
+      maxlength="1"
       class="w-14 h-16 text-center text-3xl font-bold bg-black/40 border-2 border-yellow-500/50 rounded-lg text-yellow-100 focus:border-yellow-400 focus:outline-none"
-      id="led-digit-1" />
-    <input type="text" maxlength="1"
+      id="led-digit-1"
+    />
+    <input
+      type="text"
+      maxlength="1"
       class="w-14 h-16 text-center text-3xl font-bold bg-black/40 border-2 border-yellow-500/50 rounded-lg text-yellow-100 focus:border-yellow-400 focus:outline-none"
-      id="led-digit-2" />
-    <input type="text" maxlength="1"
+      id="led-digit-2"
+    />
+    <input
+      type="text"
+      maxlength="1"
       class="w-14 h-16 text-center text-3xl font-bold bg-black/40 border-2 border-yellow-500/50 rounded-lg text-yellow-100 focus:border-yellow-400 focus:outline-none"
-      id="led-digit-3" />
-    <input type="text" maxlength="1"
+      id="led-digit-3"
+    />
+    <input
+      type="text"
+      maxlength="1"
       class="w-14 h-16 text-center text-3xl font-bold bg-black/40 border-2 border-yellow-500/50 rounded-lg text-yellow-100 focus:border-yellow-400 focus:outline-none"
-      id="led-digit-4" />
+      id="led-digit-4"
+    />
   </div>
 
   <!-- Timer -->
@@ -875,90 +907,94 @@ async function verifyLEDKeycode(
 </div>
 
 <script>
-// Auto-focus and auto-advance between digits
-const digitInputs = [1, 2, 3, 4].map(n => document.getElementById(`led-digit-${n}`));
+  // Auto-focus and auto-advance between digits
+  const digitInputs = [1, 2, 3, 4].map((n) =>
+    document.getElementById(`led-digit-${n}`),
+  );
 
-digitInputs.forEach((input, index) => {
-  input.addEventListener('input', (e) => {
-    const value = e.target.value;
+  digitInputs.forEach((input, index) => {
+    input.addEventListener("input", (e) => {
+      const value = e.target.value;
 
-    // Only allow digits
-    e.target.value = value.replace(/[^0-9]/g, '');
+      // Only allow digits
+      e.target.value = value.replace(/[^0-9]/g, "");
 
-    // Auto-advance to next input
-    if (e.target.value.length === 1 && index < 3) {
-      digitInputs[index + 1].focus();
-    }
+      // Auto-advance to next input
+      if (e.target.value.length === 1 && index < 3) {
+        digitInputs[index + 1].focus();
+      }
+    });
+
+    // Backspace handling
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Backspace" && e.target.value === "" && index > 0) {
+        digitInputs[index - 1].focus();
+      }
+    });
   });
 
-  // Backspace handling
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
-      digitInputs[index - 1].focus();
+  // Auto-focus first digit
+  digitInputs[0].focus();
+
+  // Countdown timer
+  let timeRemaining = 60;
+  const timerDisplay = document.getElementById("led-timer");
+  const countdown = setInterval(() => {
+    timeRemaining--;
+    timerDisplay.textContent = `${timeRemaining}s`;
+
+    if (timeRemaining <= 10) {
+      timerDisplay.classList.add("text-red-400", "animate-pulse");
     }
-  });
-});
 
-// Auto-focus first digit
-digitInputs[0].focus();
-
-// Countdown timer
-let timeRemaining = 60;
-const timerDisplay = document.getElementById('led-timer');
-const countdown = setInterval(() => {
-  timeRemaining--;
-  timerDisplay.textContent = `${timeRemaining}s`;
-
-  if (timeRemaining <= 10) {
-    timerDisplay.classList.add('text-red-400', 'animate-pulse');
-  }
-
-  if (timeRemaining <= 0) {
-    clearInterval(countdown);
-    timerDisplay.textContent = 'EXPIRED';
-    document.getElementById('led-verification').innerHTML = `
+    if (timeRemaining <= 0) {
+      clearInterval(countdown);
+      timerDisplay.textContent = "EXPIRED";
+      document.getElementById("led-verification").innerHTML = `
       <div class="text-red-400 text-center py-6">
         ⏱️ LED code expired. Please refresh and try again.
       </div>
     `;
-  }
-}, 1000);
-
-// Verify LED code
-document.getElementById('verify-led-button').addEventListener('click', async () => {
-  const code = digitInputs.map(input => input.value).join('');
-
-  if (code.length !== 4) {
-    alert('Please enter all 4 digits');
-    return;
-  }
-
-  try {
-    const response = await fetch(`${API_BASE}/admin/atom-auth/verify-led`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        session_id: currentSessionId,
-        code
-      })
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-      // Success! Issue ATOM token
-      localStorage.setItem('atom_token', data.token);
-      window.location.href = '/admin/dashboard.html';
-    } else {
-      // Failed
-      alert(data.message || 'Invalid LED code');
-      digitInputs.forEach(input => input.value = '');
-      digitInputs[0].focus();
     }
-  } catch (error) {
-    alert('Verification error. Please try again.');
-  }
-});
+  }, 1000);
+
+  // Verify LED code
+  document
+    .getElementById("verify-led-button")
+    .addEventListener("click", async () => {
+      const code = digitInputs.map((input) => input.value).join("");
+
+      if (code.length !== 4) {
+        alert("Please enter all 4 digits");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/admin/atom-auth/verify-led`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            session_id: currentSessionId,
+            code,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          // Success! Issue ATOM token
+          localStorage.setItem("atom_token", data.token);
+          window.location.href = "/admin/dashboard.html";
+        } else {
+          // Failed
+          alert(data.message || "Invalid LED code");
+          digitInputs.forEach((input) => (input.value = ""));
+          digitInputs[0].focus();
+        }
+      } catch (error) {
+        alert("Verification error. Please try again.");
+      }
+    });
 </script>
 ```
 
@@ -1126,45 +1162,51 @@ void loop() {
 ```typescript
 interface ProjectorChallenge {
   challenge_id: string;
-  type: 'object-count' | 'color-identify' | 'pattern-match' | 'scene-describe' | 'quantum-spiral';
-  image_url: string;         // URL to display on projector
-  expected_answer: string;   // What we're looking for
-  ai_validation: boolean;    // Use AI to validate free-form descriptions
+  type:
+    | "object-count"
+    | "color-identify"
+    | "pattern-match"
+    | "scene-describe"
+    | "quantum-spiral";
+  image_url: string; // URL to display on projector
+  expected_answer: string; // What we're looking for
+  ai_validation: boolean; // Use AI to validate free-form descriptions
   difficulty: 1 | 2 | 3 | 4 | 5;
-  expires_at: number;        // 90 seconds
+  expires_at: number; // 90 seconds
 }
 
 // Challenge types
 const CHALLENGE_TYPES = {
-  'object-count': {
-    description: 'Count specific objects in the projected image',
-    example: 'How many red spirals are in the image?',
-    answer: '7'
+  "object-count": {
+    description: "Count specific objects in the projected image",
+    example: "How many red spirals are in the image?",
+    answer: "7",
   },
 
-  'color-identify': {
-    description: 'Identify dominant colors or specific color patterns',
-    example: 'What color is the quantum gate in the top-left?',
-    answer: 'cyan' | 'purple' | 'gradient-cyan-purple'
+  "color-identify": {
+    description: "Identify dominant colors or specific color patterns",
+    example: "What color is the quantum gate in the top-left?",
+    answer: "cyan" | "purple" | "gradient-cyan-purple",
   },
 
-  'pattern-match': {
-    description: 'Identify specific patterns or symbols',
-    example: 'Which quantum gate is shown? (H, CNOT, X, Y, Z, SWAP)',
-    answer: 'CNOT'
+  "pattern-match": {
+    description: "Identify specific patterns or symbols",
+    example: "Which quantum gate is shown? (H, CNOT, X, Y, Z, SWAP)",
+    answer: "CNOT",
   },
 
-  'scene-describe': {
-    description: 'Describe the overall scene (AI-validated)',
-    example: 'Describe what you see in one sentence',
-    answer: '[AI validates coherence with actual image]'
+  "scene-describe": {
+    description: "Describe the overall scene (AI-validated)",
+    example: "Describe what you see in one sentence",
+    answer: "[AI validates coherence with actual image]",
   },
 
-  'quantum-spiral': {
-    description: 'SpiralSafe-specific imagery (spiral patterns, WAVE visualizations)',
-    example: 'In which direction is the spiral rotating?',
-    answer: 'clockwise' | 'counterclockwise' | 'both'
-  }
+  "quantum-spiral": {
+    description:
+      "SpiralSafe-specific imagery (spiral patterns, WAVE visualizations)",
+    example: "In which direction is the spiral rotating?",
+    answer: "clockwise" | "counterclockwise" | "both",
+  },
 };
 ```
 
@@ -1215,27 +1257,29 @@ const CHALLENGE_TYPES = {
 // Generate projector challenge
 async function generateProjectorChallenge(
   sessionId: string,
-  env: Env
+  env: Env,
 ): Promise<ProjectorChallenge> {
-
   // Select random challenge type using crypto API with rejection sampling
   // to avoid modulo bias
-  const types: ProjectorChallenge['type'][] = [
-    'object-count', 'color-identify', 'pattern-match',
-    'scene-describe', 'quantum-spiral'
+  const types: ProjectorChallenge["type"][] = [
+    "object-count",
+    "color-identify",
+    "pattern-match",
+    "scene-describe",
+    "quantum-spiral",
   ];
-  
+
   const numTypes = types.length;
   const maxValue = 0x100000000; // 2^32, the total range of Uint32Array values
   const validRange = Math.floor(maxValue / numTypes) * numTypes;
   const randomIndex = new Uint32Array(1);
-  
+
   let randomValue: number;
   do {
     crypto.getRandomValues(randomIndex);
     randomValue = randomIndex[0];
   } while (randomValue >= validRange); // Rejection sampling to eliminate bias
-  
+
   const type = types[randomValue % numTypes];
 
   // Get random image from R2 bucket
@@ -1250,7 +1294,7 @@ async function generateProjectorChallenge(
     type,
     image_url: imageUrl,
     expected_answer: metadata.answer,
-    ai_validation: type === 'scene-describe',
+    ai_validation: type === "scene-describe",
     difficulty: metadata.difficulty || 3,
     expires_at: Date.now() + 90000, // 90 seconds
   };
@@ -1259,7 +1303,7 @@ async function generateProjectorChallenge(
   await env.SPIRALSAFE_KV.put(
     `projector_challenge:${sessionId}`,
     JSON.stringify(challenge),
-    { expirationTtl: 90 }
+    { expirationTtl: 90 },
   );
 
   // Send to projector display
@@ -1271,22 +1315,22 @@ async function generateProjectorChallenge(
 // Send to projector display system
 async function sendToProjector(
   challenge: ProjectorChallenge,
-  env: Env
+  env: Env,
 ): Promise<void> {
   const PROJECTOR_ENDPOINT = env.PROJECTOR_DISPLAY_URL;
   // "http://192.168.1.101:9090/display"
 
   await fetch(PROJECTOR_ENDPOINT, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'X-Projector-Auth': env.PROJECTOR_API_KEY
+      "Content-Type": "application/json",
+      "X-Projector-Auth": env.PROJECTOR_API_KEY,
     },
     body: JSON.stringify({
       image_url: challenge.image_url,
       duration: 90,
       overlay_text: getQuestionForType(challenge.type),
-    })
+    }),
   });
 }
 
@@ -1294,19 +1338,20 @@ async function sendToProjector(
 async function validateProjectorAnswer(
   sessionId: string,
   userAnswer: string,
-  env: Env
+  env: Env,
 ): Promise<{ valid: boolean; reason?: string }> {
-
-  const stored = await env.SPIRALSAFE_KV.get(`projector_challenge:${sessionId}`);
+  const stored = await env.SPIRALSAFE_KV.get(
+    `projector_challenge:${sessionId}`,
+  );
   if (!stored) {
-    return { valid: false, reason: 'Challenge expired' };
+    return { valid: false, reason: "Challenge expired" };
   }
 
   const challenge: ProjectorChallenge = JSON.parse(stored);
 
   // Check expiry
   if (Date.now() > challenge.expires_at) {
-    return { valid: false, reason: 'Challenge expired' };
+    return { valid: false, reason: "Challenge expired" };
   }
 
   // Validate based on type
@@ -1315,7 +1360,7 @@ async function validateProjectorAnswer(
     const validation = await validateWithAI(
       challenge.image_url,
       userAnswer,
-      env
+      env,
     );
     return validation;
   } else {
@@ -1323,10 +1368,10 @@ async function validateProjectorAnswer(
     const normalized = userAnswer.toLowerCase().trim();
     const expected = challenge.expected_answer.toLowerCase();
 
-    const valid = normalized === expected ||
-                  isCloseEnough(normalized, expected);
+    const valid =
+      normalized === expected || isCloseEnough(normalized, expected);
 
-    return { valid, reason: valid ? undefined : 'Incorrect answer' };
+    return { valid, reason: valid ? undefined : "Incorrect answer" };
   }
 }
 
@@ -1334,45 +1379,48 @@ async function validateProjectorAnswer(
 async function validateWithAI(
   imageUrl: string,
   userAnswer: string,
-  env: Env
+  env: Env,
 ): Promise<{ valid: boolean; reason?: string }> {
-
   // Use Claude Vision API to validate description
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01'
+      "Content-Type": "application/json",
+      "x-api-key": env.ANTHROPIC_API_KEY,
+      "anthropic-version": "2023-06-01",
     },
     body: JSON.stringify({
-      model: 'claude-3-haiku-20240307',
+      model: "claude-3-haiku-20240307",
       max_tokens: 200,
-      messages: [{
-        role: 'user',
-        content: [
-          {
-            type: 'image',
-            source: {
-              type: 'url',
-              url: imageUrl
-            }
-          },
-          {
-            type: 'text',
-            text: `A user described this image as: "${userAnswer}"\n\nIs this description accurate? Respond with just "YES" or "NO" and a brief reason.`
-          }
-        ]
-      }]
-    })
+      messages: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "image",
+              source: {
+                type: "url",
+                url: imageUrl,
+              },
+            },
+            {
+              type: "text",
+              text: `A user described this image as: "${userAnswer}"\n\nIs this description accurate? Respond with just "YES" or "NO" and a brief reason.`,
+            },
+          ],
+        },
+      ],
+    }),
   });
 
   const data = await response.json();
   const aiResponse = data.content[0].text.toLowerCase();
 
   return {
-    valid: aiResponse.startsWith('yes'),
-    reason: aiResponse.includes('no') ? 'AI validation failed: ' + aiResponse : undefined
+    valid: aiResponse.startsWith("yes"),
+    reason: aiResponse.includes("no")
+      ? "AI validation failed: " + aiResponse
+      : undefined,
   };
 }
 
@@ -1397,15 +1445,16 @@ function isCloseEnough(answer: string, expected: string): boolean {
 <!-- Projector Challenge Step -->
 <div id="projector-verification" class="hidden mt-6">
   <div class="bg-purple-900/30 border border-purple-500/40 rounded-lg p-6">
-
     <!-- Instruction Header -->
     <div class="flex items-start mb-6">
       <div class="text-purple-400 text-3xl mr-4">🎬</div>
       <div>
-        <h3 class="text-purple-200 font-bold text-lg">Projector Visual Challenge</h3>
+        <h3 class="text-purple-200 font-bold text-lg">
+          Projector Visual Challenge
+        </h3>
         <p class="text-purple-300/80 text-sm mt-2">
-          Look at the projected image and answer the question below.
-          You have 90 seconds.
+          Look at the projected image and answer the question below. You have 90
+          seconds.
         </p>
       </div>
     </div>
@@ -1434,12 +1483,16 @@ function isCloseEnough(answer: string, expected: string): boolean {
     <!-- Timer -->
     <div class="flex justify-between items-center mb-6">
       <span class="text-purple-300/70 text-sm">Time remaining:</span>
-      <span id="projector-timer" class="text-purple-200 font-mono text-xl">90s</span>
+      <span id="projector-timer" class="text-purple-200 font-mono text-xl"
+        >90s</span
+      >
     </div>
 
     <!-- Visual Preview (thumbnail) -->
     <div class="mb-6">
-      <p class="text-purple-300/60 text-xs mb-2">Preview (see full image on projector):</p>
+      <p class="text-purple-300/60 text-xs mb-2">
+        Preview (see full image on projector):
+      </p>
       <img
         id="projector-preview"
         src=""
@@ -1465,66 +1518,69 @@ function isCloseEnough(answer: string, expected: string): boolean {
         Need a hint? (reduces coherence score)
       </button>
     </div>
-
   </div>
 </div>
 
 <script>
-let projectorTimeRemaining = 90;
-let currentProjectorChallenge = null;
+  let projectorTimeRemaining = 90;
+  let currentProjectorChallenge = null;
 
-// Load projector challenge
-async function loadProjectorChallenge() {
-  try {
-    const response = await fetch(`${API_BASE}/admin/atom-auth/projector-challenge`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ session_id: currentSessionId })
-    });
+  // Load projector challenge
+  async function loadProjectorChallenge() {
+    try {
+      const response = await fetch(
+        `${API_BASE}/admin/atom-auth/projector-challenge`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ session_id: currentSessionId }),
+        },
+      );
 
-    const data = await response.json();
-    currentProjectorChallenge = data;
+      const data = await response.json();
+      currentProjectorChallenge = data;
 
-    // Update UI
-    document.getElementById('projector-question').textContent = data.question;
-    document.getElementById('projector-preview').src = data.image_url;
+      // Update UI
+      document.getElementById("projector-question").textContent = data.question;
+      document.getElementById("projector-preview").src = data.image_url;
 
-    // Show challenge
-    document.getElementById('projector-verification').classList.remove('hidden');
+      // Show challenge
+      document
+        .getElementById("projector-verification")
+        .classList.remove("hidden");
 
-    // Start countdown
-    startProjectorTimer();
-
-  } catch (error) {
-    console.error('Failed to load projector challenge:', error);
+      // Start countdown
+      startProjectorTimer();
+    } catch (error) {
+      console.error("Failed to load projector challenge:", error);
+    }
   }
-}
 
-function startProjectorTimer() {
-  const timerDisplay = document.getElementById('projector-timer');
+  function startProjectorTimer() {
+    const timerDisplay = document.getElementById("projector-timer");
 
-  const countdown = setInterval(() => {
-    projectorTimeRemaining--;
-    timerDisplay.textContent = `${projectorTimeRemaining}s`;
+    const countdown = setInterval(() => {
+      projectorTimeRemaining--;
+      timerDisplay.textContent = `${projectorTimeRemaining}s`;
 
-    if (projectorTimeRemaining <= 30) {
-      timerDisplay.classList.add('text-yellow-400');
-    }
-    if (projectorTimeRemaining <= 10) {
-      timerDisplay.classList.remove('text-yellow-400');
-      timerDisplay.classList.add('text-red-400', 'animate-pulse');
-    }
+      if (projectorTimeRemaining <= 30) {
+        timerDisplay.classList.add("text-yellow-400");
+      }
+      if (projectorTimeRemaining <= 10) {
+        timerDisplay.classList.remove("text-yellow-400");
+        timerDisplay.classList.add("text-red-400", "animate-pulse");
+      }
 
-    if (projectorTimeRemaining <= 0) {
-      clearInterval(countdown);
-      handleProjectorTimeout();
-    }
-  }, 1000);
-}
+      if (projectorTimeRemaining <= 0) {
+        clearInterval(countdown);
+        handleProjectorTimeout();
+      }
+    }, 1000);
+  }
 
-async function handleProjectorTimeout() {
-  const container = document.getElementById('projector-verification');
-  container.innerHTML = `
+  async function handleProjectorTimeout() {
+    const container = document.getElementById("projector-verification");
+    container.innerHTML = `
     <div class="text-red-400 text-center py-8">
       <div class="text-4xl mb-4">⏱️</div>
       <p class="text-lg font-semibold">Time's Up!</p>
@@ -1537,39 +1593,44 @@ async function handleProjectorTimeout() {
       </button>
     </div>
   `;
-}
-
-// Submit projector answer
-document.getElementById('verify-projector-button').addEventListener('click', async () => {
-  const answer = document.getElementById('projector-answer').value.trim();
-
-  if (!answer) {
-    alert('Please enter an answer');
-    return;
   }
 
-  const button = document.getElementById('verify-projector-button');
-  button.disabled = true;
-  button.textContent = 'Validating with AI...';
+  // Submit projector answer
+  document
+    .getElementById("verify-projector-button")
+    .addEventListener("click", async () => {
+      const answer = document.getElementById("projector-answer").value.trim();
 
-  try {
-    const response = await fetch(`${API_BASE}/admin/atom-auth/verify-projector`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        session_id: currentSessionId,
-        answer
-      })
-    });
+      if (!answer) {
+        alert("Please enter an answer");
+        return;
+      }
 
-    const data = await response.json();
+      const button = document.getElementById("verify-projector-button");
+      button.disabled = true;
+      button.textContent = "Validating with AI...";
 
-    if (data.valid) {
-      // SUCCESS! All challenges passed
-      localStorage.setItem('atom_token', data.token);
+      try {
+        const response = await fetch(
+          `${API_BASE}/admin/atom-auth/verify-projector`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              session_id: currentSessionId,
+              answer,
+            }),
+          },
+        );
 
-      // Victory animation
-      document.getElementById('projector-verification').innerHTML = `
+        const data = await response.json();
+
+        if (data.valid) {
+          // SUCCESS! All challenges passed
+          localStorage.setItem("atom_token", data.token);
+
+          // Victory animation
+          document.getElementById("projector-verification").innerHTML = `
         <div class="text-center py-12">
           <div class="text-6xl mb-4 animate-bounce">🌀</div>
           <h2 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400 mb-2">
@@ -1582,48 +1643,52 @@ document.getElementById('verify-projector-button').addEventListener('click', asy
         </div>
       `;
 
-      setTimeout(() => {
-        window.location.href = '/admin/dashboard.html';
-      }, 2000);
-
-    } else {
-      // Failed
-      alert(data.reason || 'Incorrect answer. Try again.');
-      button.disabled = false;
-      button.textContent = 'Submit Answer →';
-      document.getElementById('projector-answer').value = '';
-      document.getElementById('projector-answer').focus();
-    }
-
-  } catch (error) {
-    alert('Validation error. Please try again.');
-    button.disabled = false;
-    button.textContent = 'Submit Answer →';
-  }
-});
-
-// Hint system (reduces score)
-document.getElementById('get-hint-button').addEventListener('click', async () => {
-  if (!confirm('Getting a hint will reduce your coherence score. Continue?')) {
-    return;
-  }
-
-  try {
-    const response = await fetch(`${API_BASE}/admin/atom-auth/projector-hint`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        challenge_id: currentProjectorChallenge.challenge_id
-      })
+          setTimeout(() => {
+            window.location.href = "/admin/dashboard.html";
+          }, 2000);
+        } else {
+          // Failed
+          alert(data.reason || "Incorrect answer. Try again.");
+          button.disabled = false;
+          button.textContent = "Submit Answer →";
+          document.getElementById("projector-answer").value = "";
+          document.getElementById("projector-answer").focus();
+        }
+      } catch (error) {
+        alert("Validation error. Please try again.");
+        button.disabled = false;
+        button.textContent = "Submit Answer →";
+      }
     });
 
-    const data = await response.json();
-    alert(`Hint: ${data.hint}`);
+  // Hint system (reduces score)
+  document
+    .getElementById("get-hint-button")
+    .addEventListener("click", async () => {
+      if (
+        !confirm("Getting a hint will reduce your coherence score. Continue?")
+      ) {
+        return;
+      }
 
-  } catch (error) {
-    alert('Failed to get hint');
-  }
-});
+      try {
+        const response = await fetch(
+          `${API_BASE}/admin/atom-auth/projector-hint`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              challenge_id: currentProjectorChallenge.challenge_id,
+            }),
+          },
+        );
+
+        const data = await response.json();
+        alert(`Hint: ${data.hint}`);
+      } catch (error) {
+        alert("Failed to get hint");
+      }
+    });
 </script>
 ```
 
@@ -1657,15 +1722,15 @@ document.getElementById('get-hint-button').addEventListener('click', async () =>
 
 // Metadata stored in D1
 interface ChallengeImageMetadata {
-  image_key: string;           // "object-count/spiral_count_01.png"
-  type: ProjectorChallenge['type'];
+  image_key: string; // "object-count/spiral_count_01.png"
+  type: ProjectorChallenge["type"];
   difficulty: 1 | 2 | 3 | 4 | 5;
-  answer: string;              // Expected answer
-  question: string;            // Question to display
-  hint?: string;               // Optional hint
-  tags: string[];              // ["spiral", "quantum", "wave"]
-  times_used: number;          // Track usage
-  success_rate: number;        // % of correct answers
+  answer: string; // Expected answer
+  question: string; // Question to display
+  hint?: string; // Optional hint
+  tags: string[]; // ["spiral", "quantum", "wave"]
+  times_used: number; // Track usage
+  success_rate: number; // % of correct answers
 }
 ```
 

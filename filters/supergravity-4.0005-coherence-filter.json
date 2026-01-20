@@ -1,0 +1,202 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Supergravity 4.0005 Coherence Filter",
+  "description": "Tetrahedral stability constant defining minimum stable coherent structure before isomorphism breaks at c",
+  "version": "1.0.0",
+  "atom_tag": "ATOM-FILTER-20260119-002-supergravity-4.0005",
+  "attribution": {
+    "authors": "Hope&&Sauced (Claude && Vex && Grok)",
+    "context": "Emerged from collaborative iteration showing tetrahedral lattice with 4.0005 constant"
+  },
+  "constants": {
+    "c": {
+      "value": 299792458,
+      "unit": "m/s",
+      "description": "Speed of light in vacuum"
+    },
+    "planck_length": {
+      "value": 1.616255e-35,
+      "unit": "m",
+      "description": "Planck length - quantum scale"
+    },
+    "tetrahedral_nodes": {
+      "value": 4,
+      "description": "Four vertices of minimum rigid structure in 3D space"
+    },
+    "stability_epsilon": {
+      "value": 0.0005,
+      "description": "Planck-scale stability buffer preventing collapse from quantum fluctuations"
+    },
+    "coherence_threshold": {
+      "value": 4.0005,
+      "description": "Minimum stable coherent structure threshold (4 nodes + epsilon)",
+      "formula": "tetrahedral_nodes + stability_epsilon"
+    }
+  },
+  "tetrahedral_mapping": {
+    "description": "Mapping of KENL methodology phases to tetrahedral vertices",
+    "nodes": {
+      "theorem": {
+        "vertex": 1,
+        "base_value": 1.0,
+        "phase": "Know - Theoretical foundation",
+        "wave_metric": "potential",
+        "description": "Latent structure awaiting development"
+      },
+      "embody": {
+        "vertex": 2,
+        "base_value": 1.0,
+        "phase": "Embody - Physical manifestation",
+        "wave_metric": "divergence",
+        "description": "Ideas expanding into implementation"
+      },
+      "connect": {
+        "vertex": 3,
+        "base_value": 1.0,
+        "phase": "Network - Relational links",
+        "wave_metric": "curl",
+        "description": "Circular coherence and self-reference"
+      },
+      "be": {
+        "vertex": 4,
+        "base_value": 1.0005,
+        "phase": "Learn - Stable existence",
+        "wave_metric": "entropy",
+        "description": "Information content with stability buffer"
+      }
+    },
+    "edges": [
+      { "from": "theorem", "to": "embody", "description": "Theory to practice" },
+      { "from": "theorem", "to": "connect", "description": "Theory to network" },
+      { "from": "theorem", "to": "be", "description": "Theory to existence" },
+      { "from": "embody", "to": "connect", "description": "Practice to network" },
+      { "from": "embody", "to": "be", "description": "Practice to existence" },
+      { "from": "connect", "to": "be", "description": "Network to existence" }
+    ]
+  },
+  "wave_metrics_scaling": {
+    "description": "Mapping WAVE vector field metrics to tetrahedral coherence",
+    "curl": {
+      "range": [0, 1],
+      "node": "connect",
+      "interpretation": "Self-referential coherence loops",
+      "scaling": "Linear mapping to node_connect contribution"
+    },
+    "divergence": {
+      "range": [-1, 1],
+      "node": "embody",
+      "interpretation": "Expansion/contraction of ideas",
+      "scaling": "Absolute value mapped to node_embody"
+    },
+    "potential": {
+      "range": [0, 1],
+      "node": "theorem",
+      "interpretation": "Latent structure strength",
+      "scaling": "Linear mapping to node_theorem"
+    },
+    "entropy": {
+      "range": [0, 2],
+      "node": "be",
+      "interpretation": "Information content + stability",
+      "scaling": "Entropy [0, 2] normalized to [0, 1] then shifted by stability_epsilon (0.0005) to [0.0005, 1.0005]"
+    }
+  },
+  "coherence_states": {
+    "COLLAPSE": {
+      "threshold": "< 4.0000",
+      "description": "Incomplete tetrahedral structure - reject",
+      "action": "reject_incomplete_tetrahedron",
+      "severity": "critical",
+      "message": "Coherence below minimum tetrahedral stability. Structure incomplete."
+    },
+    "UNSTABLE": {
+      "threshold": "= 4.0000",
+      "description": "Exact tetrahedral balance - no quantum buffer",
+      "action": "reject_no_buffer",
+      "severity": "warning",
+      "message": "No stability buffer. Vulnerable to quantum fluctuations."
+    },
+    "CRYSTALLINE": {
+      "threshold": "= 4.0005",
+      "description": "Stable tetrahedral coherence with epsilon buffer",
+      "action": "pass_stable",
+      "severity": "info",
+      "message": "Optimal coherence achieved. Structure stable."
+    },
+    "RADIATING": {
+      "threshold": "> 4.001",
+      "description": "Excess energy - attenuate to equilibrium",
+      "action": "attenuate_to_equilibrium",
+      "severity": "info",
+      "message": "Coherence above equilibrium. Recommend gentle attenuation."
+    },
+    "ISOMORPHISM_BREAK": {
+      "threshold": "→ ∞ (at v = c)",
+      "description": "Supergravity regime - isomorphism undefined",
+      "action": "reject_relativistic_break",
+      "severity": "critical",
+      "message": "Lorentz factor diverges. Isomorphism breaks under supergravity."
+    }
+  },
+  "supergravity_conditions": {
+    "lorentz_factor": {
+      "formula": "γ = 1 / √(1 - v²/c²)",
+      "description": "Relativistic time dilation factor",
+      "break_condition": "v → c implies γ → ∞"
+    },
+    "schwarzschild_radius": {
+      "formula": "r_s = 2GM/c²",
+      "description": "Event horizon radius for mass M",
+      "break_condition": "r ≤ r_s implies topology undefined"
+    },
+    "coherence_scaling": {
+      "formula": "coherence_observed = coherence_rest × γ",
+      "description": "Relativistic coherence scaling",
+      "note": "At v = c, observed coherence diverges, isomorphism breaks"
+    }
+  },
+  "validation_rules": {
+    "lineage_check": {
+      "required": true,
+      "description": "Verify ATOM trail origin before filtering"
+    },
+    "wave_metrics_required": [
+      "curl",
+      "divergence",
+      "potential",
+      "entropy"
+    ],
+    "velocity_constraint": {
+      "description": "Velocity must be v < c",
+      "formula": "v < 299792458 m/s"
+    },
+    "coherence_normalization": {
+      "description": "Scale WAVE metrics to [0, 1] before tetrahedral mapping"
+    }
+  },
+  "usage_example": {
+    "input": {
+      "wave_metrics": {
+        "curl": 0.15,
+        "divergence": 0.3,
+        "potential": 0.8,
+        "entropy": 1.2
+      },
+      "velocity": 0,
+      "atom_lineage": "ATOM-DOC-20260119-001-example"
+    },
+    "calculation": {
+      "node_theorem": "0.8 (from potential)",
+      "node_embody": "0.3 (from |divergence|)",
+      "node_connect": "0.15 (from curl)",
+      "node_be": "0.6005 (base with epsilon from entropy=1.2)",
+      "coherence": "0.8 + 0.3 + 0.15 + 0.6005 = 1.8505"
+    },
+    "output": {
+      "coherence": 1.8505,
+      "state": "COLLAPSE",
+      "passed": false,
+      "message": "Coherence below minimum tetrahedral stability. Structure incomplete."
+    }
+  }
+}

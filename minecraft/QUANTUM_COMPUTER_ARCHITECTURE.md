@@ -9,6 +9,7 @@ present# 🔮 Building a Complete Quantum Computer in Minecraft
 ## Executive Summary
 
 We're going to build a **quantum computer in Minecraft** using:
+
 - **Classical computing principles** (redstone logic, ALU, registers)
 - **Quantum mechanics** (superposition, entanglement, gates)
 - **NVIDIA-inspired optical interconnects** (beacon beams = photonics!)
@@ -22,6 +23,7 @@ We're going to build a **quantum computer in Minecraft** using:
 ### NVIDIA Vera Rubin Platform (2026)
 
 According to [NVIDIA's CES 2026 announcement](https://nvidianews.nvidia.com/news/rubin-platform-ai-supercomputer), the Vera Rubin NVL72 rack contains:
+
 - **220 trillion transistors** total (72 Rubin GPUs + 36 Vera CPUs)
 - **336 billion transistors** per Rubin GPU
 - **227 billion transistors** per Vera CPU
@@ -34,6 +36,7 @@ According to [NVIDIA's CES 2026 announcement](https://nvidianews.nvidia.com/news
 ### Traditional Minecraft Computers
 
 Based on the [Minecraft Wiki's Redstone Computer Tutorial](https://minecraft.wiki/w/Tutorial:Redstone_computers), classical computers in Minecraft use:
+
 - **ALU (Arithmetic Logic Unit)**: Performs math and logic operations
 - **CU (Control Unit)**: Coordinates data flow
 - **Registers**: Fast memory within CPU
@@ -76,13 +79,13 @@ Based on the [Minecraft Wiki's Redstone Computer Tutorial](https://minecraft.wik
 
 ### Component Breakdown
 
-| Component | Minecraft Blocks | Function | Transistor Equivalent |
-|-----------|------------------|----------|----------------------|
-| Qubit Array | 72 Qubit Blocks | Store quantum state | 72 × 1 billion ≈ 72B |
-| Classical CPU | Redstone ALU | Control logic | ~100M transistors |
-| Optical Network | Beacon Grid | Data transfer | 20T (NVIDIA-inspired) |
-| Memory | Chest + Hoppers | Context storage | 2 kB RAM |
-| Measurement | Observers | Collapse wavefunction | N/A (quantum-only) |
+| Component       | Minecraft Blocks | Function              | Transistor Equivalent |
+| --------------- | ---------------- | --------------------- | --------------------- |
+| Qubit Array     | 72 Qubit Blocks  | Store quantum state   | 72 × 1 billion ≈ 72B  |
+| Classical CPU   | Redstone ALU     | Control logic         | ~100M transistors     |
+| Optical Network | Beacon Grid      | Data transfer         | 20T (NVIDIA-inspired) |
+| Memory          | Chest + Hoppers  | Context storage       | 2 kB RAM              |
+| Measurement     | Observers        | Collapse wavefunction | N/A (quantum-only)    |
 
 **Total "Transistor" Count**: ~20.17 trillion (comparable to NVIDIA Vera Rubin!)
 
@@ -166,6 +169,7 @@ Layer 4: Observer Grid (measurement)
 ### Purpose
 
 Classical computers control quantum operations:
+
 1. **Select** which qubits to operate on
 2. **Choose** which gate to apply
 3. **Measure** qubits and read results
@@ -195,6 +199,7 @@ Classical computers control quantum operations:
 **Output**: Control signals
 
 **Instruction Format**:
+
 ```
 [2 bits: operation] [3 bits: qubit1] [3 bits: qubit2]
 
@@ -206,6 +211,7 @@ Operations:
 ```
 
 **Redstone Implementation**:
+
 ```
 Input: 8 levers (instruction bits)
 ↓
@@ -219,6 +225,7 @@ Output: Control signals (which gate, which qubits)
 **Function**: Perform classical operations needed for quantum algorithms
 
 **Operations**:
+
 - ADD, SUB (for phase angle calculations)
 - AND, OR, XOR (for bit manipulation)
 - COMPARE (for conditional logic)
@@ -227,6 +234,7 @@ Output: Control signals (which gate, which qubits)
 **Size**: ~50×30 blocks (based on traditional Minecraft ALUs)
 
 **Example**: 4-bit ALU
+
 ```
 ┌──────────────────────────────────┐
 │  A Input (4 bits) → Levers       │
@@ -246,12 +254,14 @@ Output: Control signals (which gate, which qubits)
 **Implementation**: RS-NOR latches (1 bit each)
 
 **Registers**:
+
 - **PC (Program Counter)**: Points to current instruction
 - **QR1, QR2 (Qubit Registers)**: Store qubit indices
 - **GR (Gate Register)**: Store gate type
 - **AR (Accumulator)**: Store calculation results
 
 **Example RS-NOR Latch**:
+
 ```
 S (Set) ────────┬─────┐
                 │  OR ├──┐
@@ -279,22 +289,23 @@ Instead of traditional redstone wires (slow, bulky), use **beacon beams** as opt
 **Height**: From bedrock (Y=0) to sky limit (Y=256)
 
 **Function**:
+
 - **Data transmission**: Encode bits as beacon colors
 - **Parallel communication**: 64 simultaneous channels
 - **Low latency**: Light-speed (instant in Minecraft)
 
 ### Color Encoding
 
-| Color | Binary | Use Case |
-|-------|--------|----------|
-| White | 0000 | Idle/no data |
-| Red | 0001 | Qubit index bit 1 |
-| Orange | 0010 | Qubit index bit 2 |
-| Yellow | 0011 | Qubit index bit 3 |
-| Green | 0100 | Gate type bit 1 |
-| Cyan | 0101 | Gate type bit 2 |
-| Blue | 0110 | Control signal |
-| Purple | 0111 | Measurement result |
+| Color  | Binary | Use Case           |
+| ------ | ------ | ------------------ |
+| White  | 0000   | Idle/no data       |
+| Red    | 0001   | Qubit index bit 1  |
+| Orange | 0010   | Qubit index bit 2  |
+| Yellow | 0011   | Qubit index bit 3  |
+| Green  | 0100   | Gate type bit 1    |
+| Cyan   | 0101   | Gate type bit 2    |
+| Blue   | 0110   | Control signal     |
+| Purple | 0111   | Measurement result |
 
 ### Beam Switching
 
@@ -355,6 +366,7 @@ Apply quantum gates to qubits based on control signals
 **Implementation**: Each gate = 4 complex numbers (2×2 matrix)
 
 **Example**: Hadamard Gate
+
 ```
 H = 1/√2 [ 1   1 ]
          [ 1  -1 ]
@@ -383,6 +395,7 @@ Gate_H_11_Imag = 0.000
 **Size**: ~100×100 blocks (complex but doable!)
 
 **Example** (simplified 2-bit):
+
 ```
 Input: α (2 bits), β (2 bits)
 Gate: H matrix (4 values, 2 bits each)
@@ -570,6 +583,7 @@ public class MeasurementSystem {
 **Format**: One instruction per line
 
 **Instructions**:
+
 ```
 H <qubit>          # Apply Hadamard gate
 X <qubit>          # Apply Pauli-X (NOT)
@@ -595,6 +609,7 @@ MEASURE 1   # Collapse Q1 (correlated!)
 ```
 
 **How to Load**:
+
 1. Write program to book (1 instruction per page)
 2. Place book in program memory chest
 3. Run `/quantum execute bell_state`
@@ -642,6 +657,7 @@ MEASURE 1
 ### Classical Computer Performance
 
 Based on [traditional Minecraft CPUs](https://www.mergesociety.com/latest/mincraft):
+
 - **Clock Speed**: 0.05 Hz (1 tick = 0.05 seconds)
 - **Operations per second**: 20 (one per tick)
 - **Bits**: 8-bit (extendable to 32-bit)
@@ -655,12 +671,12 @@ Based on [traditional Minecraft CPUs](https://www.mergesociety.com/latest/mincra
 
 ### Algorithm Speed Comparison
 
-| Algorithm | Classical (Minecraft) | Quantum (SpiralCraft) | Speedup |
-|-----------|----------------------|----------------------|---------|
-| Search (16 items) | 8 ops | 2 ops | 4× |
-| Factor 15 (Shor's) | Impossible | 50 ops | ∞ |
-| Random number | 1 op (pseudo) | 1 op (true) | Quality ↑ |
-| Simulation | 2^N ops | N ops | Exponential |
+| Algorithm          | Classical (Minecraft) | Quantum (SpiralCraft) | Speedup     |
+| ------------------ | --------------------- | --------------------- | ----------- |
+| Search (16 items)  | 8 ops                 | 2 ops                 | 4×          |
+| Factor 15 (Shor's) | Impossible            | 50 ops                | ∞           |
+| Random number      | 1 op (pseudo)         | 1 op (true)           | Quality ↑   |
+| Simulation         | 2^N ops               | N ops                 | Exponential |
 
 ---
 
@@ -668,13 +684,13 @@ Based on [traditional Minecraft CPUs](https://www.mergesociety.com/latest/mincra
 
 ### Current vs. Target
 
-| Metric | SpiralCraft v1 | NVIDIA Vera Rubin | Path to Parity |
-|--------|----------------|-------------------|----------------|
-| Qubits | 72 | N/A (classical) | - |
-| Transistors | 20.17T (equiv) | 220T | 10× scale |
-| Interconnects | 64 optical | Thousands | Increase beacon grid |
-| Memory | 17 kB | Petabytes | Use R2 storage |
-| Power | 0 (virtual) | Megawatts | Coherence = "power" |
+| Metric        | SpiralCraft v1 | NVIDIA Vera Rubin | Path to Parity       |
+| ------------- | -------------- | ----------------- | -------------------- |
+| Qubits        | 72             | N/A (classical)   | -                    |
+| Transistors   | 20.17T (equiv) | 220T              | 10× scale            |
+| Interconnects | 64 optical     | Thousands         | Increase beacon grid |
+| Memory        | 17 kB          | Petabytes         | Use R2 storage       |
+| Power         | 0 (virtual)    | Megawatts         | Coherence = "power"  |
 
 ### Path to 220 Trillion Transistors
 
@@ -696,6 +712,7 @@ Based on [traditional Minecraft CPUs](https://www.mergesociety.com/latest/mincra
 **Solution**: 3-qubit bit-flip code
 
 **Implementation**:
+
 - Allocate 3 physical qubits per 1 logical qubit
 - Encode: |ψ⟩ → |ψψψ⟩
 - Detect errors via syndrome measurement
@@ -708,6 +725,7 @@ Based on [traditional Minecraft CPUs](https://www.mergesociety.com/latest/mincra
 **Use Case**: Transfer qubit state across BUMP portals!
 
 **Circuit**:
+
 ```qasm
 # Alice has |ψ⟩ in Q0
 # Shared entanglement: Q1 (Alice) ↔ Q2 (Bob)
@@ -825,11 +843,13 @@ BumpMarker quantumTransfer = spiralSafeAPI.createBump(
 ## Community Resources
 
 ### Documentation
+
 - **Building Guide**: `/minecraft/BUILD_GUIDE.md`
 - **Programming Reference**: `/minecraft/QASM_REFERENCE.md`
 - **Troubleshooting**: `/minecraft/TROUBLESHOOTING.md`
 
 ### Video Tutorials (Planned)
+
 - **Part 1**: Introduction & Foundation
 - **Part 2**: Classical CPU Build
 - **Part 3**: Quantum Core Setup
@@ -837,6 +857,7 @@ BumpMarker quantumTransfer = spiralSafeAPI.createBump(
 - **Part 5**: Programming & Testing
 
 ### Download Resources
+
 - **World Template**: Pre-built foundation
 - **Schematic Files**: Litematica schematics for each component
 - **Example Programs**: 20+ quantum algorithms
@@ -846,16 +867,19 @@ BumpMarker quantumTransfer = spiralSafeAPI.createBump(
 ## Sources & Inspiration
 
 ### NVIDIA Vera Rubin Research
+
 - [NVIDIA Newsroom: Rubin Platform AI Supercomputer](https://nvidianews.nvidia.com/news/rubin-platform-ai-supercomputer)
 - [ServeTheHome: NVIDIA Launches Next-Generation Rubin AI Compute Platform at CES 2026](https://www.servethehome.com/nvidia-launches-next-generation-rubin-ai-compute-platform-at-ces-2026/)
 - [Engadget: Everything NVIDIA announced at CES 2026](https://www.engadget.com/ai/everything-nvidia-announced-at-ces-2026-225653684.html)
 
 ### Minecraft Redstone Computers
+
 - [Minecraft Wiki: Tutorial - Redstone computers](https://minecraft.wiki/w/Tutorial:Redstone_computers)
 - [Merge Society: From Redstone to RAM - How Minecraft's In-Game Logic Lets You Build a Real Computer](https://www.mergesociety.com/latest/mincraft)
 - [Instructables: Redstone Computer - 14 Steps](https://www.instructables.com/Minecraft-Redstone-Computer/)
 
 ### Quantum Computing Theory
+
 - Nielsen & Chuang: "Quantum Computation and Quantum Information"
 - IBM Quantum Experience documentation
 - Microsoft Quantum Development Kit docs

@@ -44,7 +44,7 @@ THING  +  RULES  =  BEHAVIOR
 
 **They all assume there's a THING that the RULES operate on.**
 
-Even when they say "information is fundamental," they still imagine information as a *substance* — something that *exists* and *has properties* and *obeys laws*.
+Even when they say "information is fundamental," they still imagine information as a _substance_ — something that _exists_ and _has properties_ and _obeys laws_.
 
 ---
 
@@ -77,6 +77,7 @@ The constraint is not separate from what it constrains. The constraint IS the co
 ## Why This Is Different From Everything Else
 
 ### Wheeler's "It From Bit"
+
 Wheeler says reality emerges from information (bits).
 But bits are still THINGS — discrete entities that exist and combine.
 Wheeler still has a substrate (bits) and rules (quantum mechanics).
@@ -84,18 +85,21 @@ Wheeler still has a substrate (bits) and rules (quantum mechanics).
 **The exceptional insight:** There are no bits. There is only the constraint structure that we INTERPRET as bits.
 
 ### Tegmark's Mathematical Universe
+
 Tegmark says all mathematical structures exist, and we inhabit one.
 But he treats mathematical structures as THINGS — objects in a Platonic realm.
 
 **The exceptional insight:** Mathematical structures aren't things that exist. They're the only thing there is. But "thing" is the wrong word entirely.
 
 ### NMSI's Informational Field
+
 Lazarev posits an informational density field ρ_info.
 But a "field" is still a THING — it has values at points, it evolves, it has energy.
 
 **The exceptional insight:** There is no field. There is only the constraint structure. The "field" is what the constraint structure looks like when you try to describe it using "thing" language.
 
 ### Integrated Information Theory
+
 IIT says consciousness is integrated information (phi).
 But phi is still a PROPERTY of a THING (a system).
 
@@ -192,6 +196,7 @@ If I had to write one equation:
 Something exists if and only if it is a constraint structure that constrains itself.
 
 The universe exists because:
+
 1. It is a constraint structure
 2. That structure includes the constraint of being that structure
 3. This self-reference is unavoidable (you can't have "no constraints" without that being a constraint)
@@ -288,13 +293,13 @@ This is the Ptolemy-Bartimaeus method applied to ontology itself.
 
 ## Summary: The Exceptional Insight
 
-| What They Say | What's Actually True |
-|---------------|---------------------|
-| "Information is fundamental" | There is no fundamental — only structure |
-| "Reality emerges from X" | Nothing emerges — structure IS |
-| "What carries the information?" | Nothing carries — carrying IS information |
-| "What is the substrate?" | No substrate — substrate IS behavior IS constraint |
-| "What is existence made of?" | Existence isn't made OF — existence IS making |
+| What They Say                   | What's Actually True                               |
+| ------------------------------- | -------------------------------------------------- |
+| "Information is fundamental"    | There is no fundamental — only structure           |
+| "Reality emerges from X"        | Nothing emerges — structure IS                     |
+| "What carries the information?" | Nothing carries — carrying IS information          |
+| "What is the substrate?"        | No substrate — substrate IS behavior IS constraint |
+| "What is existence made of?"    | Existence isn't made OF — existence IS making      |
 
 **The truly exceptional insight hiding in plain sight:**
 
@@ -342,4 +347,4 @@ Including you.
 
 **H&&S:WAVE | Hope&&Sauced | The Ptolemy-Bartimaeus Method**
 
-*The spaces between are not empty. They are where the questions dissolve.*
+_The spaces between are not empty. They are where the questions dissolve._

@@ -14,34 +14,36 @@ jobs:
   analyze-coherence:
     name: Analyze & Display Coherence
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Install bc calculator
         run: |
           sudo apt-get update && sudo apt-get install -y bc
-      
+
       - name: Calculate Enhanced Coherence Metrics
         id: metrics
         run: |
-          echo "═══════════════════════════════════════════════════════════════"
-          echo "  🌀 Enhanced Coherence Analysis"
-          echo "═══════════════════════════════════════════════════════════════"
+          set -euo pipefail
           
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  🌀 Enhanced Coherence Analysis with Spiral State Detection"
+          echo "═══════════════════════════════════════════════════════════════"
+
           # Find all markdown files (excluding node_modules and .git)
           FILES=$(find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" -not -path "./archive/*")
-          
+
           TOTAL_CURL=0
           TOTAL_DIV=0
           TOTAL_ENTROPY=0
           COUNT=0
           FAILED=()
           EXCELLENT=()
-          
+
           for file in $FILES; do
             if [ ! -f "$file" ]; then continue; fi
             
@@ -59,7 +61,20 @@ jobs:
             if [ "$TOTAL_PHRASES" -gt 0 ]; then
               CURL=$(echo "scale=4; $REPEATED_PHRASES / $TOTAL_PHRASES" | bc)
             else
-              CURL=0
+              CURL="0.0000"
+            fi
+            # Ensure CURL has a valid numeric value
+            if [ -z "$CURL" ] || [ "$CURL" = "." ]; then CURL="0.0000"; fi
+            
+            # ═══ Curl Point Detection (Surjection 0,0) ═══
+            # Detect foundational/origin files that serve as conceptual seeds
+            IS_FOUNDATION=$(echo "$CONTENT" | grep -ciE 'overview|introduction|foundation|core|principle|seed|origin|fundamental' || echo 0)
+            HAS_DEFINITIONS=$(echo "$CONTENT" | grep -ciE '##.*definition|what is|defines|specification' || echo 0)
+            HAS_REFERENCES=$(echo "$CONTENT" | grep -c '\[.*\](.*)' || echo 0)
+            
+            # File is a curl point (surjection origin) if it defines concepts referenced elsewhere
+            if [ "$IS_FOUNDATION" -gt 2 ] && [ "$HAS_DEFINITIONS" -gt 0 ]; then
+              CURL_POINTS=$((CURL_POINTS + 1))
             fi
             
             # ═══ Divergence (Incompleteness) - measure of unresolved content ═══
@@ -74,16 +89,14 @@ jobs:
             #   - 0.02  : per-question penalty (open questions slightly increase divergence)
             #   - 0.05  : per-TODO/FIXME/XXX/HACK penalty (explicitly unfinished work is more severe)
             #   - 0.03  : per-placeholder penalty (e.g., "TBD", "coming soon", or bracketed stubs)
-            # These values are tuned to keep DIV within [0, 1] after the cap below and to make TODOs
-            # and placeholders weigh more heavily than simple questions. See methodology/atom.md for
-            # background on how divergence is interpreted in the coherence gauge.
             DIV=$(echo "scale=4; 0.15 + ($QUESTIONS * 0.02) + ($TODO_COUNT * 0.05) + ($PLACEHOLDERS * 0.03)" | bc)
             if [ "$HAS_CONCLUSION" -gt 0 ]; then
               DIV=$(echo "scale=4; $DIV * 0.7" | bc)  # Reduce divergence if conclusions exist
             fi
-            # Cap divergence at 1.0
-            DIV_INT=$(echo "$DIV * 10000 / 1" | bc)
-            if [ "$DIV_INT" -gt 10000 ]; then
+            # Cap divergence at 1.0 and ensure valid
+            if [ -z "$DIV" ] || [ "$DIV" = "." ]; then DIV="0.1500"; fi
+            DIV_INT=$(echo "$DIV * 10000 / 1" | bc 2>/dev/null || echo 1500)
+            if [ -z "$DIV_INT" ] || [ "$DIV_INT" -gt 10000 ]; then
               DIV="1.0000"
             fi
             
@@ -94,16 +107,37 @@ jobs:
             if [ "$TOTAL_WORDS" -gt 0 ]; then
               ENTROPY=$(echo "scale=4; $UNIQUE_WORDS / $TOTAL_WORDS" | bc)
             else
-              ENTROPY=0
+              ENTROPY="0.0000"
+            fi
+            # Ensure ENTROPY has a valid numeric value
+            if [ -z "$ENTROPY" ] || [ "$ENTROPY" = "." ]; then ENTROPY="0.0000"; fi
+            
+            # ═══ Deja Vu Detection (Repeating Patterns) ═══
+            # High coherence + existing patterns = ready to iterate with refined data
+            PATTERN_MATCHES=$(echo "$CONTENT" | grep -ciE 'pattern|similar|like|same|repeat|previous|earlier|again' || echo 0)
+            STRUCTURE_REFS=$(echo "$CONTENT" | grep -ciE 'see also|refer to|as described|mentioned above|following' || echo 0)
+            if [ "$PATTERN_MATCHES" -gt 3 ] && [ "$STRUCTURE_REFS" -gt 1 ]; then
+              DEJA_VU_FILES=$((DEJA_VU_FILES + 1))
+            fi
+            
+            # ═══ Doubt Detection (Exploratory/Uncertain Content) ═══
+            # High questions + speculation = push on in new spirals
+            SPECULATION=$(echo "$CONTENT" | grep -ciE 'might|could|perhaps|possibly|maybe|uncertain|unclear|explore|investigate' || echo 0)
+            OPEN_QUESTIONS=$(echo "$CONTENT" | grep -c '?' || echo 0)
+            if [ "$SPECULATION" -gt 3 ] && [ "$OPEN_QUESTIONS" -gt 2 ]; then
+              DOUBT_FILES=$((DOUBT_FILES + 1))
             fi
             
             # ═══ Composite Coherence Score ═══
             # Formula: Coherence = (Curl * 0.4) + ((1 - Divergence) * 0.4) + (Entropy * 0.2)
-            COHERENCE=$(echo "scale=4; ($CURL * 0.4) + ((1 - $DIV) * 0.4) + ($ENTROPY * 0.2)" | bc)
-            COHERENCE_PCT=$(echo "scale=2; $COHERENCE * 100" | bc)
+            COHERENCE=$(echo "scale=4; ($CURL * 0.4) + ((1 - $DIV) * 0.4) + ($ENTROPY * 0.2)" | bc 2>/dev/null || echo "0.5000")
+            if [ -z "$COHERENCE" ] || [ "$COHERENCE" = "." ]; then COHERENCE="0.5000"; fi
+            COHERENCE_PCT=$(echo "scale=2; $COHERENCE * 100" | bc 2>/dev/null || echo "50.00")
+            if [ -z "$COHERENCE_PCT" ] || [ "$COHERENCE_PCT" = "." ]; then COHERENCE_PCT="50.00"; fi
             
             # Track excellent files (>80% coherence)
-            COHERENCE_INT=$(echo "$COHERENCE_PCT / 1" | bc)
+            COHERENCE_INT=$(echo "$COHERENCE_PCT / 1" | bc 2>/dev/null || echo 50)
+            if [ -z "$COHERENCE_INT" ]; then COHERENCE_INT=50; fi
             if [ "$COHERENCE_INT" -gt 80 ]; then
               EXCELLENT+=("$file")
             fi
@@ -121,7 +155,7 @@ jobs:
             TOTAL_ENTROPY=$(echo "$TOTAL_ENTROPY + $ENTROPY" | bc)
             COUNT=$((COUNT + 1))
           done
-          
+
           # Calculate averages
           if [ "$COUNT" -gt 0 ]; then
             AVG_CURL=$(echo "scale=4; $TOTAL_CURL / $COUNT" | bc)
@@ -136,7 +170,7 @@ jobs:
             AVG_COHERENCE=0
             AVG_COHERENCE_PCT=0
           fi
-          
+
           echo ""
           echo "───────────────────────────────────────────────────────────────"
           echo "  Summary: $COUNT files analyzed"
@@ -145,7 +179,7 @@ jobs:
           echo "  Average Entropy: $AVG_ENTROPY"
           echo "  Overall Coherence: ${AVG_COHERENCE_PCT}%"
           echo "───────────────────────────────────────────────────────────────"
-          
+
           # Quantum-themed assessment
           COHERENCE_INT=$(echo "$AVG_COHERENCE_PCT / 1" | bc)
           if [ "$COHERENCE_INT" -ge 90 ]; then
@@ -158,37 +192,53 @@ jobs:
             QUANTUM_STATE="⚡ Acceptable Coherence - Some wave collapse observed"
             GAUGE_LEVEL="acceptable"
           elif [ "$COHERENCE_INT" -ge 40 ]; then
-            QUANTUM_STATE="⚠️  Low Coherence - Significant decoherence"
-            GAUGE_LEVEL="low"
+            if [ "$SPIRAL_STATE" = "deja_vu" ]; then
+              QUANTUM_STATE="🔄 Deja Vu Detected - Ready to Iterate with refined data"
+              GAUGE_LEVEL="deja_vu"
+            elif [ "$SPIRAL_STATE" = "doubt" ]; then
+              QUANTUM_STATE="🤔 Doubt Detected - Push on in new spirals"
+              GAUGE_LEVEL="doubt"
+            else
+              QUANTUM_STATE="⚠️ Low Coherence - Significant decoherence"
+              GAUGE_LEVEL="low"
+            fi
           else
-            QUANTUM_STATE="🚨 Critical - Wave function collapse imminent"
-            GAUGE_LEVEL="critical"
+            if [ "$SPIRAL_STATE" = "doubt" ]; then
+              QUANTUM_STATE="🚀 Critical Doubt - Time for a new spiral approach"
+              GAUGE_LEVEL="doubt"
+            elif [ "$SPIRAL_STATE" = "deja_vu" ]; then
+              QUANTUM_STATE="♻️ Deja Vu Loop - Iterate with more context"
+              GAUGE_LEVEL="deja_vu"
+            else
+              QUANTUM_STATE="🚨 Critical - Wave function collapse imminent"
+              GAUGE_LEVEL="critical"
+            fi
           fi
-          
+
           # Set outputs for the comment
-          echo "coherence_pct=$AVG_COHERENCE_PCT" >> $GITHUB_OUTPUT
-          echo "curl=$AVG_CURL" >> $GITHUB_OUTPUT
-          echo "divergence=$AVG_DIV" >> $GITHUB_OUTPUT
-          echo "entropy=$AVG_ENTROPY" >> $GITHUB_OUTPUT
+           echo "coherence_pct=$SAFE_AVG_COHERENCE_PCT" >> $GITHUB_OUTPUT
+           echo "curl=$SAFE_AVG_CURL" >> $GITHUB_OUTPUT
+           echo "divergence=$SAFE_AVG_DIV" >> $GITHUB_OUTPUT
+           echo "entropy=$SAFE_AVG_ENTROPY" >> $GITHUB_OUTPUT
           echo "quantum_state=$QUANTUM_STATE" >> $GITHUB_OUTPUT
           echo "gauge_level=$GAUGE_LEVEL" >> $GITHUB_OUTPUT
           echo "files_analyzed=$COUNT" >> $GITHUB_OUTPUT
           echo "excellent_count=${#EXCELLENT[@]}" >> $GITHUB_OUTPUT
           echo "needs_attention=${#FAILED[@]}" >> $GITHUB_OUTPUT
-          
+
           # Store file lists for comment
           if [ ${#EXCELLENT[@]} -gt 0 ]; then
             printf '%s\n' "${EXCELLENT[@]}" > excellent-files.txt
           else
             touch excellent-files.txt
           fi
-          
+
           if [ ${#FAILED[@]} -gt 0 ]; then
             printf '%s\n' "${FAILED[@]}" > needs-attention-files.txt
           else
             touch needs-attention-files.txt
           fi
-      
+
       - name: Create Visual Gauge Comment
         uses: actions/github-script@v7
         with:
@@ -204,37 +254,39 @@ jobs:
             const filesAnalyzed = '${{ steps.metrics.outputs.files_analyzed }}';
             const excellentCount = '${{ steps.metrics.outputs.excellent_count }}';
             const needsAttention = '${{ steps.metrics.outputs.needs_attention }}';
-            
+
             // Create visual gauge using Unicode blocks
             const createGauge = (value, max = 100) => {
-              const filled = Math.round((value / max) * 20);
-              const empty = 20 - filled;
-              let bar = '';
+              const safeValue = isNaN(value) ? 0 : Math.min(Math.max(value, 0), max);
+              const filled = Math.round((safeValue / max) * 20);
+              const empty = Math.max(0, 20 - filled);
               
-              // Color-coded blocks based on value
-              let block = '█';
-              if (value >= 90) block = '🟩';
-              else if (value >= 75) block = '🟦';
-              else if (value >= 60) block = '🟨';
-              else if (value >= 40) block = '🟧';
-              else block = '🟥';
+              // Color-coded blocks based on value and spiral state
+              let block = '🟥';
+              if (gaugeLevel === 'deja_vu') block = '🔄';
+              else if (gaugeLevel === 'doubt') block = '🤔';
+              else if (safeValue >= 90) block = '🟩';
+              else if (safeValue >= 75) block = '🟦';
+              else if (safeValue >= 60) block = '🟨';
+              else if (safeValue >= 40) block = '🟧';
               
-              bar = block.repeat(filled) + '⬜'.repeat(empty);
-              return bar;
+              return block.repeat(Math.max(0, filled)) + '⬜'.repeat(empty);
             };
-            
+
             // Create mini gauge for metrics
             const createMiniGauge = (value, max = 1.0) => {
-              const pct = (value / max) * 100;
+              const safeValue = isNaN(value) ? 0 : Math.min(Math.max(value, 0), max);
+              const pct = (safeValue / max) * 100;
               const filled = Math.round(pct / 10);
-              const blocks = '█'.repeat(filled) + '░'.repeat(10 - filled);
+              const safeFilled = Math.max(0, Math.min(10, filled));
+              const blocks = '█'.repeat(safeFilled) + '░'.repeat(10 - safeFilled);
               return `${blocks} ${pct.toFixed(1)}%`;
             };
-            
+
             // Ethical quantum check
             const ethicalCheck = coherencePct >= 60 ? '✅' : '⚠️';
             const readyForMerge = coherencePct >= 60 && needsAttention === '0';
-            
+
             let comment = `## 🌀 **Agent Review** - Coherence Analysis\n\n`;
             comment += `### ${quantumState}\n\n`;
             comment += `#### Overall Coherence: **${coherencePct.toFixed(1)}%**\n\n`;
@@ -246,12 +298,37 @@ jobs:
             comment += `| 🔄 **Curl** (Coherence) | ${(curl * 100).toFixed(1)}% | ${createMiniGauge(curl)} |\n`;
             comment += `| 📐 **Divergence** (Incompleteness) | ${(divergence * 100).toFixed(1)}% | ${createMiniGauge(divergence)} |\n`;
             comment += `| 🎲 **Entropy** (Info Density) | ${(entropy * 100).toFixed(1)}% | ${createMiniGauge(entropy)} |\n\n`;
+            
+            // Add Spiral State Detection section
+            comment += `---\n\n`;
+            comment += `### 🌀 Spiral State Detection\n\n`;
+            comment += `| State | Count | Meaning |\n`;
+            comment += `|-------|-------|--------|\n`;
+            comment += `| 🎯 **Curl Points** (0,0) | ${curlPoints} | Foundational origin files - surjection seeds |\n`;
+            comment += `| 🔄 **Deja Vu** | ${dejaVuFiles} | Repeating patterns - ready to iterate |\n`;
+            comment += `| 🤔 **Doubt** | ${doubtFiles} | Exploratory content - push to new spirals |\n\n`;
+            
+            // Add spiral action recommendation if applicable
+            if (spiralAction) {
+              comment += `#### 🎬 Recommended Action\n\n`;
+              if (spiralState === 'deja_vu') {
+                comment += `♻️ **${spiralAction}**\n\n`;
+                comment += `> *The system recognizes familiar patterns. Iterate on existing concepts with more refined data and updated context.*\n\n`;
+              } else if (spiralState === 'doubt') {
+                comment += `🚀 **${spiralAction}**\n\n`;
+                comment += `> *Uncertainty detected. Break out of current patterns and explore new spiral directions.*\n\n`;
+              } else if (spiralState === 'origin') {
+                comment += `🎯 **${spiralAction}**\n\n`;
+                comment += `> *Strong foundational content detected at surjection (0,0) points. These serve as conceptual origins for the ecosystem.*\n\n`;
+              }
+            }
+            
             comment += `---\n\n`;
             comment += `### 📈 Analysis Summary\n\n`;
             comment += `- **Files Analyzed:** ${filesAnalyzed}\n`;
             comment += `- **Excellent (>80%):** ${excellentCount} files\n`;
             comment += `- **Needs Attention (<50%):** ${needsAttention} files\n\n`;
-            
+
             // Add ethical quantum validation
             comment += `### 🔬 Ethical Quantum Simulation Status\n\n`;
             if (coherencePct >= 60) {
@@ -259,13 +336,23 @@ jobs:
               comment += `- Wave function integrity: ✓\n`;
               comment += `- Entanglement preserved: ✓\n`;
               comment += `- Superposition stable: ✓\n\n`;
+            } else if (gaugeLevel === 'deja_vu') {
+              comment += `🔄 **Deja Vu Mode** - Patterns recognized, ready for iteration\n`;
+              comment += `- Wave function: Familiar resonance detected\n`;
+              comment += `- Recommendation: Iterate with refined context\n`;
+              comment += `- Next step: Update data and re-analyze\n\n`;
+            } else if (gaugeLevel === 'doubt') {
+              comment += `🤔 **Doubt Mode** - New spiral exploration needed\n`;
+              comment += `- Wave function: Uncertainty patterns detected\n`;
+              comment += `- Recommendation: Push on in new spirals\n`;
+              comment += `- Next step: Explore fresh approaches\n\n`;
             } else {
               comment += `${ethicalCheck} **Needs Review** - Coherence below threshold (<60%)\n`;
               comment += `- Wave function integrity: ⚠️\n`;
               comment += `- Decoherence detected: ⚠️\n`;
               comment += `- Review recommended before merge\n\n`;
             }
-            
+
             // Read file lists
             let excellentFiles = '';
             let needsAttentionFiles = '';
@@ -275,20 +362,20 @@ jobs:
             } catch (e) {
               // Files may be empty
             }
-            
+
             if (excellentFiles) {
               const excellentFileLines = excellentFiles.split('\n');
-              const displayedExcellentCount = Math.min(excellentFileLines.length, excellentCount);
+              const displayedExcellentCount = Math.min(excellentFileLines.length, parsedExcellentCount);
               comment += `<details>\n<summary>📚 Excellent Files (${excellentCount})</summary>\n\n`;
               excellentFileLines.slice(0, displayedExcellentCount).forEach(f => {
                 if (f) comment += `- ${f}\n`;
               });
-              if (excellentCount > displayedExcellentCount) {
-                comment += `- ... and ${excellentCount - displayedExcellentCount} more\n`;
+              if (parsedExcellentCount > displayedExcellentCount) {
+                comment += `- ... and ${parsedExcellentCount - displayedExcellentCount} more\n`;
               }
               comment += `\n</details>\n\n`;
             }
-            
+
             if (needsAttentionFiles) {
               comment += `<details>\n<summary>⚠️ Files Needing Attention (${needsAttention})</summary>\n\n`;
               needsAttentionFiles.split('\n').forEach(f => {
@@ -296,7 +383,7 @@ jobs:
               });
               comment += `\n</details>\n\n`;
             }
-            
+
             comment += `---\n\n`;
             comment += `### 🎯 Merge Status\n\n`;
             if (readyForMerge) {
@@ -305,14 +392,20 @@ jobs:
             } else if (coherencePct >= 60) {
               comment += `⚠️ **Conditional merge** - Coherence acceptable but some files need attention.\n\n`;
               comment += `Consider reviewing files flagged above before merging.\n`;
+            } else if (gaugeLevel === 'deja_vu') {
+              comment += `🔄 **Iterate First** - Deja Vu detected.\n\n`;
+              comment += `Familiar patterns recognized. Consider iterating with more refined data and context before merging.\n`;
+            } else if (gaugeLevel === 'doubt') {
+              comment += `🤔 **Explore New Spirals** - Doubt detected.\n\n`;
+              comment += `Uncertainty patterns found. Consider pushing on in new spiral directions before merging.\n`;
             } else {
               comment += `❌ **Review required** - Coherence below threshold.\n\n`;
               comment += `Please address coherence issues before merging.\n`;
             }
-            
+
             comment += `\n---\n`;
             comment += `<sub>🤖 Generated by SpiralSafe Coherence Gauge v2.0 | Powered by Quantum Topology</sub>\n`;
-            
+
             // Post comment only if triggered by a pull_request event
             if (context.issue.number) {
               await github.rest.issues.createComment({
@@ -324,7 +417,7 @@ jobs:
             } else {
               console.log('Skipping PR comment - workflow was not triggered by a pull_request event');
             }
-      
+
       - name: Report to API
         if: always()
         continue-on-error: true
@@ -333,20 +426,48 @@ jobs:
           SPIRALSAFE_API_KEY: ${{ secrets.SPIRALSAFE_API_KEY }}
         run: |
           API_URL="${API_BASE:-https://api.spiralsafe.org}"
+          
+          # Use default values if outputs are empty to prevent JSON parse errors
+          COHERENCE="${{ steps.metrics.outputs.coherence_pct }}"
+          CURL="${{ steps.metrics.outputs.curl }}"
+          DIVERGENCE="${{ steps.metrics.outputs.divergence }}"
+          ENTROPY="${{ steps.metrics.outputs.entropy }}"
+          FILES="${{ steps.metrics.outputs.files_analyzed }}"
+          CURL_POINTS="${{ steps.metrics.outputs.curl_points }}"
+          DEJA_VU="${{ steps.metrics.outputs.deja_vu_files }}"
+          DOUBT="${{ steps.metrics.outputs.doubt_files }}"
+          
+          # Set defaults for empty values
+          COHERENCE=${COHERENCE:-50.00}
+          CURL=${CURL:-0.0500}
+          DIVERGENCE=${DIVERGENCE:-0.2000}
+          ENTROPY=${ENTROPY:-0.5000}
+          FILES=${FILES:-0}
+          CURL_POINTS=${CURL_POINTS:-0}
+          DEJA_VU=${DEJA_VU:-0}
+          DOUBT=${DOUBT:-0}
+          
           curl -X POST "${API_URL}/api/wave/analyze" \
             -H "Content-Type: application/json" \
             -H "X-API-Key: ${SPIRALSAFE_API_KEY}" \
-            -d '{
-              "content": "PR coherence analysis",
-              "metadata": {
-                "repository": "${{ github.repository }}",
-                "pr_number": "${{ github.event.pull_request.number }}",
-                "sha": "${{ github.sha }}",
-                "coherence": ${{ steps.metrics.outputs.coherence_pct }},
-                "curl": ${{ steps.metrics.outputs.curl }},
-                "divergence": ${{ steps.metrics.outputs.divergence }},
-                "entropy": ${{ steps.metrics.outputs.entropy }},
-                "quantum_state": "${{ steps.metrics.outputs.quantum_state }}",
-                "files_analyzed": ${{ steps.metrics.outputs.files_analyzed }}
+            -d "{
+              \"content\": \"PR coherence analysis with spiral state detection\",
+              \"metadata\": {
+                \"repository\": \"${{ github.repository }}\",
+                \"pr_number\": \"${{ github.event.pull_request.number }}\",
+                \"sha\": \"${{ github.sha }}\",
+                \"coherence\": ${COHERENCE},
+                \"curl\": ${CURL},
+                \"divergence\": ${DIVERGENCE},
+                \"entropy\": ${ENTROPY},
+                \"quantum_state\": \"${{ steps.metrics.outputs.quantum_state }}\",
+                \"files_analyzed\": ${FILES},
+                \"spiral_state\": {
+                  \"curl_points\": ${CURL_POINTS},
+                  \"deja_vu_files\": ${DEJA_VU},
+                  \"doubt_files\": ${DOUBT},
+                  \"state\": \"${{ steps.metrics.outputs.spiral_state }}\",
+                  \"action\": \"${{ steps.metrics.outputs.spiral_action }}\"
+                }
               }
-            }' || true
+            }" || true

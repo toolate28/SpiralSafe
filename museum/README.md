@@ -9,6 +9,7 @@ Quick links
 - Curated mapping: see `../docs/quantum-minecraft-map.md` for an index of Minecraft + quantum content and visual diagrams.
 
 Import
+
 - Use WorldEdit / Litematica / datapack functions as described in `MINECRAFT_PLAY_SCHEDULE.md` and `../server-suite/PRISM_LAUNCHER_INTEGRATION.md`.
 
 Downloads (example)

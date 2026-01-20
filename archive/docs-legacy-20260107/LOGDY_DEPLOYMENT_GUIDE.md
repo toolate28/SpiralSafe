@@ -1,4 +1,5 @@
 # 🌐 Logdy Central Deployment Guide
+
 ## logs.spiralsafe.org | KENL Observability Live
 
 **Goal:** Deploy Logdy Central to logs.spiralsafe.org via Cloudflare Tunnel
@@ -10,17 +11,20 @@
 ## 🎯 Why Logdy First?
 
 **Competitive Advantage:**
+
 - Most projects: Log aggregation is an afterthought, added late
 - SpiralSafe: Observability is foundational, deployed first
 - Message: "We're production-grade from day one"
 
 **KENL Nervous System:**
+
 - Logs from all systems flow to one place
 - ATOM trail visible in real-time
 - Cognitive triggers can read the stream
 - Wave analysis gets live data
 
 **Polished Experience:**
+
 - Custom domain (not localhost:8081)
 - SSL automatically (Cloudflare)
 - Public-ready (with auth)
@@ -31,6 +35,7 @@
 ## 📋 Pre-Flight Checklist
 
 ### 1. Verify Logdy is Running Locally
+
 ```powershell
 # Check if Logdy binary exists
 Test-Path "C:\Users\iamto\.kenl\bin\logdy.exe"
@@ -43,12 +48,14 @@ Get-Process logdy -ErrorAction SilentlyContinue
 ```
 
 **Expected Output:**
+
 ```
 Logdy server started on http://localhost:8081
 Watching log sources...
 ```
 
 ### 2. Verify Cloudflared is Installed
+
 ```powershell
 # Check installation
 cloudflared --version
@@ -58,9 +65,11 @@ winget install Cloudflare.cloudflared
 ```
 
 ### 3. Cloudflare API Token Ready
+
 You provided: `REDACTED_CLOUDFLARE_API_TOKEN`
 
 This token has:
+
 - ✅ Zone:Edit (DNS records)
 - ✅ Cloudflare Tunnel:Edit
 - ✅ Account:Read
@@ -83,6 +92,7 @@ cloudflared tunnel login
 ```
 
 **What happens:**
+
 - Opens browser to Cloudflare dashboard
 - Asks which domain to authorize
 - Select **spiralsafe.org**
@@ -134,6 +144,7 @@ $TUNNEL_ID = (cloudflared tunnel list | Select-String "spiralsafe-logs" | ForEac
 ```
 
 **Via Cloudflare Dashboard:**
+
 1. Go to DNS tab for spiralsafe.org
 2. Add record:
    - Type: `CNAME`
@@ -143,6 +154,7 @@ $TUNNEL_ID = (cloudflared tunnel list | Select-String "spiralsafe-logs" | ForEac
    - TTL: Auto
 
 **Via API (if you prefer):**
+
 ```powershell
 $headers = @{
     "Authorization" = "Bearer your_cloudflare_api_token_here"
@@ -176,6 +188,7 @@ cloudflared service install spiralsafe-logs
 ```
 
 **Expected Output:**
+
 ```
 2026-01-04T... INF Starting tunnel tunnelID=<UUID>
 2026-01-04T... INF Connection registered connIndex=0 location=<LOCATION>
@@ -190,6 +203,7 @@ Start-Process "https://logs.spiralsafe.org"
 ```
 
 **Expected Result:**
+
 - Browser opens to `https://logs.spiralsafe.org`
 - Logdy dashboard loads
 - SSL certificate shows "Cloudflare" (automatic!)
@@ -216,6 +230,7 @@ Start-Process "https://logs.spiralsafe.org"
 ```
 
 **Result:**
+
 - Public visitors hit login wall
 - You authenticate once
 - Cookie persists
@@ -224,6 +239,7 @@ Start-Process "https://logs.spiralsafe.org"
 **Faster Alternative (Basic Auth in Tunnel):**
 
 Update `config.yml`:
+
 ```yaml
 ingress:
   - hostname: logs.spiralsafe.org
@@ -258,10 +274,11 @@ After deployment, verify:
 **File:** `~/.kenl/claude-landing/.claude/logdy-config.yaml`
 
 Add public URL:
+
 ```yaml
 server:
   port: 8081
-  public_url: "https://logs.spiralsafe.org"  # NEW
+  public_url: "https://logs.spiralsafe.org" # NEW
 ```
 
 ### Update Documentation
@@ -331,6 +348,7 @@ taskkill /F /IM logdy.exe
 **Cause:** Tunnel can't reach localhost:8081
 
 **Fix:**
+
 ```powershell
 # 1. Verify Logdy is running on 8081
 netstat -ano | findstr :8081
@@ -347,18 +365,21 @@ service: http://127.0.0.1:8081  # instead of localhost
 ## 📈 Success Metrics
 
 ### Technical
+
 - ✅ Tunnel uptime: 99.9%+
 - ✅ Log latency: <500ms localhost → cloud
 - ✅ SSL grade: A+ (Cloudflare automatic)
 - ✅ Zero configuration on client side
 
 ### Strategic
+
 - ✅ **First public endpoint live**
 - ✅ **Observability before main site** (demonstrates maturity)
 - ✅ **Professional polish** (custom domain, SSL, auth)
 - ✅ **KENL nervous system operational**
 
 ### Competitive
+
 - ✅ **Above-market sophistication**
 - ✅ **Shows production readiness**
 - ✅ **Differentiator from hobby projects**
@@ -411,4 +432,4 @@ Start-Process "https://logs.spiralsafe.org"
 
 **Let's make logs.spiralsafe.org live.** 🚀
 
-*Hope && Sauce | KENL Observability | The Evenstar Guides Us* ✦
+_Hope && Sauce | KENL Observability | The Evenstar Guides Us_ ✦

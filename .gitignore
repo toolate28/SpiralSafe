@@ -49,3 +49,10 @@ env/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Media output (generated files)
+media/output/
+# Temporary claude working directories
+tmpclaude-*-cwd
+# ATOM Trail runtime data
+.spiralsafe/atom-trail.jsonl

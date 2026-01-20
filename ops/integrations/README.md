@@ -39,31 +39,37 @@ This document maps how external services integrate with SpiralSafe, transforming
 The Cloudflare Developer Platform serves as the **manifestation layer**—where SpiralSafe protocols become persistent reality.
 
 ### D1 Database
+
 Stores the audit trail and operational state:
 
-| Table | Purpose | Protocol |
-|-------|---------|----------|
-| `wave_analyses` | Coherence measurements | wave.md |
-| `bumps` | Handoff audit trail | bump.md |
-| `awi_grants` | Permission records | AWI |
-| `awi_audit` | Permission verifications | AWI |
-| `atoms` | Task units | ATOM |
-| `contexts` | Knowledge unit index | .context.yaml |
-| `saif_investigations` | Issue tracking | SAIF |
+| Table                 | Purpose                  | Protocol      |
+| --------------------- | ------------------------ | ------------- |
+| `wave_analyses`       | Coherence measurements   | wave.md       |
+| `bumps`               | Handoff audit trail      | bump.md       |
+| `awi_grants`          | Permission records       | AWI           |
+| `awi_audit`           | Permission verifications | AWI           |
+| `atoms`               | Task units               | ATOM          |
+| `contexts`            | Knowledge unit index     | .context.yaml |
+| `saif_investigations` | Issue tracking           | SAIF          |
 
 ### KV Namespace
+
 Fast-access session state:
+
 - Active AWI grants (TTL-based expiration)
 - Current bump markers
 - Session context for UnifiedComms
 
 ### R2 Bucket
+
 Large content storage:
+
 - Full .context.yaml files
 - Document archives
 - Media from UnifiedComms channels
 
 ### Workers
+
 API endpoints at `api.spiralsafe.org`:
 
 ```typescript
@@ -97,12 +103,12 @@ Sentry becomes a **wave.md instantiation**—coherence detection for runtime beh
 
 ### Mapping
 
-| Sentry Concept | wave.md Equivalent | Action |
-|----------------|-------------------|--------|
-| Error clustering | Curl detection | Group repeated patterns |
-| Issue frequency | Divergence | Track unresolved expansion |
-| Trace analysis | Potential mapping | Identify latent structure |
-| Seer root cause | SAIF hypothesis | Generate intervention candidates |
+| Sentry Concept   | wave.md Equivalent | Action                           |
+| ---------------- | ------------------ | -------------------------------- |
+| Error clustering | Curl detection     | Group repeated patterns          |
+| Issue frequency  | Divergence         | Track unresolved expansion       |
+| Trace analysis   | Potential mapping  | Identify latent structure        |
+| Seer root cause  | SAIF hypothesis    | Generate intervention candidates |
 
 ### Integration Pattern
 
@@ -117,7 +123,7 @@ interface SentryToSAIF {
       event.culprit,
       ...event.tags.map(t => `${t.key}: ${t.value}`)
     ];
-    
+
     // 2. Start SAIF investigation
     api.post('/api/saif/start', {
       title: event.title,
@@ -125,7 +131,7 @@ interface SentryToSAIF {
       source: 'sentry',
       reference: event.url
     });
-    
+
     // 3. Create BLOCK bump if critical
     if (event.level === 'fatal') {
       api.post('/api/bump/create', {
@@ -147,12 +153,14 @@ interface SentryToSAIF {
 async function bridgeSeerToSAIF(seerAnalysis: SeerResult, saifId: string) {
   // Seer's analysis becomes SAIF hypothesis
   await api.put(`/api/saif/${saifId}/hypothesis`, {
-    hypotheses: [{
-      description: seerAnalysis.root_cause,
-      confidence: seerAnalysis.confidence,
-      evidence: seerAnalysis.supporting_evidence,
-      suggested_fix: seerAnalysis.fix_recommendation
-    }]
+    hypotheses: [
+      {
+        description: seerAnalysis.root_cause,
+        confidence: seerAnalysis.confidence,
+        evidence: seerAnalysis.supporting_evidence,
+        suggested_fix: seerAnalysis.fix_recommendation,
+      },
+    ],
   });
 }
 ```
@@ -169,11 +177,7 @@ Vercel serves as the **deployment substrate** with SpiralSafe gates.
 # vercel.json
 {
   "buildCommand": "npm run build && npm run wave:check",
-  "functions": {
-    "api/**/*.ts": {
-      "runtime": "nodejs20.x"
-    }
-  }
+  "functions": { "api/**/*.ts": { "runtime": "nodejs20.x" } },
 }
 ```
 
@@ -193,7 +197,7 @@ interface VercelToSpiralSafe {
       level: deployment.target === 'production' ? 3 : 2,
       ttl_seconds: 600
     });
-    
+
     // Create SYNC bump
     await api.post('/api/bump/create', {
       type: 'SYNC',
@@ -206,7 +210,7 @@ interface VercelToSpiralSafe {
       }
     });
   }
-  
+
   onDeploymentReady(deployment: VercelDeployment) {
     // Resolve bump
     await api.put(`/api/bump/resolve/${deployment.context.bump_id}`);
@@ -228,14 +232,17 @@ The `.github/AGENTS.md` file coordinates multi-agent collaboration:
 # Agents
 
 ## Claude
+
 - Role: Architectural synthesis, semantic content
 - Bump: Receives WAVE, sends PASS
 
-## Copilot  
+## Copilot
+
 - Role: Formatting, syntax, PR review
 - Bump: Receives PASS, sends WAVE
 
 ## Human
+
 - Role: Decision authority, integration
 - Bump: Receives all types, final resolution
 ```
@@ -320,17 +327,17 @@ Mermaid Chart provides **visual validation** of SpiralSafe structures.
 // Generate architecture diagram from atoms
 async function generateAtomDiagram(compound: string) {
   const atoms = await api.get(`/api/atom/compound/${compound}`);
-  
+
   const mermaid = `
 graph TD
   subgraph ${compound}
-    ${atoms.map(a => `${a.id}[${a.name}]`).join('\n    ')}
-    ${atoms.flatMap(a => 
-      a.dependencies.requires.map(r => `${r} --> ${a.id}`)
-    ).join('\n    ')}
+    ${atoms.map((a) => `${a.id}[${a.name}]`).join("\n    ")}
+    ${atoms
+      .flatMap((a) => a.dependencies.requires.map((r) => `${r} --> ${a.id}`))
+      .join("\n    ")}
   end
   `;
-  
+
   return validateAndRender(mermaid);
 }
 ```
@@ -364,28 +371,28 @@ Context7 provides **external knowledge** through .context.yaml patterns.
 // When documentation is needed
 async function getContextualDocs(topic: string) {
   // 1. Check local .context.yaml
-  const local = await api.get('/api/context/query', { 
-    params: { signal: topic } 
+  const local = await api.get("/api/context/query", {
+    params: { signal: topic },
   });
-  
+
   if (local.length > 0) {
     return local;
   }
-  
+
   // 2. Fall back to Context7
   const libraryId = await context7.resolveLibraryId(topic);
   const docs = await context7.getLibraryDocs(libraryId, { topic });
-  
+
   // 3. Store as local context for future
-  await api.post('/api/context/store', {
+  await api.post("/api/context/store", {
     domain: topic,
     content: docs,
     signals: {
       use_when: [`working with ${topic}`],
-      avoid_when: []
-    }
+      avoid_when: [],
+    },
   });
-  
+
   return docs;
 }
 ```
@@ -402,27 +409,27 @@ Explorium provides **business intelligence** through SAIF-structured analysis.
 // Business research as SAIF investigation
 async function businessInvestigation(query: string) {
   // 1. Start SAIF
-  const investigation = await api.post('/api/saif/start', {
+  const investigation = await api.post("/api/saif/start", {
     title: query,
-    symptoms: ['Need business intelligence']
+    symptoms: ["Need business intelligence"],
   });
-  
+
   // 2. Gather data (Analysis phase)
   const entities = await explorium.fetchEntities({
-    entity_type: 'businesses',
-    filters: parseQueryToFilters(query)
+    entity_type: "businesses",
+    filters: parseQueryToFilters(query),
   });
-  
+
   // 3. Form hypothesis
   await api.put(`/api/saif/${investigation.id}/hypothesis`, {
-    hypotheses: analyzePatterns(entities)
+    hypotheses: analyzePatterns(entities),
   });
-  
+
   // 4. Return structured result
   return {
     investigation_id: investigation.id,
     entities,
-    analysis: investigation.hypotheses
+    analysis: investigation.hypotheses,
   };
 }
 ```
@@ -435,13 +442,13 @@ UnifiedComms bridges **all communication channels** through bump.md routing.
 
 ### Channel Adapters
 
-| Channel | Adapter | Bump Support |
-|---------|---------|--------------|
-| Signal | signal-cli-rest-api | WAVE, PING |
-| SMS | Twilio/native gateway | PING |
-| Browser | Extension | WAVE, PASS |
-| CLI | Desktop Commander | All types |
-| Desktop | Native apps | SYNC |
+| Channel | Adapter               | Bump Support |
+| ------- | --------------------- | ------------ |
+| Signal  | signal-cli-rest-api   | WAVE, PING   |
+| SMS     | Twilio/native gateway | PING         |
+| Browser | Extension             | WAVE, PASS   |
+| CLI     | Desktop Commander     | All types    |
+| Desktop | Native apps           | SYNC         |
 
 ### Message Flow
 
@@ -505,4 +512,4 @@ spiralsafe bump WAVE --to human --state "Integration complete"
 
 ---
 
-*H&&S: Structure-preserving operations across substrates*
+_H&&S: Structure-preserving operations across substrates_

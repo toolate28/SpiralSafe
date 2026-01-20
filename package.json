@@ -8,10 +8,11 @@
   },
   "workspaces": [
     "ops",
-    "packages/*"
+    "packages/*",
+    "packages/atom-trail"
   ],
   "devDependencies": {
-    "prettier": "^3.0.0"
+    "prettier": "^3.8.0"
   },
   "dependencies": {
     "@vercel/analytics": "^1.6.1"

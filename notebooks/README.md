@@ -5,12 +5,14 @@ Interactive Jupyter notebooks for exploring SpiralSafe concepts and APIs.
 ## Contents
 
 ### Mathematical Foundation
+
 - **`CONSTRAINT_MATHEMATICS_v1.ipynb`** - Constraint mathematics framework
   - Formal mathematical foundations
   - Isomorphism principle demonstrations
   - Constraint topology explorations
 
 ### AI Integration
+
 - **`claude-platform.ipynb`** - Claude API integration patterns
   - Authentication workflows
   - Prompt engineering examples
@@ -24,6 +26,7 @@ Interactive Jupyter notebooks for exploring SpiralSafe concepts and APIs.
 ## Running the Notebooks
 
 ### Prerequisites
+
 ```bash
 # Install Jupyter
 pip install jupyter notebook
@@ -33,6 +36,7 @@ pip install jupyterlab
 ```
 
 ### Launch
+
 ```bash
 # From repository root
 jupyter notebook notebooks/

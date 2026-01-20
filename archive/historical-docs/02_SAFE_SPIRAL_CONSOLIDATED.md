@@ -36,6 +36,7 @@ Safe Space is the principle: **One source of truth that everyone can see.**
 **Implementation: bump.md**
 
 A single Markdown file (or collection) that shows:
+
 - Current state (what we're working on now)
 - Recent decisions (what we decided, when, why)
 - Who can do what (authority is explicit)
@@ -97,6 +98,7 @@ Trust comes from understanding: **Why does this person have this power? What are
 **Implementation: AWI (Authorization-With-Intent)**
 
 Every grant of authority includes:
+
 - **Authorization:** What can they do? (the explicit permission)
 - **Intent:** Why are they doing it? (the reason it matters)
 - **Incentive alignment:** What outcome are they measured on? (so we know they're trying to help)
@@ -151,6 +153,7 @@ Usable Work is the principle: **Break work at natural boundaries so it's indepen
 ATOM: **Atomic, Testable, Observable, Measurable**
 
 Break work into pieces where:
+
 - **Atomic:** The piece doesn't depend on something else finishing first (or dependency is explicit)
 - **Testable:** There's a clear test condition for "is this done?"
 - **Observable:** You can see if it succeeded (success is visible)
@@ -159,6 +162,7 @@ Break work into pieces where:
 **Why It Works:**
 
 In microservices, you don't have one big monolith. You have services that:
+
 - Have clear boundaries (one service = one responsibility)
 - Have explicit interfaces (API contracts)
 - Can be deployed independently (don't wait for other services)
@@ -188,6 +192,7 @@ Same principle in teams. Instead of "migrate the database" (vague, tangled, uncl
    - **Measurable:** "Zero discrepancies"
 
 Each piece is:
+
 - Independent (can be parallelized)
 - Clear (everyone knows what done looks like)
 - Testable (can verify success)
@@ -218,12 +223,14 @@ KENL: **Kernel Elegance Networked Layered**
 **Why It Works:**
 
 In scale-free networks (like the internet), knowledge doesn't decay because it's:
+
 - **Distributed:** Stored in many places, survives if one fails
 - **Replicated:** Multiple people understand it, survives when someone leaves
 - **Connected:** Ideas link to related ideas, creating patterns
 - **Structured:** Simple concepts compound into complex understanding
 
 When someone leaves, they leave their knowledge behind in:
+
 - Decision logs (bump.md)
 - Code comments
 - Test cases
@@ -231,6 +238,7 @@ When someone leaves, they leave their knowledge behind in:
 - Conversations with others who understand it
 
 When patterns emerge (e.g., "databases fail migration when we don't validate first"), that pattern is:
+
 - **Observable:** In logs, in decision history
 - **Replicable:** Someone else can learn it
 - **Improvable:** Next migration uses the learning
@@ -284,18 +292,21 @@ THEN: The spiral repeats at higher capability
 **The Progress:**
 
 Cycle 1:
+
 ```
 Safe Space (basic state) → Trust (clear intent) → Work (decomposes) → Better Spiral (basic patterns)
 Result: Team is coherent, moving
 ```
 
 Cycle 2:
+
 ```
 Safe Space (richer state, includes lessons) → Trust (based on track record) → Work (better decomposed based on last cycle) → Better Spiral (stronger patterns)
 Result: Team is faster, makes fewer mistakes
 ```
 
 Cycle 3:
+
 ```
 Safe Space (state includes meta-knowledge about how we work) → Trust (based on proven reliability) → Work (decomposition becomes natural) → Better Spiral (patterns become strategy)
 Result: Team becomes expert in what they do
@@ -309,12 +320,12 @@ This is why it's called "Better Spiral"—each cycle makes the next cycle better
 
 Each framework solves a specific information problem:
 
-| Problem | Framework | Solution |
-|---------|-----------|----------|
-| Information asymmetry | Safe Space | Visible shared state |
-| Hidden incentives | Trust | Intent alignment |
-| Unclear complexity | Usable Work | Natural boundaries |
-| Knowledge decay | Better Spiral | Networked learning |
+| Problem               | Framework     | Solution             |
+| --------------------- | ------------- | -------------------- |
+| Information asymmetry | Safe Space    | Visible shared state |
+| Hidden incentives     | Trust         | Intent alignment     |
+| Unclear complexity    | Usable Work   | Natural boundaries   |
+| Knowledge decay       | Better Spiral | Networked learning   |
 
 **Together**, they make information flow optimal:
 
@@ -331,12 +342,12 @@ This is what makes the spiral "safe"—information flows properly, so surprises 
 
 Every working system (Linux, Kubernetes, microservices, high-reliability teams) implements these patterns:
 
-| System | Visible State | Clear Intent | Natural Decomposition | Networked Learning |
-|--------|---------------|--------------|----------------------|-------------------|
-| Linux kernel | git + config files | design docs | modules | kernel mailing list + patches |
-| Kubernetes | etcd + manifests | API documentation | controllers | issues + PRs + docs |
-| Microservices | databases + APIs | contracts | services | shared libraries + patterns |
-| Safe Spiral teams | bump.md | AWI | ATOM | KENL |
+| System            | Visible State      | Clear Intent      | Natural Decomposition | Networked Learning            |
+| ----------------- | ------------------ | ----------------- | --------------------- | ----------------------------- |
+| Linux kernel      | git + config files | design docs       | modules               | kernel mailing list + patches |
+| Kubernetes        | etcd + manifests   | API documentation | controllers           | issues + PRs + docs           |
+| Microservices     | databases + APIs   | contracts         | services              | shared libraries + patterns   |
+| Safe Spiral teams | bump.md            | AWI               | ATOM                  | KENL                          |
 
 **Same pattern. Different domains.**
 
@@ -347,11 +358,13 @@ This isn't a management theory. This is recognizing what works, formalizing it, 
 ## Implementation Reality
 
 Safe Spiral is not:
+
 - ✗ Theoretical framework
 - ✗ Aspirational best practice
 - ✗ "Something that might work if everyone agrees"
 
 Safe Spiral is:
+
 - ✓ Practical patterns tested in multiple domains
 - ✓ Information-theoretically optimal
 - ✓ Self-correcting (false implementations expose themselves)
@@ -393,4 +406,4 @@ This works. It's proven in multiple domains. It's inevitable. The only question 
 **ATOM:** ATOM-DOC-20260112-003-safe-spiral-consolidated-frameworks  
 **Status:** Historical consolidation document
 
-*Everything else is detail. The pattern is clear. Now execute.*
+_Everything else is detail. The pattern is clear. Now execute._

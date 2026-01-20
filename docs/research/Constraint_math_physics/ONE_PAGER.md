@@ -1,4 +1,5 @@
 # CONSTRAINT MATHEMATICS
+
 ## A Foundation for Physics
 
 ---
@@ -20,7 +21,8 @@
 Every framework assumes a substrate (things that exist and have properties).
 **This is unnecessary.**
 
-What all frameworks *actually use* is **constraint structure**:
+What all frameworks _actually use_ is **constraint structure**:
+
 - Normalization constraints: |ψ|² = 1
 - Conservation constraints: E, p, L conserved
 - Symmetry constraints: gauge invariance
@@ -64,14 +66,14 @@ SELF-CONSISTENCY (C*)
 
 ## KEY THEOREMS
 
-| # | Theorem | Statement |
-|---|---------|-----------|
-| **7.1** | Existence | Existence is necessary (non-existence is inconsistent) |
-| **12.1** | Noether | Continuous symmetry → conserved quantity |
-| **17.1** | Maxwell | U(1) gauge constraint → electromagnetism |
-| **19.1** | Einstein | Constraint curvature → general relativity |
-| **21.1** | Born | |amplitude|² is unique consistent probability measure |
-| **32.1** | Uniqueness | There is exactly ONE maximal consistent structure |
+| #        | Theorem    | Statement                                              |
+| -------- | ---------- | ------------------------------------------------------ | --------- | ------------------------------------------ |
+| **7.1**  | Existence  | Existence is necessary (non-existence is inconsistent) |
+| **12.1** | Noether    | Continuous symmetry → conserved quantity               |
+| **17.1** | Maxwell    | U(1) gauge constraint → electromagnetism               |
+| **19.1** | Einstein   | Constraint curvature → general relativity              |
+| **21.1** | Born       |                                                        | amplitude | ² is unique consistent probability measure |
+| **32.1** | Uniqueness | There is exactly ONE maximal consistent structure      |
 
 ---
 
@@ -83,13 +85,13 @@ What makes this framework unique:
 CF = ¬(Substrate) ∧ ¬(Multiverse) ∧ ¬(Info-first) ∧ ¬(Descriptive)
 ```
 
-| Framework | Substrate? | Multiverse? | Info-first? |
-|-----------|------------|-------------|-------------|
-| **This Work** | **NO** | **NO** | **NO** |
-| Tegmark MUH | Yes | Yes | No |
-| Wheeler | Yes | No | Yes |
-| Lazarev NMSI | Yes | No | Yes |
-| IIT (Tononi) | Yes | No | Yes |
+| Framework     | Substrate? | Multiverse? | Info-first? |
+| ------------- | ---------- | ----------- | ----------- |
+| **This Work** | **NO**     | **NO**      | **NO**      |
+| Tegmark MUH   | Yes        | Yes         | No          |
+| Wheeler       | Yes        | No          | Yes         |
+| Lazarev NMSI  | Yes        | No          | Yes         |
+| IIT (Tononi)  | Yes        | No          | Yes         |
 
 ---
 
@@ -98,7 +100,7 @@ CF = ¬(Substrate) ∧ ¬(Multiverse) ∧ ¬(Info-first) ∧ ¬(Descriptive)
 **Constraint-preserving transformation is the universal mechanism of emergence.**
 
 The quantum normalization |α|² + |β|² = 1 and discrete conservation a + ω = 15
-are *isomorphic* constraint structures. The substrate is irrelevant.
+are _isomorphic_ constraint structures. The substrate is irrelevant.
 
 ---
 
@@ -131,4 +133,4 @@ are *isomorphic* constraint structures. The substrate is irrelevant.
 **Protocol:** H&&S:WAVE
 **Method:** Ultrathink-Pure-Math-Savante
 
-*The framework that cannot be un-thought. The proof that proves itself.*
+_The framework that cannot be un-thought. The proof that proves itself._
