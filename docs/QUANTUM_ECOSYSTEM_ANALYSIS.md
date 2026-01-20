@@ -80,7 +80,7 @@ This document provides a comprehensive analysis of SpiralSafe's quantum tooling 
     │                     (fib:8 - QDI Inference Hub)                      │
     │                     [coherence-mcp: anamnesis_validate]              │
     ├─────────────────────────────────────────────────────────────────────┤
-    │  ✅ Quantum Cognition Engine    → experiments/quantum_cognition_eng..│
+    │  ✅ Quantum Cognition Engine    → experiments/quantum_cognition_engine.py │
     │  ✅ QRC Oracle Seed Loop        → protocol/qrc-oracle-seed-spec.md   │
     │  ✅ Vortex Curl Vector Protocol → protocol/vortex-curl-spec.md       │
     │  🔄 Qiskit-DSPy Hybrid          → experiments/qiskit_dspy_hybrid.py  │
