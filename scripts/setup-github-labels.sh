@@ -48,6 +48,7 @@ for arg in "$@"; do
             ;;
         --list-labels)
             # Output labels in machine-readable format (one per line, names only)
+            # Extract label names before first | using sed: "name|color|desc" -> "name"
             cat << 'EOF' | sed 's/"\([^|]*\)|.*/\1/' | sort
 "dependencies|0366d6|Dependency updates from Dependabot"
 "automated|1d76db|Automated processes and workflows"
@@ -198,8 +199,8 @@ for label_def in "${LABELS[@]}"; do
         echo -e "Processing: ${BLUE}${name}${NC}"
     fi
     
-    # Check if label exists in our cached list
-    if echo "$EXISTING_LABELS" | grep -q "^${name}$"; then
+    # Check if label exists in our cached list (using literal string match)
+    if echo "$EXISTING_LABELS" | grep -Fxq "$name"; then
         # Label exists, update it
         if [ "$DRY_RUN" = true ]; then
             echo -e "  ${YELLOW}Would update:${NC} ${name}"
