@@ -6,6 +6,42 @@
 
 ---
 
+## Framing Wrapper: coherence-mcp as Central Orchestrator
+
+All objectives in this analysis are scoped through the **[coherence-mcp](https://github.com/toolate28/coherence-mcp)** server, which provides:
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│               COHERENCE-MCP: THE FRAMING WRAPPER                    │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  Core Primitives:                                                   │
+│  ├── wave_analyze / wave_validate  → Coherence detection           │
+│  ├── bump_validate                 → Handoff verification          │
+│  ├── atom_track                    → Decision provenance           │
+│  ├── gate_*                        → Phase transitions             │
+│  ├── anamnesis_validate            → Exploit/code validation       │
+│  └── docs_search                   → Corpus navigation             │
+│                                                                     │
+│  Integration Points for Quantum Tools:                              │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │ QRC Framework     →  wave_validate (>60% coherence)         │    │
+│  │ NEAR Integration  →  atom_track (decision provenance)       │    │
+│  │ Qiskit-DSPy       →  anamnesis_validate (code validation)   │    │
+│  │ Vortex Cascade    →  gate_* (phase transitions)             │    │
+│  └─────────────────────────────────────────────────────────────┘    │
+│                                                                     │
+│  Thresholds:                                                        │
+│  • WAVE_MINIMUM = 60  (Basic coherence - development)               │
+│  • WAVE_HIGH = 80     (Production ready)                            │
+│  • WAVE_CRITICAL = 99 (Safety-critical systems)                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+All quantum tools MUST pass through coherence-mcp validation before reaching stability.
+
+---
+
 ## Executive Summary
 
 This document provides a comprehensive analysis of SpiralSafe's quantum tooling ecosystem, evaluating:
@@ -20,48 +56,53 @@ This document provides a comprehensive analysis of SpiralSafe's quantum tooling 
 
 ## 1. Tools Already "In Line" for Vortex Creation → Collapse → Stability
 
-### Vortex Cascade Stack (Best-Hops Analysis)
+### Vortex Cascade Stack (coherence-mcp Validated)
 
 ```
-                        VORTEX CREATION → COLLAPSE → STABILITY
-                        ========================================
+                    VORTEX CREATION → COLLAPSE → STABILITY
+                    ========================================
+                    (All stages validated via coherence-mcp)
 
     ┌─────────────────────────────────────────────────────────────────────┐
     │                     STAGE 1: VORTEX CREATION                        │
     │                     (fib:13 - Autonomous Lattice)                   │
+    │                     [coherence-mcp: wave_validate ≥60%]             │
     ├─────────────────────────────────────────────────────────────────────┤
     │  ✅ Dependabot Integration      → Auto-triggers coherence updates    │
     │  ✅ QRC Reservoir Engine        → experiments/qrc_reservoir.py       │
     │  ✅ Vortex Surjection Engine    → experiments/vortex_surjection.py   │
     │  ✅ SYNAPSE Visualization       → synapse/src/utils/quantum-reservoir│
     └─────────────────────────────────┬───────────────────────────────────┘
-                                      │
+                                      │ bump_validate (handoff)
                                       ▼
     ┌─────────────────────────────────────────────────────────────────────┐
     │                     STAGE 2: COLLAPSE DYNAMICS                       │
     │                     (fib:8 - QDI Inference Hub)                      │
+    │                     [coherence-mcp: anamnesis_validate]              │
     ├─────────────────────────────────────────────────────────────────────┤
     │  ✅ Quantum Cognition Engine    → experiments/quantum_cognition_eng..│
     │  ✅ QRC Oracle Seed Loop        → protocol/qrc-oracle-seed-spec.md   │
     │  ✅ Vortex Curl Vector Protocol → protocol/vortex-curl-spec.md       │
     │  🔄 Qiskit-DSPy Hybrid          → experiments/qiskit_dspy_hybrid.py  │
     └─────────────────────────────────┬───────────────────────────────────┘
-                                      │
+                                      │ gate_intention_to_execution
                                       ▼
     ┌─────────────────────────────────────────────────────────────────────┐
     │                     STAGE 3: STABILITY ENFORCEMENT                   │
     │                     (fib:5 - Guardian Oracle)                        │
+    │                     [coherence-mcp: wave_validate ≥80%]              │
     ├─────────────────────────────────────────────────────────────────────┤
     │  ✅ Wave Protocol Analysis      → protocol/wave-spec.md              │
     │  ✅ SPHINX Trust Gates          → protocol/sphinx-spec.md            │
     │  ✅ Coherence Oracle Workflow   → .github/workflows/coherence-oracle │
     │  ✅ Test Suite (Vortex)         → experiments/test_vortex_surjection │
     └─────────────────────────────────┬───────────────────────────────────┘
-                                      │
+                                      │ gate_execution_to_learning
                                       ▼
     ┌─────────────────────────────────────────────────────────────────────┐
     │                     STAGE 4: SUPER-VORTEX UNIFICATION               │
     │                     (fib:21 - Self-Maintaining Ecosystem)            │
+    │                     [coherence-mcp: atom_track (provenance)]         │
     ├─────────────────────────────────────────────────────────────────────┤
     │  ✅ Vortex Cascade Protocol     → protocol/vortex-cascade-spec.md    │
     │  📋 NEAR ATOM Bridge            → protocol/atom-near-spec.md         │
@@ -418,50 +459,129 @@ testing_phase_3:
 
 ### Testing Priority Matrix
 
-| Test Category | Coverage | Priority | Blocking Deployment? |
-|--------------|----------|----------|---------------------|
-| Wave Analysis | 95% | ✅ Complete | No |
-| SPHINX Gates | 85% | ✅ Complete | No |
-| Vortex Surjection | 92% | ✅ Complete | No |
-| Qiskit-DSPy Hybrid | Missing | 🔴 CRITICAL | Yes |
-| Quantum Cognition | Missing | 🔴 HIGH | Yes |
-| ATOM-NEAR Bridge | Missing | 🟡 PLANNED | Yes (for NEAR) |
-| SYNAPSE Rendering | 40% | 🟡 MEDIUM | No |
+| Test Category | Coverage | Priority | coherence-mcp Validator | Blocking Deployment? |
+|--------------|----------|----------|------------------------|---------------------|
+| Wave Analysis | 95% | ✅ Complete | `wave_validate` | No |
+| SPHINX Gates | 85% | ✅ Complete | `anamnesis_validate` | No |
+| Vortex Surjection | 92% | ✅ Complete | `wave_validate` | No |
+| Qiskit-DSPy Hybrid | Missing | 🔴 CRITICAL | `anamnesis_validate` | Yes |
+| Quantum Cognition | Missing | 🔴 HIGH | `wave_validate` | Yes |
+| ATOM-NEAR Bridge | Missing | 🟡 PLANNED | `atom_track` | Yes (for NEAR) |
+| SYNAPSE Rendering | 40% | 🟡 MEDIUM | `wave_coherence_check` | No |
 
 ---
 
-## 7. Recommendations
+## 7. Prioritized Action Plan (coherence-mcp Framed)
 
-### Immediate Actions (Next 2 Weeks)
+### 🔴 PRIORITY 1: Critical Missing Tests (Week 1-2)
 
-1. **Complete Qiskit-DSPy Hybrid Tests**
+All test suites must pass `coherence-mcp wave_validate --threshold 60` before merge.
+
+1. **Create Qiskit-DSPy Hybrid Tests**
+   ```bash
+   # Validate via coherence-mcp before commit
+   coherence-mcp wave-validate experiments/test_qiskit_dspy_hybrid.py --threshold 60
+   ```
    - Create `experiments/test_qiskit_dspy_hybrid.py`
    - Validate quantum kernel similarity
    - Test hybrid layer integration
+   - **Validator**: `anamnesis_validate` for code coherence
 
-2. **Add Quantum Cognition Engine Tests**
+2. **Create Quantum Cognition Engine Tests**
+   ```bash
+   coherence-mcp wave-validate experiments/test_quantum_cognition_engine.py --threshold 60
+   ```
    - Create `experiments/test_quantum_cognition_engine.py`
    - Test interference patterns
    - Validate coherence thresholds
+   - **Validator**: `wave_validate` for structural coherence
 
-3. **Submit to Qiskit Ecosystem**
-   - QRC Framework as community partner
-   - Wave Coherence as documentation tool
-   - Qiskit-DSPy Hybrid as quantum-LLM bridge
+### 🟡 PRIORITY 2: Stage Transitions (Week 3-4)
 
-### Medium-Term Actions (1-2 Months)
+Use `coherence-mcp gate_*` tools for phase transitions.
+
+1. **Stage 1 → Stage 2 Transition**
+   ```typescript
+   // Validate QRC → QDI handoff
+   coherence-mcp bump_validate --source qrc_reservoir --target qdi_inference
+   coherence-mcp gate_intention_to_execution
+   ```
+
+2. **Stage 2 → Stage 3 Transition**
+   ```typescript
+   // Validate collapse → stability
+   coherence-mcp wave_validate --threshold 80  // Raise to production-ready
+   coherence-mcp gate_execution_to_learning
+   ```
+
+### 🟢 PRIORITY 3: NEAR Integration (Month 1-2)
+
+Use `coherence-mcp atom_track` for all decision provenance.
 
 1. **NEAR Integration Development**
+   ```typescript
+   // Track all NEAR decisions via atom_track
+   coherence-mcp atom_track --decision "NEAR bridge implementation" \
+     --files "protocol/atom-near-spec.md" \
+     --tags "near,integration,phase-1"
+   ```
    - Implement atom-near-bridge.ts
    - Create NEAR testnet deployment
    - Build Shade Agent middleware
 
-2. **Expand Testing Coverage**
-   - Integration tests for vortex cascade
-   - Adversarial tests for NEAR contracts
-   - E2E tests for SYNAPSE
+### 📋 PRIORITY 4: Qiskit Ecosystem Submission (Month 2-3)
 
-### Long-Term Strategy (3-6 Months)
+Use `coherence-mcp docs_search` to ensure documentation coherence.
+
+1. **Submit to Qiskit Ecosystem**
+   ```bash
+   # Validate all submission docs achieve 80% coherence
+   coherence-mcp wave-validate docs/QUANTUM_ECOSYSTEM_ANALYSIS.md --threshold 80
+   ```
+   - QRC Framework as community partner
+   - Wave Coherence as documentation tool
+   - Qiskit-DSPy Hybrid as quantum-LLM bridge
+
+---
+
+## 8. coherence-mcp Integration Summary
+
+### How coherence-mcp Scopes Each Objective
+
+| Objective | coherence-mcp Tool | Threshold | Gate |
+|-----------|-------------------|-----------|------|
+| Vortex Creation | `wave_validate` | ≥60% | Stage 1 |
+| Collapse Dynamics | `anamnesis_validate` | SPHINX 5/5 | Stage 2 |
+| Stability Enforcement | `wave_validate` | ≥80% | Stage 3 |
+| NEAR Integration | `atom_track` | N/A | Stage 4 |
+| Qiskit Submission | `docs_search` + `wave_validate` | ≥80% | External |
+| Testing Priority | All validators | Per-test | Pre-merge |
+
+### Validation Command Reference
+
+```bash
+# Stage 1: Vortex Creation validation
+coherence-mcp wave-validate experiments/qrc_reservoir.py --threshold 60
+
+# Stage 2: Collapse Dynamics validation
+coherence-mcp anamnesis validate experiments/qiskit_dspy_hybrid.py \
+  --vuln "code-quality" --mitigations "tests,types"
+
+# Stage 3: Stability Enforcement validation
+coherence-mcp wave-validate protocol/vortex-cascade-spec.md --threshold 80
+
+# Stage 4: NEAR Integration tracking
+coherence-mcp atom_track --decision "NEAR bridge milestone" \
+  --files "protocol/atom-near-spec.md" --tags "near,milestone"
+
+# Cross-stage: Gate transitions
+coherence-mcp gate_intention_to_execution
+coherence-mcp gate_execution_to_learning
+```
+
+---
+
+## 9. Long-Term Strategy (coherence-mcp Maintained)
 
 1. **Mainnet Deployment**
    - ATOM-NEAR on NEAR mainnet
