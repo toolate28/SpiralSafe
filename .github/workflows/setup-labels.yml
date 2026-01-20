@@ -42,7 +42,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           echo "🔍 Running in DRY RUN mode - no changes will be made"
-          ./scripts/setup-github-labels.sh --dry-run --verbose
+          VERBOSE_FLAG=""
+          if [ "${{ inputs.verbose }}" == "true" ]; then
+            VERBOSE_FLAG="--verbose"
+          fi
+          ./scripts/setup-github-labels.sh --dry-run $VERBOSE_FLAG
 
       - name: Setup labels (apply changes)
         if: ${{ inputs.dry_run == false }}
@@ -50,7 +54,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           echo "✓ Applying label changes"
-          ./scripts/setup-github-labels.sh --verbose
+          VERBOSE_FLAG=""
+          if [ "${{ inputs.verbose }}" == "true" ]; then
+            VERBOSE_FLAG="--verbose"
+          fi
+          ./scripts/setup-github-labels.sh $VERBOSE_FLAG
 
       - name: Generate summary
         if: always()

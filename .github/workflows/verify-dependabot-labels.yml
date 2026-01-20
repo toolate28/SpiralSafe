@@ -26,8 +26,8 @@ jobs:
         id: extract
         run: |
           # Use dedicated Python script for extraction
-          LABELS=$(python3 scripts/extract-dependabot-labels.py)
-          echo "LABELS=${LABELS//$'\n'/,}" >> $GITHUB_OUTPUT
+          LABELS=$(python3 scripts/extract-dependabot-labels.py | tr '\n' ',')
+          echo "LABELS=${LABELS%,}" >> $GITHUB_OUTPUT  # Remove trailing comma
 
       - name: Check if labels exist
         env:
