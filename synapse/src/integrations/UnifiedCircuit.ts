@@ -60,7 +60,7 @@ export enum Substrate {
  * Coherence transformation
  */
 export interface CoherenceTransform {
-  deltaC url: number;      // Change in curl
+  deltaCurl: number;       // Change in curl
   deltaPotential: number;  // Change in potential
   deltaDispersion: number; // Change in dispersion
   isReversible: boolean;
