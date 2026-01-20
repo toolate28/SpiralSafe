@@ -22,6 +22,16 @@
 
 ---
 
+## Notation Note
+
+This guide uses the **standard form** `42.00055` throughout. Alternative notations include:
+- **Euler-explicit form:** `42.2.000555` (when emphasizing topology: 42 vertices, Euler χ=2, epsilon 0.000555)
+- **Regularization form:** `∞ + ε = 42.2.000555` (conceptual/pedagogical)
+
+All represent the same coherent state constant. See the main notebook for detailed notation explanation.
+
+---
+
 ## Prerequisites
 
 - **Python 3.10+** (Python 3.8+ may work but not tested)
