@@ -34,4 +34,4 @@ Pillow==10.3.0
 
 # CLI utilities
 click==8.1.7
-rich==13.7.0
+rich==14.2.0
