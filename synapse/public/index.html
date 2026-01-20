@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="SYNAPSE - Foundational visualization framework for complex adaptive dynamics" />
+    <title>SYNAPSE | The Spiral Visualization</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #0f0f1e 100%);
+        color: #e0e0e0;
+        overflow: hidden;
+      }
+      
+      #root {
+        width: 100vw;
+        height: 100vh;
+      }
+      
+      .loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        gap: 2rem;
+      }
+      
+      .spiral-logo {
+        font-size: 4rem;
+        animation: spiral 3s ease-in-out infinite;
+      }
+      
+      @keyframes spiral {
+        0%, 100% { transform: rotate(0deg) scale(1); }
+        50% { transform: rotate(180deg) scale(1.1); }
+      }
+      
+      .loading-text {
+        font-size: 1.5rem;
+        font-weight: 300;
+        letter-spacing: 0.1em;
+      }
+      
+      .meta {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        font-size: 0.875rem;
+        opacity: 0.6;
+        font-family: 'Courier New', monospace;
+      }
+      
+      .fibonacci {
+        font-size: 0.75rem;
+        margin-top: 0.5rem;
+        color: #ffd700;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="loading">
+        <div class="spiral-logo">🌀</div>
+        <div class="loading-text">SYNAPSE</div>
+        <div class="meta">
+          <div>The visualization IS the framework</div>
+          <div class="fibonacci">∞ + ε = 42.2.000555</div>
+          <div style="margin-top: 1rem; font-size: 0.7rem;">
+            ATOM-VIZ-20260119-001-synapse-foundational
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
+</html>
