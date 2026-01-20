@@ -189,11 +189,11 @@
       "node_theorem": "0.8 (from potential)",
       "node_embody": "0.3 (from |divergence|)",
       "node_connect": "0.15 (from curl)",
-      "node_be": "1.0005 (base with epsilon)",
-      "coherence": "0.8 + 0.3 + 0.15 + 1.0005 = 2.2505"
+      "node_be": "0.6005 (base with epsilon from entropy=1.2)",
+      "coherence": "0.8 + 0.3 + 0.15 + 0.6005 = 1.8505"
     },
     "output": {
-      "coherence": 2.2505,
+      "coherence": 1.8505,
       "state": "COLLAPSE",
       "passed": false,
       "message": "Coherence below minimum tetrahedral stability. Structure incomplete."
