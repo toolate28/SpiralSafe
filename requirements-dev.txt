@@ -13,7 +13,7 @@ hypothesis==6.92.1
 # Code quality
 black==24.3.0
 flake8==6.1.0
-mypy==1.8.0
+mypy==1.19.1
 pylint==3.0.3
 
 # API Clients (for testing integrations)
