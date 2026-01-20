@@ -84,9 +84,12 @@ jobs:
           echo "## Verifying Dependabot Labels" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
+          # Get required Dependabot labels from config
+          REQUIRED_LABELS=$(python3 scripts/extract-dependabot-labels.py)
+          
           # Check for each required Dependabot label
           MISSING=0
-          for label in "dependencies" "automated" "cascade-stage-1" "github-actions" "ops" "python"; do
+          for label in $REQUIRED_LABELS; do
             if gh label list --json name --jq ".[] | select(.name == \"${label}\") | .name" | grep -q "^${label}$"; then
               echo "- ✓ \`${label}\`" >> $GITHUB_STEP_SUMMARY
             else

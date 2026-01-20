@@ -48,3 +48,12 @@
 
 - **Merge decisions:** "Your fine advice and sound judgement" (referring to Claude)
 - **Operational insight:** "We make leaps I had no intention of making"
+
+# Infrastructure & Maintenance
+
+- **GitHub Labels:** Comprehensive label system for Dependabot, SYNAPSE, SPHINX, and H&&S coordination
+  - **Setup script:** `scripts/setup-github-labels.sh` — Creates all 31 required labels
+  - **Documentation:** `docs/GITHUB_LABELS.md` — Complete reference with SPHINX gate testing
+  - **Workflows:** `setup-labels.yml` for manual setup, `verify-dependabot-labels.yml` for validation
+  - **Integration:** Labels enable ATOM tagging, coherence tracking, and agent coordination
+  - **ATOM Tags:** `ATOM-TASK-20260120-001-setup-github-labels`, `ATOM-DOC-20260120-002-github-labels-documentation`
