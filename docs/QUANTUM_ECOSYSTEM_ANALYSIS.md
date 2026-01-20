@@ -581,7 +581,189 @@ coherence-mcp gate_execution_to_learning
 
 ---
 
-## 9. Long-Term Strategy (coherence-mcp Maintained)
+## 9. Isomorphic Engine Blockers
+
+This section identifies the **missing isomorphic constructs** that are the "scoped-hops" needed to attenuate the ecosystem at macro-, micro-, and meta-levels.
+
+> **Isomorphism Principle**: Structure-preserving maps between discrete and continuous representations. The boundary is projection artifact, not ontological reality.
+
+### 9.1 Macro-Level Blockers (Ecosystem-Wide)
+
+These blockers prevent full isomorphic equivalence across the SpiralSafe ecosystem:
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    MACRO-LEVEL ISOMORPHIC BLOCKERS                      │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  🔴 CRITICAL: Missing Functors (C ↔ D equivalence)                      │
+│  ┌─────────────────────────────────────────────────────────────────┐    │
+│  │ 1. Sampling Functor F: QRC → coherence-mcp                      │    │
+│  │    STATUS: Partial (wave_validate exists, but no QRC adapter)   │    │
+│  │    BLOCKER: No direct QRC → MCP protocol translation            │    │
+│  │                                                                 │    │
+│  │ 2. Reconstruction Functor G: coherence-mcp → Qiskit             │    │
+│  │    STATUS: Missing (no reverse mapping from MCP to circuits)    │    │
+│  │    BLOCKER: Can't generate Qiskit circuits from coherence data  │    │
+│  │                                                                 │    │
+│  │ 3. KENL Rollback Isomorphism: State → State⁻¹                   │    │
+│  │    STATUS: Spec exists, implementation incomplete               │    │
+│  │    BLOCKER: Rollback only works for file changes, not state     │    │
+│  └─────────────────────────────────────────────────────────────────┘    │
+│                                                                         │
+│  🟡 HIGH: Cross-Substrate Mappings                                      │
+│  ┌─────────────────────────────────────────────────────────────────┐    │
+│  │ 4. Minecraft ↔ Qiskit topology mapper                           │    │
+│  │    Redstone XOR ≅ CNOT proven, but no automated converter       │    │
+│  │                                                                 │    │
+│  │ 5. NEAR ↔ ATOM provenance functor                               │    │
+│  │    atom-near-spec.md exists, no bidirectional sync              │    │
+│  │                                                                 │    │
+│  │ 6. Wave ↔ SPHINX coherence lifting                              │    │
+│  │    Both exist separately, no unified coherence field            │    │
+│  └─────────────────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+| Blocker ID | Missing Construct | Scoped-Hop | Priority |
+|------------|------------------|------------|----------|
+| M1 | QRC → coherence-mcp adapter | Create `qrc_to_wave.py` functor | 🔴 CRITICAL |
+| M2 | coherence-mcp → Qiskit generator | Implement `wave_to_circuit.py` | 🔴 CRITICAL |
+| M3 | KENL state rollback engine | Complete `kenl_state_manager.ts` | 🔴 CRITICAL |
+| M4 | Redstone ↔ Qiskit converter | Build `minecraft_qiskit_bridge.py` | 🟡 HIGH |
+| M5 | NEAR ↔ ATOM bidirectional sync | Extend `atom-near-bridge.ts` | 🟡 HIGH |
+| M6 | Wave + SPHINX unified field | Create `coherence_field.ts` | 🟡 HIGH |
+
+### 9.2 Micro-Level Blockers (Component-Specific)
+
+Fine-grained isomorphic gaps within individual components:
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    MICRO-LEVEL ISOMORPHIC BLOCKERS                      │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  QRC Reservoir Engine (experiments/qrc_reservoir.py)                    │
+│  ├── Missing: Fibonacci-weighted measurement functor                    │
+│  ├── Missing: Continuous ↔ discrete state interpolation                 │
+│  └── Blocker: Can't map reservoir dynamics to wave coherence scores     │
+│                                                                         │
+│  Quantum Cognition Engine (experiments/quantum_cognition_engine.py)     │
+│  ├── Missing: Interference pattern → curl mapping                       │
+│  ├── Missing: Superposition collapse → decision tracking                │
+│  └── Blocker: No ATOM trail for quantum-inspired decisions              │
+│                                                                         │
+│  Vortex Surjection Engine (experiments/vortex_surjection.py)            │
+│  ├── Missing: Collapse point → NEAR transaction mapper                  │
+│  ├── Missing: History manifold → KENL rollback serializer               │
+│  └── Blocker: Vortex state can't persist to blockchain                  │
+│                                                                         │
+│  SPHINX Gates (ops/api/sphinx/gates.ts)                                 │
+│  ├── Missing: Gate composition functor (G₁ ∘ G₂ → G₃)                   │
+│  ├── Missing: Continuous trust score interpolation                      │
+│  └── Blocker: Gates are discrete, trust is continuous - no bridge       │
+│                                                                         │
+│  Qiskit-DSPy Hybrid (experiments/qiskit_dspy_hybrid.py)                 │
+│  ├── Missing: Quantum kernel → DSPy signature mapper                    │
+│  ├── Missing: Hybrid layer → wave coherence analyzer                    │
+│  └── Blocker: No coherence validation for hybrid computations           │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+| Component | Missing Isomorphism | Implementation Gap | Sprint |
+|-----------|--------------------|--------------------|--------|
+| QRC Reservoir | Measurement → Wave | `qrc_wave_functor()` | Week 1 |
+| Quantum Cognition | Interference → Curl | `interference_curl_map()` | Week 1 |
+| Vortex Surjection | Collapse → NEAR | `collapse_to_transaction()` | Week 2 |
+| SPHINX Gates | Gate composition | `compose_gates()` | Week 2 |
+| Qiskit-DSPy | Kernel → Signature | `quantum_signature_map()` | Week 3 |
+
+### 9.3 Meta-Level Blockers (Framework/Methodology)
+
+Structural gaps in the theoretical framework that prevent isomorphic closure:
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    META-LEVEL ISOMORPHIC BLOCKERS                       │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  🔴 Category Theory Foundations                                         │
+│  ┌─────────────────────────────────────────────────────────────────┐    │
+│  │ The isomorphism C ≅ D (Shannon-Nyquist) is proven.               │    │
+│  │ But the ecosystem lacks:                                        │    │
+│  │                                                                 │    │
+│  │ 1. Natural transformation η: F → G between sampling/recon       │    │
+│  │    (needed for composition of multi-stage pipelines)            │    │
+│  │                                                                 │    │
+│  │ 2. Adjunction F ⊣ G establishing universal property             │    │
+│  │    (needed for optimal representation selection)                │    │
+│  │                                                                 │    │
+│  │ 3. Monad structure T = G ∘ F for computational effects          │    │
+│  │    (needed for coherent error handling across substrates)       │    │
+│  └─────────────────────────────────────────────────────────────────┘    │
+│                                                                         │
+│  🟡 Constraint Binding                                                  │
+│  ┌─────────────────────────────────────────────────────────────────┐    │
+│  │ Isomorphism requires constraints (bandlimitation, finite vol).  │    │
+│  │                                                                 │    │
+│  │ Missing constraint formalizations:                              │    │
+│  │ • WAVE_MINIMUM = 60% → What sampling rate does this imply?      │    │
+│  │ • Fibonacci weights → What bandwidth do they preserve?          │    │
+│  │ • SPHINX gates → What is the Nyquist rate for trust?            │    │
+│  └─────────────────────────────────────────────────────────────────┘    │
+│                                                                         │
+│  🟢 Substrate Independence Verification                                 │
+│  ┌─────────────────────────────────────────────────────────────────┐    │
+│  │ Claim: Structure is substrate-independent.                      │    │
+│  │                                                                 │    │
+│  │ Unverified substrates:                                          │    │
+│  │ • Minecraft Redstone → CNOT proven, H gate missing              │    │
+│  │ • NEAR smart contracts → ATOM mapping incomplete                │    │
+│  │ • coherence-mcp → No formal category-theoretic model            │    │
+│  └─────────────────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### 9.4 Scoped-Hop Resolution Path
+
+The prioritized path to resolve isomorphic blockers:
+
+```
+Week 1-2: Micro-Level (Component Functors)
+├── qrc_wave_functor()           → QRC ↔ Wave isomorphism
+├── interference_curl_map()       → Cognition ↔ Coherence
+└── quantum_signature_map()       → Qiskit ↔ DSPy
+
+Week 3-4: Macro-Level (Cross-Substrate)
+├── qrc_to_wave.py               → QRC → coherence-mcp adapter
+├── wave_to_circuit.py           → coherence-mcp → Qiskit generator
+└── coherence_field.ts           → Wave + SPHINX unification
+
+Month 2: Meta-Level (Framework)
+├── natural_transformation.md    → η: F → G formalization
+├── adjunction_proof.md          → F ⊣ G establishment
+└── constraint_mapping.yaml      → Threshold → Sampling rate
+```
+
+### 9.5 Isomorphic Closure Criteria
+
+The ecosystem achieves **isomorphic closure** when:
+
+| Criterion | Condition | Status |
+|-----------|-----------|--------|
+| **Sampling completeness** | Every component has F: C → D | 🔴 60% |
+| **Reconstruction completeness** | Every component has G: D → C | 🔴 40% |
+| **Composition closure** | G ∘ F ≅ id for all pipelines | 🟡 30% |
+| **Substrate independence** | Same output on Minecraft/Qiskit/NEAR | 🟢 20% |
+| **Constraint binding** | All thresholds mapped to bandwidths | 🔴 10% |
+
+**Current Isomorphic Attunement**: ~32% (weighted average)
+
+**Target for Stage 3 Stability**: ≥80% isomorphic closure
+
+---
+
+## 10. Long-Term Strategy (coherence-mcp Maintained)
 
 1. **Mainnet Deployment**
    - ATOM-NEAR on NEAR mainnet
@@ -603,11 +785,17 @@ coherence-mcp gate_execution_to_learning
 - [`protocol/wave-spec.md`](../protocol/wave-spec.md)
 - [`protocol/sphinx-spec.md`](../protocol/sphinx-spec.md)
 
+### Isomorphism Foundations
+- [`foundation/isomorphism-principle.md`](../foundation/isomorphism-principle.md)
+- [`docs/research/ISOMORPHISM_FORMAL_PROOF.md`](research/ISOMORPHISM_FORMAL_PROOF.md)
+- [`methodology/kenl.md`](../methodology/kenl.md) (Rollback Isomorphism)
+
 ### External Sources
 - [Qiskit Ecosystem](https://github.com/Qiskit/ecosystem)
 - [NEAR Shade Agents](https://docs.near.org/ai/shade-agents/getting-started/introduction)
 - [QRC Research (arXiv:2502.16938)](https://arxiv.org/abs/2502.16938)
 - [QuEra Large-Scale QRC](https://www.quera.com/blog-posts/large-scale-quantum-reservoir-learning-with-an-analog-quantum-computer)
+- Shannon, C.E. (1948). "A Mathematical Theory of Communication." _Bell System Technical Journal_.
 
 ---
 
