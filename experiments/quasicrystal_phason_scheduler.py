@@ -23,6 +23,10 @@ import numpy as np
 PHI = (1 + math.sqrt(5)) / 2          # Golden ratio ≈ 1.618
 GOLDEN_ANGLE = 2 * math.pi / PHI**2   # ≈137.5° in radians
 EPSILON = 0.00055                     # Coherence seed
+DEFAULT_VC_GUARD_LIMIT = 62           # Default v=c boundary guard limit
+COORD_SEED_SCALE = 1000               # Scale factor for coordinate-to-seed conversion
+COORD_SEED_OFFSET = 100               # Offset factor for coordinate-to-seed conversion
+COORD_SEED_MOD = 2**31                # Modulus for seed (32-bit positive int)
 
 
 def penrose_project(n_points: int) -> np.ndarray:
@@ -116,19 +120,19 @@ def uniform_random_flip(coords: np.ndarray, values: np.ndarray):
 
 def quasicrystal_schedule(
     n_points: int = 500,
-    iterations: int = 62,
+    iterations: int = DEFAULT_VC_GUARD_LIMIT,
     seed: int = None,
     verbose: bool = True,
-    max_iterations: int = None,
+    vc_guard_override: int = None,
 ):
     """Full quasicrystal scheduling optimizer.
 
     Args:
         n_points: Number of points for Penrose projection grid
-        iterations: Maximum iterations (default 62 = v=c guard)
+        iterations: Maximum iterations (default = DEFAULT_VC_GUARD_LIMIT)
         seed: Random seed for reproducibility
         verbose: Print progress every 50 iterations
-        max_iterations: If provided, overrides v=c guard check
+        vc_guard_override: If provided, overrides the v=c boundary guard limit
 
     Returns:
         Tuple of (best_coordinate, best_density)
@@ -143,8 +147,8 @@ def quasicrystal_schedule(
     best_val = float('inf')
     best_coord = None
 
-    # v=c guard limit (can be overridden with max_iterations)
-    vc_limit = max_iterations if max_iterations is not None else 62
+    # v=c guard limit (can be overridden with vc_guard_override)
+    vc_limit = vc_guard_override if vc_guard_override is not None else DEFAULT_VC_GUARD_LIMIT
 
     for it in range(iterations):
         if it > vc_limit:
@@ -166,7 +170,7 @@ def quasicrystal_schedule(
 
 def uniform_random_schedule(
     n_points: int = 500,
-    iterations: int = 62,
+    iterations: int = DEFAULT_VC_GUARD_LIMIT,
     seed: int = None,
     verbose: bool = True,
 ):
@@ -206,7 +210,7 @@ def uniform_random_schedule(
     return best_coord, -best_val
 
 
-def compare_schedulers(n_points: int = 32, iterations: int = 62, seed: int = 42):
+def compare_schedulers(n_points: int = 32, iterations: int = DEFAULT_VC_GUARD_LIMIT, seed: int = 42):
     """Compare quasicrystal vs uniform random baseline.
 
     Args:
@@ -329,7 +333,11 @@ def vliw_packing_objective(schedule_order: np.ndarray, ops: list) -> float:
     # Use coordinate magnitude to determine scheduling priority
     # This is a proxy - real implementation would use coordinate
     # to permute operation order
-    np.random.seed(int(abs(schedule_order[0] * 1000 + schedule_order[1] * 100)) % 2**31)
+    coord_seed = int(abs(
+        schedule_order[0] * COORD_SEED_SCALE +
+        schedule_order[1] * COORD_SEED_OFFSET
+    )) % COORD_SEED_MOD
+    np.random.seed(coord_seed)
 
     bundles = []
     current_bundle = VLIWBundle()

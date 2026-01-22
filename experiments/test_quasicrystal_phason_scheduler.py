@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 import numpy as np
 
 from quasicrystal_phason_scheduler import (
-    PHI, GOLDEN_ANGLE, EPSILON,
+    PHI, GOLDEN_ANGLE, EPSILON, DEFAULT_VC_GUARD_LIMIT,
     penrose_project, phason_flip, bundle_density_objective,
     quasicrystal_schedule, uniform_random_schedule, compare_schedulers,
     VLIWBundle, vliw_packing_objective, simulate_vliw_packing,
@@ -150,7 +150,8 @@ class TestSuite:
 
     def _test_density_baseline(self):
         """Test uniform random baseline density."""
-        uniform_random_schedule(FOREST_HEIGHT, BATCH_SIZE, seed=1, verbose=False)  # warmup
+        # Warmup call to JIT-compile/cache numpy operations for consistent timing
+        uniform_random_schedule(FOREST_HEIGHT, BATCH_SIZE, seed=1, verbose=False)
         densities = []
         for _ in range(ROUNDS):
             _, density = uniform_random_schedule(
@@ -162,7 +163,8 @@ class TestSuite:
 
     def _test_density_qc(self):
         """Test quasicrystal scheduler density."""
-        quasicrystal_schedule(FOREST_HEIGHT, BATCH_SIZE, seed=1, verbose=False)  # warmup
+        # Warmup call to JIT-compile/cache numpy operations for consistent timing
+        quasicrystal_schedule(FOREST_HEIGHT, BATCH_SIZE, seed=1, verbose=False)
         densities = []
         for _ in range(ROUNDS):
             _, density = quasicrystal_schedule(
