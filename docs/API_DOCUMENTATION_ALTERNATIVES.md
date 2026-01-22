@@ -82,11 +82,11 @@ When building interactive API documentation, several excellent open-source and c
 - Self-hostable
 
 **Cons:**
-- "Try It" interactive testing only in commercial Redocly product
+- Interactive "Try It" feature is limited in the open-source version (enhanced in commercial Redocly product)
 - Full customization requires commercial tier
 - YAML config learning curve
 
-**Best For:** Teams wanting beautiful, professional reference docs without interactive testing.
+**Best For:** Teams wanting beautiful, professional reference docs with optional interactive testing.
 
 **Integration Example:**
 ```html
