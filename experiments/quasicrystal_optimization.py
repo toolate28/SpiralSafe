@@ -110,6 +110,38 @@ def penrose_coordinates(n_points: int) -> np.ndarray:
 EPSILON_STABILITY = 0.0005  # Planck-scale stability epsilon
 
 
+def greedy_baseline_optimization(
+    objective_func: Callable[[np.ndarray], float],
+    n_points: int,
+    iterations: int,
+    seed: int | None = None
+) -> Tuple[np.ndarray, float]:
+    """
+    Baseline greedy optimizer with uniform random mutations.
+
+    Used for comparison against quasicrystal-aware optimization.
+    """
+    if seed is not None:
+        random.seed(seed)
+        np.random.seed(seed)
+
+    coords = penrose_coordinates(n_points)
+    n_coords = len(coords)
+    values = np.array([objective_func(c) for c in coords])
+
+    for _ in range(min(iterations, 62)):  # Same iteration cap
+        flip_i = random.randint(0, n_coords - 1)
+        flip_delta = (np.random.rand(2) - 0.5) * 0.5  # Uniform random
+        new_coord = coords[flip_i] + flip_delta
+        new_val = objective_func(new_coord)
+        if new_val < values[flip_i]:  # Greedy accept
+            coords[flip_i] = new_coord
+            values[flip_i] = new_val
+
+    min_idx = np.argmin(values)
+    return coords[min_idx].copy(), float(values[min_idx])
+
+
 def quasicrystal_optimization(
     objective_func: Callable[[np.ndarray], float],
     n_points: int,
@@ -174,6 +206,7 @@ def quasicrystal_optimization(
 
     # Evaluate objective at all initial points
     values = np.array([objective_func(c) for c in coords])
+    best_val = float(np.min(values))
 
     # Track cumulative golden angle for aperiodic rotation
     angle = 0.0
@@ -181,6 +214,11 @@ def quasicrystal_optimization(
 
     # Phason flip optimization with quasicrystal-aware dynamics
     for iteration in range(iterations):
+        # Progress every 10 iterations
+        if (iteration + 1) % 10 == 0:
+            best_val = float(np.min(values))
+            print(f"Iter {iteration + 1}/{iterations} | Best: {best_val:.2f}")
+
         # Fibonacci stride: select index using Fibonacci sequence
         stride = FIBONACCI_CACHE[fib_idx % len(FIBONACCI_CACHE)]
         flip_i = (iteration * stride) % n_coords
@@ -196,7 +234,7 @@ def quasicrystal_optimization(
         new_val = objective_func(new_coord)
         delta_gain = values[flip_i] - new_val  # Positive if improvement
 
-        # Quasicrystal acceptance: ε × exp(Δgain / φ²)
+        # Quasicrystal acceptance: ε × exp(Δgain / φ²) with PHI = (1+√5)/2
         if delta_gain > 0:
             coords[flip_i] = new_coord
             values[flip_i] = new_val
@@ -215,6 +253,56 @@ def quasicrystal_optimization(
 # =============================================================================
 # HOLOGRAPHIC CONSERVATION
 # =============================================================================
+
+def compare_with_baseline(
+    objective_func: Callable[[np.ndarray], float],
+    n_points: int = 50,
+    iterations: int = 50,
+    seed: int = 42
+) -> dict:
+    """
+    Compare quasicrystal optimization against greedy baseline.
+
+    Returns improvement metrics.
+    """
+    # Run quasicrystal optimizer
+    print("\n--- Quasicrystal Optimizer ---")
+    qc_coord, qc_val = quasicrystal_optimization(
+        objective_func, n_points, iterations, seed=seed
+    )
+
+    # Run greedy baseline
+    print("\n--- Greedy Baseline ---")
+    baseline_coord, baseline_val = greedy_baseline_optimization(
+        objective_func, n_points, iterations, seed=seed
+    )
+
+    # Calculate improvement
+    if baseline_val != 0:
+        improvement = ((baseline_val - qc_val) / abs(baseline_val)) * 100
+    else:
+        improvement = 0.0 if qc_val == 0 else -100.0
+
+    # Bundle density: ratio of optimal value to search space coverage
+    coords = penrose_coordinates(n_points)
+    avg_density_qc = qc_val / len(coords) if len(coords) > 0 else 0
+    avg_density_baseline = baseline_val / len(coords) if len(coords) > 0 else 0
+
+    print(f"\n--- Comparison Results ---")
+    print(f"Quasicrystal best:   {qc_val:.6f}")
+    print(f"Greedy baseline:     {baseline_val:.6f}")
+    print(f"Improvement:         {improvement:+.2f}%")
+    print(f"Avg bundle density (QC):       {avg_density_qc:.6f}")
+    print(f"Avg bundle density (Baseline): {avg_density_baseline:.6f}")
+
+    return {
+        "qc_val": qc_val,
+        "baseline_val": baseline_val,
+        "improvement_pct": improvement,
+        "qc_density": avg_density_qc,
+        "baseline_density": avg_density_baseline,
+    }
+
 
 def holographic_conservation(state: dict, boundary_area: float) -> int:
     """
@@ -396,6 +484,13 @@ def demonstrate_quasicrystal_optimization():
     print(f"  - Coupled result: [{coupled[0]:.6f}, {coupled[1]:.6f}]")
     print()
 
+    # Baseline comparison
+    print("=" * 70)
+    print("BASELINE COMPARISON")
+    print("=" * 70)
+    comparison = compare_with_baseline(objective, n_points=50, iterations=50, seed=42)
+    print()
+
     print("=" * 70)
     print("DEMONSTRATION COMPLETE")
     print("=" * 70)
@@ -404,7 +499,8 @@ def demonstrate_quasicrystal_optimization():
         "best_coord": best_coord,
         "best_val": best_val,
         "encoded": encoded,
-        "coupled": coupled
+        "coupled": coupled,
+        "comparison": comparison,
     }
 
 
