@@ -208,6 +208,10 @@
           </p>
           <pre><code class="language-bash">curl -X GET https://api.spiralsafe.org/api/health \
   -H "X-API-Key: your-api-key"</code></pre>
+          <div class="mt-4 bg-cyan-900/20 border border-cyan-500/30 rounded-lg px-4 py-3 text-sm">
+            <strong class="text-cyan-400">Getting an API Key:</strong>
+            <span class="text-purple-200">Contact the SpiralSafe team or use the <a href="/admin/login.html" class="text-cyan-400 hover:text-cyan-300 underline">Admin Console</a> to manage your API keys.</span>
+          </div>
         </section>
 
         <!-- Health Endpoint -->
@@ -622,8 +626,8 @@
         responseEl.classList.remove('hidden');
         codeEl.textContent = 'Analyzing...';
 
-        // Note: This would require API key in production
-        // For demo, we'll show a simulated response
+        // Demo mode: simulated response for interactive preview
+        // For production API calls, configure your API key in the request header
         const simulatedResponse = {
           curl: Math.random() * 0.3,
           divergence: Math.random() * 0.2 - 0.1,
@@ -638,7 +642,7 @@
             }
           ] : [],
           coherent: true,
-          note: "Demo mode - connect your API key for real analysis"
+          _note: "Interactive demo - use curl or your preferred HTTP client with a valid API key for actual results"
         };
 
         codeEl.textContent = JSON.stringify(simulatedResponse, null, 2);

@@ -408,6 +408,9 @@
 
   <!-- JavaScript -->
   <script>
+    // API Configuration - uses relative path or can be overridden via localStorage
+    const API_BASE = localStorage.getItem('spiralsafe_api_base') || 'https://api.spiralsafe.org';
+
     // Check authentication
     document.addEventListener('DOMContentLoaded', () => {
       const token = localStorage.getItem('spiralsafe_admin_token') ||
@@ -506,7 +509,7 @@
       // For demo purposes, we're using static data
 
       try {
-        const response = await fetch('https://api.spiralsafe.org/api/health');
+        const response = await fetch(`${API_BASE}/api/health`);
         if (response.ok) {
           // API is up, update status indicator
           console.log('API health check passed');
