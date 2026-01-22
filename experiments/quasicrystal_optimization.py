@@ -106,20 +106,25 @@ def penrose_coordinates(n_points: int) -> np.ndarray:
 # QUASICRYSTAL OPTIMIZATION
 # =============================================================================
 
+# Stability constant from supergravity 4.0005 filter
+EPSILON_STABILITY = 0.0005  # Planck-scale stability epsilon
+
+
 def quasicrystal_optimization(
     objective_func: Callable[[np.ndarray], float],
     n_points: int,
     iterations: int,
     seed: int | None = None,
-    epsilon: float = 0.1
+    epsilon: float = EPSILON_STABILITY
 ) -> Tuple[np.ndarray, float]:
     """
     Optimize an objective function using quasicrystal-aware phason flips.
 
-    The phason flip pass uses three quasicrystalline principles:
+    The phason flip pass uses quasicrystalline principles:
     1. Golden angle (137.5°) rotation for mutation direction
     2. Fibonacci stride (1,2,3,5,8,...) for flip propagation
     3. Acceptance probability = ε × exp(Δgain / φ²)
+    4. v=c guard at iteration 62 (Lorentz divergence boundary)
 
     Parameters
     ----------
@@ -128,25 +133,34 @@ def quasicrystal_optimization(
     n_points : int
         Number of initial Penrose coordinates to generate (controls density).
     iterations : int
-        Number of phason flip iterations to perform.
+        Number of phason flip iterations (max 62 before v=c guard).
     seed : int, optional
         Random seed for reproducibility. If None, uses system entropy.
     epsilon : float
-        Base acceptance probability for non-improving moves (default: 0.1).
+        Stability constant for acceptance (default: 0.0005).
 
     Returns
     -------
     Tuple[np.ndarray, float]
         Best coordinate found and its objective value.
 
+    Raises
+    ------
+    RuntimeError
+        If iterations > 62 (v=c boundary guard).
+
     Examples
     --------
     >>> def sphere(x):
     ...     return np.sum(x**2)
-    >>> coord, val = quasicrystal_optimization(sphere, 100, 100, seed=42)
+    >>> coord, val = quasicrystal_optimization(sphere, 100, 50, seed=42)
     >>> val >= 0  # Sphere function is non-negative
     True
     """
+    # v=c guard: prevent coherence collapse at Lorentz boundary
+    if iterations > 62:
+        raise RuntimeError("v=c boundary guarded — coherence collapse prevented")
+
     if seed is not None:
         random.seed(seed)
         np.random.seed(seed)
@@ -184,12 +198,11 @@ def quasicrystal_optimization(
 
         # Quasicrystal acceptance: ε × exp(Δgain / φ²)
         if delta_gain > 0:
-            # Always accept improvements
             coords[flip_i] = new_coord
             values[flip_i] = new_val
         else:
-            # Probabilistic acceptance for non-improving moves
-            accept_prob = epsilon * math.exp(delta_gain / (PHI * PHI))
+            exponent = max(delta_gain / (PHI * PHI), -700)
+            accept_prob = epsilon * math.exp(exponent)
             if random.random() < accept_prob:
                 coords[flip_i] = new_coord
                 values[flip_i] = new_val
@@ -248,7 +261,8 @@ def holographic_conservation(state: dict, boundary_area: float) -> int:
     if entropy_bound <= 0:
         return 0
 
-    max_states = int(2 ** min(entropy_bound, 64))  # Cap at 64 bits for safety
+    # Cap at 63 bits to stay within safe integer bounds (2^63-1 is max safe int)
+    max_states = min(2**63 - 1, int(2 ** min(entropy_bound, 63)))
     if max_states <= 0:
         max_states = 1
 
@@ -325,7 +339,7 @@ def demonstrate_quasicrystal_optimization():
 
     Shows the complete workflow:
     1. Define an objective function
-    2. Optimize using quasicrystal search
+    2. Optimize using quasicrystal search (within v=c guard)
     3. Apply holographic conservation
     4. Apply supergravity coupling
     """
@@ -342,14 +356,15 @@ def demonstrate_quasicrystal_optimization():
     print("Objective function: f(x) = ||x||² (minimize distance from origin)")
     print()
 
-    # Run quasicrystal optimization
+    # Run quasicrystal optimization (max 62 iterations due to v=c guard)
     print("Running quasicrystal optimization...")
     print(f"  - Grid density: 100 points")
-    print(f"  - Iterations: 1000 phason flips")
+    print(f"  - Iterations: 62 phason flips (v=c boundary)")
+    print(f"  - Epsilon: {EPSILON_STABILITY}")
     print()
 
     best_coord, best_val = quasicrystal_optimization(
-        objective, n_points=100, iterations=1000, seed=42
+        objective, n_points=100, iterations=62, seed=42
     )
 
     print(f"Optimal Coordinate: [{best_coord[0]:.6f}, {best_coord[1]:.6f}]")
