@@ -44,6 +44,8 @@ import numpy as np
 # =============================================================================
 
 PHI = (1 + math.sqrt(5)) / 2  # Golden ratio ≈ 1.618
+GOLDEN_ANGLE = math.pi * (3 - math.sqrt(5))  # ≈ 137.5° in radians
+FIBONACCI_CACHE = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144]  # Precomputed strides
 
 
 # =============================================================================
@@ -108,15 +110,16 @@ def quasicrystal_optimization(
     objective_func: Callable[[np.ndarray], float],
     n_points: int,
     iterations: int,
-    seed: int | None = None
+    seed: int | None = None,
+    epsilon: float = 0.1
 ) -> Tuple[np.ndarray, float]:
     """
-    Optimize an objective function using aperiodic search with phason flips.
+    Optimize an objective function using quasicrystal-aware phason flips.
 
-    Phason flips are local rearrangements in quasicrystals that maintain
-    the overall aperiodic order while allowing the structure to explore
-    different configurations. This is analogous to simulated annealing
-    but with moves constrained by the golden ratio scaling.
+    The phason flip pass uses three quasicrystalline principles:
+    1. Golden angle (137.5°) rotation for mutation direction
+    2. Fibonacci stride (1,2,3,5,8,...) for flip propagation
+    3. Acceptance probability = ε × exp(Δgain / φ²)
 
     Parameters
     ----------
@@ -128,6 +131,8 @@ def quasicrystal_optimization(
         Number of phason flip iterations to perform.
     seed : int, optional
         Random seed for reproducibility. If None, uses system entropy.
+    epsilon : float
+        Base acceptance probability for non-improving moves (default: 0.1).
 
     Returns
     -------
@@ -156,23 +161,38 @@ def quasicrystal_optimization(
     # Evaluate objective at all initial points
     values = np.array([objective_func(c) for c in coords])
 
-    # Phason flip optimization
-    for _ in range(iterations):
-        # Select random point for phason defect
-        flip_i = random.randint(0, n_coords - 1)
+    # Track cumulative golden angle for aperiodic rotation
+    angle = 0.0
+    fib_idx = 0
 
-        # Phason flip: small displacement scaled by golden ratio
-        # This maintains the quasicrystalline character of the search
-        flip_delta = (np.random.rand(2) - 0.5) * (1 / PHI)
+    # Phason flip optimization with quasicrystal-aware dynamics
+    for iteration in range(iterations):
+        # Fibonacci stride: select index using Fibonacci sequence
+        stride = FIBONACCI_CACHE[fib_idx % len(FIBONACCI_CACHE)]
+        flip_i = (iteration * stride) % n_coords
+        fib_idx += 1
+
+        # Golden angle rotation for mutation direction (137.5° per step)
+        angle += GOLDEN_ANGLE
+        magnitude = np.random.rand() / PHI
+        flip_delta = magnitude * np.array([math.cos(angle), math.sin(angle)])
         new_coord = coords[flip_i] + flip_delta
 
         # Evaluate new position
         new_val = objective_func(new_coord)
+        delta_gain = values[flip_i] - new_val  # Positive if improvement
 
-        # Accept if improvement (greedy local search)
-        if new_val < values[flip_i]:
+        # Quasicrystal acceptance: ε × exp(Δgain / φ²)
+        if delta_gain > 0:
+            # Always accept improvements
             coords[flip_i] = new_coord
             values[flip_i] = new_val
+        else:
+            # Probabilistic acceptance for non-improving moves
+            accept_prob = epsilon * math.exp(delta_gain / (PHI * PHI))
+            if random.random() < accept_prob:
+                coords[flip_i] = new_coord
+                values[flip_i] = new_val
 
     # Return best found
     min_idx = np.argmin(values)

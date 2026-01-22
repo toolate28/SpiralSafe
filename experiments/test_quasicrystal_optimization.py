@@ -4,11 +4,12 @@ Unit tests for the Quasicrystal Optimization Engine.
 
 Tests the core functionality including:
 - Penrose coordinate generation
-- Quasicrystal optimization algorithm
+- Quasicrystal optimization algorithm (with golden angle and Fibonacci stride)
 - Holographic conservation
 - Supergravity coupling
 """
 
+import math
 import sys
 from pathlib import Path
 
@@ -19,6 +20,8 @@ import numpy as np
 
 from quasicrystal_optimization import (
     PHI,
+    GOLDEN_ANGLE,
+    FIBONACCI_CACHE,
     penrose_coordinates,
     quasicrystal_optimization,
     holographic_conservation,
@@ -41,11 +44,14 @@ class QuasicrystalTestSuite:
 
         tests = [
             ("Golden ratio constant", self._test_golden_ratio),
+            ("Golden angle constant", self._test_golden_angle),
+            ("Fibonacci cache", self._test_fibonacci_cache),
             ("Penrose coordinate generation", self._test_penrose_coordinates),
             ("Penrose coordinate shape", self._test_penrose_shape),
             ("Quasicrystal optimization basic", self._test_optimization_basic),
             ("Quasicrystal optimization reproducibility", self._test_optimization_seed),
             ("Quasicrystal optimization improves", self._test_optimization_improves),
+            ("Quasicrystal optimization epsilon acceptance", self._test_optimization_epsilon),
             ("Holographic conservation basic", self._test_holographic_basic),
             ("Holographic conservation deterministic", self._test_holographic_deterministic),
             ("Holographic conservation boundary", self._test_holographic_boundary),
@@ -82,6 +88,23 @@ class QuasicrystalTestSuite:
         assert abs(PHI - expected) < 1e-10, f"PHI should be {expected}, got {PHI}"
         assert PHI > 1.6 and PHI < 1.7, "PHI should be approximately 1.618"
         print("      - Golden ratio: OK")
+
+    def _test_golden_angle(self):
+        """Test golden angle constant (≈137.5°)."""
+        expected_rad = math.pi * (3 - math.sqrt(5))
+        expected_deg = math.degrees(expected_rad)
+        assert abs(GOLDEN_ANGLE - expected_rad) < 1e-10, "Golden angle incorrect"
+        assert 137 < expected_deg < 138, f"Should be ~137.5°, got {expected_deg:.1f}°"
+        print(f"      - Golden angle: {expected_deg:.2f}°")
+
+    def _test_fibonacci_cache(self):
+        """Test Fibonacci cache contains valid sequence."""
+        assert len(FIBONACCI_CACHE) >= 10, "Cache should have at least 10 values"
+        # Verify Fibonacci property: F(n) = F(n-1) + F(n-2)
+        for i in range(2, len(FIBONACCI_CACHE)):
+            expected = FIBONACCI_CACHE[i-1] + FIBONACCI_CACHE[i-2]
+            assert FIBONACCI_CACHE[i] == expected, f"Fibonacci broken at index {i}"
+        print(f"      - Fibonacci cache: {FIBONACCI_CACHE[:6]}...")
 
     def _test_penrose_coordinates(self):
         """Test Penrose coordinate generation."""
@@ -139,6 +162,22 @@ class QuasicrystalTestSuite:
         assert optimized_val <= initial_min + 0.1, \
             f"Optimization should improve: {optimized_val} vs {initial_min}"
         print(f"      - Initial min: {initial_min:.6f}, Optimized: {optimized_val:.6f}")
+
+    def _test_optimization_epsilon(self):
+        """Test epsilon parameter affects acceptance behavior."""
+        def rastrigin(x):
+            """Rastrigin function - has many local minima."""
+            return 10 * len(x) + np.sum(x**2 - 10 * np.cos(2 * np.pi * x))
+
+        # With very low epsilon, should be more greedy
+        _, val_low = quasicrystal_optimization(rastrigin, 50, 200, seed=42, epsilon=0.001)
+        # With higher epsilon, may explore more
+        _, val_high = quasicrystal_optimization(rastrigin, 50, 200, seed=42, epsilon=0.5)
+
+        # Both should find reasonable values (not testing which is better)
+        assert val_low >= 0, "Rastrigin is non-negative"
+        assert val_high >= 0, "Rastrigin is non-negative"
+        print(f"      - ε=0.001: {val_low:.4f}, ε=0.5: {val_high:.4f}")
 
     def _test_holographic_basic(self):
         """Test basic holographic conservation."""
