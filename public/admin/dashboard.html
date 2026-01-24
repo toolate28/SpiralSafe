@@ -421,11 +421,35 @@
         return;
       }
 
-      // Initialize charts
-      initCharts();
+      // Validate token with auth endpoint before initializing the dashboard
+      (async () => {
+        try {
+          const response = await fetch(`${API_BASE}/admin/auth/me`, {
+            method: 'GET',
+            headers: {
+              'Authorization': 'Bearer ' + token,
+              'Accept': 'application/json'
+            }
+          });
 
-      // Load metrics
-      loadMetrics();
+          if (!response.ok) {
+            // Invalid or expired token, clear it and redirect to login
+            localStorage.removeItem('spiralsafe_admin_token');
+            sessionStorage.removeItem('spiralsafe_admin_token');
+            window.location.href = '/admin/login.html';
+            return;
+          }
+
+          // Token is valid - initialize charts and load metrics
+          initCharts();
+          loadMetrics();
+        } catch (error) {
+          // On network or other errors, clear token and redirect to login
+          localStorage.removeItem('spiralsafe_admin_token');
+          sessionStorage.removeItem('spiralsafe_admin_token');
+          window.location.href = '/admin/login.html';
+        }
+      })();
     });
 
     // Logout function

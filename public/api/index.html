@@ -605,10 +605,24 @@
         responseEl.classList.remove('hidden');
         codeEl.textContent = 'Loading...';
 
-        const response = await fetch(`${API_BASE}/api/health`);
-        const data = await response.json();
+        // Demo mode: simulated response for interactive preview
+        // For production API calls, include X-API-Key header in your request
+        const simulatedResponse = {
+          status: "healthy",
+          timestamp: new Date().toISOString(),
+          version: "1.0.0",
+          services: {
+            database: "operational",
+            cache: "operational",
+            queue: "operational"
+          },
+          _note: "Interactive demo - use curl or your preferred HTTP client with a valid X-API-Key header for actual results"
+        };
 
-        codeEl.textContent = JSON.stringify(data, null, 2);
+        // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        codeEl.textContent = JSON.stringify(simulatedResponse, null, 2);
         hljs.highlightElement(codeEl);
       } catch (error) {
         codeEl.textContent = JSON.stringify({ error: error.message }, null, 2);
