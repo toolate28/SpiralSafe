@@ -422,35 +422,37 @@
       }
 
       // Validate token with auth endpoint before initializing the dashboard
-      (async () => {
-        try {
-          const response = await fetch(`${API_BASE}/admin/auth/me`, {
-            method: 'GET',
-            headers: {
-              'Authorization': 'Bearer ' + token,
-              'Accept': 'application/json'
-            }
-          });
-
-          if (!response.ok) {
-            // Invalid or expired token, clear it and redirect to login
-            localStorage.removeItem('spiralsafe_admin_token');
-            sessionStorage.removeItem('spiralsafe_admin_token');
-            window.location.href = '/admin/login.html';
-            return;
-          }
-
-          // Token is valid - initialize charts and load metrics
-          initCharts();
-          loadMetrics();
-        } catch (error) {
-          // On network or other errors, clear token and redirect to login
-          localStorage.removeItem('spiralsafe_admin_token');
-          sessionStorage.removeItem('spiralsafe_admin_token');
-          window.location.href = '/admin/login.html';
-        }
-      })();
+      validateAndInit();
     });
+
+    // Validate token and initialize dashboard
+    async function validateAndInit() {
+      const token = localStorage.getItem('spiralsafe_admin_token') ||
+                    sessionStorage.getItem('spiralsafe_admin_token');
+      
+      try {
+        const response = await fetch(`${API_BASE}/admin/auth/me`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          // Invalid or expired token, clear it and redirect to login
+          logout();
+          return;
+        }
+
+        // Token is valid - initialize charts and load metrics
+        initCharts();
+        loadMetrics();
+      } catch (error) {
+        // On network or other errors, clear token and redirect to login
+        logout();
+      }
+    }
 
     // Logout function
     function logout() {
