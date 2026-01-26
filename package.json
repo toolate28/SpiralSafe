@@ -12,7 +12,7 @@
     "packages/atom-trail"
   ],
   "devDependencies": {
-    "prettier": "^3.8.0"
+    "prettier": "^3.8.1"
   },
   "dependencies": {
     "@vercel/analytics": "^1.6.1"
