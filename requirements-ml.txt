@@ -19,7 +19,7 @@ plotly==5.18.0
 
 # Advanced visualization
 networkx==3.2.1
-sympy==1.12
+sympy==1.14.0
 
 # Mathematical animations (large dependency)
 manim==0.19.2
