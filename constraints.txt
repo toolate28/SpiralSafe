@@ -31,7 +31,7 @@ flake8==6.1.0
 hypothesis==6.92.1
 isort==7.0.0
 mkdocs==1.6.1
-mkdocs-material==9.5.3
+mkdocs-material==9.7.1
 mypy==1.19.1
 pre-commit==3.6.0
 pylint==3.0.3

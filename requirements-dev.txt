@@ -30,4 +30,4 @@ detect-secrets==1.4.0
 
 # Documentation generation
 mkdocs==1.6.1
-mkdocs-material==9.5.3
+mkdocs-material==9.7.1
