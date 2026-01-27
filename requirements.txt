@@ -20,7 +20,7 @@ requests==2.32.4
 
 # Configuration and environment
 python-dotenv==1.0.1
-pydantic==2.5.3
+pydantic==2.12.5
 
 # Async file operations
 aiofiles==25.1.0
