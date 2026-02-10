@@ -308,6 +308,9 @@
 
         if (response.ok && data.token) {
           // Store token
+          // SECURITY NOTE: Storing tokens in localStorage/sessionStorage exposes them to XSS attacks.
+          // For production deployments, consider using httpOnly cookies set by the backend
+          // or implementing additional security measures (strict CSP, token rotation, etc.)
           if (remember) {
             localStorage.setItem('spiralsafe_admin_token', data.token);
           } else {
