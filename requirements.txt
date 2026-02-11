@@ -30,7 +30,7 @@ asyncio-atexit==1.0.1
 markdown==3.10
 
 # File system utilities
-Pillow==10.3.0
+Pillow==12.1.1
 
 # CLI utilities
 click==8.1.7
