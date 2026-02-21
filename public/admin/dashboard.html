@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpiralSafe Console | Dashboard</title>
+  <meta name="description" content="SpiralSafe Admin Dashboard - Monitor API usage, manage users, and view system metrics.">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @keyframes spiral {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .spiral-animate {
+      animation: spiral 20s linear infinite;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #06b6d4 0%, #8b5cf6 50%, #ec4899 100%);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Sidebar */
+    .sidebar-item.active {
+      background: rgba(139, 92, 246, 0.2);
+      border-left: 3px solid #8b5cf6;
+    }
+
+    /* Metric card pulse */
+    .metric-card {
+      transition: all 0.3s ease;
+    }
+    .metric-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(139, 92, 246, 0.2);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #1e1b4b; }
+    ::-webkit-scrollbar-thumb { background: #6b21a8; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #9333ea; }
+
+    /* Status indicators */
+    .status-operational { background: #22c55e; }
+    .status-degraded { background: #eab308; }
+    .status-down { background: #ef4444; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .animate-pulse-slow {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen text-white">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full bg-black/40 backdrop-blur-lg z-50 border-b border-purple-500/20">
+    <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-2">
+          <a href="/" class="flex items-center space-x-2">
+            <span class="text-2xl spiral-animate">🌀</span>
+            <span class="text-xl font-bold gradient-text">SpiralSafe</span>
+          </a>
+          <span class="text-purple-400 text-sm hidden md:inline">| Admin Console</span>
+        </div>
+
+        <div class="flex items-center space-x-4">
+          <!-- User Menu -->
+          <div class="relative group">
+            <button class="flex items-center space-x-2 bg-black/30 border border-purple-500/30 rounded-lg px-3 py-2 hover:border-purple-400 transition">
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center text-sm font-bold">
+                <span id="userInitial">A</span>
+              </div>
+              <span id="userName" class="hidden md:inline text-sm">Admin</span>
+              <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+
+            <!-- Dropdown -->
+            <div class="absolute right-0 mt-2 w-48 bg-slate-900 border border-purple-500/30 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+              <a href="#" class="block px-4 py-2 text-sm text-purple-300 hover:bg-purple-500/20 rounded-t-lg">Profile</a>
+              <a href="/api/" class="block px-4 py-2 text-sm text-purple-300 hover:bg-purple-500/20">API Docs</a>
+              <hr class="border-purple-500/30">
+              <button onclick="logout()" class="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-500/20 rounded-b-lg">Sign Out</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Layout -->
+  <div class="flex pt-16">
+
+    <!-- Sidebar -->
+    <aside class="fixed left-0 w-64 h-[calc(100vh-4rem)] bg-black/30 backdrop-blur border-r border-purple-500/20 overflow-y-auto">
+      <div class="p-4">
+        <h2 class="text-lg font-bold text-purple-300 mb-4">Navigation</h2>
+
+        <nav class="space-y-1">
+          <a href="#overview" class="sidebar-item active flex items-center gap-3 px-3 py-2 rounded text-sm hover:bg-purple-500/20 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
+            </svg>
+            Overview
+          </a>
+
+          <a href="#metrics" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded text-sm hover:bg-purple-500/20 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+            Metrics
+          </a>
+
+          <a href="#logs" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded text-sm hover:bg-purple-500/20 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            Logs
+          </a>
+
+          <a href="#atom-trail" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded text-sm hover:bg-purple-500/20 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            ATOM Trail
+          </a>
+
+          <hr class="border-purple-500/30 my-4">
+
+          <a href="#api-keys" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded text-sm hover:bg-purple-500/20 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+            </svg>
+            API Keys
+          </a>
+
+          <a href="#users" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded text-sm hover:bg-purple-500/20 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            Users
+          </a>
+
+          <a href="#settings" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded text-sm hover:bg-purple-500/20 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            Settings
+          </a>
+        </nav>
+
+        <!-- System Status -->
+        <div class="mt-8 p-4 bg-black/30 border border-green-500/30 rounded-xl">
+          <h3 class="text-sm font-bold text-green-400 mb-3 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse-slow"></span>
+            System Status
+          </h3>
+          <div class="space-y-2 text-xs">
+            <div class="flex justify-between">
+              <span class="text-purple-300">API</span>
+              <span class="text-green-400">Operational</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-purple-300">Database</span>
+              <span class="text-green-400">Operational</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-purple-300">Wave Engine</span>
+              <span class="text-green-400">Operational</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ml-64 flex-1 p-8">
+      <div class="max-w-7xl mx-auto">
+
+        <!-- Header -->
+        <div class="mb-8">
+          <h1 class="text-3xl font-bold gradient-text mb-2">Dashboard Overview</h1>
+          <p class="text-purple-300">Welcome back! Here's what's happening with SpiralSafe.</p>
+        </div>
+
+        <!-- Metric Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <!-- Requests -->
+          <div class="metric-card bg-black/40 backdrop-blur border border-cyan-500/30 rounded-xl p-6">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-cyan-400 text-sm font-medium">Total Requests (24h)</span>
+              <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+              </svg>
+            </div>
+            <div class="text-3xl font-bold text-white mb-1" id="totalRequests">12,547</div>
+            <div class="text-green-400 text-sm flex items-center gap-1">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+              </svg>
+              +23% from yesterday
+            </div>
+          </div>
+
+          <!-- Error Rate -->
+          <div class="metric-card bg-black/40 backdrop-blur border border-purple-500/30 rounded-xl p-6">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-purple-400 text-sm font-medium">Error Rate</span>
+              <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+              </svg>
+            </div>
+            <div class="text-3xl font-bold text-white mb-1" id="errorRate">0.03%</div>
+            <div class="text-green-400 text-sm flex items-center gap-1">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+              </svg>
+              -12% from yesterday
+            </div>
+          </div>
+
+          <!-- P99 Latency -->
+          <div class="metric-card bg-black/40 backdrop-blur border border-pink-500/30 rounded-xl p-6">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-pink-400 text-sm font-medium">P99 Latency</span>
+              <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <div class="text-3xl font-bold text-white mb-1" id="p99Latency">118ms</div>
+            <div class="text-green-400 text-sm flex items-center gap-1">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+              </svg>
+              -5ms from yesterday
+            </div>
+          </div>
+
+          <!-- Active Sessions -->
+          <div class="metric-card bg-black/40 backdrop-blur border border-green-500/30 rounded-xl p-6">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-green-400 text-sm font-medium">Active Sessions</span>
+              <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+              </svg>
+            </div>
+            <div class="text-3xl font-bold text-white mb-1" id="activeSessions">42</div>
+            <div class="text-purple-400 text-sm">
+              Currently online
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <!-- Request Timeline Chart -->
+          <div class="bg-black/40 backdrop-blur border border-purple-500/30 rounded-xl p-6">
+            <h3 class="text-lg font-bold text-purple-300 mb-4">Request Rate (24h)</h3>
+            <div class="h-64">
+              <canvas id="requestChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Endpoint Distribution -->
+          <div class="bg-black/40 backdrop-blur border border-cyan-500/30 rounded-xl p-6">
+            <h3 class="text-lg font-bold text-cyan-300 mb-4">Top Endpoints</h3>
+            <div class="h-64">
+              <canvas id="endpointChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity & Errors -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <!-- Recent Requests -->
+          <div class="bg-black/40 backdrop-blur border border-purple-500/30 rounded-xl p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-bold text-purple-300">Recent Requests</h3>
+              <a href="#logs" class="text-sm text-cyan-400 hover:text-cyan-300">View all →</a>
+            </div>
+            <div class="space-y-3" id="recentRequests">
+              <div class="flex items-center justify-between bg-black/30 rounded-lg px-4 py-3">
+                <div class="flex items-center gap-3">
+                  <span class="text-green-400 font-mono text-sm">200</span>
+                  <span class="text-white text-sm">/api/health</span>
+                </div>
+                <span class="text-purple-400 text-xs">2s ago</span>
+              </div>
+              <div class="flex items-center justify-between bg-black/30 rounded-lg px-4 py-3">
+                <div class="flex items-center gap-3">
+                  <span class="text-green-400 font-mono text-sm">200</span>
+                  <span class="text-white text-sm">/api/wave/analyze</span>
+                </div>
+                <span class="text-purple-400 text-xs">5s ago</span>
+              </div>
+              <div class="flex items-center justify-between bg-black/30 rounded-lg px-4 py-3">
+                <div class="flex items-center gap-3">
+                  <span class="text-green-400 font-mono text-sm">201</span>
+                  <span class="text-white text-sm">/api/bump/create</span>
+                </div>
+                <span class="text-purple-400 text-xs">12s ago</span>
+              </div>
+              <div class="flex items-center justify-between bg-black/30 rounded-lg px-4 py-3">
+                <div class="flex items-center gap-3">
+                  <span class="text-yellow-400 font-mono text-sm">429</span>
+                  <span class="text-white text-sm">/api/atom/trail/query</span>
+                </div>
+                <span class="text-purple-400 text-xs">18s ago</span>
+              </div>
+              <div class="flex items-center justify-between bg-black/30 rounded-lg px-4 py-3">
+                <div class="flex items-center gap-3">
+                  <span class="text-red-400 font-mono text-sm">401</span>
+                  <span class="text-white text-sm">/api/awi/request</span>
+                </div>
+                <span class="text-purple-400 text-xs">25s ago</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent ATOM Entries -->
+          <div class="bg-black/40 backdrop-blur border border-pink-500/30 rounded-xl p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-bold text-pink-300">Recent ATOM Trail</h3>
+              <a href="#atom-trail" class="text-sm text-cyan-400 hover:text-cyan-300">View all →</a>
+            </div>
+            <div class="space-y-3" id="recentAtom">
+              <div class="bg-black/30 rounded-lg px-4 py-3">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-cyan-400 font-semibold text-sm">claude</span>
+                  <span class="text-purple-400 text-xs">2 min ago</span>
+                </div>
+                <p class="text-white text-sm">Design architecture for authentication system</p>
+                <span class="text-green-400 text-xs">COMPLETE • Coherence: 0.85</span>
+              </div>
+              <div class="bg-black/30 rounded-lg px-4 py-3">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-purple-400 font-semibold text-sm">copilot</span>
+                  <span class="text-purple-400 text-xs">8 min ago</span>
+                </div>
+                <p class="text-white text-sm">Implement authentication handlers</p>
+                <span class="text-green-400 text-xs">COMPLETE • Coherence: 0.91</span>
+              </div>
+              <div class="bg-black/30 rounded-lg px-4 py-3">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-pink-400 font-semibold text-sm">wave-validator</span>
+                  <span class="text-purple-400 text-xs">15 min ago</span>
+                </div>
+                <p class="text-white text-sm">Analyzed content coherence</p>
+                <span class="text-green-400 text-xs">PASS • Coherence: 0.72</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-black/40 backdrop-blur border border-purple-500/30 rounded-xl p-6">
+          <h3 class="text-lg font-bold text-purple-300 mb-4">Quick Actions</h3>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <button class="bg-gradient-to-br from-cyan-500/20 to-cyan-600/20 border border-cyan-500/30 rounded-xl p-4 text-center hover:border-cyan-400 transition">
+              <svg class="w-8 h-8 mx-auto mb-2 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+              </svg>
+              <span class="text-sm text-cyan-300">Generate API Key</span>
+            </button>
+
+            <button class="bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 rounded-xl p-4 text-center hover:border-purple-400 transition">
+              <svg class="w-8 h-8 mx-auto mb-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+              </svg>
+              <span class="text-sm text-purple-300">Export Logs</span>
+            </button>
+
+            <button class="bg-gradient-to-br from-pink-500/20 to-pink-600/20 border border-pink-500/30 rounded-xl p-4 text-center hover:border-pink-400 transition">
+              <svg class="w-8 h-8 mx-auto mb-2 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+              </svg>
+              <span class="text-sm text-pink-300">Verify Trail</span>
+            </button>
+
+            <a href="/api/" class="bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/30 rounded-xl p-4 text-center hover:border-green-400 transition">
+              <svg class="w-8 h-8 mx-auto mb-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+              </svg>
+              <span class="text-sm text-green-300">API Docs</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // API Configuration - uses relative path or can be overridden via localStorage
+    const API_BASE = localStorage.getItem('spiralsafe_api_base') || 'https://api.spiralsafe.org';
+
+    // Check authentication
+    document.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('spiralsafe_admin_token') ||
+                    sessionStorage.getItem('spiralsafe_admin_token');
+
+      if (!token) {
+        window.location.href = '/admin/login.html';
+        return;
+      }
+
+      // Initialize charts
+      initCharts();
+
+      // Load metrics
+      loadMetrics();
+    });
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem('spiralsafe_admin_token');
+      sessionStorage.removeItem('spiralsafe_admin_token');
+      window.location.href = '/admin/login.html';
+    }
+
+    // Initialize charts
+    function initCharts() {
+      // Request Timeline Chart
+      const requestCtx = document.getElementById('requestChart').getContext('2d');
+      new Chart(requestCtx, {
+        type: 'line',
+        data: {
+          labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+          datasets: [{
+            label: 'Requests',
+            data: [120, 80, 45, 30, 25, 40, 150, 380, 520, 650, 580, 490, 530, 610, 680, 590, 520, 480, 420, 350, 280, 220, 180, 140],
+            borderColor: '#06b6d4',
+            backgroundColor: 'rgba(6, 182, 212, 0.1)',
+            fill: true,
+            tension: 0.4,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: {
+              grid: { color: 'rgba(139, 92, 246, 0.1)' },
+              ticks: { color: '#a78bfa' }
+            },
+            y: {
+              grid: { color: 'rgba(139, 92, 246, 0.1)' },
+              ticks: { color: '#a78bfa' }
+            }
+          }
+        }
+      });
+
+      // Endpoint Distribution Chart
+      const endpointCtx = document.getElementById('endpointChart').getContext('2d');
+      new Chart(endpointCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['/api/health', '/api/wave/analyze', '/api/bump/create', '/api/atom/trail', '/api/awi/request', 'Other'],
+          datasets: [{
+            data: [45, 23, 15, 8, 5, 4],
+            backgroundColor: [
+              '#22c55e',
+              '#06b6d4',
+              '#8b5cf6',
+              '#ec4899',
+              '#eab308',
+              '#6b7280',
+            ],
+            borderWidth: 0,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: { color: '#a78bfa' }
+            }
+          }
+        }
+      });
+    }
+
+    // Load metrics from API (demo data for now)
+    async function loadMetrics() {
+      // In production, this would fetch from the admin API
+      // For demo purposes, we're using static data
+
+      try {
+        const response = await fetch(`${API_BASE}/api/health`);
+        if (response.ok) {
+          // API is up, update status indicator
+          console.log('API health check passed');
+        }
+      } catch (error) {
+        console.log('API health check - demo mode');
+      }
+    }
+
+    // Sidebar navigation
+    document.querySelectorAll('.sidebar-item').forEach(item => {
+      item.addEventListener('click', function() {
+        document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  </script>
+
+</body>
+</html>

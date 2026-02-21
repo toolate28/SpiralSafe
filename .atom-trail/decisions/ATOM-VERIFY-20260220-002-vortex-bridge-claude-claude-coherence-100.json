@@ -1,0 +1,19 @@
+{
+  "atom_tag": "ATOM-VERIFY-20260220-002-vortex-bridge-claude-claude-coherence-100",
+  "type": "VERIFY",
+  "description": "Vortex bridge: claude → claude (coherence: 100%)",
+  "timestamp": "2026-02-20T12:38:53.491Z",
+  "files": [
+    "vortex-bridge.ts"
+  ],
+  "tags": [
+    "BRIDGE",
+    "CLAUDE",
+    "CLAUDE",
+    "PASS"
+  ],
+  "freshness_level": "fresh",
+  "bedrock_eligible": false,
+  "created_epoch": 1771591133,
+  "verified": false
+}
