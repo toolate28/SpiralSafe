@@ -1,0 +1,19 @@
+{
+  "atom_tag": "ATOM-VERIFY-20260219-002-vortex-bridge-claude-gemini-coherence-100",
+  "type": "VERIFY",
+  "description": "Vortex bridge: claude → gemini (coherence: 100%)",
+  "timestamp": "2026-02-19T19:07:43.096Z",
+  "files": [
+    "vortex-bridge.ts"
+  ],
+  "tags": [
+    "BRIDGE",
+    "CLAUDE",
+    "GEMINI",
+    "PASS"
+  ],
+  "freshness_level": "fresh",
+  "bedrock_eligible": false,
+  "created_epoch": 1771528063,
+  "verified": false
+}
