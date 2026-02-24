@@ -33,5 +33,5 @@ markdown==3.10
 Pillow==10.3.0
 
 # CLI utilities
-click==8.1.7
+click==8.3.1
 rich==14.2.0
