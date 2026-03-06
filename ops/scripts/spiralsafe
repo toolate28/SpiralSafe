@@ -350,6 +350,12 @@ awi_request() {
         exit 1
     fi
     
+    # Enforce AWI permission level range 0-4 (inclusive)
+    if (( level < 0 || level > 4 )); then
+        log_error "Level must be between 0 and 4 (inclusive)"
+        exit 1
+    fi
+    
     # Validate ttl is a non-negative integer (no leading zeros, except for 0)
     if ! [[ "$ttl" =~ ^(0|[1-9][0-9]*)$ ]]; then
         log_error "TTL must be a non-negative integer"
