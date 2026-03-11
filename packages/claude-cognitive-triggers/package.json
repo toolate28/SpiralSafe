@@ -35,7 +35,7 @@
   },
   "homepage": "https://spiralsafe.org",
   "dependencies": {
-    "commander": "^11.1.0",
+    "commander": "^14.0.2",
     "chalk": "^5.3.0",
     "glob": "^13.0.0",
     "yaml": "^2.3.4"
