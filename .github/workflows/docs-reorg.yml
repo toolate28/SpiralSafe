@@ -17,7 +17,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: true
 
@@ -51,7 +51,7 @@ jobs:
 
       - name: Create Pull Request (when apply=true)
         if: ${{ github.event.inputs.apply == 'true' }}
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@4e1beaa7521e8b457b572c090b25bd3db56bf1c5 # v5
         with:
           # prefer REPO_PAT if provided as a secret, otherwise use GITHUB_TOKEN
           token: ${{ secrets.REPO_PAT || secrets.GITHUB_TOKEN }}
