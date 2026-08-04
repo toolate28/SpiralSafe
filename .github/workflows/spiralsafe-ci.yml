@@ -242,7 +242,7 @@ jobs:
           fi
 
       - name: Setup PowerShell
-        uses: PowerShell/Setup-PowerShell@v2
+        uses: milliewalky/setup-pwsh@111b66da66b9e4c068052ed1ae34fcbeb9adcf36 # v1
         with:
           pwsh-version: "7.3.8"
 
