@@ -1,0 +1,55 @@
+# CI policy — fail-closed Action SHA pins
+# ATOM: ATOM-FLEET-ACTION-PINS-20260804
+# capability != authority
+
+name: CI Policy
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - ".github/workflows/**"
+  pull_request:
+    branches: [main, master]
+    paths:
+      - ".github/workflows/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-policy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  action-pins:
+    name: Action SHA pins (fail-closed)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7-or-v4
+      - name: Assert full-length commit SHAs
+        run: |
+          set -euo pipefail
+          bad=0
+          while IFS= read -r line; do
+            file="${line%%:*}"
+            rest="${line#*:}"
+            ln="${rest%%:*}"
+            uses="${rest#*:}"
+            ref="${uses##*@}"
+            ref="${ref%% #*}"
+            ref="${ref%%#*}"
+            ref="$(echo "$ref" | tr -d '[:space:]')"
+            if ! echo "$ref" | grep -Eq '^[0-9a-fA-F]{40}$'; then
+              echo "::error file=$file,line=$ln::unpinned uses: $uses"
+              bad=1
+            fi
+          done < <(grep -RInE '^[[:space:]]*uses:[[:space:]]+[^./][^@]*@' .github/workflows --include='*.yml' --include='*.yaml' || true)
+          if [[ "$bad" -ne 0 ]]; then
+            echo "sha_pinning_required: pin every uses: to a full 40-char commit SHA"
+            exit 1
+          fi
+          echo "assert_action_pins: OK"

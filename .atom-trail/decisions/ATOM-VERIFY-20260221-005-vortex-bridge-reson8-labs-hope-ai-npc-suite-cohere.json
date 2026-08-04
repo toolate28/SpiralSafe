@@ -1,0 +1,19 @@
+{
+  "atom_tag": "ATOM-VERIFY-20260221-005-vortex-bridge-reson8-labs-hope-ai-npc-suite-cohere",
+  "type": "VERIFY",
+  "description": "Vortex bridge: reson8-labs → hope-ai-npc-suite (coherence: 100%)",
+  "timestamp": "2026-02-21T06:34:47.161Z",
+  "files": [
+    "vortex-bridge.ts"
+  ],
+  "tags": [
+    "BRIDGE",
+    "RESON8-LABS",
+    "HOPE-AI-NPC-SUITE",
+    "PASS"
+  ],
+  "freshness_level": "fresh",
+  "bedrock_eligible": false,
+  "created_epoch": 1771655687,
+  "verified": false
+}
