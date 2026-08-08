@@ -30,7 +30,7 @@
   "devDependencies": {
     "@types/node": "^25.0.9",
     "typescript": "^5.3.3",
-    "vitest": "^4.0.17"
+    "vitest": "^4.1.9"
   },
   "files": [
     "dist",
