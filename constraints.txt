@@ -20,7 +20,7 @@ pydantic==2.12.5
 pyserial==3.5.0
 python-dotenv==1.2.2
 pyusb==1.2.1
-requests==2.32.4
+requests==2.33.0
 rich==14.2.0
 watchdog==3.0.0
 
