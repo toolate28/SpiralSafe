@@ -25,7 +25,7 @@ rich==14.2.0
 watchdog==3.0.0
 
 # Development dependencies
-black==24.3.0
+black==26.3.1
 detect-secrets==1.4.0
 flake8==6.1.0
 hypothesis==6.92.1
