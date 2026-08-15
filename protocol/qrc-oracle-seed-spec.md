@@ -55,11 +55,11 @@ def create_qrc_reservoir(n_qubits: int = 4) -> QuantumCircuit:
 
 The oracle continuously monitors reservoir health:
 
-| Metric | Target | Violation | Corrective Action |
-|--------|--------|-----------|-------------------|
-| Fidelity | > 0.95 | < 0.95 | Trigger re-simulation |
-| Energy | Stable ± 2% | Drift > 2% | Adjust phase gates |
-| Divergence | < 5% | > 5% | DSPy teleprompter nudge |
+| Metric     | Target      | Violation  | Corrective Action       |
+|------------|-------------|------------|-------------------------|
+| Fidelity   | > 0.95      | < 0.95     | Trigger re-simulation   |
+| Energy     | Stable ± 2% | Drift > 2% | Adjust phase gates      |
+| Divergence | < 5%        | > 5%       | DSPy teleprompter nudge |
 
 ```python
 @dataclass
@@ -89,19 +89,17 @@ When metrics dip below 92%, the oracle triggers quantum-prompt re-simulation:
 
 ```
 ┌────────────────────────────────────────────────────────────────────┐
-│                    QRC-Oracle-Seed Loop                             │
-│                                                                     │
-│   ┌─────────┐    ┌──────────┐    ┌─────────┐    ┌──────────────┐   │
-│   │ Encode  │───▶│ Reservoir │───▶│ Measure │───▶│ DSPy Readout │   │
-│   │ (audit) │    │ (evolve)  │    │ (expect)│    │ (retrain)    │   │
-│   └────┬────┘    └──────────┘    └─────────┘    └──────┬───────┘   │
-│        │                                                │           │
-│        │◀─────────── Feedback Loop ────────────────────┘           │
-│                                                                     │
-│   ┌─────────────────────────────────────────────────────────────┐  │
-│   │                   Dependabot Lattice                         │  │
-│   │   (propagates dep/Qiskit updates automatically)              │  │
-│   └─────────────────────────────────────────────────────────────┘  │
+│                    QRC-Oracle-Seed Loop                          │                                                                  
+│   ┌─────────┐    ┌──────────┐    ┌─────────┐    ┌──────────────┐ 
+│   │ Encode  │──▶│ Reservoi  │──▶│ Measure │───▶│ DSPy Readout │ 
+│   │ (audit) │    │ (evolve) │    │ (expect)│    │ (retrain)    │   
+│   └────┬────┘    └──────────┘    └─────────┘    └──────┬───────┘ 
+│        │                                               │        
+│        │◀─────────── Feedback Loop ────────────────────┘          │                                                                   
+│   ┌─────────────────────────────────────────────────────────────┐  
+│   │                   Dependabot Lattice                        |  
+│   │   (propagates dep/Qiskit updates automatically)             │  
+│   └─────────────────────────────────────────────────────────────┘  
 └────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -111,12 +109,12 @@ When metrics dip below 92%, the oracle triggers quantum-prompt re-simulation:
 
 The reservoir scales using Fibonacci sequence for natural growth:
 
-| Stage | Qubits | Purpose |
-|-------|--------|---------|
-| Foundation | 1 | Single-qubit coherence baseline |
-| Entanglement | 3 | First entangled correlation layer |
-| Lattice | 5 | Full ring topology established |
-| Expansion | 8 | Production seed capacity |
+| Stage          | Qubits | Purpose                           |
+|----------------|--------|-----------------------------------|
+| Foundation     | 1      | Single-qubit coherence baseline   |
+| Entanglement   | 3      | First entangled correlation layer |
+| Lattice        | 5      | Full ring topology established    |
+| Expansion      | 8      | Production seed capacity          |
 
 Each stage preserves echo state from previous stages via natural decoherence.
 

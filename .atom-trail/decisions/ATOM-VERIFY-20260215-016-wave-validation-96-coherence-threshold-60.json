@@ -1,0 +1,18 @@
+{
+  "atom_tag": "ATOM-VERIFY-20260215-016-wave-validation-96-coherence-threshold-60",
+  "type": "VERIFY",
+  "description": "WAVE validation: 96% coherence (threshold: 60%)",
+  "timestamp": "2026-02-15T19:10:03.044Z",
+  "files": [
+    "validator.ts"
+  ],
+  "tags": [
+    "WAVE",
+    "COHERENCE",
+    "SCORE_96"
+  ],
+  "freshness_level": "fresh",
+  "bedrock_eligible": false,
+  "created_epoch": 1771182603,
+  "verified": false
+}

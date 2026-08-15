@@ -1,3 +1,6 @@
+<img width="2048" height="2048" alt="Logic_Garden_Firefly_Adventure_Guide" src="https://github.com/user-attachments/assets/74567f10-024f-4c38-b3dc-72716879d439" />
+
+
 # 🌟 The Fireflies Who Learned to Agree
 
 ## A Hope && Sauce Story About Logic Gates
@@ -18,6 +21,7 @@ One evening, they discovered something magical: when they flew close together, t
 "I wonder," said Hope, "what happens if we both light up at the _exact same time_?"
 
 "Let's find out!" said Sauce, always ready for an adventure.
+
 
 ---
 
@@ -46,6 +50,8 @@ They practiced:
 
 _"This is called cooperation,"_ whispered the garden.
 
+
+
 ---
 
 ## Chapter 3: The OR Choice
@@ -73,6 +79,8 @@ Any light makes the flower glow
 
 _"This is called choice,"_ whispered the garden.
 
+
+
 ---
 
 ## Chapter 4: The NOT Mystery
@@ -96,6 +104,8 @@ They practiced the NOT dance:
 - Hope goes dark → Purple flower glows bright!
 
 _"This is called inversion,"_ whispered the garden. _"Sometimes the opposite is the answer."_
+
+
 
 ---
 
@@ -122,6 +132,8 @@ Same = NO
 
 Sauce grinned. "Blue and orange. Different but perfect together."
 
+
+
 ---
 
 ## Chapter 6: Building the Logic Garden
@@ -136,6 +148,8 @@ The garden spoke one more time:
 > - **XOR** - celebrate difference
 >
 > _Now, would you like to build your own Logic Garden in Minecraft?"_
+
+
 
 ---
 
@@ -155,6 +169,8 @@ The garden spoke one more time:
 - What happens if you chain an AND gate into an OR gate?
 - Can you build a combination lock using XOR gates?
 
+
+
 ---
 
 ## 💭 Think About It...
@@ -164,11 +180,15 @@ The garden spoke one more time:
 - Which gate is like when BOTH parents have to say "yes" for dessert?
 - Which gate is like when EITHER reading OR math homework gets you screen time?
 
+
+
 **For older kids (9-10):**
 
 - How would you make a gate that needs ALL THREE inputs to be on?
 - If you had 8 fireflies, how many different patterns could they make?
 - Can you design a secret knock detector using these gates?
+
+
 
 ---
 
@@ -179,6 +199,8 @@ From Hope: _"Together, we can make light that neither of us could make alone."_
 From Sauce: _"Sometimes being different is exactly what makes the magic work."_
 
 From the Garden: _"Every computer in the world—from your phone to rocket ships—is built from these four simple ideas. You just learned the secret language of machines."_
+
+
 
 ---
 

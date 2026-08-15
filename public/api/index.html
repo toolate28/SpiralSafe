@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpiralSafe API Reference | Interactive Documentation</title>
+  <meta name="description" content="Interactive API documentation for SpiralSafe coherence engine. Test endpoints, view schemas, and explore the H&amp;&amp;S:WAVE protocol.">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <style>
+    @keyframes spiral {
+      from { transform: rotate(0deg) scale(1); }
+      to { transform: rotate(360deg) scale(1.1); }
+    }
+
+    .spiral-animate {
+      animation: spiral 20s linear infinite;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #06b6d4 0%, #8b5cf6 50%, #ec4899 100%);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .method-get { background: #22c55e; }
+    .method-post { background: #3b82f6; }
+    .method-put { background: #eab308; }
+    .method-delete { background: #ef4444; }
+
+    pre code {
+      border-radius: 0.5rem;
+      padding: 1rem !important;
+      font-size: 0.875rem;
+    }
+
+    .endpoint-card:hover {
+      transform: translateX(4px);
+    }
+
+    /* Response container */
+    .response-container {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    /* Sidebar active state */
+    .sidebar-item.active {
+      background: rgba(139, 92, 246, 0.2);
+      border-left: 3px solid #8b5cf6;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #1e1b4b; }
+    ::-webkit-scrollbar-thumb { background: #6b21a8; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #9333ea; }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen text-white">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full bg-black/40 backdrop-blur-lg z-50 border-b border-purple-500/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-2">
+          <a href="/" class="flex items-center space-x-2">
+            <span class="text-2xl spiral-animate">🌀</span>
+            <span class="text-xl font-bold gradient-text">SpiralSafe</span>
+          </a>
+          <span class="text-purple-400 text-sm hidden md:inline">| API Reference</span>
+        </div>
+        <div class="flex space-x-6 items-center">
+          <a href="/" class="hover:text-cyan-400 transition">Home</a>
+          <a href="/admin/login.html" class="bg-gradient-to-r from-cyan-500 to-purple-500 px-4 py-2 rounded-lg hover:from-cyan-600 hover:to-purple-600 transition">Console →</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Layout: Sidebar + Content -->
+  <div class="flex pt-16">
+
+    <!-- Sidebar -->
+    <aside class="fixed left-0 w-64 h-[calc(100vh-4rem)] bg-black/30 backdrop-blur border-r border-purple-500/20 overflow-y-auto">
+      <div class="p-4">
+        <h2 class="text-lg font-bold text-purple-300 mb-4">Endpoints</h2>
+
+        <!-- Health -->
+        <div class="mb-4">
+          <h3 class="text-xs uppercase tracking-wide text-purple-500 mb-2">System</h3>
+          <a href="#health" class="sidebar-item block px-3 py-2 rounded text-sm hover:bg-purple-500/20 transition">
+            <span class="method-get px-2 py-0.5 rounded text-xs mr-2">GET</span>/api/health
+          </a>
+        </div>
+
+        <!-- Wave -->
+        <div class="mb-4">
+          <h3 class="text-xs uppercase tracking-wide text-purple-500 mb-2">Coherence</h3>
+          <a href="#wave-analyze" class="sidebar-item block px-3 py-2 rounded text-sm hover:bg-purple-500/20 transition">
+            <span class="method-post px-2 py-0.5 rounded text-xs mr-2">POST</span>/api/wave/analyze
+          </a>
+        </div>
+
+        <!-- Bump -->
+        <div class="mb-4">
+          <h3 class="text-xs uppercase tracking-wide text-purple-500 mb-2">Handoff</h3>
+          <a href="#bump-create" class="sidebar-item block px-3 py-2 rounded text-sm hover:bg-purple-500/20 transition">
+            <span class="method-post px-2 py-0.5 rounded text-xs mr-2">POST</span>/api/bump/create
+          </a>
+          <a href="#bump-query" class="sidebar-item block px-3 py-2 rounded text-sm hover:bg-purple-500/20 transition">
+            <span class="method-post px-2 py-0.5 rounded text-xs mr-2">POST</span>/api/bump/query
+          </a>
+        </div>
+
+        <!-- AWI -->
+        <div class="mb-4">
+          <h3 class="text-xs uppercase tracking-wide text-purple-500 mb-2">Permissions</h3>
+          <a href="#awi-request" class="sidebar-item block px-3 py-2 rounded text-sm hover:bg-purple-500/20 transition">
+            <span class="method-post px-2 py-0.5 rounded text-xs mr-2">POST</span>/api/awi/request
+          </a>
+          <a href="#awi-verify" class="sidebar-item block px-3 py-2 rounded text-sm hover:bg-purple-500/20 transition">
+            <span class="method-post px-2 py-0.5 rounded text-xs mr-2">POST</span>/api/awi/verify
+          </a>
+        </div>
+
+        <!-- ATOM -->
+        <div class="mb-4">
+          <h3 class="text-xs uppercase tracking-wide text-purple-500 mb-2">Task Tracking</h3>
+          <a href="#atom-log" class="sidebar-item block px-3 py-2 rounded text-sm hover:bg-purple-500/20 transition">
+            <span class="method-post px-2 py-0.5 rounded text-xs mr-2">POST</span>/api/atom/trail/log
+          </a>
+          <a href="#atom-query" class="sidebar-item block px-3 py-2 rounded text-sm hover:bg-purple-500/20 transition">
+            <span class="method-post px-2 py-0.5 rounded text-xs mr-2">POST</span>/api/atom/trail/query
+          </a>
+          <a href="#atom-verify" class="sidebar-item block px-3 py-2 rounded text-sm hover:bg-purple-500/20 transition">
+            <span class="method-get px-2 py-0.5 rounded text-xs mr-2">GET</span>/api/atom/trail/verify
+          </a>
+        </div>
+
+        <!-- SPHINX -->
+        <div class="mb-4">
+          <h3 class="text-xs uppercase tracking-wide text-purple-500 mb-2">Security Gates</h3>
+          <a href="#sphinx-validate" class="sidebar-item block px-3 py-2 rounded text-sm hover:bg-purple-500/20 transition">
+            <span class="method-post px-2 py-0.5 rounded text-xs mr-2">POST</span>/api/sphinx/gate
+          </a>
+        </div>
+
+        <!-- Divider -->
+        <hr class="border-purple-500/30 my-4">
+
+        <!-- Resources -->
+        <h3 class="text-xs uppercase tracking-wide text-purple-500 mb-2">Resources</h3>
+        <a href="https://github.com/scalar/scalar" target="_blank" class="block px-3 py-2 rounded text-sm text-purple-300 hover:bg-purple-500/20 transition">
+          📘 Scalar (GitHub)
+        </a>
+        <a href="https://github.com/Redocly/redoc" target="_blank" class="block px-3 py-2 rounded text-sm text-purple-300 hover:bg-purple-500/20 transition">
+          📗 Redoc (GitHub)
+        </a>
+        <a href="https://github.com/stoplightio/elements" target="_blank" class="block px-3 py-2 rounded text-sm text-purple-300 hover:bg-purple-500/20 transition">
+          📙 Stoplight Elements
+        </a>
+        <a href="https://github.com/rapi-doc/RapiDoc" target="_blank" class="block px-3 py-2 rounded text-sm text-purple-300 hover:bg-purple-500/20 transition">
+          📕 RapiDoc (GitHub)
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ml-64 flex-1 p-8">
+      <div class="max-w-4xl">
+
+        <!-- Header -->
+        <div class="mb-12">
+          <h1 class="text-4xl font-bold gradient-text mb-4">SpiralSafe API Reference</h1>
+          <p class="text-purple-300 text-lg">
+            Interactive documentation for the SpiralSafe coherence engine API.
+            Test endpoints directly from your browser.
+          </p>
+
+          <!-- API Info -->
+          <div class="mt-6 flex flex-wrap gap-4">
+            <div class="bg-black/40 border border-cyan-500/30 rounded-lg px-4 py-2">
+              <span class="text-cyan-400 font-mono text-sm">Base URL:</span>
+              <code class="ml-2 text-white">https://api.spiralsafe.org</code>
+            </div>
+            <div class="bg-black/40 border border-purple-500/30 rounded-lg px-4 py-2">
+              <span class="text-purple-400 font-mono text-sm">Version:</span>
+              <code class="ml-2 text-white">v1.0</code>
+            </div>
+            <div class="bg-black/40 border border-green-500/30 rounded-lg px-4 py-2">
+              <span class="text-green-400 font-mono text-sm">Auth:</span>
+              <code class="ml-2 text-white">X-API-Key header</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- Authentication Section -->
+        <section class="mb-12 bg-black/30 backdrop-blur border border-purple-500/30 rounded-2xl p-6">
+          <h2 class="text-2xl font-bold text-purple-300 mb-4">🔐 Authentication</h2>
+          <p class="text-purple-200 mb-4">
+            All API endpoints require authentication via the <code class="bg-purple-900/50 px-2 py-0.5 rounded">X-API-Key</code> header.
+          </p>
+          <pre><code class="language-bash">curl -X GET https://api.spiralsafe.org/api/health \
+  -H "X-API-Key: your-api-key"</code></pre>
+          <div class="mt-4 bg-cyan-900/20 border border-cyan-500/30 rounded-lg px-4 py-3 text-sm">
+            <strong class="text-cyan-400">Getting an API Key:</strong>
+            <span class="text-purple-200">Contact the SpiralSafe team or use the <a href="/admin/login.html" class="text-cyan-400 hover:text-cyan-300 underline">Admin Console</a> to manage your API keys.</span>
+          </div>
+        </section>
+
+        <!-- Health Endpoint -->
+        <section id="health" class="mb-12 endpoint-card bg-black/30 backdrop-blur border border-green-500/30 rounded-2xl p-6 transition">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="method-get px-3 py-1 rounded font-bold text-sm">GET</span>
+            <code class="text-xl font-mono text-white">/api/health</code>
+          </div>
+          <p class="text-purple-200 mb-4">Check the health status of the SpiralSafe API.</p>
+
+          <!-- Try it -->
+          <div class="mt-6">
+            <button onclick="tryHealth()" class="bg-gradient-to-r from-green-500 to-cyan-500 px-4 py-2 rounded-lg font-semibold hover:from-green-600 hover:to-cyan-600 transition">
+              Try it →
+            </button>
+            <div id="health-response" class="mt-4 hidden">
+              <h4 class="text-sm font-bold text-purple-400 mb-2">Response:</h4>
+              <pre class="response-container"><code class="language-json" id="health-response-code"></code></pre>
+            </div>
+          </div>
+
+          <details class="mt-4">
+            <summary class="cursor-pointer text-purple-400 hover:text-purple-300">Example Response</summary>
+            <pre class="mt-2"><code class="language-json">{
+  "status": "healthy",
+  "timestamp": "2026-01-22T07:05:40.266Z",
+  "services": {
+    "wave": "operational",
+    "bump": "operational",
+    "awi": "operational",
+    "atom": "operational",
+    "sphinx": "operational"
+  }
+}</code></pre>
+          </details>
+        </section>
+
+        <!-- Wave Analyze Endpoint -->
+        <section id="wave-analyze" class="mb-12 endpoint-card bg-black/30 backdrop-blur border border-blue-500/30 rounded-2xl p-6 transition">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="method-post px-3 py-1 rounded font-bold text-sm">POST</span>
+            <code class="text-xl font-mono text-white">/api/wave/analyze</code>
+          </div>
+          <p class="text-purple-200 mb-4">Analyze content for coherence using the WAVE protocol. Detects curl (repetition), divergence, and potential.</p>
+
+          <h4 class="text-sm font-bold text-purple-400 mb-2">Request Body:</h4>
+          <pre><code class="language-json">{
+  "content": "Your text content to analyze for coherence...",
+  "context": {
+    "type": "conversation",
+    "participants": ["claude", "human"]
+  }
+}</code></pre>
+
+          <details class="mt-4">
+            <summary class="cursor-pointer text-purple-400 hover:text-purple-300">Example Response</summary>
+            <pre class="mt-2"><code class="language-json">{
+  "curl": 0.15,
+  "divergence": 0.08,
+  "potential": 0.72,
+  "regions": [
+    {
+      "start": 0,
+      "end": 150,
+      "type": "high_potential",
+      "severity": "warning",
+      "description": "Unrealized concept cluster detected"
+    }
+  ],
+  "coherent": true
+}</code></pre>
+          </details>
+
+          <!-- Interactive Try It -->
+          <div class="mt-6 bg-black/20 rounded-lg p-4">
+            <h4 class="text-sm font-bold text-cyan-400 mb-2">🧪 Try It</h4>
+            <textarea id="wave-content" rows="4" class="w-full bg-slate-900 border border-purple-500/30 rounded-lg p-3 text-white text-sm font-mono" placeholder="Enter content to analyze...">The quantum coherence protocol enables AI-human collaboration through wave analysis. When conversations spiral into repetition, we detect the curl. When ideas diverge without resolution, we measure the divergence.</textarea>
+            <button onclick="tryWaveAnalyze()" class="mt-3 bg-gradient-to-r from-blue-500 to-purple-500 px-4 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-600 transition">
+              Analyze →
+            </button>
+            <div id="wave-response" class="mt-4 hidden">
+              <h4 class="text-sm font-bold text-purple-400 mb-2">Response:</h4>
+              <pre class="response-container"><code class="language-json" id="wave-response-code"></code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Bump Create Endpoint -->
+        <section id="bump-create" class="mb-12 endpoint-card bg-black/30 backdrop-blur border border-blue-500/30 rounded-2xl p-6 transition">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="method-post px-3 py-1 rounded font-bold text-sm">POST</span>
+            <code class="text-xl font-mono text-white">/api/bump/create</code>
+          </div>
+          <p class="text-purple-200 mb-4">Create a handoff marker between agents or systems using the H&&S:BUMP protocol.</p>
+
+          <h4 class="text-sm font-bold text-purple-400 mb-2">Request Body:</h4>
+          <pre><code class="language-json">{
+  "type": "WAVE",
+  "from": "claude",
+  "to": "copilot",
+  "state": "architecture_review_complete",
+  "context": {
+    "pr_number": 123,
+    "files_changed": ["src/api.ts", "tests/api.test.ts"]
+  }
+}</code></pre>
+
+          <h4 class="text-sm font-bold text-purple-400 mt-4 mb-2">Bump Types:</h4>
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-2 text-sm">
+            <div class="bg-cyan-900/30 px-3 py-2 rounded"><strong>WAVE</strong> - Soft handoff</div>
+            <div class="bg-purple-900/30 px-3 py-2 rounded"><strong>PASS</strong> - Full transfer</div>
+            <div class="bg-blue-900/30 px-3 py-2 rounded"><strong>PING</strong> - Status update</div>
+            <div class="bg-green-900/30 px-3 py-2 rounded"><strong>SYNC</strong> - Synchronize</div>
+            <div class="bg-red-900/30 px-3 py-2 rounded"><strong>BLOCK</strong> - Blocker</div>
+          </div>
+
+          <details class="mt-4">
+            <summary class="cursor-pointer text-purple-400 hover:text-purple-300">Example Response</summary>
+            <pre class="mt-2"><code class="language-json">{
+  "id": "bump-uuid-12345",
+  "type": "WAVE",
+  "from": "claude",
+  "to": "copilot",
+  "state": "architecture_review_complete",
+  "context": { ... },
+  "timestamp": "2026-01-22T07:05:40.266Z",
+  "resolved": false
+}</code></pre>
+          </details>
+        </section>
+
+        <!-- Bump Query Endpoint -->
+        <section id="bump-query" class="mb-12 endpoint-card bg-black/30 backdrop-blur border border-blue-500/30 rounded-2xl p-6 transition">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="method-post px-3 py-1 rounded font-bold text-sm">POST</span>
+            <code class="text-xl font-mono text-white">/api/bump/query</code>
+          </div>
+          <p class="text-purple-200 mb-4">Query existing bump markers with filters.</p>
+
+          <h4 class="text-sm font-bold text-purple-400 mb-2">Request Body:</h4>
+          <pre><code class="language-json">{
+  "from": "claude",
+  "type": "WAVE",
+  "resolved": false,
+  "limit": 10
+}</code></pre>
+        </section>
+
+        <!-- AWI Request Endpoint -->
+        <section id="awi-request" class="mb-12 endpoint-card bg-black/30 backdrop-blur border border-orange-500/30 rounded-2xl p-6 transition">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="method-post px-3 py-1 rounded font-bold text-sm">POST</span>
+            <code class="text-xl font-mono text-white">/api/awi/request</code>
+          </div>
+          <p class="text-purple-200 mb-4">Request authorization for an action using the AWI (Authorization-With-Intent) protocol.</p>
+
+          <h4 class="text-sm font-bold text-purple-400 mb-2">Request Body:</h4>
+          <pre><code class="language-json">{
+  "intent": "deploy_to_production",
+  "scope": {
+    "resources": ["api.spiralsafe.org"],
+    "actions": ["deploy"],
+    "time_limit": "1h"
+  },
+  "level": 2
+}</code></pre>
+
+          <h4 class="text-sm font-bold text-purple-400 mt-4 mb-2">AWI Levels:</h4>
+          <div class="space-y-2 text-sm">
+            <div class="bg-green-900/30 px-3 py-2 rounded"><strong>Level 0:</strong> Information gathering only</div>
+            <div class="bg-cyan-900/30 px-3 py-2 rounded"><strong>Level 1:</strong> Reversible actions (can be undone)</div>
+            <div class="bg-yellow-900/30 px-3 py-2 rounded"><strong>Level 2:</strong> Significant changes (require review)</div>
+            <div class="bg-orange-900/30 px-3 py-2 rounded"><strong>Level 3:</strong> Critical actions (production impact)</div>
+            <div class="bg-red-900/30 px-3 py-2 rounded"><strong>Level 4:</strong> Irreversible changes (data deletion)</div>
+          </div>
+        </section>
+
+        <!-- AWI Verify Endpoint -->
+        <section id="awi-verify" class="mb-12 endpoint-card bg-black/30 backdrop-blur border border-orange-500/30 rounded-2xl p-6 transition">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="method-post px-3 py-1 rounded font-bold text-sm">POST</span>
+            <code class="text-xl font-mono text-white">/api/awi/verify</code>
+          </div>
+          <p class="text-purple-200 mb-4">Verify if an AWI grant is still valid and within scope.</p>
+
+          <h4 class="text-sm font-bold text-purple-400 mb-2">Request Body:</h4>
+          <pre><code class="language-json">{
+  "grant_id": "awi-grant-uuid",
+  "action": "deploy",
+  "resource": "api.spiralsafe.org"
+}</code></pre>
+        </section>
+
+        <!-- ATOM Trail Log Endpoint -->
+        <section id="atom-log" class="mb-12 endpoint-card bg-black/30 backdrop-blur border border-pink-500/30 rounded-2xl p-6 transition">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="method-post px-3 py-1 rounded font-bold text-sm">POST</span>
+            <code class="text-xl font-mono text-white">/api/atom/trail/log</code>
+          </div>
+          <p class="text-purple-200 mb-4">Log a decision to the ATOM (Auditable Trail of Metadata) persistence layer.</p>
+
+          <h4 class="text-sm font-bold text-purple-400 mb-2">Request Body:</h4>
+          <pre><code class="language-json">{
+  "actor": "claude",
+  "decision": "Design architecture for authentication system",
+  "rationale": "Initial planning phase requires clear structure",
+  "outcome": "COMPLETE",
+  "coherenceScore": 0.85,
+  "context": {
+    "feature": "user-authentication",
+    "phase": "planning"
+  },
+  "parentEntry": "uuid-of-previous-decision"
+}</code></pre>
+
+          <details class="mt-4">
+            <summary class="cursor-pointer text-purple-400 hover:text-purple-300">Example Response</summary>
+            <pre class="mt-2"><code class="language-json">{
+  "id": "atom-uuid-67890",
+  "success": true
+}</code></pre>
+          </details>
+        </section>
+
+        <!-- ATOM Trail Query Endpoint -->
+        <section id="atom-query" class="mb-12 endpoint-card bg-black/30 backdrop-blur border border-pink-500/30 rounded-2xl p-6 transition">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="method-post px-3 py-1 rounded font-bold text-sm">POST</span>
+            <code class="text-xl font-mono text-white">/api/atom/trail/query</code>
+          </div>
+          <p class="text-purple-200 mb-4">Query the ATOM trail with filters.</p>
+
+          <h4 class="text-sm font-bold text-purple-400 mb-2">Request Body:</h4>
+          <pre><code class="language-json">{
+  "actor": "claude",
+  "since": "2026-01-19T00:00:00Z",
+  "outcome": "COMPLETE",
+  "minCoherence": 0.7,
+  "limit": 50
+}</code></pre>
+        </section>
+
+        <!-- ATOM Trail Verify Endpoint -->
+        <section id="atom-verify" class="mb-12 endpoint-card bg-black/30 backdrop-blur border border-green-500/30 rounded-2xl p-6 transition">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="method-get px-3 py-1 rounded font-bold text-sm">GET</span>
+            <code class="text-xl font-mono text-white">/api/atom/trail/verify</code>
+          </div>
+          <p class="text-purple-200 mb-4">Verify the integrity of the entire ATOM trail (detect tampering).</p>
+
+          <details class="mt-4">
+            <summary class="cursor-pointer text-purple-400 hover:text-purple-300">Example Response</summary>
+            <pre class="mt-2"><code class="language-json">{
+  "valid": true,
+  "totalEntries": 150,
+  "brokenChains": 0,
+  "tamperedEntries": [],
+  "details": []
+}</code></pre>
+          </details>
+        </section>
+
+        <!-- SPHINX Gate Endpoint -->
+        <section id="sphinx-validate" class="mb-12 endpoint-card bg-black/30 backdrop-blur border border-red-500/30 rounded-2xl p-6 transition">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="method-post px-3 py-1 rounded font-bold text-sm">POST</span>
+            <code class="text-xl font-mono text-white">/api/sphinx/gate</code>
+          </div>
+          <p class="text-purple-200 mb-4">Validate passage through a SPHINX security gate. The guardian asks its riddles.</p>
+
+          <h4 class="text-sm font-bold text-purple-400 mb-2">Request Body:</h4>
+          <pre><code class="language-json">{
+  "gate": "COHERENCE",
+  "artifact": {
+    "type": "document",
+    "content": "Content to validate..."
+  },
+  "options": {
+    "threshold": 0.6,
+    "strict": false
+  }
+}</code></pre>
+
+          <h4 class="text-sm font-bold text-purple-400 mt-4 mb-2">SPHINX Gates:</h4>
+          <div class="space-y-2 text-sm">
+            <div class="bg-purple-900/30 px-3 py-2 rounded"><strong>ORIGIN:</strong> "Where do you come from?" - Verify genesis lineage</div>
+            <div class="bg-cyan-900/30 px-3 py-2 rounded"><strong>INTENT:</strong> "What do you seek?" - Verify stated purpose</div>
+            <div class="bg-green-900/30 px-3 py-2 rounded"><strong>COHERENCE:</strong> "Are you whole?" - Verify &gt;60% threshold</div>
+            <div class="bg-blue-900/30 px-3 py-2 rounded"><strong>IDENTITY:</strong> "Who are you?" - Verify agent/user auth</div>
+            <div class="bg-pink-900/30 px-3 py-2 rounded"><strong>PASSAGE:</strong> "You may pass." - Grant transition</div>
+          </div>
+
+          <details class="mt-4">
+            <summary class="cursor-pointer text-purple-400 hover:text-purple-300">Example Response</summary>
+            <pre class="mt-2"><code class="language-json">{
+  "gate": "COHERENCE",
+  "passed": true,
+  "score": 0.72,
+  "threshold": 0.6,
+  "verdict": "PASSAGE",
+  "message": "Coherence verified. You may pass."
+}</code></pre>
+          </details>
+        </section>
+
+        <!-- Rate Limits Section -->
+        <section class="mb-12 bg-black/30 backdrop-blur border border-yellow-500/30 rounded-2xl p-6">
+          <h2 class="text-2xl font-bold text-yellow-300 mb-4">⚡ Rate Limits</h2>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center bg-black/20 rounded-lg px-4 py-3">
+              <span class="text-purple-200">Default requests</span>
+              <span class="text-yellow-400 font-mono">100 / 60 seconds</span>
+            </div>
+            <div class="flex justify-between items-center bg-black/20 rounded-lg px-4 py-3">
+              <span class="text-purple-200">Auth failures</span>
+              <span class="text-yellow-400 font-mono">5 / 60 seconds</span>
+            </div>
+            <div class="flex justify-between items-center bg-black/20 rounded-lg px-4 py-3">
+              <span class="text-purple-200">Wave analysis</span>
+              <span class="text-yellow-400 font-mono">20 / 60 seconds</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Alternative Tools Section -->
+        <section class="mb-12 bg-gradient-to-br from-cyan-950/50 to-purple-950/50 border border-cyan-500/30 rounded-2xl p-6">
+          <h2 class="text-2xl font-bold gradient-text mb-4">📚 API Documentation Alternatives</h2>
+          <p class="text-purple-200 mb-6">
+            This documentation is inspired by modern API documentation tools. Here are some excellent alternatives:
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-4">
+            <a href="https://github.com/scalar/scalar" target="_blank" class="block bg-black/30 border border-cyan-500/30 rounded-xl p-4 hover:border-cyan-400 transition">
+              <h3 class="text-lg font-bold text-cyan-400 mb-2">Scalar</h3>
+              <p class="text-purple-300 text-sm">Modern API reference from OpenAPI specs with interactive testing, beautiful UI, and standalone API client.</p>
+              <span class="text-cyan-400 text-sm mt-2 inline-block">→ github.com/scalar/scalar</span>
+            </a>
+
+            <a href="https://github.com/Redocly/redoc" target="_blank" class="block bg-black/30 border border-purple-500/30 rounded-xl p-4 hover:border-purple-400 transition">
+              <h3 class="text-lg font-bold text-purple-400 mb-2">Redoc</h3>
+              <p class="text-purple-300 text-sm">Three-panel "Stripe-like" documentation. Highly customizable, supports OpenAPI v2/v3 and AsyncAPI.</p>
+              <span class="text-purple-400 text-sm mt-2 inline-block">→ github.com/Redocly/redoc</span>
+            </a>
+
+            <a href="https://github.com/stoplightio/elements" target="_blank" class="block bg-black/30 border border-pink-500/30 rounded-xl p-4 hover:border-pink-400 transition">
+              <h3 class="text-lg font-bold text-pink-400 mb-2">Stoplight Elements</h3>
+              <p class="text-purple-300 text-sm">React component library for OpenAPI documentation. Perfect for React-based sites with deep customization.</p>
+              <span class="text-pink-400 text-sm mt-2 inline-block">→ github.com/stoplightio/elements</span>
+            </a>
+
+            <a href="https://github.com/rapi-doc/RapiDoc" target="_blank" class="block bg-black/30 border border-green-500/30 rounded-xl p-4 hover:border-green-400 transition">
+              <h3 class="text-lg font-bold text-green-400 mb-2">RapiDoc</h3>
+              <p class="text-purple-300 text-sm">Fast web component for API docs. Single HTML tag embedding, extensive theming, excellent performance.</p>
+              <span class="text-green-400 text-sm mt-2 inline-block">→ github.com/rapi-doc/RapiDoc</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-16 pt-8 border-t border-purple-500/30 text-center text-purple-400">
+          <p class="mb-4">
+            <span class="spiral-animate inline-block">🌀</span>
+            <span class="gradient-text font-bold">SpiralSafe</span> |
+            From the constraints, gifts. From the spiral, safety.
+          </p>
+          <p class="text-sm">
+            <a href="https://github.com/toolate28/SpiralSafe" target="_blank" class="hover:text-cyan-400">GitHub</a> ·
+            <a href="/" class="hover:text-purple-400">Home</a> ·
+            <a href="/admin/login.html" class="hover:text-pink-400">Console</a>
+          </p>
+        </footer>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- JavaScript for Interactive Features -->
+  <script>
+    // Initialize highlight.js
+    hljs.highlightAll();
+
+    // API Base URL
+    const API_BASE = 'https://api.spiralsafe.org';
+
+    // Try Health endpoint
+    async function tryHealth() {
+      const responseEl = document.getElementById('health-response');
+      const codeEl = document.getElementById('health-response-code');
+
+      try {
+        responseEl.classList.remove('hidden');
+        codeEl.textContent = 'Loading...';
+
+        const response = await fetch(`${API_BASE}/api/health`);
+        const data = await response.json();
+
+        codeEl.textContent = JSON.stringify(data, null, 2);
+        hljs.highlightElement(codeEl);
+      } catch (error) {
+        codeEl.textContent = JSON.stringify({ error: error.message }, null, 2);
+        hljs.highlightElement(codeEl);
+      }
+    }
+
+    // Try Wave Analyze endpoint
+    async function tryWaveAnalyze() {
+      const content = document.getElementById('wave-content').value;
+      const responseEl = document.getElementById('wave-response');
+      const codeEl = document.getElementById('wave-response-code');
+
+      try {
+        responseEl.classList.remove('hidden');
+        codeEl.textContent = 'Analyzing...';
+
+        // Demo mode: simulated response for interactive preview
+        // For production API calls, configure your API key in the request header
+        const simulatedResponse = {
+          curl: Math.random() * 0.3,
+          divergence: Math.random() * 0.2 - 0.1,
+          potential: 0.5 + Math.random() * 0.5,
+          regions: content.length > 100 ? [
+            {
+              start: 0,
+              end: Math.floor(content.length / 2),
+              type: "high_potential",
+              severity: "warning",
+              description: "Concept cluster with development opportunity"
+            }
+          ] : [],
+          coherent: true,
+          _note: "Interactive demo - use curl or your preferred HTTP client with a valid API key for actual results"
+        };
+
+        codeEl.textContent = JSON.stringify(simulatedResponse, null, 2);
+        hljs.highlightElement(codeEl);
+      } catch (error) {
+        codeEl.textContent = JSON.stringify({ error: error.message }, null, 2);
+        hljs.highlightElement(codeEl);
+      }
+    }
+
+    // Sidebar active state
+    const sidebarItems = document.querySelectorAll('.sidebar-item');
+    const sections = document.querySelectorAll('section[id]');
+
+    function updateActiveSection() {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (window.scrollY >= sectionTop - 100) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      sidebarItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('href') === `#${current}`) {
+          item.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveSection);
+    updateActiveSection();
+  </script>
+
+</body>
+</html>

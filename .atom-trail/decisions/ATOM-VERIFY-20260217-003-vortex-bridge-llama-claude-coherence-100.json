@@ -1,0 +1,19 @@
+{
+  "atom_tag": "ATOM-VERIFY-20260217-003-vortex-bridge-llama-claude-coherence-100",
+  "type": "VERIFY",
+  "description": "Vortex bridge: llama → claude (coherence: 100%)",
+  "timestamp": "2026-02-17T14:59:29.811Z",
+  "files": [
+    "vortex-bridge.ts"
+  ],
+  "tags": [
+    "BRIDGE",
+    "LLAMA",
+    "CLAUDE",
+    "PASS"
+  ],
+  "freshness_level": "fresh",
+  "bedrock_eligible": false,
+  "created_epoch": 1771340369,
+  "verified": false
+}

@@ -1,3 +1,5 @@
+<img width="1376" height="768" alt="Binary_Night_-_Slide_1" src="https://github.com/user-attachments/assets/84b504ed-7cd3-472c-8c8b-918b30909cf6" />
+
 # 🌙 The Four Dancers of Binary Night
 
 ## A Hope && Sauce Story About Binary Numbers
@@ -275,6 +277,8 @@ Zero zero one zero, Constellation's here
 Zero zero one one, two friends crystal clear
 
 Zero one zero zero, Firefly takes flight
+
+
 One zero zero zero, Air commands the night
 One one one one, everybody glows
 That's how binary counting goes!
