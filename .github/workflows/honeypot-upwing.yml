@@ -4,8 +4,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: honeypot-upwing-${{ github.event_name }}-${{ github.ref }}
-  cancel-in-progress: false
+  group: honeypot-upwing-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'schedule' }}
 
 on:
   schedule:
@@ -14,8 +14,8 @@ on:
     inputs:
       stagger_seconds:
         description: "Delay between stage 1 and stage 2"
-        type: number
-        default: 90
+        type: string
+        default: "90"
       coherence_target:
         description: "Target coherence value"
         type: string

@@ -59,7 +59,7 @@ API_KEY=placeholder
 DATABASE_URL=postgresql://your_user:your_password@localhost:5432/dbname  # placeholder
 
 # .env (DO NOT commit - in .gitignore)
-API_KEY=placeholder
+API_KEY=local_dev_key_from_secret_manager
 DATABASE_URL=postgresql://your_user:your_password@prod.example.com:5432/proddb
 ```
 
