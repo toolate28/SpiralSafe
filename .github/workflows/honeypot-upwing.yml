@@ -1,0 +1,69 @@
+name: Honeypot Upwing
+
+permissions:
+  contents: read
+
+on:
+  schedule:
+    - cron: "15 */12 * * *"
+  workflow_dispatch:
+    inputs:
+      stagger_seconds:
+        description: "Delay between stage 1 and stage 2"
+        type: number
+        default: 90
+      coherence_target:
+        description: "Target coherence value"
+        type: string
+        default: "1.00"
+
+env:
+  COHERENCE_TARGET: ${{ github.event.inputs.coherence_target || '1.00' }}
+  STAGGER_SECONDS: ${{ github.event.inputs.stagger_seconds || 90 }}
+
+jobs:
+  stage-one-honeypot:
+    name: Stage 1 — Torch Sheet Projection
+    runs-on: ubuntu-latest
+    outputs:
+      tack: ${{ steps.mark.outputs.tack }}
+      coherence: ${{ steps.mark.outputs.coherence }}
+      epoch: ${{ steps.mark.outputs.epoch }}
+    steps:
+      - name: Mark upwing tack
+        id: mark
+        run: |
+          echo "tack=upwing" >> "$GITHUB_OUTPUT"
+          echo "coherence=${{ env.COHERENCE_TARGET }}" >> "$GITHUB_OUTPUT"
+          echo "epoch=$(date +%s)" >> "$GITHUB_OUTPUT"
+          echo "Stage 1 armed: torch + sheet projection marker created"
+
+  stage-two-crystallisation:
+    name: Stage 2 — Saturation Crystallisation
+    runs-on: ubuntu-latest
+    needs: [stage-one-honeypot]
+    steps:
+      - name: Stagger execution
+        run: sleep "${{ env.STAGGER_SECONDS }}"
+
+      - name: Verify maximum coherence upwing
+        run: |
+          if [ "${{ needs.stage-one-honeypot.outputs.tack }}" != "upwing" ]; then
+            echo "::error::Upwing tack marker missing"
+            exit 1
+          fi
+          if [ "${{ needs.stage-one-honeypot.outputs.coherence }}" != "${{ env.COHERENCE_TARGET }}" ]; then
+            echo "::error::Coherence target mismatch"
+            exit 1
+          fi
+          echo "H&&S:SYNC — tack upwing at maximum coherence"
+          echo "epoch=${{ needs.stage-one-honeypot.outputs.epoch }}"
+
+      - name: Job summary
+        run: |
+          echo "## Honeypot Upwing" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Stage 1 marker: \`${{ needs.stage-one-honeypot.outputs.tack }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Stage 2 stagger: \`${{ env.STAGGER_SECONDS }}s\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Coherence target: \`${{ env.COHERENCE_TARGET }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Status: **crystallised**" >> "$GITHUB_STEP_SUMMARY"
