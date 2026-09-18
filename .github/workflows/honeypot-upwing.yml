@@ -2,7 +2,6 @@ name: Honeypot Upwing
 
 permissions:
   contents: read
-  metadata: read
 
 concurrency:
   group: honeypot-upwing-${{ github.event_name }}-${{ github.ref }}
@@ -39,21 +38,18 @@ jobs:
     outputs:
       stagger_seconds: ${{ steps.guard.outputs.stagger_seconds }}
       coherence_target: ${{ steps.guard.outputs.coherence_target }}
-      data_watermark: ${{ steps.guard.outputs.data_watermark }}
     steps:
       - name: Validate actor and inputs
         id: guard
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
 
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            PERMISSION="$(GH_TOKEN="$GITHUB_TOKEN" gh api "repos/${{ github.repository }}/collaborators/${{ github.actor }}/permission" --jq '.permission // "none"')"
-            case "$PERMISSION" in
-              admin|maintain|write) ;;
+            ASSOCIATION="${{ github.actor_association }}"
+            case "$ASSOCIATION" in
+              OWNER|MEMBER|COLLABORATOR) ;;
               *)
-                echo "::error::manual dispatch requires write+ repository permission"
+                echo "::error::manual dispatch requires trusted actor association"
                 exit 1
                 ;;
             esac
@@ -87,7 +83,6 @@ jobs:
 
           echo "stagger_seconds=$STAGGER" >> "$GITHUB_OUTPUT"
           echo "coherence_target=$COHERENCE" >> "$GITHUB_OUTPUT"
-          echo "data_watermark=$WATERMARK" >> "$GITHUB_OUTPUT"
 
   stage-one-honeypot:
     name: Stage 1 — Torch Sheet Projection
@@ -98,18 +93,19 @@ jobs:
       tack: ${{ steps.mark.outputs.tack }}
       coherence: ${{ steps.mark.outputs.coherence }}
       epoch: ${{ steps.mark.outputs.epoch }}
-      watermark: ${{ steps.mark.outputs.watermark }}
+      watermark_digest: ${{ steps.mark.outputs.watermark_digest }}
       unitary_projection: ${{ steps.mark.outputs.unitary_projection }}
     steps:
       - name: Mark upwing tack
         id: mark
         run: |
           set -euo pipefail
-          UNITARY_PROJECTION="$(printf '%s' "${{ needs.guardrail-intent.outputs.data_watermark }}|unitary|${{ needs.guardrail-intent.outputs.coherence_target }}" | sha256sum | awk '{print $1}')"
+          WATERMARK_DIGEST="$(printf '%s' "${{ env.DATA_WATERMARK }}" | sha256sum | awk '{print $1}')"
+          UNITARY_PROJECTION="$(printf '%s' "${{ env.DATA_WATERMARK }}|unitary|${{ needs.guardrail-intent.outputs.coherence_target }}" | sha256sum | awk '{print $1}')"
           echo "tack=upwing" >> "$GITHUB_OUTPUT"
           echo "coherence=${{ needs.guardrail-intent.outputs.coherence_target }}" >> "$GITHUB_OUTPUT"
           echo "epoch=$(date +%s)" >> "$GITHUB_OUTPUT"
-          echo "watermark=${{ needs.guardrail-intent.outputs.data_watermark }}" >> "$GITHUB_OUTPUT"
+          echo "watermark_digest=$WATERMARK_DIGEST" >> "$GITHUB_OUTPUT"
           echo "unitary_projection=$UNITARY_PROJECTION" >> "$GITHUB_OUTPUT"
           echo "Stage 1 armed: torch + sheet projection marker created"
 
@@ -135,8 +131,8 @@ jobs:
             echo "::error::Coherence target mismatch"
             exit 1
           fi
-          if [ -z "${{ needs.stage-one-honeypot.outputs.watermark }}" ]; then
-            echo "::error::Watermark missing"
+          if [ -z "${{ needs.stage-one-honeypot.outputs.watermark_digest }}" ]; then
+            echo "::error::Watermark digest missing"
             exit 1
           fi
           HAMILTONIAN_DISPERSION="$(printf '%s' "${{ needs.stage-one-honeypot.outputs.unitary_projection }}|hamiltonian|${{ needs.stage-one-honeypot.outputs.epoch }}" | sha256sum | awk '{print $1}')"
@@ -152,7 +148,7 @@ jobs:
           echo "- Stage 1 marker: \`${{ needs.stage-one-honeypot.outputs.tack }}\`" >> "$GITHUB_STEP_SUMMARY"
           echo "- Stage 2 stagger: \`${{ needs.guardrail-intent.outputs.stagger_seconds }}s\`" >> "$GITHUB_STEP_SUMMARY"
           echo "- Coherence target: \`${{ needs.guardrail-intent.outputs.coherence_target }}\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Data watermark: \`${{ needs.stage-one-honeypot.outputs.watermark }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Data watermark digest: \`${{ needs.stage-one-honeypot.outputs.watermark_digest }}\`" >> "$GITHUB_STEP_SUMMARY"
           echo "- Unitary projection: \`${{ needs.stage-one-honeypot.outputs.unitary_projection }}\`" >> "$GITHUB_STEP_SUMMARY"
           echo "- Hamiltonian dispersion: \`${hamiltonian_dispersion:-unavailable}\`" >> "$GITHUB_STEP_SUMMARY"
           echo "- Status: **crystallised**" >> "$GITHUB_STEP_SUMMARY"
