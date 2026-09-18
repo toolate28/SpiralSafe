@@ -42,12 +42,20 @@ jobs:
     steps:
       - name: Validate actor and inputs
         id: guard
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
 
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ github.actor }}" != "${{ github.repository_owner }}" ]; then
-            echo "::error::manual dispatch restricted to repository owner"
-            exit 1
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            PERMISSION="$(GH_TOKEN="$GITHUB_TOKEN" gh api "repos/${{ github.repository }}/collaborators/${{ github.actor }}/permission" --jq '.permission // "none"')"
+            case "$PERMISSION" in
+              admin|maintain|write) ;;
+              *)
+                echo "::error::manual dispatch requires write+ repository permission"
+                exit 1
+                ;;
+            esac
           fi
 
           STAGGER="${{ env.STAGGER_SECONDS }}"

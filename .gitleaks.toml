@@ -9,9 +9,7 @@ paths = [
   '''^\.github/SECRETS\.md$''',
   '''^\.secrets\.baseline$''',
   '''^docs/research/Conversational Abandonment in Crisis Contexts\.\.pdf - Google Drive_files/''',
-  '''^archive/''',
-  '''^\.atom-trail/''',
-  '''^\.verification/'''
+  '''^archive/'''
 ]
 regexes = [
   '''REDACTED_CLOUDFLARE_API_TOKEN''',
