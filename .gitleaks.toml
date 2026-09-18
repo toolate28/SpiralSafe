@@ -13,6 +13,5 @@ paths = [
 ]
 regexes = [
   '''REDACTED_CLOUDFLARE_API_TOKEN''',
-  '''your_api_key_here''',
-  '''API_KEY=\$\{\{ secrets\.API_KEY \}\}'''
+  '''your_api_key_here'''
 ]

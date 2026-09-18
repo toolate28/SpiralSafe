@@ -2,9 +2,10 @@ name: Honeypot Upwing
 
 permissions:
   contents: read
+  metadata: read
 
 concurrency:
-  group: honeypot-upwing-${{ github.ref }}
+  group: honeypot-upwing-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: false
 
 on:
