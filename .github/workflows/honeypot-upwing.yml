@@ -16,10 +16,15 @@ on:
         description: "Target coherence value"
         type: string
         default: "1.00"
+      data_watermark:
+        description: "Specific watermark token"
+        type: string
+        default: "SPIRALSAFE-WATERMARK-UH-001"
 
 env:
   COHERENCE_TARGET: ${{ github.event.inputs.coherence_target || '1.00' }}
   STAGGER_SECONDS: ${{ github.event.inputs.stagger_seconds || 90 }}
+  DATA_WATERMARK: ${{ github.event.inputs.data_watermark || 'SPIRALSAFE-WATERMARK-UH-001' }}
 
 jobs:
   stage-one-honeypot:
@@ -29,14 +34,19 @@ jobs:
       tack: ${{ steps.mark.outputs.tack }}
       coherence: ${{ steps.mark.outputs.coherence }}
       epoch: ${{ steps.mark.outputs.epoch }}
+      watermark: ${{ steps.mark.outputs.watermark }}
+      unitary_projection: ${{ steps.mark.outputs.unitary_projection }}
     steps:
       - name: Mark upwing tack
         id: mark
         run: |
           set -euo pipefail
+          UNITARY_PROJECTION="$(printf '%s' "${{ env.DATA_WATERMARK }}|unitary|${{ env.COHERENCE_TARGET }}" | sha256sum | awk '{print $1}')"
           echo "tack=upwing" >> "$GITHUB_OUTPUT"
           echo "coherence=${{ env.COHERENCE_TARGET }}" >> "$GITHUB_OUTPUT"
           echo "epoch=$(date +%s)" >> "$GITHUB_OUTPUT"
+          echo "watermark=${{ env.DATA_WATERMARK }}" >> "$GITHUB_OUTPUT"
+          echo "unitary_projection=$UNITARY_PROJECTION" >> "$GITHUB_OUTPUT"
           echo "Stage 1 armed: torch + sheet projection marker created"
 
   stage-two-crystallisation:
@@ -60,6 +70,12 @@ jobs:
             echo "::error::Coherence target mismatch"
             exit 1
           fi
+          if [ -z "${{ needs.stage-one-honeypot.outputs.watermark }}" ]; then
+            echo "::error::Watermark missing"
+            exit 1
+          fi
+          HAMILTONIAN_DISPERSION="$(printf '%s' "${{ needs.stage-one-honeypot.outputs.unitary_projection }}|hamiltonian|${{ needs.stage-one-honeypot.outputs.epoch }}" | sha256sum | awk '{print $1}')"
+          echo "hamiltonian_dispersion=$HAMILTONIAN_DISPERSION" >> "$GITHUB_ENV"
           echo "H&&S:SYNC — tack upwing at maximum coherence"
           echo "epoch=${{ needs.stage-one-honeypot.outputs.epoch }}"
 
@@ -71,6 +87,9 @@ jobs:
           echo "- Stage 1 marker: \`${{ needs.stage-one-honeypot.outputs.tack }}\`" >> "$GITHUB_STEP_SUMMARY"
           echo "- Stage 2 stagger: \`${{ env.STAGGER_SECONDS }}s\`" >> "$GITHUB_STEP_SUMMARY"
           echo "- Coherence target: \`${{ env.COHERENCE_TARGET }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Data watermark: \`${{ needs.stage-one-honeypot.outputs.watermark }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Unitary projection: \`${{ needs.stage-one-honeypot.outputs.unitary_projection }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Hamiltonian dispersion: \`${hamiltonian_dispersion:-unavailable}\`" >> "$GITHUB_STEP_SUMMARY"
           echo "- Status: **crystallised**" >> "$GITHUB_STEP_SUMMARY"
 
   fail-closure:
