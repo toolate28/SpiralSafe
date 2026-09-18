@@ -12,6 +12,7 @@ Workflows added:
 - `.github/workflows/markdown-and-linkcheck.yml` — Runs `markdownlint` and `markdown-link-check` on pushes, PRs for Markdown files, and daily on a schedule to catch broken links and style issues.
 - `.github/workflows/secret-scan.yml` — Primary security gate for secret detection on PRs, main pushes, and schedule. Uses gitleaks current-tree scan (`--no-git`) with `.gitleaks.toml` plus detect-secrets baseline checks.
 - `.github/workflows/honeypot-upwing.yml` — Two-stage staggered honeypot flow (torch/sheet projection → saturation crystallisation) with fail-closure enforcement (`residual=0`) and a tracked watermark dispersion path (Unitary projection → Hamiltonian dispersion).
+  - Hardening controls: actor gate on manual dispatch, bounded/sanitized inputs, per-job timeouts, and non-canceling concurrency group to resist clobber attempts.
 
 Security & required secrets
 
