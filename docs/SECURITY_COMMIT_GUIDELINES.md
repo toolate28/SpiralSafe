@@ -4,7 +4,7 @@ Purpose: Keep secrets, personal files, and session artifacts out of the reposito
 
 Quick checklist before committing or creating a PR:
 
-- [ ] Run `scripts/setup-precommit.ps1` to install pre-commit hooks (`detect-secrets`, `gitleaks`, basic checks).
+- [ ] Run `scripts/setup-precommit.ps1` to install local pre-commit checks.
 - [ ] Confirm `.secrets.baseline` is up to date and contains only reviewed exceptions.
 - [ ] Verify `.gitignore` includes: `.env`, `.env.*`, `.verification/`, `.vscode/`, `.ipynb_checkpoints/`, keys (`*.key`, `*.pem`), and other local artifacts.
 - [ ] Search for obvious tokens in your changes: `git grep -iE "(password|secret|api[_-]?key|token|AKIA)" -- "$(git diff --name-only)"`
@@ -22,13 +22,13 @@ Ephemeral session artifacts:
 
 CI & PR requirements:
 
-- PRs must pass the `secret-scan` workflow (Gitleaks + detect-secrets).
+- PRs must pass the `secret-scan` workflow (internal fail-closed scanner).
 - Maintainers should review any exception in `.secrets.baseline` before merging.
 
 Tools & setup:
 
-- `pre-commit` with `detect-secrets` and `gitleaks` pre-commit hooks (see `scripts/setup-precommit.ps1`).
-- `gitleaks` GitHub Action (runs on PRs) and `detect-secrets` scan in CI.
+- `scripts/scan-secrets.sh` for internal repository scanning logic.
+- `secret-scan` GitHub workflow enforces fail-closed CI execution of the internal scanner.
 
 Contact & escalation:
 

@@ -55,11 +55,11 @@ ghs_[A-Za-z0-9]{36}
 
 ```bash
 # .env.example (commit this)
-API_KEY=your_api_key_here
+API_KEY=placeholder
 DATABASE_URL=postgresql://your_user:your_password@localhost:5432/dbname  # placeholder
 
 # .env (DO NOT commit - in .gitignore)
-API_KEY=your_api_key_here
+API_KEY=local_dev_key_from_secret_manager
 DATABASE_URL=postgresql://your_user:your_password@prod.example.com:5432/proddb
 ```
 

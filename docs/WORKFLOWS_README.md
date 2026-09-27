@@ -10,6 +10,9 @@ Workflows added:
 - `.github/workflows/journey-sim.yml` — Designed to run on a self-hosted runner; simulates forward/backward pipeline walks. `apply=true` triggers safe copy/restore simulation and requires a self-hosted runner.
 
 - `.github/workflows/markdown-and-linkcheck.yml` — Runs `markdownlint` and `markdown-link-check` on pushes, PRs for Markdown files, and daily on a schedule to catch broken links and style issues.
+- `.github/workflows/secret-scan.yml` — Primary security gate for secret detection on PRs, main pushes, and schedule. Uses the internal scanner entrypoint `scripts/scan-secrets.sh` and fails closed if that entrypoint is missing or returns non-zero.
+- `.github/workflows/honeypot-upwing.yml` — Two-stage staggered honeypot flow (torch/sheet projection → saturation crystallisation) with fail-closure enforcement (`residual=0`) and a tracked watermark dispersion path (Unitary projection → Hamiltonian dispersion).
+  - Hardening controls: actor gate on manual dispatch, bounded/sanitized inputs, per-job timeouts, and event-partitioned concurrency to resist clobber attempts.
 
 Security & required secrets
 
@@ -21,6 +24,14 @@ Safety defaults
 
 - Every workflow defaults to dry-run behaviour. `apply` must be explicitly passed as workflow input or via a manual run to enable write operations.
 - `journey-sim.yml` is intended for self-hosted runners to avoid exposing host-level operations on GitHub-hosted runners.
+- `ci.yml` runs on pull requests/manual dispatch only, reducing duplicate gate signals on direct main pushes.
+
+Security gate ownership
+
+- Primary secret gate: `.github/workflows/secret-scan.yml`
+- Quality regression gate: `.github/workflows/ci.yml`
+- Extended pipeline gate: `.github/workflows/spiralsafe-ci.yml`
+- Two-stage deception/closure signal: `.github/workflows/honeypot-upwing.yml`
 
 How to run
 

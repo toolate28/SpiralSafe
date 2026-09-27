@@ -1,0 +1,17 @@
+title = "SpiralSafe gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Known-safe placeholders, archives, and generated artifacts"
+paths = [
+  '''^\.github/SECRETS\.md$''',
+  '''^\.secrets\.baseline$''',
+  '''^docs/research/Conversational Abandonment in Crisis Contexts\.\.pdf - Google Drive_files/''',
+  '''^archive/'''
+]
+regexes = [
+  '''REDACTED_CLOUDFLARE_API_TOKEN''',
+  '''your_api_key_here'''
+]
